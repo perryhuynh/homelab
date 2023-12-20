@@ -1,0 +1,98 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: external-secrets-bitwarden
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        name: bjw-s
+        kind: HelmRepository
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/larivierec/bitwarden-cli
+              tag: v2023.12.1@sha256:a723c78b7dc7040d221b43cbcdcc81ee1be161d2629741b2f736a21c5cf5e288
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:  ["sh", "-c", "curl -X POST -s http://127.0.0.1:8087/sync | jq -e '.success == true'"]
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+              readiness:
+                enabled: false
+            envFrom:
+            - secretRef:
+                name: bitwarden-secret
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 25m
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: [ALL]
+              readOnlyRootFilesystem: true
+        pod:
+          automountServiceAccountToken: false
+          securityContext:
+            fsGroup: 65532
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 65532
+            runAsNonRoot: true
+            runAsUser: 65532
+            seccompProfile:
+              type: RuntimeDefault
+        replicas: 1
+        strategy: RollingUpdate
+    networkpolicies:
+      main:
+        enabled: true
+        policyTypes:
+          - Ingress
+        rules:
+          ingress:
+            - from:
+                - podSelector:
+                    matchLabels:
+                      app.kubernetes.io/instance: external-secrets
+                      app.kubernetes.io/name: external-secrets
+    persistence:
+      config:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /.config
+      tmp:
+        type: emptyDir
+    service:
+      main:
+        ports:
+          http:
+            port: 8087
