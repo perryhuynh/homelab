@@ -5,7 +5,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: "${SECRET_ACME_EMAIL}"
+    email: "perry@perryhuynh.com"
     privateKeySecretRef:
       name: letsencrypt-production
     solvers:
@@ -16,7 +16,7 @@ spec:
               key: api-token
         selector:
           dnsZones:
-            - "${SECRET_DOMAIN}"
+            - "perryhuynh.com"
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -25,7 +25,7 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: "${SECRET_ACME_EMAIL}"
+    email: "perryhuynh.com"
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
@@ -36,4 +36,4 @@ spec:
               key: api-token
         selector:
           dnsZones:
-            - "${SECRET_DOMAIN}"
+            - "perryhuynh.com"
