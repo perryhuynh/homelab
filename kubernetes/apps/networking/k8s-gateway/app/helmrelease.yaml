@@ -25,7 +25,7 @@ spec:
     keepHistory: false
   values:
     fullnameOverride: k8s-gateway
-    domain: "${SECRET_DOMAIN}"
+    domain: "perryhuynh.com"
     ttl: 1
     service:
       type: LoadBalancer
