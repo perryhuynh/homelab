@@ -31,10 +31,8 @@ spec:
     ingress:
       enabled: true
       className: internal
-      annotations:
-        hajimari.io/icon: sawtooth-wave
       hosts:
-        - host: &host "gitops.${SECRET_DOMAIN}"
+        - host: &host "gitops.perryhuynh.com"
           paths:
             - path: /
               pathType: Prefix
