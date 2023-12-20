@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/longhorn/longhorn/app
+  path: ./kubernetes/apps/storage/longhorn/app
   prune: true
   sourceRef:
     kind: GitRepository
