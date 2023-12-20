@@ -12,3 +12,17 @@ spec:
   dnsNames:
     - "perryhuynh.com"
     - "*.perryhuynh.com"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: "perryhuynh-com-production"
+spec:
+  secretName: "perryhuynh-com-production-tls"
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: "perryhuynh.com"
+  dnsNames:
+    - "perryhuynh.com"
+    - "*.perryhuynh.com"

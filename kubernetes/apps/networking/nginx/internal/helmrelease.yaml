@@ -70,7 +70,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: "networking/perryhuynh-com-staging-tls"
+        default-ssl-certificate: "networking/perryhuynh-com-production-tls"
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
