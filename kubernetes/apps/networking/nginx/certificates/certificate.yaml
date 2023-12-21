@@ -2,11 +2,11 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "perryhuynh-com-staging"
+  name: "perryhuynh-com-production"
 spec:
-  secretName: "perryhuynh-com-staging-tls"
+  secretName: "perryhuynh-com-production-tls"
   issuerRef:
-    name: letsencrypt-staging
+    name: letsencrypt-production
     kind: ClusterIssuer
   commonName: "perryhuynh.com"
   dnsNames:
