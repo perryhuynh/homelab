@@ -37,6 +37,7 @@ spec:
       type: s3
       config:
         bucket: thanos
+        endpoint: 49c25b275b5fecae856e062625894d2e.r2.cloudflarestorage.com
         region: auto
     queryFrontend:
       enabled: true
@@ -113,10 +114,6 @@ spec:
       serviceMonitor:
         enabled: true
   valuesFrom:
-    - kind: Secret
-      name: thanos-secret
-      valuesKey: BUCKET_HOST
-      targetPath: objStoreConfig.config.endpoint
     - kind: Secret
       name: thanos-secret
       valuesKey: AWS_ACCESS_KEY_ID
