@@ -1,0 +1,8 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: opnsense
+spec:
+  staticConfigs:
+    - targets: ["192.168.1.1:9100"]
+  metricsPath: /metrics
