@@ -35,6 +35,9 @@ spec:
       tag: v0.32.5
     objstoreConfig:
       type: s3
+      config:
+        bucket: thanos
+        region: auto
     queryFrontend:
       enabled: true
       replicaCount: 2
@@ -112,22 +115,14 @@ spec:
   valuesFrom:
     - kind: Secret
       name: thanos-secret
-      valuesKey: bucket
-      targetPath: objStoreConfig.config.bucket
-    - kind: Secret
-      name: thanos-secret
-      valuesKey: endpoint
+      valuesKey: BUCKET_HOST
       targetPath: objStoreConfig.config.endpoint
     - kind: Secret
       name: thanos-secret
-      valuesKey: region
-      targetPath: objStoreConfig.config.region
-    - kind: Secret
-      name: thanos-secret
-      valuesKey: access-key
+      valuesKey: AWS_ACCESS_KEY_ID
       targetPath: objStoreConfig.config.access_key
     - kind: Secret
       name: thanos-secret
-      valuesKey: secret-key
+      valuesKey: BUCKET_HOST
       targetPath: objStoreConfig.config.secret_key
 
