@@ -154,7 +154,7 @@ spec:
       data:
         type: nfs
         path: /mnt/tank/media
-        server: truenas.perryhuynh.com
+        server: 192.168.1.10
       pushover-notify:
         type: configMap
         name: radarr-configmap
