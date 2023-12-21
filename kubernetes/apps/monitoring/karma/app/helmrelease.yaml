@@ -77,7 +77,7 @@ spec:
         type: emptyDir
       config-file:
         type: configMap
-        name: karma-configmap
+        name: karma-config
         globalMounts:
           - path: *configPath
             subPath: config.yaml
