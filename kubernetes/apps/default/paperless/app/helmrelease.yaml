@@ -28,7 +28,7 @@ spec:
       namespace: database
     - name : paperless-gotenberg
       namespace: default
-    - name : tika
+    - name : paperless-tika
       namespace: default
   values:
     controllers:
