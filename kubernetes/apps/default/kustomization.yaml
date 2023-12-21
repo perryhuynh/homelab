@@ -5,4 +5,5 @@ resources:
   - ./namespace.yaml
   - ./atuin/ks.yaml
   - ./miniflux/ks.yaml
+  - ./paperless/ks.yaml
   - ./teslamate/ks.yaml
