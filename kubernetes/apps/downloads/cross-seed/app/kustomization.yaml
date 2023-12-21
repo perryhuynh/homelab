@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: qbittorrent-config
+  - name: cross-seed-config
     files:
-      - completed.sh=./resources/completed.sh
+      - config.js=./resources/config.js
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
