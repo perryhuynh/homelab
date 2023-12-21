@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: autobrr
+  name: teslamate
 spec:
   interval: 30m
   chart:
@@ -26,6 +26,8 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
+    - name: mosquitto
+      namespace: iot
   values:
     controllers:
       main:
