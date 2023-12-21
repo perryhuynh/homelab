@@ -172,7 +172,7 @@ spec:
       downloads:
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: truenas.perryhuynh.com
+        server: 192.168.1.10
         advancedMounts:
           orphaned:
             main:
