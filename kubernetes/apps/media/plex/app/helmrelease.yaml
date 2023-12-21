@@ -80,7 +80,7 @@ spec:
             runAsUser: 65532
             seccompProfile:
               type: RuntimeDefault
-            supplementalGroups: [44, 109]
+            supplementalGroups: [44, 105]
     persistence:
       config:
         enabled: true
