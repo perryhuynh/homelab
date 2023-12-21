@@ -7,11 +7,11 @@ spec:
   target:
     deletionPolicy: Delete
     template:
-      type: Opaque
+      engineVersion: v2
       data:
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
-        RESTIC_REPOSITORY: "{{ .REPOSITORY_REPOSITORY }}/${APP}"
+        RESTIC_REPOSITORY: "{{ .REPOSITORY_TEMPLATE }}/${APP}"
         RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
   data:
     - secretKey: AWS_ACCESS_KEY_ID
@@ -67,7 +67,7 @@ spec:
     accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
     moverSecurityContext:
       runAsUser: "${VOLSYNC_UID:-568}"
-      runAsGroup: "${VOLSYNC_GID:-568}"
+      runAsGroup:"${VOLSYNC_GID:-568}"
       fsGroup: "${VOLSYNC_GID:-568}"
     retain:
       daily: 7
