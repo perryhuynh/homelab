@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
+  - ./tautulli/ks.yaml
