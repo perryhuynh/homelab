@@ -1,0 +1,148 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: home-assistant
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: home-assistant-secret
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/home-assistant
+              tag: 2023.12.3
+            env:
+              TZ: &TZ America/Los_Angeles
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /manifest.json
+                    port: 8123
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 25m
+                memory: 256Mi
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+          codeserver:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.19.1
+            env:
+              TZ: *TZ
+            args:
+              - "/config"
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/config/.vscode"
+              - --extensions-dir
+              - "/config/.vscode"
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+                memory: 256Mi
+        pod:
+          automountServiceAccountToken: false
+          securityContext:
+            fsGroup: 65532
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 65532
+            runAsNonRoot: true
+            runAsUser: 65532
+            seccompProfile:
+              type: RuntimeDefault
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.tanzpilates.studio"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+      codeserver:
+        enabled: true
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}-code.tanzpilates.studio"
+            paths:
+              - path: /
+                service:
+                  name: codeserver
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: home-assistant
+      tmp:
+        type: emptyDir
+    service:
+      main:
+        ports:
+          http:
+            port: 8123
+      codeserver:
+        controller: main
+        ports:
+          http:
+            enabled: true
+            port: 8080
