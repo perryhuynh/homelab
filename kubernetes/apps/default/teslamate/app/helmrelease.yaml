@@ -1,0 +1,152 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: autobrr
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: database
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: teslamate-secret
+        containers:
+          main:
+            env:
+              CHECK_ORIGIN: true
+              DATABASE_HOST: postgres16-rw.database.svc.cluster.local
+              MQTT_HOST: &mqttHost mosquitto.iot.svc.cluster.local
+              PORT: &port 80
+              TZ: &TZ America/Los_Angeles
+              VIRTUAL_HOST: "{{ .Release.Name }}.perryhuynh.com"
+            envFrom: *envFrom
+            image:
+              pullPolicy: Always
+              repository: docker.io/teslamate/teslamate
+              tag: 1.28.2@sha256:48f7eb2c2866fd38ed7a04f96861307ad75c9f298e93be6b34c8bfb8dc41b0af
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 25m
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+          api:
+            env:
+              DATABASE_HOST: postgres16-ro.database.svc.cluster.local
+              ENABLE_COMMANDS: "false"
+              COMMANDS_ALL: "false"
+              MQTT_HOST: *mqttHost
+              TZ: *TZ
+              TESLAMATE_HOST: &host "{{ .Release.Name }}.perryhuynh.com"
+            envFrom: *envFrom
+            image:
+              repository: ghcr.io/tobiasehlert/teslamateapi
+              tag: v1.16.6
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/ping
+                    port: &apiPort 8080
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+        pod:
+          automountServiceAccountToken: false
+          securityContext:
+            fsGroup: 10001
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 10001
+            runAsNonRoot: true
+            runAsUser: 10000
+            seccompProfile:
+              type: RuntimeDefault
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        hosts:
+          - host: *host
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+              - path: /api
+                service:
+                  name: api
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+      api:
+        controller: main
+        ports:
+          http:
+            port: *apiPort
