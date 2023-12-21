@@ -27,7 +27,7 @@ spec:
     - name: cloudnative-pg
       namespace: database
     - name: prowlarr
-      namespace: media
+      namespace: downloads
   values:
     controllers:
       main:
