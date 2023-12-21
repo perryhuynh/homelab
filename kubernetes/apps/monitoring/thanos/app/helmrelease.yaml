@@ -25,7 +25,7 @@ spec:
     keepHistory: false
   dependsOn:
     - name: external-secrets-bitwarden
-      namepspace: kube-system
+      namespace: kube-system
     - name: local-path-provisioner
       namespace: kube-system
   values:
@@ -125,4 +125,3 @@ spec:
       name: thanos-secret
       valuesKey: BUCKET_HOST
       targetPath: objStoreConfig.config.secret_key
-
