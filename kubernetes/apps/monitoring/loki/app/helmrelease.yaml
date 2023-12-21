@@ -163,15 +163,15 @@ spec:
     test:
       enabled: false
   valuesFrom:
-    - targetpath: loki.structuredConfig.common.storage.s3.endpoint
+    - targetPath: loki.structuredConfig.common.storage.s3.endpoint
       kind: Secret
       name: loki-secret
       valuesKey: BUCKET_HOST
-    - targetpath: loki.structuredConfig.common.storage.s3.access_key_id
+    - targetPath: loki.structuredConfig.common.storage.s3.access_key_id
       kind: Secret
       name: loki-secret
       valuesKey: ACCESS_KEY_ID
-    - targetpath: loki.structuredConfig.common.storage.s3.secret_access_key
+    - targetPath: loki.structuredConfig.common.storage.s3.secret_access_key
       kind: Secret
       name: loki-secret
       valuesKey: SECRET_ACCESS_KEY
