@@ -63,7 +63,8 @@ spec:
           replication_factor: 2
           storage:
             s3:
-              s3: null
+              bucketnames: loki
+              region: auto
           ring:
             kvstore:
               store: memberlist
@@ -162,14 +163,6 @@ spec:
     test:
       enabled: false
   valuesFrom:
-    - targetpath: loki.structuredConfig.common.storage.s3.bucketnames
-      kind: Secret
-      name: loki-secret
-      valuesKey: BUCKET_NAME
-    - targetpath: loki.structuredConfig.common.storage.s3.region
-      kind: Secret
-      name: loki-secret
-      valuesKey: BUCKET_REGION
     - targetpath: loki.structuredConfig.common.storage.s3.endpoint
       kind: Secret
       name: loki-secret
