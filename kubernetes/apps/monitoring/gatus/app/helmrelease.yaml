@@ -1,0 +1,133 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: gatus
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: database
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            order: 1
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: gatus-secret
+          init-config:
+            order: 2
+            image: &configSyncImage
+              repository: ghcr.io/kiwigrid/k8s-sidecar
+              tag: 1.25.3
+            env: &configSyncEnv
+              FOLDER: /config
+              LABEL: gatus.io/enabled
+              NAMESPACE: ALL
+              RESOURCE: both
+              UNIQUE_FILENAMES: true
+              METHOD: LIST
+            resources: &configSyncResources
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+        containers:
+          main:
+            image:
+              repository: ghcr.io/twin/gatus
+              tag: v5.7.0
+            env:
+              CUSTOM_WEB_PORT: &port 80
+              GATUS_CONFIG_PATH: /config
+              TZ: America/Los_Angeles
+            envFrom: *envFrom
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext: *securityContext
+          config-sync:
+            image: *configSyncImage
+            env:
+              <<: *configSyncEnv
+              METHOD: WATCH
+            resources: *configSyncResources
+            securityContext: *securityContext
+        pod:
+          securityContext:
+            runAsUser: 65532
+            runAsGroup: 65532
+            runAsNonRoot: true
+            fsGroup: 65532
+            fsGroupChangePolicy: OnRootMismatch
+    ingress:
+      main:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
+        enabled: true
+        className: external
+        hosts:
+          - host: &host "status.perryhuynh.com"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        type: emptyDir
+      config-file:
+        type: configMap
+        name: gatus-config
+        globalMounts:
+          - path: /config/config.yaml
+            subPath: config.yaml
+            readOnly: true
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+    serviceAccount:
+      create: true
+      name: gatus
+    serviceMonitor:
+      main:
+        enabled: true
