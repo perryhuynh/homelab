@@ -7,3 +7,4 @@ resources:
   - ./miniflux/ks.yaml
   - ./paperless/ks.yaml
   - ./teslamate/ks.yaml
+  - ./thelounge/ks.yaml
