@@ -62,7 +62,8 @@ spec:
           path_prefix: /var/loki
           replication_factor: 2
           storage:
-            s3: null
+            s3:
+              s3: null
           ring:
             kvstore:
               store: memberlist
