@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/tools/intel-device-plugin/app
+  path: ./kubernetes/main/apps/kube-system/intel-device-plugin/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -32,7 +32,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cert-manager
-  path: ./kubernetes/main/apps/tools/intel-device-plugin/gpu
+  path: ./kubernetes/main/apps/kube-system/intel-device-plugin/gpu
   prune: true
   sourceRef:
     kind: GitRepository
