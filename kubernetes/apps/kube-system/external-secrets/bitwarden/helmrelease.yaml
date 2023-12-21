@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: ghcr.io/larivierec/bitwarden-cli
-              tag: 2023.12.1.1@sha256:a723c78b7dc7040d221b43cbcdcc81ee1be161d2629741b2f736a21c5cf5e288
+              tag: 2023.12.1@sha256:a723c78b7dc7040d221b43cbcdcc81ee1be161d2629741b2f736a21c5cf5e288
             probes:
               liveness:
                 enabled: true
