@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: atuin
+  name: miniflux
 spec:
   interval: 30m
   chart:
@@ -38,20 +38,28 @@ spec:
               tag: 16
             envFrom: &envFrom
               - secretRef:
-                  name: atuin-secret
+                  name: miniflux-secret
         containers:
           main:
-            args: ["server", "start"]
             image:
-              repository: ghcr.io/atuinsh/atuin
-              tag: 17.1.0@sha256:dff8af77f8ab61386295bf476a60c95e1193ec659bc838e39ec8c4109bd5afaa
+              repository: ghcr.io/miniflux/miniflux
+              tag: 2.0.50-distroless@sha256:625f6decf8740020fabec273e0f694f218a50281e251e13514ac2be4d9147ca8
             env:
-              ATUIN_HOST: 0.0.0.0
-              ATUIN_PORT: &port 80
-              ATUIN_OPEN_REGISTRATION: "true"
-              ATUIN_METRICS__ENABLE: "true"
-              ATUIN_METRICS__HOST: 0.0.0.0
-              ATUIN_METRICS__PORT: &metricsPort 8080
+              BASE_URL: https://miniflux.perryhuynh.com
+              CREATE_ADMIN: "1"
+              # DEBUG: "1"
+              LOG_DATE_TIME: "1"
+              METRICS_ALLOWED_NETWORKS: "10.42.0.0/16"
+              METRICS_COLLECTOR: "1"
+              OAUTH2_CLIENT_ID: miniflux
+              OAUTH2_USER_CREATION: "1"
+              OAUTH2_OIDC_DISCOVERY_ENDPOINT: https://auth.perryhuynh.com
+              OAUTH2_PROVIDER: oidc
+              OAUTH2_REDIRECT_URL: https://miniflux.perryhuynh.com/oauth2/oidc/callback
+              POLLING_SCHEDULER: entry_frequency
+              POLLING_FREQUENCY: "15"
+              PORT: &port 80
+              RUN_MIGRATIONS: "1"
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -59,7 +67,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /
+                    path: /healthcheck
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
@@ -71,7 +79,7 @@ spec:
             resources:
               requests:
                 cpu: 10m
-                memory: 128Mi
+                memory: 64Mi
               limits:
                 memory: 256Mi
             securityContext:
@@ -110,14 +118,7 @@ spec:
         ports:
           http:
             port: *port
-          metrics:
-            port: *metricsPort
     serviceMonitor:
       main:
         enabled: true
-        endpoints:
-          - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
+
