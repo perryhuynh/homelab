@@ -23,6 +23,15 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: prowlarr
+      namespace: downloads
+    - name: qbittorrent
+      namespace: downloads
+    - name: longhorn
+      namespace: storage
+    - name: volsync
+      namespace: volsync
   values:
     controllers:
       main:
