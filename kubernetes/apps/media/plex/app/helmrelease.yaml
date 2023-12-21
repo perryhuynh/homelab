@@ -94,7 +94,7 @@ spec:
             readOnly: true
       profile-chromecast:
         type: configMap
-        name: plex-configmap
+        name: plex-config
         defaultMode: 0775
         globalMounts:
           - path: /usr/lib/plexmediaserver/Resources/Profiles/Chromecast.xml
