@@ -157,7 +157,7 @@ spec:
         server: 192.168.1.10
       pushover-notify:
         type: configMap
-        name: radarr-configmap
+        name: radarr-config
         defaultMode: 0775
         globalMounts:
           - path: /scripts/pushover-notify.sh
