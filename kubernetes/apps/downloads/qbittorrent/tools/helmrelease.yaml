@@ -1,0 +1,182 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: qbittorrent-tools
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        enabled: false
+      tagging:
+        type: cronjob
+        cronjob: &cronJobSpec
+          schedule: "@hourly"
+          timeZone: &timeZone America/Los_Angeles
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+        initContainers:
+          01-tag:
+            args: [
+              "tagging",
+              "--added-on",
+              "--expired",
+              "--last-activity",
+              "--not-working",
+              "--sites",
+              "--unregistered",
+              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--port", "80",
+              "--config", "/config/config.yaml"
+            ]
+            env: &env
+              TZ: *timeZone
+            image: &image
+              repository: ghcr.io/buroa/qbittools
+              tag: v0.11.0
+            resources: &taggingResources
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+                memory: 128Mi
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+          02-auto-prune:
+            args: [
+              "prune",
+              # "--dry-run",
+              "--include-tag", "auto-prune",
+              "--include-tag", "expired",
+              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--port", "80"
+            ]
+            env: *env
+            image: *image
+            resources: *taggingResources
+            securityContext: *securityContext
+          03-nyaa:
+            args: [
+              "prune",
+              # "--dry-run",
+              "--include-tag", "site:nyaa",
+              "--include-tag", "expired",
+              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--port", "80"
+            ]
+            env: *env
+            image: *image
+            resources: *taggingResources
+            securityContext: *securityContext
+        containers:
+          main:
+            args: [
+              "prune",
+              "--exclude-category", "lidarr",
+              "--exclude-category", "manual",
+              "--exclude-category", "nsfw",
+              "--include-tag", "unregistered",
+              # "--dry-run",
+              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--port", "80"
+            ]
+            env: *env
+            image: *image
+            resources: *taggingResources
+            securityContext: *securityContext
+        pod: &podSecurityContext
+          automountServiceAccountToken: false
+          securityContext:
+            fsGroup: 65532
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 65532
+            runAsNonRoot: true
+            runAsUser: 65532
+            seccompProfile:
+              type: RuntimeDefault
+      orphaned:
+        type: cronjob
+        cronjob:
+          <<: *cronJobSpec
+          schedule: "@daily"
+        containers:
+          main:
+            args: [
+              "orphaned",
+              "--exclude-pattern", "*/manual/*",
+              "--dry-run",
+              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--port", "80"
+            ]
+            env: *env
+            image: *image
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+                memory: 128Mi
+            securityContext: *securityContext
+        pod: *podSecurityContext
+      reannounce:
+        containers:
+          main:
+            args: [
+              "reannounce",
+              "--process-seeding",
+              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--port", "80"
+            ]
+            env: *env
+            image: *image
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 25m
+                memory: 128Mi
+            securityContext: *securityContext
+        pod: *podSecurityContext
+    persistence:
+      config-file:
+        type: configMap
+        name: qbittorrent-tools-config
+        advancedMounts:
+          tagging:
+            01-tag:
+              - path: /config/config.yaml
+                subPath: config.yaml
+                readOnly: true
+      downloads:
+        type: nfs
+        path: /mnt/tank/media/downloads/torrents
+        server: truenas.tanzpilates.studio
+        advancedMounts:
+          orphaned:
+            main:
+              - path: /downloads
+    service:
+      main:
+        enabled: false
