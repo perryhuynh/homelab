@@ -29,7 +29,7 @@ session:
   expiration: 1h
   remember_me: 1M
   cookies:
-    - name: tanzpilates_session
+    - name: perryhuynh_session
       domain: perryhuynh.com
       authelia_url: https://auth.perryhuynh.com
       default_redirection_url: https://perryhuynh.com
