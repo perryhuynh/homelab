@@ -54,7 +54,7 @@ spec:
             image:
               pullPolicy: Always
               repository: docker.io/teslamate/teslamate
-              tag: 1.28.2@sha256:48f7eb2c2866fd38ed7a04f96861307ad75c9f298e93be6b34c8bfb8dc41b0af
+              tag: 1.28.2@sha256:347aa9d7bc5126cde0456979569d432dd38242579445054a5bde3f70540ba1ce
             probes:
               liveness: &probes
                 enabled: true
