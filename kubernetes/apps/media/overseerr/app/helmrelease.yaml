@@ -1,0 +1,113 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: overseerr
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: plex
+      namespace: media
+    - name: radarr
+      namespace: downloads
+    - name: sonarr
+      namespace: downloads
+
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: docker.io/sctx/overseerr
+              tag: 1.33.2
+            env:
+              LOG_LEVEL: "info"
+              PORT: &port 80
+              TZ: America/Los_Angeles
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/status
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 25m
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+        pod:
+          automountServiceAccountToken: false
+          securityContext:
+            fsGroup: 65532
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 65532
+            runAsNonRoot: true
+            runAsUser: 65532
+            seccompProfile:
+              type: RuntimeDefault
+    ingress:
+      main:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
+        enabled: true
+        className: external
+        hosts:
+          - host: &host "canyouadd.perryhuynh.com"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: overseerr
+        globalMounts:
+          - path: /app/config
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /app/config/cache/images
+      tmp:
+        type: emptyDir
+    service:
+      main:
+        ports:
+          http:
+            port: *port
