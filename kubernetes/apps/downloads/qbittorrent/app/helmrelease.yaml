@@ -102,12 +102,12 @@ spec:
         enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: truenas.tanzpilates.studio
+        server: truenas.home.arpa
       nsfw:
         enabled: true
         type: nfs
         path: /mnt/tank/nsfw
-        server: truenas.tanzpilates.studio
+        server: truenas.home.arpa
       incomplete:
         type: emptyDir
       tmp:

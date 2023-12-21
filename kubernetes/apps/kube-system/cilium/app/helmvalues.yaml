@@ -48,10 +48,10 @@ data:
           enabled: true
           className: internal
           hosts:
-            - "hubble.tanzpilates.studio"
+            - &host "hubble.perryhuynh.com"
           tls:
             - hosts:
-                - "hubble.tanzpilates.studio"
+                - *host
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "${CLUSTER_CIDR}"
