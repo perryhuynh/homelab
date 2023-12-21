@@ -102,12 +102,12 @@ spec:
         enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: truenas.home.arpa
+        server: 192.168.1.10
       nsfw:
         enabled: true
         type: nfs
         path: /mnt/tank/nsfw
-        server: truenas.home.arpa
+        server: 192.168.1.10
       incomplete:
         type: emptyDir
       tmp:
