@@ -172,7 +172,7 @@ spec:
       downloads:
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: truenas.tanzpilates.studio
+        server: truenas.perryhuynh.com
         advancedMounts:
           orphaned:
             main:
