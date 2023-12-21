@@ -29,9 +29,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: longhorn
-    - name: qbittorrent
   path: ./kubernetes/apps/downloads/qbittorrent/tools
   prune: true
   sourceRef:

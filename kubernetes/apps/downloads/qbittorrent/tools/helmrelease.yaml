@@ -23,6 +23,11 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+    - name: qbittorrent
+      namespace: downloads
   values:
     controllers:
       main:
