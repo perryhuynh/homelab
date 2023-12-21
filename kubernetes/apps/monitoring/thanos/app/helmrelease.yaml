@@ -120,5 +120,5 @@ spec:
       targetPath: objStoreConfig.config.access_key
     - kind: Secret
       name: thanos-secret
-      valuesKey: BUCKET_HOST
+      valuesKey: AWS_SECRET_ACCESS_KEY
       targetPath: objStoreConfig.config.secret_key
