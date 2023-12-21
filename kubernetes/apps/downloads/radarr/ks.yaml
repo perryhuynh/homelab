@@ -9,9 +9,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: longhorn
-    - name: prowlarr
   path: ./kubernetes/apps/downloads/radarr/app
   prune: true
   sourceRef:
