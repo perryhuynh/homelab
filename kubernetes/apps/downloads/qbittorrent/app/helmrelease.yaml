@@ -37,21 +37,21 @@ spec:
               QBITTORRENT__BT_PORT: &bittorrentPort 50143
               QBITTORRENT__PORT: &port 80
               TZ: America/Los_Angeles
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/v2/app/version
-                    port: *port
-                  initialDelaySeconds: 30
-                  periodSeconds: 10
-                  timeoutSeconds: 10
-                  failureThreshold: 5
-              readiness: *probes
-              startup:
-                enabled: false
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /api/v2/app/version
+            #         port: *port
+            #       initialDelaySeconds: 30
+            #       periodSeconds: 10
+            #       timeoutSeconds: 10
+            #       failureThreshold: 5
+            #   readiness: *probes
+            #   startup:
+            #     enabled: false
             resources:
               limits:
                 memory: 20Gi
