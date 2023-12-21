@@ -9,3 +9,5 @@ configMapGenerator:
       - Chromecast.xml=./resources/Chromecast.xml
 generatorOptions:
   disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
