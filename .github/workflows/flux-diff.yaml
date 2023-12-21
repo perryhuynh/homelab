@@ -76,7 +76,7 @@ jobs:
         run: sudo apt-get -qq update && sudo apt-get -qq install --no-install-recommends -y curl git
 
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@v2.2.1
+        uses: fluxcd/flux2/action@v2.2.2
 
       - name: Diff Resources
         uses: allenporter/flux-local/action/diff@4.1.1
