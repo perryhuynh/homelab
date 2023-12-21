@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: vector-aggregator
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: vector-aggregator
+      version: 5.41.4
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        replicas: 2
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: docker.io/timberio/vector
+              tag: 0.34.1-debian@sha256:a2e406c8917ed62d24381e600ad8bd96fe82fcdb406ecfb4ab4a6fad21b19047
+            args: ["--config", "/etc/vector/vector.yaml"]
+        pod:
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: vector-aggregator
+    service:
+      main:
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.1.204
+        ports:
+          http:
+            port: 8686
+          journald:
+            port: 6000
+          kubernetes:
+            port: 6010
+          syslog:
+            port: 5140
+            protocol: UDP
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: vector-aggregator-config
+        globalMounts:
+          - path: /etc/vector/vector.yaml
+            subPath: vector.yaml
+            readOnly: true
+      data:
+        type: emptyDir
+        globalMounts:
+          - path: /vector-data-dir
