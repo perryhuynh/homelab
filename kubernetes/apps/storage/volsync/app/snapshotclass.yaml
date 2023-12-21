@@ -1,0 +1,10 @@
+---
+apiVersion: snapshot.storage.k8s.io/v1
+metadata:
+  annotations:
+    snapshot.storage.kubernetes-is-default-class: "true"
+  name : longhorn-snapclass
+deletionPolicy: Delete
+driver: driver.longhorn.io
+parameters:
+  type: snap
