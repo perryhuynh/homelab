@@ -26,6 +26,3 @@ spec:
   values:
     prometheus:
       enable: true
-    tls:
-      certManager: true
-      enable: true
