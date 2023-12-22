@@ -24,6 +24,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    prometheus:
+      enable: true
     tls:
       certManager: true
       enable: true
