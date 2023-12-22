@@ -57,9 +57,9 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-              runAsGroup: 65532
+              runAsGroup: 568
               runAsNonRoot: true
-              runAsUser: 65532
+              runAsUser: 568
           # vpn:
           #   image:
           #     repository: ghcr.io/qdm12/gluetun
@@ -82,10 +82,14 @@ spec:
         pod:
           automountServiceAccountToken: false
           securityContext:
-            fsGroup: 65532
+            fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsNonRoot: true
+            runAsUser: 568
             seccompProfile:
               type: RuntimeDefault
+            supplementalGroups: [65532]
     ingress:
       main:
         enabled: true
@@ -107,7 +111,7 @@ spec:
       downloads:
         type: nfs
         path: /mnt/tank/media/downloads/usenet
-        server: 192.168.1.10
+        server: ${SECRET_NAS_IP:temp}
         globalMounts:
           - path: /downloads
       incomplete:

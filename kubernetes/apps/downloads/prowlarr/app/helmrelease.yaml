@@ -120,11 +120,11 @@ spec:
         pod:
           automountServiceAccountToken: false
           securityContext:
-            fsGroup: 65532
+            fsgroup: 568
             fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 65532
+            runAsGroup: 568
             runAsNonRoot: true
-            runAsUser: 65532
+            runAsUser: 568
             seccompProfile:
               type: RuntimeDefault
     ingress:
