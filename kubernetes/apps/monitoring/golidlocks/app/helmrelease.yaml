@@ -1,0 +1,47 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: goldilocks
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: goldilocks
+      version: 8.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: fairwinds
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      resources: &resources
+        limits:
+          memory: 256Mi
+        requests:
+          cpu: 25m
+          memory: 64Mi
+    dashboard:
+      ingress:
+        enabled: true
+        ingressClassName: internal
+        hosts:
+          - host: &host "goldilocks.perryhuynh.com"
+            paths:
+              - path: /
+                type: Prefix
+        tls:
+          - hosts:
+              - *host
+      replicaCount: 1
+      resources: *resources
