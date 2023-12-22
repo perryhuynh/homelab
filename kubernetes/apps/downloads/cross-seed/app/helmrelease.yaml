@@ -67,13 +67,14 @@ spec:
                   topologyKey: kubernetes.io/hostname
           automountServiceAccountToken: false
           securityContext:
-            fsGroup: 65532
+            fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 65532
+            runAsGroup: 568
             runAsNonRoot: true
-            runAsUser: 65532
+            runAsUser: 568
             seccompProfile:
               type: RuntimeDefault
+            supplementalGroups: [65532]
     persistence:
       config:
         enabled: true
@@ -89,7 +90,7 @@ spec:
         enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: 192.168.1.10
+        server: ${SECRET_NAS_IP:temp}
       logs:
         type: emptyDir
         globalMounts:
