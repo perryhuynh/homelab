@@ -114,7 +114,7 @@ spec:
       downloads:
         type: nfs
         path: /mnt/tank/media/downloads/usenet
-        server: 192.168.1.10
+        server: ${NAS_IP:=temp}
         globalMounts:
           - path: /downloads
       incomplete:
