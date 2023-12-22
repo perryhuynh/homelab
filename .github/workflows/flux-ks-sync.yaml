@@ -21,11 +21,6 @@ jobs:
     runs-on:
       - arc-runner-set-homelab
     environment: production
-    strategy:
-      matrix:
-        cluster:
-          - main
-          - nas
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@v1
