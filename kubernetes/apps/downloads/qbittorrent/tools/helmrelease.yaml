@@ -177,7 +177,7 @@ spec:
       downloads:
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: 192.168.1.10
+        server: ${NAS_IP:=temp}
         advancedMounts:
           orphaned:
             main:
