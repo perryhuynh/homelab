@@ -24,6 +24,8 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
+    - name: longhorn
+      namespace: storage
     - name: plex
       namespace: media
   values:
