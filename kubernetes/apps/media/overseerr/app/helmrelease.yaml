@@ -30,7 +30,6 @@ spec:
       namespace: downloads
     - name: sonarr
       namespace: downloads
-
   values:
     controllers:
       main:
