@@ -19,7 +19,7 @@ jobs:
   sync:
     name: Flux Kustomization Sync
     runs-on:
-      - arc-runner-set-home-ops
+      - arc-runner-set-homelab
     environment: production
     strategy:
       matrix:
