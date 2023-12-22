@@ -116,10 +116,6 @@ spec:
         type: emptyDir
       tmp:
         type: emptyDir
-      nas:
-        type: nfs
-        path: /mnt/tank/media
-        server: 192.168.1.10
     service:
       main:
         ports:
