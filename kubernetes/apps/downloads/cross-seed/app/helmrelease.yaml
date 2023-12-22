@@ -89,7 +89,7 @@ spec:
         enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: ${NAS_IP:=temp}
+        server: 192.168.1.10
       logs:
         type: emptyDir
         globalMounts:
