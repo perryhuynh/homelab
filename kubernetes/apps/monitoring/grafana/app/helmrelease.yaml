@@ -186,6 +186,7 @@ spec:
           url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
           datasource: Prometheus
         longhorn:
+          # renovate: depName="Longhorn"
           gnetId: 16888
           revision: 8
           datasource: Prometheus
@@ -203,6 +204,7 @@ spec:
           revision: 5
           datasource: Prometheus
         opnsense:
+          # renovate: depName="OPNSense"
           gnetId: 19366
           revision: 2
           datasource:
