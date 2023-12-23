@@ -71,18 +71,6 @@ spec:
               type: RuntimeDefault
         replicas: 1
         strategy: RollingUpdate
-    networkpolicies:
-      main:
-        enabled: true
-        policyTypes:
-          - Ingress
-        rules:
-          ingress:
-            - from:
-                - podSelector:
-                    matchLabels:
-                      app.kubernetes.io/instance: external-secrets
-                      app.kubernetes.io/name: external-secrets
     persistence:
       config:
         enabled: true
