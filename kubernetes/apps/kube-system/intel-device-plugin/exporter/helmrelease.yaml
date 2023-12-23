@@ -47,6 +47,9 @@ spec:
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
+            capabilities:
+              add:
+                - CAP_PERFMON
             privileged: true
     service:
       main:
