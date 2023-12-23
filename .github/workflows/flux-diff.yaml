@@ -83,7 +83,7 @@ jobs:
         id: diff
         with:
           sources: home-kubernetes
-          path: "${{ matrix.paths }}"
+          path: "kubernetes/flux"
           resource: "${{ matrix.resources }}"
 
       - if: ${{ steps.diff.outputs.diff != '' }}
