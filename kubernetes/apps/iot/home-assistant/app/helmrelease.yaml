@@ -46,6 +46,10 @@ spec:
               tag: 2023.12.3
             env:
               TZ: &TZ America/Los_Angeles
+              SERVER_HOST:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.podIP
             envFrom: *envFrom
             probes:
               liveness: &probes
