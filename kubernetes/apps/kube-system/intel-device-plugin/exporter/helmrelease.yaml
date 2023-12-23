@@ -48,11 +48,10 @@ spec:
                 add:
                   - CAP_BPF
                   - CAP_PERFMON
+                privileged: true
         pod:
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
-          securityContext:
-            privileged: true
     service:
       main:
         ports:
