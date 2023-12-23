@@ -156,7 +156,7 @@ spec:
       data:
         type: nfs
         path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
       pushover-notify:
         type: configMap
         name: sonarr-config

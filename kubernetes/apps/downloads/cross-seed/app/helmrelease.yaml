@@ -90,7 +90,7 @@ spec:
         enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
       logs:
         type: emptyDir
         globalMounts:

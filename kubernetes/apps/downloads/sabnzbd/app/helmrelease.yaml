@@ -111,7 +111,7 @@ spec:
       downloads:
         type: nfs
         path: /mnt/tank/media/downloads/usenet
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
         globalMounts:
           - path: /downloads
       incomplete:
