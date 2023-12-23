@@ -2,7 +2,7 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: multus-static
+  name: multus-iot
 spec:
   config: |-
     {
@@ -17,7 +17,7 @@ spec:
             "ips": true
           },
           "ipam": {
-            "type": "host-local",
+            "type": "static",
             "subnet": "192.168.1.0/24",
             "rangeStart": "192.168.1.220",
             "rangeEnd": "192.168.1.249"
