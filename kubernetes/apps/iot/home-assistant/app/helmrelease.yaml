@@ -99,7 +99,7 @@ spec:
           annotations:
             k8s.v1.cni.cncf.io/networks: |
               [{
-                "name":"lan-network",
+                "name": "lan-network",
                 "interface": "eth1"
               }]
           automountServiceAccountToken: false
