@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
+  - ../../../../template/volsync
 configMapGenerator:
   - name: mosquitto-config
     files:
