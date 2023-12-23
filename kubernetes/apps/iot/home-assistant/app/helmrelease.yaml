@@ -53,19 +53,19 @@ spec:
             envFrom: *envFrom
             probes:
               liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /manifest.json
-                    port: 8123
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-              startup:
                 enabled: false
+                # custom: true
+                # spec:
+                #   httpGet:
+                #     path: /manifest.json
+                #     port: 8123
+                #   initialDelaySeconds: 0
+                #   periodSeconds: 10
+                #   timeoutSeconds: 1
+                #   failureThreshold: 3
+              readiness: *probes
+              startup: *probes
+                # enabled: false
             resources:
               limits:
                 memory: 1Gi
