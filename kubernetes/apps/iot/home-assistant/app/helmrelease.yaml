@@ -98,7 +98,7 @@ spec:
               [{
                 "name": "multus-iot",
                 "namespace": "networking",
-                "ips": ["192.168.1.0/24"]
+                "ips": ["192.168.1.220/24"]
               }]
           automountServiceAccountToken: false
           securityContext:
