@@ -8,6 +8,7 @@ resources:
   - ./grafana/ks.yaml
   - ./graphite-exporter/ks.yaml
   - ./karma/ks.yaml
+  - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
   - ./thanos/ks.yaml
