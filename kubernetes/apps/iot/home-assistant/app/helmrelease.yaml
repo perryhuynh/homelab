@@ -147,7 +147,7 @@ spec:
             port: 5353
           homekit-bridge-tcp:
             port: 21063
-          type: LoadBalancer
+        type: LoadBalancer
       codeserver:
         controller: main
         ports:
