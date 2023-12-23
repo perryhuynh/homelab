@@ -93,6 +93,13 @@ spec:
                 cpu: 10m
                 memory: 256Mi
         pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name": "multus-iot",
+                "namespace": "networking",
+                "ips": ["192.168.1.0/24"]
+              }]
           automountServiceAccountToken: false
           securityContext:
             fsGroup: 65532
@@ -137,17 +144,9 @@ spec:
         type: emptyDir
     service:
       main:
-        annotations:
-          io.cilium/lb-ipam-ips: 192.168.1.220
         ports:
           http:
             port: 8123
-          homekit-bridge-udp:
-            protocol: UDP
-            port: 5353
-          homekit-bridge-tcp:
-            port: 21063
-        type: LoadBalancer
       codeserver:
         controller: main
         ports:
