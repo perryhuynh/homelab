@@ -48,7 +48,7 @@ spec:
                 add:
                   - CAP_BPF
                   - CAP_PERFMON
-                privileged: true
+              privileged: true
         pod:
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
