@@ -5,3 +5,4 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./net-attach.yaml
+  - ../../../../templates/volsync
