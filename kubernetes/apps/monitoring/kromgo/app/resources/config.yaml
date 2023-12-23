@@ -22,7 +22,7 @@ metrics:
       - { color: orange, min: 36, max: 75 }
       - { color: red, min: 76, max: 9999 }
 
-  - name: cluster_gpu0_usage
+  - name: cluster_gpu00_usage
     query: round(avg_over_time(igpu_engines_render_3d_0_busy{node="choi-yena"}[5m]), 0.1)
     suffix: "%"
     colors:
@@ -30,7 +30,7 @@ metrics:
       - { color: orange, min: 36, max: 75 }
       - { color: red, min: 76, max: 9999 }
 
-  - name: cluster_gpu1_usage
+  - name: cluster_gpu01_usage
     query: round(avg_over_time(igpu_engines_render_3d_0_busy{node="jo-yuri"}[5m]), 0.1)
     suffix: "%"
     colors:
@@ -38,7 +38,7 @@ metrics:
       - { color: orange, min: 36, max: 75 }
       - { color: red, min: 76, max: 9999 }
 
-  - name: cluster_gpu2_usage
+  - name: cluster_gpu02_usage
     query: round(avg_over_time(igpu_engines_render_3d_0_busy{node="kim-chaewon"}[5m]), 0.1)
     suffix: "%"
     colors:
