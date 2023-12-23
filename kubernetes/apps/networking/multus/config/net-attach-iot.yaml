@@ -10,7 +10,7 @@ spec:
       "name": "multus-iot",
       "plugins": [
         {
-          "type": "macvlan-static",
+          "type": "macvlan",
           "master": "enp86s0",
           "mode": "bridge",
           "capabilities": {
@@ -18,10 +18,10 @@ spec:
           },
           "ipam": {
             "type": "static",
-            "subnet": "192.168.1.0/24",
-            "rangeStart": "192.168.1.220",
-            "rangeEnd": "192.168.1.249"
-          }
+            "routes": [
+              { "dst": "192.168.1.0/24", "gw": "192.168.1.1" }
+            ]
+          },
         }
       ]
     }
