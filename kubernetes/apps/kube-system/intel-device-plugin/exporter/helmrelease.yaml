@@ -46,6 +46,7 @@ spec:
             securityContext:
               capabilities:
                 add:
+                  - CAP_PBF
                   - CAP_PERFMON
         pod:
           nodeSelector:
