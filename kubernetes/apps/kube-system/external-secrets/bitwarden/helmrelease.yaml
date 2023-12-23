@@ -43,8 +43,6 @@ spec:
                   timeoutSeconds: 5
               readiness:
                 enabled: false
-              startup:
-                enabled: false
             envFrom:
             - secretRef:
                 name: bitwarden-secret
@@ -62,27 +60,15 @@ spec:
         pod:
           automountServiceAccountToken: false
           securityContext:
-            fsGroup: 65532
+            fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 65532
+            runAsGroup: 568
             runAsNonRoot: true
-            runAsUser: 65532
+            runAsUser: 568
             seccompProfile:
               type: RuntimeDefault
         replicas: 1
         strategy: RollingUpdate
-    networkpolicies:
-      main:
-        enabled: true
-        policyTypes:
-          - Ingress
-        rules:
-          ingress:
-            - from:
-                - podSelector:
-                    matchLabels:
-                      app.kubernetes.io/instance: external-secrets
-                      app.kubernetes.io/name: external-secrets
     persistence:
       config:
         enabled: true
