@@ -43,13 +43,14 @@ spec:
                 gpu.intel.com/i915_monitoring: 1
                 cpu: 10m
                 memory: 128Mi
+            securityContext:
+              capabilities:
+                add:
+                  - CAP_PERFMON
         pod:
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
           securityContext:
-            capabilities:
-              add:
-                - CAP_PERFMON
             privileged: true
     service:
       main:
