@@ -94,12 +94,7 @@ spec:
                 memory: 256Mi
         pod:
           annotations:
-            k8s.v1.cni.cncf.io/networks: |
-              [{
-                "name": "multus-iot",
-                "namespace": "networking",
-                "ips": ["192.168.1.220/24"]
-              }]
+            k8s.v1.cni.cncf.io/networks: "hass-homekit-static"
           automountServiceAccountToken: false
           securityContext:
             fsGroup: 65532
