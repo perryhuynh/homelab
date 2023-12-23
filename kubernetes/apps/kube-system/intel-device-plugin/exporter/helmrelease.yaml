@@ -66,3 +66,6 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
+            relabelings:
+              - sourceLabels: [__meta_kubernetes_pod_node_name]
+                targetLabel: kubernetes_node
