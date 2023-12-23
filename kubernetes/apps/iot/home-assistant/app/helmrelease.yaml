@@ -47,7 +47,7 @@ spec:
             env:
               TZ: &TZ America/Los_Angeles
             envFrom: *envFrom
-            # probes:
+            probes:
             #   liveness: &probes
             #     enabled: true
             #     custom: true
@@ -60,8 +60,8 @@ spec:
             #       timeoutSeconds: 1
             #       failureThreshold: 3
             #   readiness: *probes
-            #   startup:
-            #     enabled: false
+              startup:
+                enabled: false
             resources:
               limits:
                 memory: 1Gi
@@ -94,7 +94,12 @@ spec:
                 memory: 256Mi
         pod:
           annotations:
-            k8s.v1.cni.cncf.io/networks: "hass-homekit-static"
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name": "multus-iot",
+                "namespace": "networking",
+                "ips": ["192.168.1.220/24"]
+              }]
           automountServiceAccountToken: false
           securityContext:
             fsGroup: 65532
