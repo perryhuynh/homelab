@@ -14,7 +14,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        path: ["kubernetes/flux/main", "kubernetes/flux/storage"]
+        path: ["kubernetes/flux/config"]
         resource: ["helmrelease", "kustomization"]
     steps:
       - name: Generate Token
@@ -28,13 +28,20 @@ jobs:
         uses: fluxcd/flux2/action@5c5c15ea212b8f029a110f9975851d25c8272695 # v2.2.2
 
       - name: Diff Resources
-        # uses: allenporter/flux-local/action/diff@19bfc6920e8964a479363bc230e6c329120ead02 # 3.2.0
-        uses: allenporter/flux-local/action/diff@flux-build
+        uses: allenporter/flux-local/action/diff@4.2.0
         id: diff
         with:
           sources: home-kubernetes
           path: "${{ matrix.path }}"
           resource: "${{ matrix.resource }}"
+
+      - name: Generate Diff
+        id: diff
+        run: |
+          cat diff.patch
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          cat diff.patch >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - if: ${{ steps.diff.outputs.diff != '' }}
         name: Add comment
@@ -47,3 +54,13 @@ jobs:
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
+  # Summarize matrix https://github.community/t/status-check-for-a-matrix-jobs/127354/7
+  flux-diff-success:
+    if: ${{ always() }}
+    needs: ["flux-diff"]
+    name: Flux diff successful
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        name: Check matrix status
+        run: exit 1
