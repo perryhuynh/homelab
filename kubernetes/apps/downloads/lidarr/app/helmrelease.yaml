@@ -30,6 +30,10 @@ spec:
       namespace: downloads
     - name: qbittorrent
       namespace: downloads
+    - name: longhorn
+      namespace: storage
+    - name: volsync
+      namespace: storage
   values:
     controllers:
       main:
