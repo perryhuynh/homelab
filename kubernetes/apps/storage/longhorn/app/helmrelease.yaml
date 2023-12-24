@@ -37,8 +37,8 @@ spec:
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       orphanAutoDeletion: true
       restoreVolumeRecurringJobs: true
-      storageMinimalAvailablePercentage: 15
-      storageOverProvisioningPercentage: 100
+      storageMinimalAvailablePercentage: 10
+      storageOverProvisioningPercentage: 200
     ingress:
       enabled: true
       ingressClassName: internal
