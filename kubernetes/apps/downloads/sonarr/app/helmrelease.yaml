@@ -24,14 +24,12 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: prowlarr
-      namespace: downloads
-    - name: qbittorrent
-      namespace: downloads
+    - name: cloudnative-pg
+      namespace: database
     - name: longhorn
       namespace: storage
-    - name: volsync
-      namespace: storage
+    - name: qbittorrent
+      namespace: downloads
   values:
     controllers:
       main:
@@ -156,7 +154,7 @@ spec:
       data:
         type: nfs
         path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
       pushover-notify:
         type: configMap
         name: sonarr-config

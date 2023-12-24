@@ -24,9 +24,11 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
+    - name: cloudnative-pg
+      namespace: database
     - name: longhorn
       namespace: storage
-    - name: prowlarr
+    - name: qbittorrent
       namespace: downloads
   values:
     controllers:
@@ -153,7 +155,7 @@ spec:
       data:
         type: nfs
         path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
       pushover-notify:
         type: configMap
         name: radarr-config
