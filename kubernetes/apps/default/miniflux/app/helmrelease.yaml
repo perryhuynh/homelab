@@ -24,6 +24,8 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
+    - name: authelia
+      namespace: security
     - name: cloudnative-pg
       namespace: database
   values:

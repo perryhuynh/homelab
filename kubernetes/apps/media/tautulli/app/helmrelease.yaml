@@ -28,6 +28,8 @@ spec:
       namespace: storage
     - name: plex
       namespace: media
+    - name: volsync
+      namespace: storage
   values:
     controllers:
       main:

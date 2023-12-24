@@ -26,6 +26,10 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
+    - name: longhorn
+      namespace: storage
+    - name: volsync
+      namespace: storage
     - name : paperless-gotenberg
       namespace: default
     - name : paperless-tika
