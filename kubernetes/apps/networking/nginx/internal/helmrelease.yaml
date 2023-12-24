@@ -85,6 +85,6 @@ spec:
           cpu: 25m
           memory: 512Mi
         limits:
-          memory: 1GiMi
+          memory: 1Gi
     defaultBackend:
       enabled: false
