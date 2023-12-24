@@ -22,4 +22,3 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: canyouadd
-      VOLSYNC_CAPACITY: 1Gi
