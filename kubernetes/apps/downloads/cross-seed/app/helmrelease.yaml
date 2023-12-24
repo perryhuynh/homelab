@@ -24,8 +24,12 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
+    - name: longhorn
+      namespace: storage
     - name: qbittorrent
       namespace: downloads
+    - name: volsync
+      namespace: storage
   values:
     controllers:
       main:
@@ -90,7 +94,7 @@ spec:
         enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
       logs:
         type: emptyDir
         globalMounts:

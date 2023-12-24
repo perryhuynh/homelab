@@ -106,12 +106,12 @@ spec:
         enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
       nsfw:
         enabled: true
         type: nfs
         path: /mnt/tank/nsfw
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
       incomplete:
         type: emptyDir
       tmp:

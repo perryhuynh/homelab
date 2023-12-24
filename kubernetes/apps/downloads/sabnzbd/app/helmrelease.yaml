@@ -26,6 +26,8 @@ spec:
   dependsOn:
     - name: longhorn
       namespace: storage
+    - name: volsync
+      namespace: storage
   values:
     controllers:
       main:
@@ -111,7 +113,7 @@ spec:
       downloads:
         type: nfs
         path: /mnt/tank/media/downloads/usenet
-        server: ${SECRET_NAS_IP:temp}
+        server: ${SECRET_NAS_IP:=temp}
         globalMounts:
           - path: /downloads
       incomplete:

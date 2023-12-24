@@ -26,8 +26,6 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
-    - name: prowlarr
-      namespace: downloads
   values:
     controllers:
       main:
