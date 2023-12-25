@@ -69,6 +69,15 @@ spec:
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
         pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["scrypted"]
+                  topologyKey: kubernetes.io/hostname
           automountServiceAccountToken: false
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: 'true'
