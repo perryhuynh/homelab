@@ -36,7 +36,7 @@ spec:
         containers:
           main:
             image:
-              repository: docker.io/library/ghcr.io/koush/scrypted
+              repository: ghcr.io/koush/scrypted
               tag: 18-jammy-full-v0.72.0
             resources:
               limits:
