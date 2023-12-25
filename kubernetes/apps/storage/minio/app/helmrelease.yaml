@@ -31,13 +31,13 @@ spec:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
-        args:
-          - "server"
-          - "/data"
-          - "--console-address"
-          - ":9001"
         containers:
           main:
+            args:
+              - "server"
+              - "/data"
+              - "--console-address"
+              - ":9001"
             image:
               repository: quay.io/minio/minio
               tag: RELEASE.2023-12-23T07-19-11Z
