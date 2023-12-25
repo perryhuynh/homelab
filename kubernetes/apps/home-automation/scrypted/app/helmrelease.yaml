@@ -116,6 +116,8 @@ spec:
         type: nfs
         path: /mnt/tank/media/scrypted
         server: ${SECRET_NAS_IP:=temp}
+      tmp:
+        type: emptyDir
     service:
       main:
         ports:
