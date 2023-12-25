@@ -133,5 +133,3 @@ spec:
         ports:
           http:
             port: *port
-          metrics:
-            port: *metricsPort
