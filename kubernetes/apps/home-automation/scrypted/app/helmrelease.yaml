@@ -40,6 +40,13 @@ spec:
             image:
               repository: ghcr.io/koush/scrypted
               tag: 18-jammy-full-v0.72.0
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
             resources:
               limits:
                 gpu.intel.com/i915: 1
