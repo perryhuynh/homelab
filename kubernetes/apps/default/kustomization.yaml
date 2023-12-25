@@ -7,5 +7,4 @@ resources:
   - ./cyberchef/ks.yaml
   - ./miniflux/ks.yaml
   - ./paperless/ks.yaml
-  - ./teslamate/ks.yaml
   - ./thelounge/ks.yaml
