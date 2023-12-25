@@ -51,7 +51,7 @@ spec:
               MINIO_UPDATE: "off"
             envFrom:
               - secretRef:
-                  name: minio-secret
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
