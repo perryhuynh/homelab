@@ -35,7 +35,6 @@ spec:
               tag: v10.5.2@sha256:61f336cc9d716a0bf88193325fdeaec73669dd1de8040ad34f7ac5641e9c279a
             env:
               TZ: "America/Los_Angeles"
-            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
@@ -43,7 +42,7 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: *port
+                    port: &port 8000
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
