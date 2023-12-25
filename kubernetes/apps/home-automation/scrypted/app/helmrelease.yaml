@@ -83,6 +83,10 @@ spec:
       config:
         enabled: true
         existingClaim: scrypted
+      npm:
+        type: emptyDir
+        globalMounts:
+          - path: /.npm
       recs:
         type: nfs
         path: /mnt/tank/media/scrypted
