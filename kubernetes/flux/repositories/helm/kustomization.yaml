@@ -19,6 +19,7 @@ resources:
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
+  - ./itzg.yaml
   - ./jetstack.yaml
   - ./k8s-gateway.yaml
   - ./kubernetes-dashboard.yaml
