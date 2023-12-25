@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./atuin/ks.yaml
+  - ./cyberchef/ks.yaml
   - ./miniflux/ks.yaml
   - ./paperless/ks.yaml
   - ./teslamate/ks.yaml
