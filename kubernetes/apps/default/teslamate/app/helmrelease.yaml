@@ -27,7 +27,7 @@ spec:
     - name: cloudnative-pg
       namespace: database
     - name: mosquitto
-      namespace: iot
+      namespace: home-automation
   values:
     controllers:
       main:
@@ -46,7 +46,7 @@ spec:
             env:
               CHECK_ORIGIN: true
               DATABASE_HOST: postgres16-rw.database.svc.cluster.local
-              MQTT_HOST: &mqttHost mosquitto.iot.svc.cluster.local
+              MQTT_HOST: &mqttHost mosquitto.home-automation.svc.cluster.local
               PORT: &port 80
               TZ: &TZ America/Los_Angeles
               VIRTUAL_HOST: "{{ .Release.Name }}.perryhuynh.com"
