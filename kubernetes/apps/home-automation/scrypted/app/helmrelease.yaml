@@ -99,6 +99,6 @@ spec:
       main:
         ports:
           http:
-            port: 11080
+            port: *port
           rebroadcast:
             port: 34135
