@@ -35,6 +35,8 @@ spec:
           reloader.stakater.com/auto: "true"
         containers:
           main:
+            env:
+              SCRYPTED_SECURE_PORT: &port 80
             image:
               repository: ghcr.io/koush/scrypted
               tag: 18-jammy-full-v0.72.0
@@ -79,28 +81,12 @@ spec:
             runAsUser: 568
             seccompProfile:
               type: RuntimeDefault
-    ingress:
-      main:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config:
         enabled: true
         existingClaim: scrypted
         globalMounts:
-          main:
-            main:
-              - path: /server/volume
+          - path: /server/volume
       npm:
         type: emptyDir
         globalMounts:
