@@ -83,6 +83,10 @@ spec:
       config:
         enabled: true
         existingClaim: scrypted
+        globalMounts:
+          main:
+            main:
+              - path: /server/volume
       npm:
         type: emptyDir
         globalMounts:
