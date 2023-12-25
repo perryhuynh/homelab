@@ -1,0 +1,94 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: scrypted
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+    - name: volsync
+      namespace: storage
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: docker.io/library/ghcr.io/koush/scrypted
+              tag: 18-jammy-full-v0.72.0
+            resources:
+              limits:
+                memory: 1024Mi
+              requests:
+                cpu: 150m
+                memory: 8192Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+            supplementalGroups: [44, 105, 65532]
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name": "home-automation",
+                "namespace": "networking",
+                "interface": "eth1"
+              }]
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["plex"]
+                  topologyKey: kubernetes.io/hostname
+          automountServiceAccountToken: false
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: 'true'
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsNonRoot: true
+            runAsUser: 568
+            seccompProfile:
+              type: RuntimeDefault
+    persistence:
+      config:
+        enabled: true
+        existingClaim: scrypted
+      recs:
+        type: nfs
+        path: /mnt/tank/media/scrypted
+        server: ${SECRET_NAS_IP:=temp}
+    service:
+      main:
+        ports:
+          http:
+            port: 11080
+          rebroadcast:
+            port: 34135
