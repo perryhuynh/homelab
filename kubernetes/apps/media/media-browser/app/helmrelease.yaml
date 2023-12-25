@@ -90,5 +90,3 @@ spec:
         type: nfs
         path: /mnt/tank/media/library
         server: ${SECRET_NAS_IP:=temp}
-        globalMounts:
-          - path: /data
