@@ -40,10 +40,12 @@ spec:
               tag: 18-jammy-full-v0.72.0
             resources:
               limits:
-                memory: 1024Mi
-              requests:
-                cpu: 150m
+                gpu.intel.com/i915: 1
                 memory: 8192Mi
+              requests:
+                gpu.intel.com/i915: 1
+                cpu: 150m
+                memory: 1024Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
