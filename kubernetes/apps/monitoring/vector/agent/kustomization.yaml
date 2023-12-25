@@ -7,7 +7,6 @@ resources:
   - ./rbac.yaml
 configMapGenerator:
   - name: vector-agent-config
-    namespace: monitoring
     files:
       - vector.yaml=./resources/vector.yaml
 generatorOptions:
