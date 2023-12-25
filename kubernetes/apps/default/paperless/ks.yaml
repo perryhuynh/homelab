@@ -22,6 +22,8 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_UID: 1000
+      VOLSYNC_GID: 1000
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
