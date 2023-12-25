@@ -58,6 +58,7 @@ spec:
                 memory: 256Mi
             securityContext:
               allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
         pod:
           securityContext:
@@ -82,6 +83,9 @@ spec:
         tls:
           - hosts:
               - *host
+    persistence:
+      tmp:
+        type: emptyDir
     service:
       main:
         ports:
