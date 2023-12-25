@@ -36,7 +36,7 @@ spec:
         containers:
           main:
             env:
-              SCRYPTED_SECURE_PORT: &port 80
+              SCRYPTED_INSECURE_PORT: &port 80
             image:
               repository: ghcr.io/koush/scrypted
               tag: 18-jammy-full-v0.72.0
