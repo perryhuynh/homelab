@@ -6,3 +6,4 @@ resources:
   - ./home-assistant/ks.yaml
   - ./mosquitto/ks.yaml
   - ./scrypted/ks.yaml
+  - ./teslamate/ks.yaml
