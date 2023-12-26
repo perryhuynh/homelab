@@ -31,6 +31,8 @@ spec:
   values:
     controllers:
       main:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           main:
             image:
@@ -50,7 +52,6 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
           securityContext:
@@ -80,7 +81,14 @@ spec:
         enabled: true
         existingClaim: tachidesk
         globalMounts:
-          - path: /home/suwayomi/.local/
+          - path: /home/suwayomi/.local/share/Tachidesk
+      downloads:
+        enabled: true
+        type: nfs
+        path: /mnt/tank/media/downloads/tachidesk
+        server: ${SECRET_NAS_IP:=temp}
+        globalMounts:
+          - path: /home/suwayomi/.local/share/Tachidesk/downloads
       tmp:
         type: emptyDir
     service:
