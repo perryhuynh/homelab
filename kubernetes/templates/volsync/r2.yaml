@@ -11,7 +11,7 @@ spec:
       data:
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
-        RESTIC_REPOSITORY: "{{ .RESTIC_REPOSITORY }}/${APP}"
+        RESTIC_REPOSITORY: "s3:{{ .BUCKET_HOST }}/volsync/${APP}"
         RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
   data:
     - secretKey: AWS_ACCESS_KEY_ID
@@ -30,14 +30,14 @@ spec:
       remoteRef:
         key: 412b9f6d-c6c6-4f59-ac9c-aaec001fd8fb
         property: AWS_SECRET_ACCESS_KEY
-    - secretKey: RESTIC_REPOSITORY
+    - secretKey: BUCKET_HOST
       sourceRef:
         storeRef:
           name: bitwarden-fields
           kind: ClusterSecretStore
       remoteRef:
         key: 412b9f6d-c6c6-4f59-ac9c-aaec001fd8fb
-        property: RESTIC_REPOSITORY
+        property: BUCKET_HOST
     - secretKey: RESTIC_PASSWORD
       sourceRef:
         storeRef:
