@@ -48,8 +48,10 @@ session:
 
 notifier:
   disable_startup_check: true
-  filesystem:
-    filename: /tmp/notification.txt
+  smtp:
+    address: maddy.default.svc.cluster.local:25
+    sender: Authelia <authelia@perryhuynh.com>
+    disable_require_tls: true
 
 totp:
   disable: false
