@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./atuin/ks.yaml
   - ./cyberchef/ks.yaml
+  - ./maddy/ks.yaml
   - ./miniflux/ks.yaml
   - ./paperless/ks.yaml
   - ./thelounge/ks.yaml
