@@ -6,4 +6,5 @@ resources:
   - ./media-browser/ks.yaml
   - ./overseerr/ks.yaml
   - ./plex/ks.yaml
+  - ./tachidesk/ks.yaml
   - ./tautulli/ks.yaml
