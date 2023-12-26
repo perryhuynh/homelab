@@ -11,7 +11,7 @@ spec:
       data:
         AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
-        RESTIC_REPOSITORY: "s3:{{ .BUCKET_HOST }}/${APP}"
+        RESTIC_REPOSITORY: "s3:{{ .BUCKET_HOST }}/volsync/${APP}"
         RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
   data:
     - secretKey: AWS_ACCESS_KEY_ID
