@@ -51,18 +51,18 @@ groups:
           app: "{{ $labels.app }}"
           summary: "{{ $labels.message }}"
 
-  - name: postgres
-    rules:
-      - alert: PostgresDataCorruption
-        expr: |
-          avg by (app, message) (count_over_time({app=~".+"} |~ "(?i)PostgresException\\s*\\(.*?\\): XX001" | json [30m])) > 0
-        for: 2m
-        labels:
-          severity: critical
-          category: logs
-        annotations:
-          app: "{{ $labels.app }}"
-          summary: "{{ $labels.message }}"
+  # - name: postgres
+  #   rules:
+  #     - alert: PostgresDataCorruption
+  #       expr: |
+  #         avg by (app, message) (count_over_time({app=~".+"} |~ "(?i)PostgresException\\s*\\(.*?\\): XX001" | json [30m])) > 0
+  #       for: 2m
+  #       labels:
+  #         severity: critical
+  #         category: logs
+  #       annotations:
+  #         app: "{{ $labels.app }}"
+  #         summary: "{{ $labels.message }}"
 
   #
   # Deprecated
