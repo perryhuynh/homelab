@@ -62,4 +62,6 @@ spec:
       runAsGroup: "${VOLSYNC_GID:-568}"
       fsGroup: "${VOLSYNC_GID:-568}"
     retain:
+      hourly: 24
       daily: 7
+      weekly: 5
