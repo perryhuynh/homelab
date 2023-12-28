@@ -54,7 +54,7 @@ metadata:
 spec:
   sourcePVC: "${APP}"
   trigger:
-    schedule: "0 0 * * *"
+    schedule: "${R2_SCHEDULE:-0 0 * * *}"
   restic:
     repository: "${APP}-volsync-r2-secret"
     copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
