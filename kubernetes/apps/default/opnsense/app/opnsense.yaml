@@ -17,7 +17,7 @@ spec:
               service:
                 name: opnsense
                 port:
-                  number: 80
+                  number: 443
           - pathType: Prefix
             path: "/metrics"
             backend:
@@ -38,7 +38,7 @@ subsets:
       - ip: ${SECRET_OPNSENSE_IP:=temp}
     ports:
       - name: http
-        port: 80
+        port: 443
         protocol: TCP
       - name: metrics
         port: 9100
@@ -51,7 +51,7 @@ metadata:
 spec:
   ports:
     - name: http
-      port: 80
+      port: 443
     - name: metrics
       port: 9100
   type: ClusterIP
