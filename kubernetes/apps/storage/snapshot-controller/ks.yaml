@@ -5,7 +5,7 @@ metadata:
   name: &app snapshot-controller
   namespace: flux-system
 spec:
-  targetNamespace: kube-system
+  targetNamespace: storage
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
