@@ -23,11 +23,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: external-secrets-bitwarden
-      namespace: kube-system
-    - name: local-path-provisioner
-      namespace: kube-system
   values:
     image:
       registry: quay.io
