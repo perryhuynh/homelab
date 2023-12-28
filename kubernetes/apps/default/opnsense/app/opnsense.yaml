@@ -1,0 +1,55 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: opnsense
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host opnsense.perryhuynh.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: opnsense
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/metrics"
+            backend:
+              service:
+                name: opnsense
+                port:
+                  number: 9100
+  tls:
+    - hosts:
+        - *host
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: opnsense
+subsets:
+  - addresses:
+      - ip: ${SECRET_OPNSENSE_IP:=temp}
+    ports:
+      - name: http
+        port: 80
+        protocol: TCP
+      - name: metrics
+        port: 9100
+        protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opnsense
+spec:
+  ports:
+    - name: http
+      port: 80
+    - name: metrics
+      port: 9100
+  type: ClusterIP
