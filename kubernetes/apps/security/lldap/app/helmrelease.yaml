@@ -23,11 +23,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: cloudnative-pg
-      namespace: database
-    - name: external-secrets-bitwarden
-      namespace: kube-system
   values:
     controllers:
       main:
