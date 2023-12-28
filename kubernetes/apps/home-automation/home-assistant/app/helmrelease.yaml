@@ -45,7 +45,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2023.12.3
+              tag: 2023.12.4
             env:
               TZ: &TZ America/Los_Angeles
               SERVER_HOST:
