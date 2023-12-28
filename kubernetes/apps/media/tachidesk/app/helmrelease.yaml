@@ -45,10 +45,10 @@ spec:
               TZ: America/Los_Angeles
             resources:
               limits:
-                memory: 3Gi
+                memory: 6Gi
               requests:
                 cpu: 25m
-                memory: 512Mi
+                memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
