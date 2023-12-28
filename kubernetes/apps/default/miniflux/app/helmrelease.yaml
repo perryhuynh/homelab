@@ -26,8 +26,6 @@ spec:
   dependsOn:
     - name: authelia
       namespace: security
-    - name: cloudnative-pg
-      namespace: database
   values:
     controllers:
       main:
