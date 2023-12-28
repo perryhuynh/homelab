@@ -6,5 +6,6 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./longhorn/ks.yaml
+  - ./minio/ks.yaml
   - ./snapshot-controller/ks.yaml
   - ./volsync/ks.yaml
