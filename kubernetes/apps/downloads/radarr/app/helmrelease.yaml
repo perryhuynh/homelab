@@ -23,13 +23,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: cloudnative-pg
-      namespace: database
-    - name: longhorn
-      namespace: storage
-    - name: qbittorrent
-      namespace: downloads
   values:
     controllers:
       main:
