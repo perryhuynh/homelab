@@ -1,8 +1,8 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: opnsense
+  name: pikvm
 spec:
   staticConfigs:
-    - targets: ["pikvm.default.svc.cluster.local:9100/metrics"]
+    - targets: ["pikvm.default.svc.cluster.local:9100"]
   metricsPath: /metrics
