@@ -9,6 +9,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+  - name: external-secrets-bitwarden
+  - name: local-path-provisioner
   path: ./kubernetes/apps/monitoring/thanos/app
   prune: true
   sourceRef:
