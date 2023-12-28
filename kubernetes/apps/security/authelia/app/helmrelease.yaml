@@ -24,14 +24,8 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: cloudnative-pg
-      namespace: database
-    - name: external-secrets-bitwarden
-      namespace: kube-system
     - name: lldap
       namespace: security
-    - name: redis
-      namespace: database
   values:
     controllers:
       main:
