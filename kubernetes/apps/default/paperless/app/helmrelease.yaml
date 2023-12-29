@@ -85,11 +85,11 @@ spec:
               startup:
                 enabled: false
             resources:
-              requests:
-                cpu: 25m
-                memory: 512Mi
-              limits:
+              limits: &resources
                 memory: 2Gi
+              requests:
+                <<: *resources
+                cpu: 25m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
