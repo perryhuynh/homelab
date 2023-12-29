@@ -57,11 +57,11 @@ spec:
             image: &image
               repository: ghcr.io/buroa/qbittools
               tag: v0.11.0
-            resources: &taggingResources
-              limits: &resources
+            resources: &resources
+              limits:
                 memory: 256Mi
               requests:
-                <<: *resources
+                memory: 256Mi
                 cpu: 10m
             securityContext: &securityContext
               allowPrivilegeEscalation: false
@@ -78,7 +78,7 @@ spec:
             ]
             env: *env
             image: *image
-            resources: *taggingResources
+            resources: *resources
             securityContext: *securityContext
           03-nyaa:
             args: [
@@ -91,7 +91,7 @@ spec:
             ]
             env: *env
             image: *image
-            resources: *taggingResources
+            resources: *resources
             securityContext: *securityContext
         containers:
           main:
@@ -107,7 +107,7 @@ spec:
             ]
             env: *env
             image: *image
-            resources: *taggingResources
+            resources: *resources
             securityContext: *securityContext
         pod: &podSecurityContext
           automountServiceAccountToken: false
@@ -136,12 +136,7 @@ spec:
             ]
             env: *env
             image: *image
-            resources:
-              limits:
-                memory: 256Mi
-              requests:
-                cpu: 10m
-                memory: 128Mi
+            resources: *resources
             securityContext: *securityContext
         pod: *podSecurityContext
       reannounce:
@@ -155,12 +150,7 @@ spec:
             ]
             env: *env
             image: *image
-            resources:
-              limits:
-                memory: 256Mi
-              requests:
-                cpu: 25m
-                memory: 128Mi
+            resources: *resources
             securityContext: *securityContext
         pod: *podSecurityContext
     persistence:
