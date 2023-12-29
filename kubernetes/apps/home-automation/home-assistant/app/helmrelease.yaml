@@ -69,11 +69,11 @@ spec:
               startup: *probes
                 # enabled: false
             resources:
-              limits:
-                memory: 1Gi
+              limits: &resources
+                memory: 2Gi
               requests:
+                <<: *resources
                 cpu: 25m
-                memory: 256Mi
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
@@ -97,7 +97,7 @@ spec:
                 memory: 1Gi
               requests:
                 cpu: 10m
-                memory: 256Mi
+                memory: 1Gi
         pod:
           annotations:
             k8s.v1.cni.cncf.io/networks: |

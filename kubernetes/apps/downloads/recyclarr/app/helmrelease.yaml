@@ -53,11 +53,11 @@ spec:
               - secretRef:
                   name: recyclarr-secret
             resources:
-              limits:
-                memory: 128Mi
+              limits: &resources
+                memory: 256Mi
               requests:
+                <<: *resources
                 cpu: 10m
-                memory: 64Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }

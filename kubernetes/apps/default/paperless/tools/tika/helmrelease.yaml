@@ -32,11 +32,11 @@ spec:
               repository: ghcr.io/paperless-ngx/tika
               tag: 2.9.0-minimal@sha256:e85662605324bd157731480928fd7cffae041320f64198a62b0afbeac62fe90d
             resources:
-              limits:
+              limits: &resources
                 memory: 512Mi
               requests:
+                <<: *resources
                 cpu: 10m
-                memory: 128Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

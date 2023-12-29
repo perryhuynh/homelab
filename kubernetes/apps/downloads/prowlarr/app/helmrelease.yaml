@@ -67,11 +67,11 @@ spec:
               startup:
                 enabled: false
             resources:
-              limits:
+              limits: &resources
                 memory: 512Mi
               requests:
+                <<: *resources
                 cpu: 25m
-                memory: 256Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
@@ -93,8 +93,8 @@ spec:
               limits:
                 memory: 256Mi
               requests:
+                memory: 256Mi
                 cpu: 10m
-                memory: 64Mi
             probes:
               liveness: &probes
                 enabled: true

@@ -40,11 +40,11 @@ spec:
               repository: ghcr.io/thelounge/thelounge
               tag: 4.4.1
             resources:
-              limits:
+              limits: &resources
                 memory: 256Mi
               requests:
-                cpu: 15m
-                memory: 128Mi
+                <<: *resources
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:

@@ -41,11 +41,11 @@ spec:
               - secretRef:
                   name: maddy-secret
             resources:
-              requests:
-                cpu: 10m
-                memory: 128Mi
-              limits:
+              limits: &resources
                 memory: 256Mi
+              requests:
+                <<: *resources
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
