@@ -58,11 +58,11 @@ spec:
               repository: ghcr.io/buroa/qbittools
               tag: v0.11.0
             resources: &taggingResources
-              limits:
+              limits: &resources
                 memory: 256Mi
               requests:
+                <<: *resources
                 cpu: 10m
-                memory: 128Mi
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }

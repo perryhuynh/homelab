@@ -50,11 +50,11 @@ spec:
               - secretRef:
                   name: cross-seed-secret
             resources:
-              limits:
+              limits: &resources
                 memory: 512Mi
               requests:
-                cpu: 25m
-                memory: 128Mi
+                <<: *resources
+                cpu: 15m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
