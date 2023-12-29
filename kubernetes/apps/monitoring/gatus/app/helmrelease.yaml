@@ -70,7 +70,7 @@ spec:
               TZ: America/Los_Angeles
             envFrom: *envFrom
             resources:
-              limits: &resouces
+              limits: &resources
                 memory: 256Mi
               requests:
                 <<: *resources
