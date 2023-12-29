@@ -39,11 +39,11 @@ spec:
             env:
               CONFIG_FILE: &configPath /config/config.yaml
             resources:
-              requests:
-                cpu: 10m
-                memory: 64Mi
-              limits:
+              limits: &resources
                 memory: 128Mi
+              requests:
+                <<: *resources
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

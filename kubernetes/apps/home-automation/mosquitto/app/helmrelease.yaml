@@ -46,11 +46,11 @@ spec:
               repository: docker.io/library/eclipse-mosquitto
               tag: 2.0.18@sha256:fa9822d3e9bdb12c80f6cb7ddd22922b26c1cd4ffa071815242ac156f9559d7d
             resources:
-              limits:
+              limits: &resources
                 memory: 64Mi
               requests:
+                <<: *resources
                 cpu: 10m
-                memory: 32Mi
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }

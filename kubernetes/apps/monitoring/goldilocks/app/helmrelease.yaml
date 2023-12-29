@@ -30,7 +30,7 @@ spec:
           memory: 256Mi
         requests:
           cpu: 25m
-          memory: 64Mi
+          memory: 256Mi
     dashboard:
       ingress:
         enabled: true
