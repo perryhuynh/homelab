@@ -90,11 +90,11 @@ spec:
               URL: http://prowlarr.downloads.svc.cluster.local
               PORT: &metricsPort 9707
             resources:
-              limits:
+              limits: &metricsResources
                 memory: 256Mi
               requests:
+                <<: *metricsresources
                 cpu: 10m
-                memory: 64Mi
             probes:
               liveness: &probes
                 enabled: true
