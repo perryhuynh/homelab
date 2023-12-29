@@ -92,10 +92,10 @@ spec:
               URL: http://radarr.downloads.svc.cluster.local
               PORT: &metricsPort 9707
             resources:
-              limits: &metricsResources
+              limits:
                 memory: 256Mi
               requests:
-                <<: *metricsresources
+                memory: 256Mi
                 cpu: 10m
             probes:
               liveness: &probes
