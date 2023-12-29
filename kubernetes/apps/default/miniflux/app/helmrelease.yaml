@@ -77,11 +77,11 @@ spec:
               startup:
                 enabled: false
             resources:
-              requests:
-                cpu: 10m
-                memory: 64Mi
-              limits:
+              requests: &resources
                 memory: 256Mi
+              limits:
+                <<: *resources
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
