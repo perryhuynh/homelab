@@ -77,9 +77,9 @@ spec:
               startup:
                 enabled: false
             resources:
-              requests: &resources
+              limits: &resources
                 memory: 256Mi
-              limits:
+              requests:
                 <<: *resources
                 cpu: 10m
             securityContext:
