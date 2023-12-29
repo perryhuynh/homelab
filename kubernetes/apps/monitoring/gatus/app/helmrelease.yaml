@@ -50,10 +50,10 @@ spec:
               UNIQUE_FILENAMES: true
               METHOD: LIST
             resources: &configSyncResources
+              limits:
+                memory: 128Mi
               requests:
                 cpu: 10m
-                memory: 32Mi
-              limits:
                 memory: 128Mi
             securityContext: &securityContext
               allowPrivilegeEscalation: false
@@ -70,11 +70,11 @@ spec:
               TZ: America/Los_Angeles
             envFrom: *envFrom
             resources:
-              requests:
-                cpu: 10m
-                memory: 64Mi
-              limits:
+              limits: &resouces
                 memory: 256Mi
+              requests:
+                <<: *resources
+                cpu: 10m
             securityContext: *securityContext
           config-sync:
             image: *configSyncImage
