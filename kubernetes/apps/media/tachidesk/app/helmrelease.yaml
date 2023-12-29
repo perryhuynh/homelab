@@ -44,11 +44,11 @@ spec:
               JAVA_TOOL_OPTIONS: -XX:+UseG1GC -XX:MaxRAMPercentage=75 -XX:+PrintFlagsFinal
               TZ: America/Los_Angeles
             resources:
-              limits:
+              limits: &resources
                 memory: 6Gi
               requests:
+                <<: *resources
                 cpu: 25m
-                memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
