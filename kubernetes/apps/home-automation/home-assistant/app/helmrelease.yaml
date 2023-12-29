@@ -69,7 +69,7 @@ spec:
               startup: *probes
                 # enabled: false
             resources:
-              limits: &resouces
+              limits: &resources
                 memory: 2Gi
               requests:
                 <<: *resources
