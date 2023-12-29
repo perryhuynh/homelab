@@ -42,7 +42,7 @@ spec:
             ]
             image:
               repository: ghcr.io/cross-seed/cross-seed
-              tag: 5.8.5
+              tag: 5.9.1
             env:
               CROSSSEED_PORT: &port 80
               TZ: America/Los_Angeles
