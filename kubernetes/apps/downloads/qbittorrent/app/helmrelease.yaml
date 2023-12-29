@@ -59,7 +59,7 @@ spec:
             #     enabled: false
             resources:
               limits: &resources
-                memory: 32Gii
+                memory: 32Gi
               requests:
                 <<: *resources
                 cpu: 500m
