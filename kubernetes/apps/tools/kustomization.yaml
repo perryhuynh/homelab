@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./reloader/ks.yaml
+  - ./system-upgrade-controller/ks.yaml
