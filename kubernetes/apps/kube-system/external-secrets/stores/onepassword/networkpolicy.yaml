@@ -2,12 +2,12 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: bitwarden-cli
+  name: onepassword-connect
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/instance: bitwarden-cli
-      app.kubernetes.io/name: bitwarden-cli
+      app.kubernetes.io/instance: onepassword-connect
+      app.kubernetes.io/name: onepassword-connect
   ingress:
     - fromEndpoints:
         - matchLabels:
