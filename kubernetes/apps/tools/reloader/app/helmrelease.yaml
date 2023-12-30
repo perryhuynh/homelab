@@ -26,7 +26,7 @@ spec:
   values:
     fullnameOverride: reloader
     reloader:
-      reloadStrategy: annotations
+      readOnlyRootFileSystem: true
       podMonitor:
         enabled: true
         namespace: "{{ .Release.Namespace }}"
