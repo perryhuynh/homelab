@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
 vars:
@@ -18,10 +19,10 @@ env:
   K8S_AUTH_KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
 
 includes:
-  ansible: .taskfiles/AnsibleTasks.yaml
-  brew: .taskfiles/BrewTasks.yaml
-  cluster: .taskfiles/ClusterTasks.yaml
-  external-secrets: .taskfiles/ExternalSecretsTasks.yaml
+  ansible: .taskfiles/Ansible/Taskfile.yaml
+  brew: .taskfiles/Brew/Taskfile.yaml
+  cluster: .taskfiles/Cluster/Taskfile.yaml
+  external-secrets: .taskfiles/ExternalSecrets/Taskfile.yaml
 
 tasks:
 
