@@ -4,6 +4,9 @@ kind: ExternalSecret
 metadata:
   name: "${APP}-volsync-r2-secret"
 spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
   target:
     deletionPolicy: Delete
     template:
@@ -13,39 +16,9 @@ spec:
         AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
         RESTIC_REPOSITORY: "s3:https://{{ .BUCKET_HOST }}/volsync/${APP}"
         RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
-  data:
-    - secretKey: AWS_ACCESS_KEY_ID
-      sourceRef:
-        storeRef:
-          name: bitwarden-fields
-          kind: ClusterSecretStore
-      remoteRef:
-        key: 412b9f6d-c6c6-4f59-ac9c-aaec001fd8fb
-        property: AWS_ACCESS_KEY_ID
-    - secretKey: AWS_SECRET_ACCESS_KEY
-      sourceRef:
-        storeRef:
-          name: bitwarden-fields
-          kind: ClusterSecretStore
-      remoteRef:
-        key: 412b9f6d-c6c6-4f59-ac9c-aaec001fd8fb
-        property: AWS_SECRET_ACCESS_KEY
-    - secretKey: BUCKET_HOST
-      sourceRef:
-        storeRef:
-          name: bitwarden-fields
-          kind: ClusterSecretStore
-      remoteRef:
-        key: 412b9f6d-c6c6-4f59-ac9c-aaec001fd8fb
-        property: BUCKET_HOST
-    - secretKey: RESTIC_PASSWORD
-      sourceRef:
-        storeRef:
-          name: bitwarden-fields
-          kind: ClusterSecretStore
-      remoteRef:
-        key: 412b9f6d-c6c6-4f59-ac9c-aaec001fd8fb
-        property: RESTIC_PASSWORD
+  dataFrom:
+    - extract:
+        key: cloudflare
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
