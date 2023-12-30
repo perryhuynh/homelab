@@ -23,6 +23,7 @@ includes:
   brew: .taskfiles/Brew/Taskfile.yaml
   cluster: .taskfiles/Cluster/Taskfile.yaml
   external-secrets: .taskfiles/ExternalSecrets/Taskfile.yaml
+  kubernetes: .taskfiles/Kubernetes/Taskfile.yaml
 
 tasks:
 
