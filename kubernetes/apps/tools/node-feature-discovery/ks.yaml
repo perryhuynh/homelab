@@ -4,14 +4,12 @@ kind: Kustomization
 metadata:
   name: &app node-feature-discovery
   namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/disabled: "true"
 spec:
-  targetNamespace: kube-system
+  targetNamespace: tools
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/kube-system/node-feature-discovery/app
+  path: ./kubernetes/apps/tools/node-feature-discovery/app
   prune: true
   sourceRef:
     kind: GitRepository
