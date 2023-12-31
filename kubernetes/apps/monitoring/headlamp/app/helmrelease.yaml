@@ -29,7 +29,7 @@ spec:
       annotations:
         kubernetes.io/ingress.class: internal
       hosts:
-        - host: &host "{{ .Release.Name }}.perryhuynh.com"
+        - host: &host "headlamp.perryhuynh.com"
           paths:
             - path: /
               type: Prefix
