@@ -25,7 +25,7 @@ spec:
     keepHistory: false
   dependsOn:
     - name: local-path-provisioner
-      namespace: kube-system
+      namespace: storage
   values:
     extraInitContainers:
       - name: 01-init-db
