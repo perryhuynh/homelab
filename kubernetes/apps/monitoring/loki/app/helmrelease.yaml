@@ -63,10 +63,11 @@ spec:
           replication_factor: 2
           storage:
             s3:
+              s3: null
               bucketnames: loki
               endpoint: minio.storage.svc.cluster.local:9000
               insecure: true
-              region: auto
+              s3forcepathstyle: true
           ring:
             kvstore:
               store: memberlist
