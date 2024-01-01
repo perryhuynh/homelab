@@ -63,8 +63,11 @@ spec:
           replication_factor: 2
           storage:
             s3:
+              s3: null
               bucketnames: loki
-              region: auto
+              endpoint: minio.storage.svc.cluster.local:9000
+              insecure: true
+              s3forcepathstyle: true
           ring:
             kvstore:
               store: memberlist
@@ -88,7 +91,7 @@ spec:
           working_directory: /var/loki/boltdb-shipper-compactor
           shared_store: s3
           compaction_interval: 10m
-          retention_enabled: false
+          retention_enabled: true
           retention_delete_delay: 2h
           retention_delete_worker_count: 150
         ingester:
@@ -163,10 +166,6 @@ spec:
     test:
       enabled: false
   valuesFrom:
-    - targetPath: loki.structuredConfig.common.storage.s3.endpoint
-      kind: Secret
-      name: loki-secret
-      valuesKey: BUCKET_HOST
     - targetPath: loki.structuredConfig.common.storage.s3.access_key_id
       kind: Secret
       name: loki-secret
