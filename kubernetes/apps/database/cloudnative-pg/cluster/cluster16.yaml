@@ -14,10 +14,10 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
-  # Note: Bootstrap is needed when recovering from an existing cnpg cluster
-  bootstrap:
-    recovery:
-      source: &previousCluster postgres16-v3
+  # # Note: Bootstrap is needed when recovering from an existing cnpg cluster
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster postgres16-v3
   postgresql:
     parameters:
       max_connections: "600"
@@ -39,8 +39,8 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: &destinationPath s3://cnpg-backup
-      endpointURL: &endpointUrl https://s3.us-west-004.backblazeb2.com
+      destinationPath: &destinationPath s3://cloudnative-pg
+      endpointURL: &endpointUrl http://minio.storage.svc.cluster.local:9000
       serverName: &currentCluster postgres16-v4
       s3Credentials:
         accessKeyId:
@@ -50,18 +50,18 @@ spec:
           name: cloudnative-pg-secret
           key: AWS_SECRET_ACCESS_KEY
   # # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        wal:
-          compression: bzip2
-          maxParallel: 8
-        destinationPath: *destinationPath
-        endpointURL: *endpointUrl
-        s3Credentials:
-          accessKeyId:
-            name: cloudnative-pg-secret
-            key: AWS_ACCESS_KEY_ID
-          secretAccessKey:
-            name: cloudnative-pg-secret
-            key: AWS_SECRET_ACCESS_KEY
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       wal:
+  #         compression: bzip2
+  #         maxParallel: 8
+  #       destinationPath: s3://cnpg-backup
+  #       endpointURL: https://s3.us-west-004.backblazeb2.com
+  #       s3Credentials:
+  #         accessKeyId:
+  #           name: cloudnative-pg-secret
+  #           key: AWS_ACCESS_KEY_ID
+  #         secretAccessKey:
+  #           name: cloudnative-pg-secret
+  #           key: AWS_SECRET_ACCESS_KEY
