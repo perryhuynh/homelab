@@ -63,4 +63,3 @@ spec:
         ports:
           http:
             port: 3000
-

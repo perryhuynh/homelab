@@ -11,4 +11,3 @@ parameters:
   # needed for successful VolumeSnapshots
   # see: https://github.com/longhorn/longhorn/issues/2534#issuecomment-1010508714
   type: snap
-
