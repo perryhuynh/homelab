@@ -34,7 +34,7 @@ spec:
               - "--chromium-allow-list=file:///tmp/.*"
             image:
               repository: docker.io/gotenberg/gotenberg
-              tag: 7.10.2
+              tag: 8.0.0
             resources:
               limits: &resources
                 memory: 512Mi
