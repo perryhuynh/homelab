@@ -59,4 +59,3 @@ spec:
         ports:
           http:
             port: 9998
-
