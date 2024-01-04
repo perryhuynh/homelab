@@ -78,44 +78,6 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-          metrics:
-            args:
-              - "radarr"
-            image:
-              repository: ghcr.io/onedr0p/exportarr
-              tag: v1.6.0
-            env:
-              API_KEY:
-                secretKeyRef:
-                  name: radarr-secret
-                  key: RADARR__API_KEY
-              URL: http://radarr.downloads.svc.cluster.local
-              PORT: &metricsPort 9707
-            resources:
-              limits:
-                memory: 256Mi
-              requests:
-                memory: 256Mi
-                cpu: 10m
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /healthz
-                    port: *metricsPort
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-              startup:
-                enabled: false
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
           securityContext:
@@ -171,10 +133,3 @@ spec:
         ports:
           http:
             port: *port
-          metrics:
-            port: *metricsPort
-    serviceMonitor:
-      main:
-        enabled: true
-        endpoints:
-          - port: metrics
