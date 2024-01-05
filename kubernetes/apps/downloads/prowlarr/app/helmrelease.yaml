@@ -80,8 +80,6 @@ spec:
         pod:
           automountServiceAccountToken: false
           securityContext:
-            fsgroup: 568
-            fsGroupChangePolicy: OnRootMismatch
             runAsGroup: 568
             runAsNonRoot: true
             runAsUser: 568
