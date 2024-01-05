@@ -106,7 +106,6 @@ spec:
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
     ingress:
-
       main:
         annotations:
           nginx.ingress.kubernetes.io/auth-method: GET
@@ -149,4 +148,3 @@ spec:
             port: *port
           metrics:
             port: *metricsPort
-
