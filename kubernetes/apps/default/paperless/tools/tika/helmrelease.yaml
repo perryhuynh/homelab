@@ -33,10 +33,9 @@ spec:
               repository: ghcr.io/paperless-ngx/tika
               tag: 2.9.0-minimal@sha256:e85662605324bd157731480928fd7cffae041320f64198a62b0afbeac62fe90d
             resources:
-              limits: &resources
+              limits:
                 memory: 512Mi
               requests:
-                <<: *resources
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false

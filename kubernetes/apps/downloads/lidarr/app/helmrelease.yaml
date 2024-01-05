@@ -54,10 +54,9 @@ spec:
               TZ: America/Los_Angeles
             envFrom: *envFrom
             resources:
-              limits: &resources
+              limits:
                 memory: 1Gi
               requests:
-                <<: *resources
                 cpu: 25m
             probes:
               liveness: &probes

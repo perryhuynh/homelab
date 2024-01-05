@@ -78,10 +78,9 @@ spec:
               startup:
                 enabled: false
             resources:
-              limits: &resources
+              limits:
                 memory: 256Mi
               requests:
-                <<: *resources
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
@@ -120,4 +119,3 @@ spec:
     serviceMonitor:
       main:
         enabled: true
-
