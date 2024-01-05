@@ -58,11 +58,10 @@ spec:
               startup:
                 enabled: false
             resources:
-              limits: &resources
+              limits:
                 gpu.intel.com/i915: 1
                 memory: 16Gi
               requests:
-                <<: *resources
                 cpu: 250m
             securityContext:
               allowPrivilegeEscalation: false
