@@ -118,7 +118,6 @@ spec:
             runAsUser: 568
             seccompProfile:
               type: RuntimeDefault
-            supplementalGroups: [65532]
       orphaned:
         type: cronjob
         cronjob:
@@ -136,7 +135,9 @@ spec:
             env: *env
             image: *image
             resources: *resources
-            securityContext: *securityContext
+            securityContext:
+              <<: *securityContext
+              supplementalGroups: [65532]
         pod: *podSecurityContext
       reannounce:
         containers:
