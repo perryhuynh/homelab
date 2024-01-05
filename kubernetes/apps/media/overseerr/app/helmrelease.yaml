@@ -101,7 +101,7 @@ spec:
         globalMounts:
           - path: /app/config
       cache:
-        type: emptyDir
+        existingClaim: overseerr-cache
         globalMounts:
           - path: /app/config/cache/images
       tmp:
