@@ -29,9 +29,9 @@ spec:
       namespace: storage
     - name: volsync
       namespace: storage
-    - name : paperless-gotenberg
+    - name: paperless-gotenberg
       namespace: default
-    - name : paperless-tika
+    - name: paperless-tika
       namespace: default
   values:
     controllers:
@@ -86,10 +86,9 @@ spec:
               startup:
                 enabled: false
             resources:
-              limits: &resources
+              limits:
                 memory: 2Gi
               requests:
-                <<: *resources
                 cpu: 25m
             securityContext:
               allowPrivilegeEscalation: false

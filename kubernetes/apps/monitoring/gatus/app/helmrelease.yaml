@@ -71,10 +71,9 @@ spec:
               TZ: America/Los_Angeles
             envFrom: *envFrom
             resources:
-              limits: &resources
+              limits:
                 memory: 256Mi
               requests:
-                <<: *resources
                 cpu: 10m
             securityContext: *securityContext
           config-sync:

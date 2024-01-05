@@ -42,10 +42,9 @@ spec:
               repository: docker.io/prom/graphite-exporter
               tag: v0.15.0
             resources:
-              limits: &resources
+              limits:
                 memory: 128Mi
               requests:
-                <<: *resources
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false

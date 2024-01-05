@@ -37,10 +37,9 @@ spec:
               repository: docker.io/gotenberg/gotenberg
               tag: 8.0.0
             resources:
-              limits: &resources
+              limits:
                 memory: 512Mi
               requests:
-                <<: *resources
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
