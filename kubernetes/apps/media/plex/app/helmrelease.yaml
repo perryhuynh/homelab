@@ -94,6 +94,10 @@ spec:
       config:
         enabled: true
         existingClaim: plex
+      plex-cache:
+        existingClaim: plex-cache
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Cache
       data:
         type: nfs
         path: /mnt/tank/media/library
