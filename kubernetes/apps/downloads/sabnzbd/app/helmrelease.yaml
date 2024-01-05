@@ -51,10 +51,9 @@ spec:
                 sabnzbd.downloads.svc.cluster.local,
                 sabnzbd.perryhuynh.com
             resources:
-              limits: &resources
+              limits:
                 memory: 2Gi
               requests:
-                <<: *resources
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false

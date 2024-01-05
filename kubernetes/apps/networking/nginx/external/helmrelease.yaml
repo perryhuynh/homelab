@@ -85,10 +85,9 @@ spec:
               app.kubernetes.io/instance: nginx-external
               app.kubernetes.io/component: controller
       resources:
-        limits: &resources
+        limits:
           memory: 1Gi
         requests:
-          <<: *resources
           cpu: 25m
     defaultBackend:
       enabled: false

@@ -50,10 +50,9 @@ spec:
               LLDAP_LDAP_BASE_DN: dc=home,dc=arpa
             envFrom: *envFrom
             resources:
-              limits: &resources
+              limits:
                 memory: 128Mi
               requests:
-                <<: *resources
                 cpu: 15m
         replicas: 2
         strategy: RollingUpdate

@@ -65,10 +65,9 @@ spec:
               startup:
                 enabled: false
             resources:
-              limits: &resources
+              limits:
                 memory: 256Mi
               requests:
-                <<: *resources
                 cpu: 25m
             securityContext:
               allowPrivilegeEscalation: false
