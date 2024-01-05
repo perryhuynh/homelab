@@ -24,6 +24,7 @@ includes:
   cluster: .taskfiles/Cluster/Taskfile.yaml
   external-secrets: .taskfiles/ExternalSecrets/Taskfile.yaml
   kubernetes: .taskfiles/Kubernetes/Taskfile.yaml
+  volsync: .taskfiles/VolSync/Taskfile.yaml
 
 tasks:
 
