@@ -79,3 +79,9 @@
         owner: root
         group: root
         mode: "0644"
+
+  handlers:
+    - name: Restart Kubernetes
+      ansible.builtin.systemd:
+        name: k3s
+        state: restarted
