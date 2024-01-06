@@ -6,7 +6,7 @@ metadata:
   name: postgres16
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-12
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-13
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
@@ -24,11 +24,10 @@ spec:
       max_slot_wal_keep_size: 10GB
       shared_buffers: 512MB
   resources:
-    requests:
-      memory: "2Gi"
-      cpu: "500m"
     limits:
-      memory: "4Gi"
+      memory: 4Gi
+    requests:
+      cpu: 500m
   monitoring:
     enablePodMonitor: true
   backup:
