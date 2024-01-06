@@ -39,11 +39,9 @@ spec:
             resources:
               limits:
                 gpu.intel.com/i915_monitoring: 1
-                memory: 512Mi
-              requests:
-                gpu.intel.com/i915_monitoring: 1
-                cpu: 10m
                 memory: 128Mi
+              requests:
+                cpu: 10m
             securityContext:
               capabilities:
                 add:
