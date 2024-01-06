@@ -55,8 +55,7 @@ spec:
             runAsGroup: 65534
             allowPrivilegeEscalation: false
             seccompProfile: { type: RuntimeDefault }
-            capabilities:
-              drop: ["ALL"]
+            capabilities: { drop: ["ALL"] }
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
