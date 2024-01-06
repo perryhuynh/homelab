@@ -76,8 +76,7 @@ spec:
             runAsGroup: 568
             runAsNonRoot: true
             runAsUser: 568
-            seccompProfile:
-              type: RuntimeDefault
+            seccompProfile: { type: RuntimeDefault }
     service:
       main:
         ports:

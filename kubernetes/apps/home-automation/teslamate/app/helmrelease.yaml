@@ -115,8 +115,7 @@ spec:
             runAsGroup: 10001
             runAsNonRoot: true
             runAsUser: 10000
-            seccompProfile:
-              type: RuntimeDefault
+            seccompProfile: { type: RuntimeDefault }
     ingress:
       main:
         enabled: true
