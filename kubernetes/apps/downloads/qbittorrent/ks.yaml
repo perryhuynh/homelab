@@ -22,7 +22,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 2Gi
+      VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_ACCESSMODES: ReadWriteMany
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
