@@ -24,11 +24,10 @@ spec:
       max_slot_wal_keep_size: 10GB
       shared_buffers: 512MB
   resources:
-    requests:
-      memory: "2Gi"
-      cpu: "500m"
     limits:
-      memory: "4Gi"
+      memory: 4Gi
+    requests:
+      cpu: 500m
   monitoring:
     enablePodMonitor: true
   backup:
