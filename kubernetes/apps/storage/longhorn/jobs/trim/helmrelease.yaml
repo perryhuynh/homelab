@@ -55,7 +55,8 @@ spec:
     persistence:
       engine-binaries:
         type: hostPath
-        path: /var/lib/longhorn/engine-binaries/
+        hostPath: /var/lib/longhorn/engine-binaries/
+        hostPathType: Directory
         globalMounts:
           - path: /var/lib/longhorn/engine-binaries/
     service:
