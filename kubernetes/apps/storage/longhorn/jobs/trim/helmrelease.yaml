@@ -61,3 +61,5 @@ spec:
     service:
       main:
         enabled: false
+    serviceAccount:
+      name: longhorn-service-account
