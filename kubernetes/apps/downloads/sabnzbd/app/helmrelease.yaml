@@ -89,8 +89,7 @@ spec:
             runAsGroup: 568
             runAsNonRoot: true
             runAsUser: 568
-            seccompProfile:
-              type: RuntimeDefault
+            seccompProfile: { type: RuntimeDefault }
             supplementalGroups: [65532]
     ingress:
       main:
