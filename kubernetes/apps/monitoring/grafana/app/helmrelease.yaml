@@ -350,6 +350,9 @@ spec:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/store.json
           datasource: Prometheus
       media:
+        qbittorrent:
+          url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
+          datasource: Prometheus
         radarr:
           # renovate: depName="Radarr v3"
           gnetId: 12896
@@ -359,9 +362,6 @@ spec:
           # renovate: depName="Sonarr v3"
           gnetId: 12530
           revision: 2
-          datasource: Prometheus
-        qbittorrent:
-          url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
           datasource: Prometheus
     sidecar:
       dashboards:
