@@ -369,6 +369,9 @@ spec:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/store.json
           datasource: Prometheus
       media:
+        overseerr:
+          url: https://raw.githubusercontent.com/WillFantom/overseerr-exporter/main/grafana/dashboard.json
+          datasource: Prometheus
         qbittorrent:
           url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
           datasource: Prometheus

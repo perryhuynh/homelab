@@ -1,0 +1,69 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: overseerr-exporter
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: overseerr
+      namespace: media
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            args:
+              - --overseerr.address
+              - http://overseerr.media.svc.cluster.local
+              - --overseerr.api-key
+              - $(OVERSEERR_API_KEY)
+            envFrom:
+              - secretRef:
+                  name: overseerr-exporter-secret
+            image:
+              repository: ghcr.io/willfantom/overseerr-exporter
+              tag: 1.2.1@sha256:b5cbff0fcd04a118190849b1ed92f51669109f766171106fc0b87f7a8562273b
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 5m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+        pod:
+          automountServiceAccountToken: false
+          securityContext:
+            runAsGroup: 568
+            runAsNonRoot: true
+            runAsUser: 568
+            seccompProfile: { type: RuntimeDefault }
+    service:
+      main:
+        ports:
+          http:
+            port: 9850
+    serviceMonitor:
+      main:
+        enabled: true
