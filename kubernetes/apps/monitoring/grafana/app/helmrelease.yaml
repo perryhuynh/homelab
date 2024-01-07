@@ -351,14 +351,17 @@ spec:
           datasource: Prometheus
       media:
         radarr:
-          # renovate: depName="Kubernetes / Views / Nodes"
+          # renovate: depName="Radarr v3"
           gnetId: 12896
           revision: 1
           datasource: Prometheus
         sonarr:
-          # renovate: depName="Kubernetes / Views / Nodes"
+          # renovate: depName="Sonarr v3"
           gnetId: 12530
           revision: 2
+          datasource: Prometheus
+        qbittorrent:
+          url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
           datasource: Prometheus
     sidecar:
       dashboards:
