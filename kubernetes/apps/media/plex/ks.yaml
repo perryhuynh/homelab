@@ -38,6 +38,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: external-secrets-stores
   path: ./kubernetes/apps/media/plex/tools/auto-languages
   prune: true
   sourceRef:
