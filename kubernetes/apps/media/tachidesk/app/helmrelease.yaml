@@ -42,8 +42,10 @@ spec:
             env:
               BIND_PORT: &port 80
               DEBUG: true
+              EXTENSION_REPOS: ["https://github.com/keiyoushi/extensions/tree/repo"]
               JAVA_TOOL_OPTIONS: -XX:+UseG1GC -XX:MaxRAMPercentage=75 -XX:+PrintFlagsFinal
               TZ: &TZ America/Los_Angeles
+              WEB_UI_CHANNEL: "preview"
             resources:
               limits:
                 memory: 6Gi
