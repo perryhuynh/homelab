@@ -31,6 +31,7 @@ resources:
   - ./node-feature-discovery.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
+  - ./rook-ceph.yaml
   - ./stakater.yaml
   - ./weave-gitops.yaml
   - ./xenitab.yaml
