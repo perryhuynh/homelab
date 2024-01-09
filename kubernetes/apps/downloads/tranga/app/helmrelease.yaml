@@ -45,6 +45,12 @@ spec:
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
+              # TODO: remove after building rootless image for tranga-website
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
+              runAsGroup: 1000
+              runAsNonRoot: true
+              runAsUser: 1000
           web:
             image:
               repository: docker.io/glax/tranga-website
@@ -58,11 +64,12 @@ spec:
         pod:
           automountServiceAccountToken: false
           securityContext:
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 1000
-            runAsNonRoot: true
-            runAsUser: 1000
+            # # TODO: enable after building rootless image for tranga-website
+            # fsGroup: 1000
+            # fsGroupChangePolicy: OnRootMismatch
+            # runAsGroup: 1000
+            # runAsNonRoot: true
+            # runAsUser: 1000
             seccompProfile: { type: RuntimeDefault }
     ingress:
       main:
