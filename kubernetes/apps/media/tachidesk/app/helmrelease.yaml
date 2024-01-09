@@ -43,7 +43,7 @@ spec:
               BIND_PORT: &port 80
               DEBUG: true
               JAVA_TOOL_OPTIONS: -XX:+UseG1GC -XX:MaxRAMPercentage=75 -XX:+PrintFlagsFinal
-              TZ: America/Los_Angeles
+              TZ: &TZ America/Los_Angeles
             resources:
               limits:
                 memory: 6Gi
@@ -52,6 +52,26 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
+          codeserver:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.20.0
+            env:
+              TZ: *TZ
+            args:
+              - "/config"
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/config/.vscode"
+              - --extensions-dir
+              - "/config/.vscode"
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+                memory: 1Gi
         pod:
           automountServiceAccountToken: false
           securityContext:
@@ -71,6 +91,19 @@ spec:
               - path: /
                 service:
                   name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+      codeserver:
+        enabled: true
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}-code.perryhuynh.com"
+            paths:
+              - path: /
+                service:
+                  name: codeserver
                   port: http
         tls:
           - hosts:
@@ -95,3 +128,9 @@ spec:
         ports:
           http:
             port: *port
+      codeserver:
+        controller: main
+        ports:
+          http:
+            enabled: true
+            port: 8080
