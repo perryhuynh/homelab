@@ -45,7 +45,6 @@ spec:
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
           web:
             image:
               repository: docker.io/glax/tranga-website
@@ -89,8 +88,6 @@ spec:
         type: nfs
         path: /mnt/tank/media/library/manga
         server: ${SECRET_NAS_IP:=temp}
-      tmp:
-        type: emptyDir
     service:
       main:
         ports:
