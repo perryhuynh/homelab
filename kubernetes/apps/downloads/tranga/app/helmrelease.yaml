@@ -1,0 +1,96 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: tranga
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+    - name: volsync
+      namespace: storage
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: glax/tranga-api
+              tag: latest@sha256:a3dbf2b23eebf54f26da95e8746cf9a81cc296e8ee82459523b1c6a3e125d973
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                cpu: 25m
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+          web:
+            image:
+              repository: glax/tranga-website
+              tag: latest@sha256:sha256:3e2210710f06c5a18a7362a09c2630d863980072a3718848c3b7f09feb5600d5
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                cpu: 25m
+            securityContext: *securityContext
+        pod:
+          automountServiceAccountToken: false
+          securityContext:
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile: { type: RuntimeDefault }
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        hosts:
+          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: tranga
+        globalMounts:
+          - path: /usr/share/tranga-api
+      data:
+        type: nfs
+        path: /mnt/tank/media/library/manga
+        server: ${SECRET_NAS_IP:=temp}
+    service:
+      main:
+        ports:
+          http:
+            port: 9555
+          tranga-api:
+            port: 6531
