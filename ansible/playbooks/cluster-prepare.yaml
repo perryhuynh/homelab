@@ -131,6 +131,18 @@
             content: |
               search .
               nameserver 1.1.1.1
+        - name: Network Configuration | Set up 10G NIC
+          ansible.builtin.copy:
+            dest: /etc/network/interfaces.d/enp7s0
+            content: |
+              auto enp7s0
+              allow-hotplug enp7s0
+              iface enp7s0 inet dhcp
+                  # # TODO: enable this after configuring routers/switches
+                  # post-up ifconfig enp7s0 mtu 9000
+            owner: root
+            group: root
+            mode: "0644"
 
     - name: System Configuration
       notify: Reboot
