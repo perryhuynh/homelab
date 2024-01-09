@@ -34,7 +34,7 @@
     {
       "description": "Custom versioning for tachidesk",
       "matchDatasources": ["docker"],
-      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d+)$",
+      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-r(?<build>\\d+)$",
       "matchPackagePatterns": ["tachidesk"]
     }
   ]
