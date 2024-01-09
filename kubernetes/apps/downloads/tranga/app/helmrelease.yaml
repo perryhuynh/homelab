@@ -37,6 +37,13 @@ spec:
             image:
               repository: docker.io/glax/tranga-api
               tag: latest@sha256:a3dbf2b23eebf54f26da95e8746cf9a81cc296e8ee82459523b1c6a3e125d973
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
             resources:
               limits:
                 memory: 2Gi
