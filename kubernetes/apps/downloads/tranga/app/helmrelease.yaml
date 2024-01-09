@@ -89,6 +89,8 @@ spec:
         type: nfs
         path: /mnt/tank/media/library/manga
         server: ${SECRET_NAS_IP:=temp}
+      tmp:
+        type: emptyDir
     service:
       main:
         ports:
