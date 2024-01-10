@@ -112,7 +112,7 @@ spec:
         className: tailscale
         tls:
           - hosts:
-              - {{ .Release.Name }}
+              - "{{ .Release.Name }}"
     persistence:
       config:
         enabled: true
