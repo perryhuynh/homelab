@@ -96,7 +96,7 @@ spec:
           redis:
             image:
               repository: docker.io/redis
-              tag: 7.2.3-alpine
+              tag: 7.2.4-alpine
         pod:
           securityContext:
             runAsUser: 1000
