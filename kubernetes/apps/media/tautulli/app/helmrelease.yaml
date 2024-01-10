@@ -99,7 +99,7 @@ spec:
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.perryhuynh.com"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   name: main
@@ -110,6 +110,9 @@ spec:
       tailscale:
         enabled: true
         className: tailscale
+        hosts:
+          - host: *app
+            paths: *paths
         tls:
           - hosts:
               - *app
