@@ -36,12 +36,3 @@ spec:
         repo: ghcr.io/tailscale/tailscale
     apiServerProxyConfig:
       mode: "true"
-  valuesFrom:
-    - targetPath: oauth.clientId
-      kind: Secret
-      name: tailscale-operator-secret
-      valuesKey: client_id
-    - targetPath: oauth.clientSecret
-      kind: Secret
-      name: tailscale-operator-secret
-      valuesKey: client_secret
