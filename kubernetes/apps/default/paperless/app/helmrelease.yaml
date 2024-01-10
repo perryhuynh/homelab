@@ -95,8 +95,8 @@ spec:
               capabilities: { drop: ["ALL"] }
           redis:
             image:
-              repository: public.ecr.aws/docker/library/redis
-              tag: 7.2.3
+              repository: docker.io/redis
+              tag: 7.2.3-alpine
         pod:
           securityContext:
             runAsUser: 1000
