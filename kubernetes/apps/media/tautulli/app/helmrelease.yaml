@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: tautulli
+  name: &app tautulli
 spec:
   interval: 30m
   chart:
@@ -112,11 +112,11 @@ spec:
         className: tailscale
         tls:
           - hosts:
-              - {{ .Release.Name }}
+              - *app
     persistence:
       config:
         enabled: true
-        existingClaim: tautulli
+        existingClaim: *app
       cache:
         type: emptyDir
         globalMounts:
