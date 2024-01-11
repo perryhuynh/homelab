@@ -53,9 +53,10 @@ spec:
       r2:
         <<: *controllerSpec
         containers:
-          envFrom:
-            - secretRef:
-                name: "${APP}-volsync-r2-secret"
+          main:
+            envFrom:
+              - secretRef:
+                  name: "${APP}-volsync-r2-secret"
     service:
       main:
         enabled: false
