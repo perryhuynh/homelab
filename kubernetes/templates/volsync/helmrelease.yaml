@@ -28,11 +28,11 @@ spec:
     controllers:
       main:
         enabled: false
-      minio: &controllerSpec
+      minio:
         annotations:
           kyverno.io/suspend-cronjob: "true"
         type: cronjob
-        cronjob:
+        cronjob: &cronjobSpec
           schedule: "* * 31 2 *"
           timeZone: America/Los_Angeles
           concurrencyPolicy: Forbid
@@ -40,20 +40,25 @@ spec:
           failedJobsHistory: 1
         containers:
           main:
-            args: [
+            args: &args [
               "unlock",
               "--remove-all"
             ]
-            image:
+            image: &image
               repository: docker.io/restic
               tag: 0.16.2
             envFrom:
               - secretRef:
                 name: "${APP}-volsync-minio-secret"
       r2:
-        <<: *controllerSpec
+        annotations:
+          kyverno.io/suspend-cronjob: "true"
+        type: cronjob
+        cronjob: *cronjobSpec
         containers:
           main:
+            args: *args
+            image: *image
             envFrom:
               - secretRef:
                   name: "${APP}-volsync-r2-secret"
