@@ -45,7 +45,7 @@ spec:
               "--remove-all"
             ]
             image: &image
-              repository: docker.io/restic
+              repository: docker.io/restic/restic
               tag: 0.16.2
             envFrom:
               - secretRef:
