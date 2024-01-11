@@ -6,10 +6,10 @@ metadata:
     policies.kyverno.io/category: Utility
     policies.kyverno.io/severity: low
     policies.kyverno.io/subject: CronJob
-  name: suspend-cronjob-policy
+  name: suspend-cronjob
 spec:
   rules:
-  - name: suspend-cronjob-rule
+  - name: suspend-cronjob
     match:
       resources:
         kinds:
@@ -20,4 +20,3 @@ spec:
       patchStrategicMerge:
         spec:
           suspend: true
-      patchType: strategic
