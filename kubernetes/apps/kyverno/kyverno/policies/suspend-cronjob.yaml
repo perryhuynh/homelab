@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/title: Suspend cron job
+    policies.kyverno.io/category: Utility
+    policies.kyverno.io/severity: low
+    policies.kyverno.io/subject: CronJob
+  name: suspend-cronjob-policy
+spec:
+  rules:
+  - name: suspend-cronjob-rule
+    match:
+      resources:
+        kinds:
+          - CronJob
+        annotations:
+          kyverno.io/suspend-cronjob: "true"
+    mutate:
+      patchStrategicMerge:
+        spec:
+          suspend: true
+      patchType: strategic
