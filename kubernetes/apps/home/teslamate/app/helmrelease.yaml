@@ -42,7 +42,7 @@ spec:
             env:
               CHECK_ORIGIN: true
               DATABASE_HOST: postgres16-rw.database.svc.cluster.local
-              MQTT_HOST: &mqttHost mosquitto.home-automation.svc.cluster.local
+              MQTT_HOST: &mqttHost mosquitto.home.svc.cluster.local
               PORT: &port 80
               TZ: &TZ America/Los_Angeles
               VIRTUAL_HOST: "{{ .Release.Name }}.perryhuynh.com"
