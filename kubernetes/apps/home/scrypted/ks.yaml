@@ -6,13 +6,13 @@ metadata:
   name: &app scrypted
   namespace: flux-system
 spec:
-  targetNamespace: home-automation
+  targetNamespace: home
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/apps/home-automation/scrypted/app
+  path: ./kubernetes/apps/home/scrypted/app
   prune: true
   sourceRef:
     kind: GitRepository

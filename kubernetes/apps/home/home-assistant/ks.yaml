@@ -6,14 +6,14 @@ metadata:
   name: &app home-assistant
   namespace: flux-system
 spec:
-  targetNamespace: home-automation
+  targetNamespace: home
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
-  path: ./kubernetes/apps/home-automation/home-assistant/app
+  path: ./kubernetes/apps/home/home-assistant/app
   prune: true
   sourceRef:
     kind: GitRepository

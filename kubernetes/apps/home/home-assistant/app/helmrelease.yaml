@@ -102,7 +102,7 @@ spec:
           annotations:
             k8s.v1.cni.cncf.io/networks: |
               [{
-                "name": "home-automation",
+                "name": "home",
                 "namespace": "networking",
                 "interface": "eth1"
               }]
