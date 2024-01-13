@@ -36,17 +36,3 @@ spec:
         repo: ghcr.io/tailscale/tailscale
     apiServerProxyConfig:
       mode: "true"
-  postRenderers:
-    - kustomize:
-        patchesStrategicMerge:
-          - apiVersion: apps/v1
-            kind: Deployment
-            metadata:
-              name: operator
-            spec:
-              replicas: 2
-              strategy:
-                type: RollingUpdate
-                rollingUpdate:
-                  maxUnavailable: 1
-                  maxSurge: 1
