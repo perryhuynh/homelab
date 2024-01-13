@@ -32,14 +32,14 @@ spec:
     enablePodMonitor: true
   backup:
     retentionPolicy: 30d
-    barmanObjectStore:
+    barmanObjectStore: &barmanObjectStore
       data:
         compression: bzip2
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: &destinationPath s3://cnpg-backup
-      endpointURL: &endpointUrl https://s3.us-west-004.backblazeb2.com
+      destinationPath: s3://cnpg-backup
+      endpointURL: https://s3.us-west-004.backblazeb2.com
       serverName: &currentCluster postgres16-v4
       s3Credentials:
         accessKeyId:
@@ -52,15 +52,5 @@ spec:
   # externalClusters:
   #   - name: *previousCluster
   #     barmanObjectStore:
-  #       wal:
-  #         compression: bzip2
-  #         maxParallel: 8
-  #       destinationPath: s3://cnpg-backup
-  #       endpointURL: https://s3.us-west-004.backblazeb2.com
-  #       s3Credentials:
-  #         accessKeyId:
-  #           name: cloudnative-pg-secret
-  #           key: AWS_ACCESS_KEY_ID
-  #         secretAccessKey:
-  #           name: cloudnative-pg-secret
-  #           key: AWS_SECRET_ACCESS_KEY
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
