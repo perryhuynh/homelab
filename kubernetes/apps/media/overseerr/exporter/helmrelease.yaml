@@ -41,8 +41,8 @@ spec:
               - secretRef:
                   name: overseerr-exporter-secret
             image:
-              repository: ghcr.io/willfantom/overseerr-exporter
-              tag: 1.2.1@sha256:b5cbff0fcd04a118190849b1ed92f51669109f766171106fc0b87f7a8562273b
+              repository: ghcr.io/perryhuynh/overseerr-exporter
+              tag: main@sha256:4675fb32fee665500fb6d8e5f7c67c4a23c2207b52b30423606e5b9f064755b8
             resources:
               limits:
                 memory: 128Mi
