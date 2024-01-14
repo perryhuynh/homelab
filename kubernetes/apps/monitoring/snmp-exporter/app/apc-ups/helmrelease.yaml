@@ -41,7 +41,7 @@ spec:
       namespace: *namespace
       params:
         - name: apc-ups-0
-          module: ["apcups"]
+          module: ["rfc1628_ups"]
           target: ${SECRET_UPS_IP:=temp}
       path: /snmp
       scrapeTimeout: 10s
