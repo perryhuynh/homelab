@@ -14,9 +14,9 @@ spec:
               and has less than 20 minutes of battery left
           expr: |
             (
-              upsAdvBatteryRunTimeRemaining/60/100 <= 20
+              upsEstimatedMinutesRemaining <= 20
             and
-              upsBasicBatteryTimeOnBattery > 0
+              upsSecondsOnBattery > 0
             )
           for: 1m
           labels:
