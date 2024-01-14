@@ -68,7 +68,7 @@
       "pluginVersion": "6.6.2",
       "targets": [
         {
-          "expr": "upsOutputPercentLoad{instance=\"$instance\"}",
+          "expr": "upsOutputPercentLoad{job=\"$job\"}",
           "format": "table",
           "intervalFactor": 1,
           "refId": "A",
@@ -141,7 +141,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "0.1*upsOutputCurrent{instance=\"$instance\"}*upsOutputVoltage{instance=\"$instance\"}",
+          "expr": "0.1*upsOutputCurrent{job=\"$job\"}*upsOutputVoltage{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -218,7 +218,7 @@
       "pluginVersion": "6.6.2",
       "targets": [
         {
-          "expr": "upsEstimatedChargeRemaining{instance=\"$instance\"}",
+          "expr": "upsEstimatedChargeRemaining{job=\"$job\"}",
           "format": "table",
           "intervalFactor": 1,
           "refId": "A",
@@ -291,7 +291,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "upsEstimatedMinutesRemaining{instance=\"$instance\"}",
+          "expr": "upsEstimatedMinutesRemaining{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -373,7 +373,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "upsSecondsOnBattery{instance=\"$instance\"}*60",
+          "expr": "upsSecondsOnBattery{job=\"$job\"}*60",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -456,7 +456,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "upsBatteryTemperature{instance=\"$instance\"}",
+          "expr": "upsBatteryTemperature{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -521,7 +521,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "upsInputVoltage{instance=\"$instance\"}",
+          "expr": "upsInputVoltage{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Line Input",
@@ -529,7 +529,7 @@
           "step": 60
         },
         {
-          "expr": "upsOutputVoltage{instance=\"$instance\"}",
+          "expr": "upsOutputVoltage{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Output",
@@ -622,7 +622,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "upsInputFrequency{instance=\"$instance\"}",
+          "expr": "upsInputFrequency{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Input",
@@ -630,7 +630,7 @@
           "step": 60
         },
         {
-          "expr": "upsOutputFrequency{instance=\"$instance\"}",
+          "expr": "upsOutputFrequency{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Output",
@@ -722,7 +722,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "upsOutputCurrent{instance=\"$instance\"}",
+          "expr": "upsOutputCurrent{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Current",
@@ -814,7 +814,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "upsBatteryVoltage{instance=\"$instance\"}",
+          "expr": "upsBatteryVoltage{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Voltage",
@@ -905,7 +905,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "upsBypassCurrent{instance=\"$instance\"}",
+          "expr": "upsBypassCurrent{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Current",
@@ -996,7 +996,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "upsOutputCurrent{instance=\"$instance\"}",
+          "expr": "upsOutputCurrent{job=\"$job\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Current",
