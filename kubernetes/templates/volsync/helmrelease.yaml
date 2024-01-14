@@ -46,7 +46,7 @@ spec:
             ]
             image: &image
               repository: docker.io/restic/restic
-              tag: 0.16.2
+              tag: 0.16.3
             envFrom:
               - secretRef:
                   name: "${APP}-volsync-minio-secret"
