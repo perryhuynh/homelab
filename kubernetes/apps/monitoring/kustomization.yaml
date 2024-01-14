@@ -13,6 +13,7 @@ resources:
   - ./loki/ks.yaml
   - ./node-problem-detector/ks.yaml
   - ./smartctl-exporter/ks.yaml
+  - ./snmp-exporter/ks.yaml
   - ./speedtest-exporter/ks.yaml
   - ./thanos/ks.yaml
   - ./vector/ks.yaml
