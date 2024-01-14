@@ -7,9 +7,9 @@ resources:
   - ./helmrelease.yaml
   - ./prometheusrule.yaml
 configMapGenerator:
-  - name: apc-ups-dashboard
+  - name: ups-dashboard
     files:
-      - apc-ups-dashboard.json=./dashboard.json
+      - ups-dashboard.json=./dashboard.json
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
