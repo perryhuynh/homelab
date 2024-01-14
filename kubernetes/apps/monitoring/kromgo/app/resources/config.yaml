@@ -1,6 +1,14 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/kashalls/kromgo/main/config.schema.json
 metrics:
+  - name: cluster_power_usage
+    query: round((upsOutputCurrent * upsOutputVoltage) * 0.1, 0.1)
+    suffix: "w"
+    colors:
+      - { color: "green", min: 0, max: 400 }
+      - { color: "orange", min: 401, max: 750 }
+      - { color: "red", min: 751, max: 9999 }
+
   - name: cluster_node_count
     query: count(count by (node) (kube_node_status_condition{kubernetes_node=~"[A-Za-z-]+", status="true"}))
 
