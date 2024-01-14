@@ -68,7 +68,7 @@
       "pluginVersion": "6.6.2",
       "targets": [
         {
-          "expr": "0.1*upsHighPrecOutputLoad{instance=\"$instance\"}",
+          "expr": "upsOutputPercentLoad{instance=\"$instance\"}",
           "format": "table",
           "intervalFactor": 1,
           "refId": "A",
@@ -141,7 +141,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "0.01*upsHighPrecOutputCurrent{instance=\"$instance\"}*upsHighPrecOutputVoltage{instance=\"$instance\"}",
+          "expr": "0.1*upsOutputCurrent{instance=\"$instance\"}*upsOutputVoltage{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -218,7 +218,7 @@
       "pluginVersion": "6.6.2",
       "targets": [
         {
-          "expr": "0.1*upsHighPrecBatteryCapacity{instance=\"$instance\"}",
+          "expr": "upsEstimatedChargeRemaining{instance=\"$instance\"}",
           "format": "table",
           "intervalFactor": 1,
           "refId": "A",
@@ -291,7 +291,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "upsAdvBatteryRunTimeRemaining{instance=\"$instance\"}/60/100",
+          "expr": "upsEstimatedMinutesRemaining{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -373,7 +373,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "upsBasicBatteryTimeOnBattery{instance=\"$instance\"}/60/100",
+          "expr": "upsSecondsOnBattery{instance=\"$instance\"}*60",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -456,7 +456,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "0.1*upsHighPrecBatteryTemperature{instance=\"$instance\"}",
+          "expr": "upsBatteryTemperature{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -521,7 +521,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "0.1*upsHighPrecInputLineVoltage{instance=\"$instance\"}",
+          "expr": "upsInputVoltage{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Line Input",
@@ -529,7 +529,7 @@
           "step": 60
         },
         {
-          "expr": "0.1*upsHighPrecOutputVoltage{instance=\"$instance\"}",
+          "expr": "upsOutputVoltage{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Output",
@@ -622,7 +622,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "0.1*upsHighPrecInputFrequency{instance=\"$instance\"}",
+          "expr": "upsInputFrequency{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Input",
@@ -630,7 +630,7 @@
           "step": 60
         },
         {
-          "expr": "0.1*upsHighPrecOutputFrequency{instance=\"$instance\"}",
+          "expr": "upsOutputFrequency{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Output",
@@ -722,7 +722,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "0.1*upsHighPrecOutputCurrent{instance=\"$instance\"}",
+          "expr": "upsOutputCurrent{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Current",
@@ -814,7 +814,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "0.1*upsHighPrecBatteryActualVoltage{instance=\"$instance\"}",
+          "expr": "upsBatteryVoltage{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Voltage",
@@ -905,7 +905,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "upsAdvOutputCurrent{instance=\"$instance\"}",
+          "expr": "upsBypassCurrent{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Current",
@@ -996,7 +996,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "upsHighPrecOutputCurrent{instance=\"$instance\"}",
+          "expr": "upsOutputCurrent{instance=\"$instance\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Current",
@@ -1059,14 +1059,14 @@
           "value": "192.168.1.160"
         },
         "datasource": "Prometheus",
-        "definition": "label_values(upsCommStatus,instance)",
+        "definition": "label_values(upsIdentModel,instance)",
         "hide": 0,
         "includeAll": false,
         "label": "Device",
         "multi": false,
         "name": "instance",
         "options": [],
-        "query": "label_values(upsCommStatus,instance)",
+        "query": "label_values(upsIdentModel,instance)",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -1099,7 +1099,7 @@
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
-  "title": "APC Smart UPS 1500",
+  "title": "APC SRT1500RMXLA UPS",
   "uid": "000000012",
   "version": 9
 }
