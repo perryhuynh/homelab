@@ -81,7 +81,7 @@ spec:
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.perryhuynh.com"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   name: main
@@ -89,6 +89,15 @@ spec:
         tls:
           - hosts:
               - *host
+      tailscale:
+        enabled: true
+        className: tailscale
+        hosts:
+          - host: {{ .Release.Name }}
+            paths: *paths
+        tls:
+          - hosts:
+              - {{ .Release.Name }}
     persistence:
       config:
         enabled: true
