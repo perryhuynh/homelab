@@ -380,7 +380,8 @@ spec:
           datasource: Prometheus
         qbittorrent:
           url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
-          datasource: Prometheus
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         radarr:
           # renovate: depName="Radarr v3"
           gnetId: 12896
