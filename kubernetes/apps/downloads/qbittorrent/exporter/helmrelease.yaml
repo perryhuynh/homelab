@@ -36,7 +36,8 @@ spec:
           main:
             image:
               repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
-              tag: v1.4.0@sha256:332695b34a532758ae6abef342ba537d6cd61cf1bec01c2bc31bd45955562a33
+              # TODO: switch back to semver after new release tag is fixed
+              tag: master@ sha256:b6df01f2d6ec1574978b19bc1ba5ae70e621ef92f1149d1f7fbca6bcb31f1f3b
             env:
               EXPORTER_PORT: &port 80
               QBITTORRENT_HOST: qbittorrent.downloads.svc.cluster.local
