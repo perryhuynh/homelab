@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: media-browser
+  name: &app filebrowser
 spec:
   interval: 30m
   chart:
@@ -81,7 +81,7 @@ spec:
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.perryhuynh.com"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   name: main
@@ -89,10 +89,19 @@ spec:
         tls:
           - hosts:
               - *host
+      tailscale:
+        enabled: true
+        className: tailscale
+        hosts:
+          - host: *app
+            paths: *paths
+        tls:
+          - hosts:
+              - *app
     persistence:
       config:
         enabled: true
-        existingClaim: media-browser
+        existingClaim: filebrowser
       media:
         type: nfs
         path: /mnt/tank/media/library
