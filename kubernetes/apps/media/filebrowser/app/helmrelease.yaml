@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: media-browser
+  name: filebrowser
 spec:
   interval: 30m
   chart:
@@ -101,7 +101,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: media-browser
+        existingClaim: filebrowser
       media:
         type: nfs
         path: /mnt/tank/media/library

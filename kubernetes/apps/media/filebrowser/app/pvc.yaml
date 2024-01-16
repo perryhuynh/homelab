@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: media-browser
+  name: filebrowser
 spec:
   accessModes: ["ReadWriteMany"]
   resources:
