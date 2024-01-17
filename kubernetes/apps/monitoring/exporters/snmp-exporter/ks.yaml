@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/monitoring/snmp-exporter/app
+  path: ./kubernetes/apps/monitoring/exporters/snmp-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository
