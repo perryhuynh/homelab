@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: nextdns-exporter
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            envFrom:
+              - secretRef:
+                  name: nextdns-exporter-secret
+            image:
+              repository: ghcr.io/raylas/nextdns-exporter
+              tag: 0.5.3@sha256:f839fb4f4c623a319ff54c03948c6477c4be453265c6d7b167be1994fe52d2cf
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 5m
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+    service:
+      main:
+        ports:
+          http:
+            port: 9948
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 60m
+            scrapeTimeout: 5m
