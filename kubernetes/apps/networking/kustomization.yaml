@@ -11,3 +11,4 @@ resources:
   - ./multus/ks.yaml
   - ./nginx/ks.yaml
   - ./tailscale-operator/ks.yaml
+  - ./unifi/ks.yaml
