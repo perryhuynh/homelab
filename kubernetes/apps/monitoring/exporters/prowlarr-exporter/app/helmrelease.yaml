@@ -42,7 +42,7 @@ spec:
             env:
               API_KEY:
                 secretKeyRef:
-                  name: prowlarr-secret
+                  name: prowlarr-exporter-secret
                   key: PROWLARR__API_KEY
               URL: http://prowlarr.downloads.svc.cluster.local
               PORT: &port 80
