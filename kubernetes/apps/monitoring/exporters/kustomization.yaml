@@ -6,6 +6,10 @@ resources:
   - ./graphite-exporter/ks.yaml
   - ./nextdns-exporter/ks.yaml
   - ./overseerr-exporter/ks.yaml
+  - ./prowlarr-exporter/ks.yaml
+  - ./qbittorrent-exporter/ks.yaml
+  - ./radarr-exporter/ks.yaml
   - ./smartctl-exporter/ks.yaml
+  - ./sonarr-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
   - ./speedtest-exporter/ks.yaml
