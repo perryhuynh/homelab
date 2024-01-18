@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/monitoring/graphite-exporter/app
+  path: ./kubernetes/apps/monitoring/exporters/graphite-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository
