@@ -58,7 +58,6 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-            supplementalGroups: [44, 105, 65532]
         pod:
           annotations:
             k8s.v1.cni.cncf.io/networks: |
@@ -86,6 +85,7 @@ spec:
             runAsNonRoot: true
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
+            supplementalGroups: [44, 105, 65532]
     ingress:
       main:
         enabled: true
