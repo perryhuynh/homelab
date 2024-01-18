@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./graphite-exporter/ks.yaml
   - ./nextdns-exporter/ks.yaml
+  - ./overseerr-exporter/ks.yaml
   - ./smartctl-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
   - ./speedtest-exporter/ks.yaml
