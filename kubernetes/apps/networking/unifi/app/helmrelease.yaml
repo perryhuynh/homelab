@@ -65,9 +65,10 @@ spec:
           - path: /unifi
     service:
       main:
+        annotations:
+          io.cilium/lb-ipam-ips: ${SECRET_UNIFI_IP}
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: ${SECRET_UNIFI_IP}
         ports:
           http:
             port: 8443
