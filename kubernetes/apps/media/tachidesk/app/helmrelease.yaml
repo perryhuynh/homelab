@@ -38,7 +38,7 @@ spec:
           main:
             image:
               repository: ghcr.io/suwayomi/tachidesk
-              tag: v0.7.0-r1461@sha256:6efd526cd592dd408cac774fb1d9581728db8c6a88d5f1d7b6941ec285da3004
+              tag: v0.7.0-r1461@sha256:30eecd37463cf2aa5031dd654c01464f8c08feca08c1b97f03f4a21bbdcf6669
             env:
               BIND_PORT: &port 80
               DEBUG: true
