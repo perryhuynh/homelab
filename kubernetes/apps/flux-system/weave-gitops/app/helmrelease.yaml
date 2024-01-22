@@ -24,6 +24,9 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: authelia
+      namespace: security
   values:
     adminUser:
       create: true
