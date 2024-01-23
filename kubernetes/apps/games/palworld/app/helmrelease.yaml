@@ -43,7 +43,7 @@ spec:
               PGID: 568
             probes:
               liveness: &probes
-                type: UDP
+                enabled: false
               readiness: *probes
               startup: *probes
             resources:
