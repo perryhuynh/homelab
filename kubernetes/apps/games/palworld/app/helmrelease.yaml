@@ -50,9 +50,9 @@ spec:
               startup: *probes
             resources:
               limits:
-                memory: 8Gi
+                memory: 16Gi
               requests:
-                cpu: 100m
+                cpu: 500m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
