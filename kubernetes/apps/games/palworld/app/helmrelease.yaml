@@ -35,7 +35,7 @@ spec:
         containers:
           main:
             image:
-              repository: docker.io/jammsen/palworld-dedicated-server:latest
+              repository: docker.io/jammsen/palworld-dedicated-server
               tag: latest@sha256:8f21d19cfb6ce1f508b9d5fc39f3158aa965cf1405422076b56878b4657191e0sha256:8f21d19cfb6ce1f508b9d5fc39f3158aa965cf1405422076b56878b4657191e0
             env:
               TIMEZONE: America/Los_Angeles
