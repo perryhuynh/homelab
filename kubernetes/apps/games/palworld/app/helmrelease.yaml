@@ -54,7 +54,6 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
           securityContext:
@@ -70,6 +69,8 @@ spec:
         existingClaim: palworld
         globalMounts:
           - path: /palworld
+      tmp:
+        type: emptyDir
     service:
       main:
         annotations:
