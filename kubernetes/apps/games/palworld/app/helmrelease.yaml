@@ -36,7 +36,7 @@ spec:
           main:
             image:
               repository: docker.io/jammsen/palworld-dedicated-server
-              tag: latest@sha256:8f21d19cfb6ce1f508b9d5fc39f3158aa965cf1405422076b56878b4657191e0
+              tag: latest@sha256:59e72905b9eb029167051f607b3be5c25e69f087a428960287beade9649d7e70
             env:
               SERVER_NAME: cloud
               COMMUNITY_SERVER: false
