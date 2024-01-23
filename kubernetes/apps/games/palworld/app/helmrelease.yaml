@@ -35,10 +35,11 @@ spec:
         containers:
           main:
             image:
-              repository: docker.io/jammsen/palworld-dedicated-server
-              tag: latest@sha256:8f21d19cfb6ce1f508b9d5fc39f3158aa965cf1405422076b56878b4657191e0
+              repository: ghcr.io/jammsen/docker-palworld-dedicated-server
+              tag: master@sha256:fda37d8eb468faf1aa36f55bf735acdc50404d3e56171d3c812781ce240627ae
             env:
-              SERVER_NAME: cloud
+              SERVER_NAME: "Perry"
+              SERVER_DESCRIPTION: "Perry's Server"
               COMMUNITY_SERVER: false
             envFrom:
               - secretRef:
