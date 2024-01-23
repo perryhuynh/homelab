@@ -41,6 +41,11 @@ spec:
               TIMEZONE: America/Los_Angeles
               PUID: 568
               PGID: 568
+            probes:
+              liveness: &probes
+                type: UDP
+              readiness: *probes
+              startup: *probes
             resources:
               limits:
                 memory: 8Gi
