@@ -1,0 +1,85 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: palworld
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+    - name: volsync
+      namespace: storage
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: docker.io/jammsen/palworld-dedicated-server
+              tag: latest@sha256:8f21d19cfb6ce1f508b9d5fc39f3158aa965cf1405422076b56878b4657191e0
+            env:
+              TIMEZONE: America/Los_Angeles
+              PUID: 568
+              PGID: 568
+            probes:
+              liveness: &probes
+                enabled: false
+              readiness: *probes
+              startup: *probes
+            resources:
+              limits:
+                memory: 8Gi
+              requests:
+                cpu: 100m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+        pod:
+          automountServiceAccountToken: false
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsNonRoot: true
+            runAsUser: 568
+            seccompProfile: { type: RuntimeDefault }
+    persistence:
+      config:
+        enabled: true
+        existingClaim: palworld
+        globalMounts:
+          - path: /palworld
+    service:
+      main:
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.1.252
+        ports:
+          http:
+            enabled: false
+          game:
+            protocol: UDP
+            port: 8211
+          rcon:
+            port: 25575
+        type: LoadBalancer
