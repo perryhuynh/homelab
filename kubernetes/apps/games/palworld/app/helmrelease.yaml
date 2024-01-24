@@ -51,7 +51,7 @@ spec:
               startup: *probes
             resources:
               limits:
-                memory: 32Gi
+                memory: 24Gi
               requests:
                 cpu: 500m
             securityContext:
