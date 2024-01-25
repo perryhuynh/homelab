@@ -36,7 +36,7 @@ spec:
           main:
             image:
               repository: ghcr.io/jammsen/docker-palworld-dedicated-server
-              tag: master@sha256:499a58017004c6cb1ac5f0bb793a1baed67f32caa98c7ce140186aa36afa2ab8
+              tag: master@sha256:2991769b2de9716c51a0a849ccfdf391bf02b3126d88c4acfcc15ac0be21d2b7
             env:
               SERVER_NAME: "Perry"
               SERVER_DESCRIPTION: "Perry's Server"
