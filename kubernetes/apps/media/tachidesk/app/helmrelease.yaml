@@ -50,7 +50,7 @@ spec:
               WEB_UI_CHANNEL: "preview"
             resources:
               limits:
-                memory: 6Gi
+                memory: 4Gi
               requests:
                 cpu: 25m
             securityContext:
@@ -72,10 +72,9 @@ spec:
               - "/config/.vscode"
             resources:
               limits:
-                memory: 1Gi
+                memory: 256Mi
               requests:
                 cpu: 10m
-                memory: 1Gi
         pod:
           automountServiceAccountToken: false
           securityContext:
