@@ -71,7 +71,7 @@ spec:
                 # enabled: false
             resources:
               limits:
-                memory: 2Gi
+                memory: 1Gi
               requests:
                 cpu: 25m
             securityContext: &securityContext
@@ -94,10 +94,9 @@ spec:
               - "/config/.vscode"
             resources:
               limits:
-                memory: 1Gi
+                memory: 256Mi
               requests:
                 cpu: 10m
-                memory: 1Gi
         pod:
           annotations:
             k8s.v1.cni.cncf.io/networks: |

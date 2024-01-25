@@ -87,7 +87,7 @@ spec:
                 enabled: false
             resources:
               limits:
-                memory: 2Gi
+                memory: 1Gi
               requests:
                 cpu: 25m
             securityContext:
