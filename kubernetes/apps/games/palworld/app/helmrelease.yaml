@@ -50,6 +50,7 @@ spec:
               PAL_CAPTURE_RATE: "1.500000"
               PAL_EGG_DEFAULT_HATCHING_TIME: "1.000000"
               PUBLIC_IP: "palworld.perryhuynh.com"
+              RCON_ENABLED: true
               SERVER_DESCRIPTION: "Perry's Server"
               SERVER_NAME: "Perry"
               SERVER_SETTINGS_MODE: "auto"
