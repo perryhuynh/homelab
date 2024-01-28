@@ -51,8 +51,7 @@ spec:
               "-e",
               "palworld",
               "command",
-              "broadcast",
-              "test"
+              "Broadcast test"
             ]
             resources:
               limits:
