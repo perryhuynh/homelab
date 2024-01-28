@@ -34,7 +34,7 @@ spec:
           reloader.stakater.com/auto: "true"
         type: cronjob
         cronjob:
-          schedule: "* * * * *"
+          schedule: "0 */8 * * *"
           timeZone: America/Los_Angeles
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
@@ -51,7 +51,7 @@ spec:
               "-e",
               "palworld",
               "command",
-              "Broadcast test"
+              "/Shutdown 300 The server is automatically restarted"
             ]
             resources:
               limits:
