@@ -41,6 +41,7 @@ spec:
               tag: master@sha256:92859247b710c93c876a5f07c0b75990aad9fd79706ccb60b37caeec56c9d585
             env:
               BASE_CAMP_WORKER_MAXNUM: "20"
+              DEATH_PENALTY: "None"
               COMMUNITY_SERVER: false
               EXIST_PLAYER_AFTER_LOGOUT: true
               EXP_RATE: "1.300000"
@@ -53,7 +54,7 @@ spec:
               SERVER_NAME: "Perry"
               SERVER_SETTINGS_MODE: "auto"
               TZ: "America/Los_Angeles"
-              WORK_SPEED_RATE: "WorkSpeedRate: 1.500000"
+              WORK_SPEED_RATE: "1.500000"
             envFrom:
               - secretRef:
                   name: palworld-secret
