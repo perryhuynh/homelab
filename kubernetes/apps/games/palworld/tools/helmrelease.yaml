@@ -51,7 +51,7 @@ spec:
               "-e",
               "palworld",
               "command",
-              "/Shutdown 300 The server is automatically restarted"
+              "Shutdown 300 The server is automatically restarted"
             ]
             resources:
               limits:
