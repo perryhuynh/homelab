@@ -1,0 +1,4 @@
+---
+palworld:
+  address: "palworld.games.svc.cluster.local:25575"
+  password: "{{ .ADMIN_PASSWORD }}"
