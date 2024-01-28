@@ -44,7 +44,7 @@ spec:
             image:
               repository: docker.io/outdead/rcon
               tag: latest@sha256:8bf03935771ae6b44449eb8e74e1f4d249ead591e9c1e4e43539d33be1a3ac67
-            command: ["./palworld"]
+            command: ["./rcon"]
             args: [
               "-c",
               "/config/rcon.yaml",
