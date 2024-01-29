@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/monitoring/palworld-exporter/app
+  path: ./kubernetes/apps/monitoring/exporters/palworld-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository
