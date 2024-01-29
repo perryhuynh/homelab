@@ -38,8 +38,10 @@ spec:
               repository: ghcr.io/galexrt/srcds_exporter
               tag: v1.6.0@sha256:55d931cfa593ec6a200809634483921a577899aafe60dd6b6757238337f14a0b
             args: [
-              "--config.file /config/srcds.yaml",
-              "--collectors.enabled playercount"
+              "--config.file",
+              "/config/srcds.yaml",
+              "--collectors.enabled",
+              "playercount"
             ]
             resources:
               limits:
