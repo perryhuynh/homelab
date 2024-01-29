@@ -41,7 +41,6 @@ spec:
               tag: master@sha256:92859247b710c93c876a5f07c0b75990aad9fd79706ccb60b37caeec56c9d585
             env:
               # General Setings
-              BACKUP_ENABLED: false
               COMMUNITY_SERVER: false
               SERVER_SETTINGS_MODE: "auto"
               TZ: "America/Los_Angeles"
@@ -89,12 +88,7 @@ spec:
         enabled: true
         existingClaim: palworld
         globalMounts:
-          - path: /palworld/Pal/Saved/
-      steam-cache:
-        enabled: true
-        existingClaim: palworld-cache
-        globalMounts:
-          - path: /palworld/
+          - path: /palworld
       tmp:
         type: emptyDir
     service:
