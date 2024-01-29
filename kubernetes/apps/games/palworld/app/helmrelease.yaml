@@ -40,9 +40,13 @@ spec:
               repository: ghcr.io/jammsen/docker-palworld-dedicated-server
               tag: master@sha256:92859247b710c93c876a5f07c0b75990aad9fd79706ccb60b37caeec56c9d585
             env:
+              # General Setings
+              COMMUNITY_SERVER: false
+              SERVER_SETTINGS_MODE: "auto"
+              TZ: "America/Los_Angeles"
+              # Palworld Settings
               BASE_CAMP_WORKER_MAXNUM: "20"
               DEATH_PENALTY: "None"
-              COMMUNITY_SERVER: false
               EXIST_PLAYER_AFTER_LOGOUT: true
               EXP_RATE: "1.300000"
               PAL_AUTO_HP_REGENE_RATE: "10.000000"
@@ -53,8 +57,6 @@ spec:
               RCON_ENABLED: true
               SERVER_DESCRIPTION: "Perry's Server"
               SERVER_NAME: "Perry"
-              SERVER_SETTINGS_MODE: "auto"
-              TZ: "America/Los_Angeles"
               WORK_SPEED_RATE: "1.500000"
             envFrom:
               - secretRef:
