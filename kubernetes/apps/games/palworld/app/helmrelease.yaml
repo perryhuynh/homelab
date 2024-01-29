@@ -89,6 +89,13 @@ spec:
         existingClaim: palworld
         globalMounts:
           - path: /palworld
+      cache:
+        config:
+        enabled: true
+        existingClaim: palworld-cache
+        globalMounts:
+          - path: /palworld/Pal/Binaries
+          - path: /palworld/Pal/Content
       tmp:
         type: emptyDir
     service:
