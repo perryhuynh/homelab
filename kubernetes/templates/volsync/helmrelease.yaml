@@ -29,8 +29,6 @@ spec:
       main:
         enabled: false
       minio:
-        annotations:
-          kyverno.io/suspend-cronjob: "true"
         type: cronjob
         cronjob: &cronjobSpec
           schedule: "* * 31 2 *"
@@ -51,8 +49,6 @@ spec:
               - secretRef:
                   name: "${APP}-volsync-minio-secret"
       r2:
-        annotations:
-          kyverno.io/suspend-cronjob: "true"
         type: cronjob
         cronjob: *cronjobSpec
         containers:
@@ -65,3 +61,18 @@ spec:
     service:
       main:
         enabled: false
+  postRenderers:
+    - kustomize:
+        patchesStrategicMerge:
+          - apiVersion: apps/v1
+            kind: CronJob
+            metadata:
+              name: ${APP}-restic-unlock-minio
+            spec:
+              suspend: true
+          - apiVersion: apps/v1
+            kind: CronJob
+            metadata:
+              name: ${APP}-restic-unlock-r2
+            spec:
+              suspend: true
