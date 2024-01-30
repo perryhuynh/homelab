@@ -63,16 +63,12 @@ spec:
         enabled: false
   postRenderers:
     - kustomize:
-        patchesStrategicMerge:
-          - apiVersion: apps/v1
-            kind: CronJob
-            metadata:
-              name: ${APP}-restic-unlock-minio
-            spec:
-              suspend: true
-          - apiVersion: apps/v1
-            kind: CronJob
-            metadata:
-              name: ${APP}-restic-unlock-r2
-            spec:
-              suspend: true
+        patches:
+          - target:
+              version: v1
+              kind: ConfigMap
+            patch: |-
+              apiVersion: v1
+              kind: CronJob
+              spec:
+                suspend: true
