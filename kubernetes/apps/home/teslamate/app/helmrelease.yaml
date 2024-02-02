@@ -52,7 +52,7 @@ spec:
             envFrom: *envFrom
             image:
               repository: docker.io/teslamate/teslamate
-              tag: 1.28.2@sha256:347aa9d7bc5126cde0456979569d432dd38242579445054a5bde3f70540ba1ce
+              tag: 1.28.3@sha256:56fc36f2f5113d172ec85e17f6e6a8f1c1d44c5d46bc9a6605bb078dbfe2d63b
             probes:
               liveness: &probes
                 enabled: true
