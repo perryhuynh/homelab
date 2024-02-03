@@ -23,8 +23,9 @@ spec:
     substitute:
       APP: *app
       GATUS_PATH: /web/index.html
+      MINIO_SCHEDULE: "0 */6 * * *"
       # Runs at 01:00 PST / 09:00 UTC because volsync container runs in UTC
-      MINIO_SCHEDULE: "0 9 * * *"
+      R2_SCHEDULE: "0 9 * * *"
       VOLSYNC_CAPACITY: 50Gi
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
