@@ -41,7 +41,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/prowlarr-develop
-              tag: 1.13.0.4217@sha256:f4c7f70558873324c7df0151587dfe353221a2cc7f9daddd794c31e93f63e791
+              tag: 1.13.2.4251@sha256:4bf3b88cadffb3cd0720f6be33d1bdad6188b431807e93478b1d97a84880eb9d
             env:
               # https://github.com/Radarr/Radarr/issues/7030#issuecomment-1039689518
               # https://github.com/dotnet/runtime/issues/9336
