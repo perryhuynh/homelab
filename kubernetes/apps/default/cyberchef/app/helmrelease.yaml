@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: docker.io/mpepping/cyberchef
-              tag: v10.5.2@sha256:2199784d0b820b94d3df749bc8f9092887886af10e4f15466dae1c29356ef2e5
+              tag: v10.6.0@sha256:d82e811e6713c6e6f31176596f7f3a9171f71c60524c07b8c21de4a52f266691
             env:
               TZ: "America/Los_Angeles"
             probes:
