@@ -50,7 +50,6 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
-        replicas: 2
         strategy: RollingUpdate
     persistence:
       tmp:
