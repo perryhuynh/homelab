@@ -46,7 +46,7 @@ spec:
               TZ: "America/Los_Angeles"
               # Palworld Settings
               BASE_CAMP_WORKER_MAXNUM: "20"
-              COLLECTION_OBJECT_RESPAWN_SPEED_RATE: "2.000000"
+              COLLECTION_OBJECT_RESPAWN_SPEED_RATE: "0.500000"
               DEATH_PENALTY: "None"
               EXIST_PLAYER_AFTER_LOGOUT: true
               EXP_RATE: "1.300000"
