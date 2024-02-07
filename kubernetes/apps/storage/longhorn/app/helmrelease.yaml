@@ -26,8 +26,6 @@ spec:
     keepHistory: false
   values:
     defaultSettings:
-      backupTarget: s3://swear-capitol-ferris-gently@us-west-004/
-      backupTargetCredentialSecret: longhorn-secret
       backupstorePollInterval: 0
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
       defaultDataPath: /var/lib/rancher/k3s/longhorn
