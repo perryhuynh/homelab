@@ -48,6 +48,7 @@ spec:
               BASE_CAMP_WORKER_MAXNUM: "20"
               COLLECTION_OBJECT_RESPAWN_SPEED_RATE: "0.500000"
               DEATH_PENALTY: "None"
+              ENABLE_NON_LOGIN_PENALTY: false
               EXIST_PLAYER_AFTER_LOGOUT: true
               EXP_RATE: "1.300000"
               PAL_AUTO_HP_REGENE_RATE: "10.000000"
