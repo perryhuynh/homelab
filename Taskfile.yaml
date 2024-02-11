@@ -21,7 +21,9 @@ includes:
 
 tasks:
 
-  default: task -l
+  default:
+    silent: true
+    cmd: task -l
 
   venv:
     desc: Create a Python virtual env and install required packages
@@ -31,3 +33,8 @@ tasks:
       - .venv/bin/python3 -m pip install --upgrade pip setuptools wheel
       - .venv/bin/python3 -m pip install --upgrade --requirement "{{.ROOT_DIR}}/requirements.txt"
       - .venv/bin/ansible-galaxy install --role-file "{{.ROOT_DIR}}/requirements.yaml" --force
+    sources:
+      - "{{.ROOT_DIR}}/requirements.txt"
+      - "{{.ROOT_DIR}}/requirements.yaml"
+    generates:
+      - "{{.ROOT_DIR}}/.venv/pyenv.cfg"
