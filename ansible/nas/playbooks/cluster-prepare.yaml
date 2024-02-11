@@ -1,0 +1,66 @@
+---
+- name: Prepare System
+  hosts: kubernetes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  pre_tasks:
+    - name: Pausing for 5 seconds...
+      ansible.builtin.pause:
+        seconds: 5
+    - name: Populate service facts
+      ansible.builtin.service_facts:
+  tasks:
+    - name: Packages
+      block:
+        - name: Packages | Install
+          ansible.builtin.apt:
+            name: apt-transport-https,ca-certificates,containernetworking-plugins,curl,ffmpeg,figlet,fish,fzf,gettext,git,htop,ifenslave,iputils-ping,net-tools,lolcat,mailutils,msmtp,msmtp-mta,nano,neofetch,ntpdate,podman,psmisc,python3-kubernetes,python3-yaml,rclone,software-properties-common,tmux,tree,uidmap,unzip,zfs-zed,zfsutils-linux,dmraid,gdisk,hdparm,lvm2,nfs-common,nfs-kernel-server,nvme-cli,open-iscsi,samba,samba-vfs-modules,smartmontools,socat
+            install_recommends: false
+
+    - name: Fish
+      block:
+        - name: Fish | Add fish apt key
+          ansible.builtin.get_url:
+            url: https://download.opensuse.org/repositories/shells:fish:release:3/Debian_12/Release.key
+            dest: /etc/apt/trusted.gpg.d/fish.asc
+            owner: root
+            group: root
+            mode: "0644"
+        - name: Fish | Add fish repository
+          ansible.builtin.apt_repository:
+            repo: deb [signed-by=/etc/apt/trusted.gpg.d/fish.asc] http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/ /
+            filename: fish
+            update_cache: true
+        - name: Fish | Install fish
+          ansible.builtin.apt:
+            name: fish
+            install_recommends: false
+        - name: Fish | Set as default shell
+          ansible.builtin.user:
+            name: "{{ ansible_user }}"
+            shell: /usr/bin/fish
+        - name: Fish | Create configuration directory
+          ansible.builtin.file:
+            path: "{{ '/home/' + ansible_user if ansible_user != 'root' else '/root' }}/.config/fish/functions"
+            state: directory
+            owner: "{{ ansible_user }}"
+            group: "{{ ansible_user }}"
+            recurse: true
+        - name: Fish | Create neofetch greeting
+          ansible.builtin.copy:
+            dest: "{{ '/home/' + ansible_user if ansible_user != 'root' else '/root' }}/.config/fish/functions/fish_greeting.fish"
+            owner: "{{ ansible_user }}"
+            group: "{{ ansible_user }}"
+            mode: "0755"
+            content: neofetch --config none
+        - name: Fish | Create kubectl shorthand
+          ansible.builtin.copy:
+            dest: "{{ '/home/' + ansible_user if ansible_user != 'root' else '/root' }}/.config/fish/functions/k.fish"
+            owner: "{{ ansible_user }}"
+            group: "{{ ansible_user }}"
+            mode: "0755"
+            content: |
+              function k --wraps=kubectl --description 'kubectl shorthand'
+                  kubectl $argv
+              end
