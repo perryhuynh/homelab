@@ -13,6 +13,7 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
+    - name: multus-config
   path: ./kubernetes/apps/home/home-assistant/app
   prune: true
   sourceRef:
