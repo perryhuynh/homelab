@@ -43,6 +43,8 @@ spec:
               # General Setings
               COMMUNITY_SERVER: false
               SERVER_SETTINGS_MODE: "auto"
+              PGID: 1000
+              PUID: 1000
               TZ: "America/Los_Angeles"
               # Palworld Settings
               BASE_CAMP_WORKER_MAXNUM: "20"
