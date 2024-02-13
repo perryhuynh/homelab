@@ -98,6 +98,8 @@ spec:
         enabled: true
         existingClaim: palworld-cache
         globalMounts:
+          - path: /palworld/steamapps
+            subPath: steamapps
           - path: /palworld/Pal/Binaries
             subPath: binaries
           - path: /palworld/Pal/Content
