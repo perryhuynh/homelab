@@ -82,6 +82,9 @@ spec:
               tag: v1.3.0@sha256:333f95db3af8e761853d709ed14bc0e854cedff81274871e75c919667cf564c3
             env:
               SAVE_DIRECTORY: /palworld
+            envFrom:
+              - secretRef:
+                  name: palworld-secret
             resources:
               limits:
                 memory: 256Mi
