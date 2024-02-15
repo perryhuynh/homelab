@@ -202,6 +202,12 @@ spec:
           gnetId: 1860
           revision: 33
           datasource: Prometheus
+        palworld:
+          # renovate: depName="Palworld"
+          gnetId: 20421
+          revision: 3
+          datasource:
+            - { name: DS_PROMETHEUS, value: Prometheus }
         redis:
           # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
           gnetId: 763
