@@ -76,6 +76,20 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
+          exporter:
+            image:
+              repository: docker.io/bostrt/palworld-exporter
+              tag: v1.3.0@sha256:333f95db3af8e761853d709ed14bc0e854cedff81274871e75c919667cf564c3
+            env:
+              SAVE_DIRECTORY: /palworld
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 5m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
         pod:
           automountServiceAccountToken: false
           securityContext:
@@ -110,10 +124,13 @@ spec:
           io.cilium/lb-ipam-ips: 192.168.1.252
         ports:
           http:
-            enabled: false
+            port: 9877
           game:
             protocol: UDP
             port: 8211
           rcon:
             port: 25575
         type: LoadBalancer
+    serviceMonitor:
+      main:
+        enabled: true
