@@ -86,9 +86,6 @@ spec:
                 secretKeyRef:
                   name: palworld-secret
                   key: ADMIN_PASSWORD
-            envFrom:
-              - secretRef:
-                  name: palworld-secret
             resources:
               limits:
                 memory: 256Mi
