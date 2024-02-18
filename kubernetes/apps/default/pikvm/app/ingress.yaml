@@ -1,0 +1,28 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pikvm
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host pikvm.perryhuynh.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: pikvm
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/metrics"
+            backend:
+              service:
+                name: pikvm
+                port:
+                  number: 9100
+  tls:
+    - hosts:
+        - *host
