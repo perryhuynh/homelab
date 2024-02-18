@@ -27,24 +27,39 @@ spec:
     - hosts:
         - *host
 ---
-apiVersion: v1
-kind: Endpoints
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: pikvm
-subsets:
-  - addresses:
-      - ip: ${SECRET_PIKVM_IP:=temp}
-    ports:
-      - name: http
-        port: 80
-        protocol: TCP
-      - name: metrics
-        port: 9100
-        protocol: TCP
+  name: pikvm-tailscale
+spec:
+  ingressClassName: tailscale
+  rules:
+    - host: &host pikvm
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: pikvm
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/metrics"
+            backend:
+              service:
+                name: pikvm
+                port:
+                  number: 9100
+  tls:
+    - hosts:
+        - *host
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: pikvm.${SECRET_TAILNET_NAME}
   name: pikvm
 spec:
   ports:
@@ -52,4 +67,5 @@ spec:
       port: 80
     - name: metrics
       port: 9100
-  type: ClusterIP
+  externalName: placeholder
+  type: ExternalName
