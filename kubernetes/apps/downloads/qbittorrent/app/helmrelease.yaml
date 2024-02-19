@@ -60,7 +60,7 @@ spec:
             #     enabled: false
             resources:
               limits:
-                memory: 20Gi
+                memory: 16Gi
               requests:
                 cpu: 500m
             securityContext:
@@ -107,11 +107,6 @@ spec:
         enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
-        server: ${SECRET_NAS_IP:=temp}
-      nsfw:
-        enabled: true
-        type: nfs
-        path: /mnt/tank/nsfw
         server: ${SECRET_NAS_IP:=temp}
       incomplete:
         type: emptyDir

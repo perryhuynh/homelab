@@ -99,7 +99,6 @@ spec:
               "prune",
               "--exclude-category", "lidarr",
               "--exclude-category", "manual",
-              "--exclude-category", "nsfw",
               "--include-tag", "unregistered",
               # "--dry-run",
               "--server", "qbittorrent.downloads.svc.cluster.local",
