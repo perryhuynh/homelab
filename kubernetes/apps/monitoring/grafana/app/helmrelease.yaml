@@ -194,9 +194,6 @@ spec:
         miniflux:
           url: https://raw.githubusercontent.com/miniflux/v2/main/contrib/grafana/dashboard.json
           datasource: Prometheus
-        nextdns:
-          url: https://raw.githubusercontent.com/raylas/nextdns-exporter/main/grafana/dashboards/nextdns.json
-          datasource: Prometheus
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
