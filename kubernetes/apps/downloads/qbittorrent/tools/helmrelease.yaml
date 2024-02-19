@@ -56,8 +56,8 @@ spec:
             env: &env
               TZ: *timeZone
             image: &image
-              repository: ghcr.io/buroa/qbittools
-              tag: v0.11.0
+              repository: ghcr.io/buroa/qbtools
+              tag: v0.14.0@sha256:6008628a0005b8ed09d84d8e1110b4c84d1eba95aab59204377280883f65502b
             resources: &resources
               requests:
                 cpu: 10m
