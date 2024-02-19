@@ -73,7 +73,6 @@ spec:
                 memory: 512Mi
               requests:
                 cpu: 25m
-                memory: 256Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
@@ -109,7 +108,6 @@ spec:
                 memory: 256Mi
               requests:
                 cpu: 10m
-                memory: 128Mi
             securityContext:
               allowPrivilegeEscalation: false
         pod:
