@@ -1,8 +1,0 @@
----
-options:
-  connectTimeout: 5s
-  cacheExpiration: 20s
-  cacheCleanupInterval: 12s
-palworld:
-  address: "palworld.games.svc.cluster.local:25575"
-  rconPassword: "{{ .ADMIN_PASSWORD }}"
