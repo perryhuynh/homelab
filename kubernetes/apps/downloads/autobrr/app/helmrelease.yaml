@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: autobrr
+  name: &app autobrr
 spec:
   interval: 30m
   chart:
@@ -90,7 +90,7 @@ spec:
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.perryhuynh.com"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   name: main
@@ -98,6 +98,15 @@ spec:
         tls:
           - hosts:
               - *host
+      tailscale:
+        enabled: true
+        className: tailscale
+        hosts:
+          - host: *app
+            paths: *paths
+        tls:
+          - hosts:
+              - *app
     service:
       main:
         ports:
