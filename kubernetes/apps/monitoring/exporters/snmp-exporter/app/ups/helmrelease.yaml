@@ -41,6 +41,7 @@ spec:
       namespace: *namespace
       params:
         - name: ups-0
+          auth: public_v1
           module: ["rfc1628_ups"]
           target: ${SECRET_UPS_IP:=temp}
       path: /snmp
