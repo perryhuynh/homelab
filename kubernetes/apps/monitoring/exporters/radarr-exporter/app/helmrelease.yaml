@@ -38,7 +38,7 @@ spec:
               - "radarr"
             image:
               repository: ghcr.io/onedr0p/exportarr
-              tag: v1.6.1
+              tag: v1.6.2
             env:
               API_KEY:
                 secretKeyRef:
