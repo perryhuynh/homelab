@@ -38,7 +38,7 @@ spec:
           main:
             image:
               repository: ghcr.io/jammsen/docker-palworld-dedicated-server
-              tag: master@sha256:1677ec7ecf9f26a909248643507fbe04d81dfa03fed8baffcccda6e688b0df84
+              tag: master@sha256:efe60e9d4f246394b59723090875ed1a468745a2eb8f1ea0652cb43e943d68ef
             env:
               # General Setings
               COMMUNITY_SERVER: false
