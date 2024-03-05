@@ -10,6 +10,9 @@ configMapGenerator:
   - name: rfc1628-ups-dashboard
     files:
       - ups-dashboard.json=./resources/dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "true"
   - name: rfc1628-ups-configmap
     files:
       - snmp.yaml=./resources/snmp.yaml
@@ -17,5 +20,3 @@ generatorOptions:
   disableNameSuffixHash: true
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
-  labels:
-    grafana_dashboard: "true"
