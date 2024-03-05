@@ -7,9 +7,9 @@ resources:
   - ./helmrelease.yaml
   - ./prometheusrule.yaml
 configMapGenerator:
-  - name: ups-dashboard
+  - name: rfc1628-ups-dashboard
     files:
-      - ups-dashboard.json=./dashboard.json
+      - ups-dashboard.json=./resources/dashboard.json
   - name: rfc1628-ups-configmap
     files:
       - snmp.yaml=./resources/snmp.yaml
