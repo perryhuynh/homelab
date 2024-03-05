@@ -151,6 +151,7 @@ spec:
             # url: http://vmselect-victoria-metrics.monitoring.svc.cluster.local:8481/select/0/prometheus
             jsonData:
               prometheusType: Thanos # Prometheus for victoria-metrics
+              timeInterval: 1m
             isDefault: true
           - name: Loki
             type: loki
