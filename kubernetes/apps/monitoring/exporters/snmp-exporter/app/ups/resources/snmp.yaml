@@ -1006,4 +1006,3 @@ modules:
         type: gauge
         help: The maximum line voltage allowed before the UPS system transfers to battery
           backup. - 1.3.6.1.2.1.33.1.9.10
-    version: 1
