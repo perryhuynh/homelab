@@ -1,12 +1,17 @@
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: snmp-exporter-ups
-data:
-  snmp.yaml: |
-    rfc1628_ups:
-      walk:
+auths:
+  public_v1:
+    community: public
+    security_level: noAuthNoPriv
+    auth_protocol: MD5
+    priv_protocol: DES
+    version: 1
+
+modules:
+  rfc1628_ups:
+    retries: 5
+    timeout: 60s
+    walk:
       - 1.3.6.1.2.1.2
       - 1.3.6.1.2.1.33.1.1
       - 1.3.6.1.2.1.33.1.2
@@ -17,9 +22,9 @@ data:
       - 1.3.6.1.2.1.33.1.7
       - 1.3.6.1.2.1.33.1.8
       - 1.3.6.1.2.1.33.1.9
-      get:
+    get:
       - 1.3.6.1.2.1.1.3.0
-      metrics:
+    metrics:
       - name: sysUpTime
         oid: 1.3.6.1.2.1.1.3
         type: gauge
@@ -35,46 +40,46 @@ data:
         type: gauge
         help: A unique value, greater than zero, for each interface - 1.3.6.1.2.1.2.2.1.1
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifDescr
         oid: 1.3.6.1.2.1.2.2.1.2
         type: DisplayString
         help: A textual string containing information about the interface - 1.3.6.1.2.1.2.2.1.2
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifType
         oid: 1.3.6.1.2.1.2.2.1.3
         type: EnumAsInfo
         help: The type of interface - 1.3.6.1.2.1.2.2.1.3
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
         enum_values:
           1: other
           2: regular1822
@@ -374,61 +379,61 @@ data:
         help: The size of the largest packet which can be sent/received on the interface,
           specified in octets - 1.3.6.1.2.1.2.2.1.4
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifSpeed
         oid: 1.3.6.1.2.1.2.2.1.5
         type: gauge
         help: An estimate of the interface's current bandwidth in bits per second - 1.3.6.1.2.1.2.2.1.5
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifPhysAddress
         oid: 1.3.6.1.2.1.2.2.1.6
         type: PhysAddress48
         help: The interface's address at its protocol sub-layer - 1.3.6.1.2.1.2.2.1.6
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifAdminStatus
         oid: 1.3.6.1.2.1.2.2.1.7
         type: gauge
         help: The desired state of the interface - 1.3.6.1.2.1.2.2.1.7
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
         enum_values:
           1: up
           2: down
@@ -438,16 +443,16 @@ data:
         type: gauge
         help: The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
         enum_values:
           1: up
           2: down
@@ -462,32 +467,32 @@ data:
         help: The value of sysUpTime at the time the interface entered its current operational
           state - 1.3.6.1.2.1.2.2.1.9
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifInOctets
         oid: 1.3.6.1.2.1.2.2.1.10
         type: counter
         help: The total number of octets received on the interface, including framing
           characters - 1.3.6.1.2.1.2.2.1.10
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifInUcastPkts
         oid: 1.3.6.1.2.1.2.2.1.11
         type: counter
@@ -495,16 +500,16 @@ data:
           which were not addressed to a multicast or broadcast address at this sub-layer
           - 1.3.6.1.2.1.2.2.1.11
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifInNUcastPkts
         oid: 1.3.6.1.2.1.2.2.1.12
         type: counter
@@ -512,16 +517,16 @@ data:
           which were addressed to a multicast or broadcast address at this sub-layer -
           1.3.6.1.2.1.2.2.1.12
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifInDiscards
         oid: 1.3.6.1.2.1.2.2.1.13
         type: counter
@@ -529,64 +534,64 @@ data:
           no errors had been detected to prevent their being deliverable to a higher-layer
           protocol - 1.3.6.1.2.1.2.2.1.13
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifInErrors
         oid: 1.3.6.1.2.1.2.2.1.14
         type: counter
         help: For packet-oriented interfaces, the number of inbound packets that contained
           errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifInUnknownProtos
         oid: 1.3.6.1.2.1.2.2.1.15
         type: counter
         help: For packet-oriented interfaces, the number of packets received via the interface
           which were discarded because of an unknown or unsupported protocol - 1.3.6.1.2.1.2.2.1.15
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifOutOctets
         oid: 1.3.6.1.2.1.2.2.1.16
         type: counter
         help: The total number of octets transmitted out of the interface, including framing
           characters - 1.3.6.1.2.1.2.2.1.16
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifOutUcastPkts
         oid: 1.3.6.1.2.1.2.2.1.17
         type: counter
@@ -594,16 +599,16 @@ data:
           and which were not addressed to a multicast or broadcast address at this sub-layer,
           including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.17
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifOutNUcastPkts
         oid: 1.3.6.1.2.1.2.2.1.18
         type: counter
@@ -611,63 +616,63 @@ data:
           and which were addressed to a multicast or broadcast address at this sub-layer,
           including those that were discarded or not sent - 1.3.6.1.2.1.2.2.1.18
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifOutDiscards
         oid: 1.3.6.1.2.1.2.2.1.19
         type: counter
         help: The number of outbound packets which were chosen to be discarded even though
           no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifOutErrors
         oid: 1.3.6.1.2.1.2.2.1.20
         type: counter
         help: For packet-oriented interfaces, the number of outbound packets that could
           not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: ifOutQLen
         oid: 1.3.6.1.2.1.2.2.1.21
         type: gauge
         help: The length of the output packet queue (in packets). - 1.3.6.1.2.1.2.2.1.21
         indexes:
-        - labelname: ifIndex
-          type: gauge
+          - labelname: ifIndex
+            type: gauge
         lookups:
-        - labels:
-          - ifIndex
-          labelname: ifDescr
-          oid: 1.3.6.1.2.1.2.2.1.2
-          type: DisplayString
-        - labels: []
-          labelname: ifIndex
+          - labels:
+              - ifIndex
+            labelname: ifDescr
+            oid: 1.3.6.1.2.1.2.2.1.2
+            type: DisplayString
+          - labels: []
+            labelname: ifIndex
       - name: upsIdentManufacturer
         oid: 1.3.6.1.2.1.33.1.1.1
         type: DisplayString
@@ -746,36 +751,36 @@ data:
         type: gauge
         help: The input line identifier. - 1.3.6.1.2.1.33.1.3.3.1.1
         indexes:
-        - labelname: upsInputLineIndex
-          type: gauge
+          - labelname: upsInputLineIndex
+            type: gauge
       - name: upsInputFrequency
         oid: 1.3.6.1.2.1.33.1.3.3.1.2
         type: gauge
         help: The present input frequency. - 1.3.6.1.2.1.33.1.3.3.1.2
         indexes:
-        - labelname: upsInputLineIndex
-          type: gauge
+          - labelname: upsInputLineIndex
+            type: gauge
       - name: upsInputVoltage
         oid: 1.3.6.1.2.1.33.1.3.3.1.3
         type: gauge
         help: The magnitude of the present input voltage. - 1.3.6.1.2.1.33.1.3.3.1.3
         indexes:
-        - labelname: upsInputLineIndex
-          type: gauge
+          - labelname: upsInputLineIndex
+            type: gauge
       - name: upsInputCurrent
         oid: 1.3.6.1.2.1.33.1.3.3.1.4
         type: gauge
         help: The magnitude of the present input current. - 1.3.6.1.2.1.33.1.3.3.1.4
         indexes:
-        - labelname: upsInputLineIndex
-          type: gauge
+          - labelname: upsInputLineIndex
+            type: gauge
       - name: upsInputTruePower
         oid: 1.3.6.1.2.1.33.1.3.3.1.5
         type: gauge
         help: The magnitude of the present input true power. - 1.3.6.1.2.1.33.1.3.3.1.5
         indexes:
-        - labelname: upsInputLineIndex
-          type: gauge
+          - labelname: upsInputLineIndex
+            type: gauge
       - name: upsOutputSource
         oid: 1.3.6.1.2.1.33.1.4.1
         type: EnumAsStateSet
@@ -801,29 +806,29 @@ data:
         type: gauge
         help: The output line identifier. - 1.3.6.1.2.1.33.1.4.4.1.1
         indexes:
-        - labelname: upsOutputLineIndex
-          type: gauge
+          - labelname: upsOutputLineIndex
+            type: gauge
       - name: upsOutputVoltage
         oid: 1.3.6.1.2.1.33.1.4.4.1.2
         type: gauge
         help: The present output voltage. - 1.3.6.1.2.1.33.1.4.4.1.2
         indexes:
-        - labelname: upsOutputLineIndex
-          type: gauge
+          - labelname: upsOutputLineIndex
+            type: gauge
       - name: upsOutputCurrent
         oid: 1.3.6.1.2.1.33.1.4.4.1.3
         type: gauge
         help: The present output current. - 1.3.6.1.2.1.33.1.4.4.1.3
         indexes:
-        - labelname: upsOutputLineIndex
-          type: gauge
+          - labelname: upsOutputLineIndex
+            type: gauge
       - name: upsOutputPower
         oid: 1.3.6.1.2.1.33.1.4.4.1.4
         type: gauge
         help: The present output true power. - 1.3.6.1.2.1.33.1.4.4.1.4
         indexes:
-        - labelname: upsOutputLineIndex
-          type: gauge
+          - labelname: upsOutputLineIndex
+            type: gauge
       - name: upsOutputPercentLoad
         oid: 1.3.6.1.2.1.33.1.4.4.1.5
         type: gauge
@@ -831,8 +836,8 @@ data:
           line, i.e., the greater of the percent load of true power capacity and the percent
           load of VA. - 1.3.6.1.2.1.33.1.4.4.1.5
         indexes:
-        - labelname: upsOutputLineIndex
-          type: gauge
+          - labelname: upsOutputLineIndex
+            type: gauge
       - name: upsBypassFrequency
         oid: 1.3.6.1.2.1.33.1.5.1
         type: gauge
@@ -846,29 +851,29 @@ data:
         type: gauge
         help: The bypass line identifier. - 1.3.6.1.2.1.33.1.5.3.1.1
         indexes:
-        - labelname: upsBypassLineIndex
-          type: gauge
+          - labelname: upsBypassLineIndex
+            type: gauge
       - name: upsBypassVoltage
         oid: 1.3.6.1.2.1.33.1.5.3.1.2
         type: gauge
         help: The present bypass voltage. - 1.3.6.1.2.1.33.1.5.3.1.2
         indexes:
-        - labelname: upsBypassLineIndex
-          type: gauge
+          - labelname: upsBypassLineIndex
+            type: gauge
       - name: upsBypassCurrent
         oid: 1.3.6.1.2.1.33.1.5.3.1.3
         type: gauge
         help: The present bypass current. - 1.3.6.1.2.1.33.1.5.3.1.3
         indexes:
-        - labelname: upsBypassLineIndex
-          type: gauge
+          - labelname: upsBypassLineIndex
+            type: gauge
       - name: upsBypassPower
         oid: 1.3.6.1.2.1.33.1.5.3.1.4
         type: gauge
         help: The present true power conveyed by the bypass. - 1.3.6.1.2.1.33.1.5.3.1.4
         indexes:
-        - labelname: upsBypassLineIndex
-          type: gauge
+          - labelname: upsBypassLineIndex
+            type: gauge
       - name: upsAlarmsPresent
         oid: 1.3.6.1.2.1.33.1.6.1
         type: gauge
@@ -878,15 +883,15 @@ data:
         type: gauge
         help: A unique identifier for an alarm condition - 1.3.6.1.2.1.33.1.6.2.1.1
         indexes:
-        - labelname: upsAlarmId
-          type: gauge
+          - labelname: upsAlarmId
+            type: gauge
       - name: upsAlarmTime
         oid: 1.3.6.1.2.1.33.1.6.2.1.3
         type: gauge
         help: The value of sysUpTime when the alarm condition was detected - 1.3.6.1.2.1.33.1.6.2.1.3
         indexes:
-        - labelname: upsAlarmId
-          type: gauge
+          - labelname: upsAlarmId
+            type: gauge
       - name: upsTestSpinLock
         oid: 1.3.6.1.2.1.33.1.7.2
         type: gauge
@@ -1001,4 +1006,4 @@ data:
         type: gauge
         help: The maximum line voltage allowed before the UPS system transfers to battery
           backup. - 1.3.6.1.2.1.33.1.9.10
-      version: 1
+    version: 1
