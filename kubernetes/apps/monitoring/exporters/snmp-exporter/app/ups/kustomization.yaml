@@ -10,6 +10,9 @@ configMapGenerator:
   - name: ups-dashboard
     files:
       - ups-dashboard.json=./dashboard.json
+  - name: rfc1628-ups-configmap
+    files:
+      - snmp.yaml=./resources/snmp.yaml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
