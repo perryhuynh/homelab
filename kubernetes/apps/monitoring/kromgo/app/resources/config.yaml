@@ -11,9 +11,13 @@ metrics:
 
   - name: cluster_node_count
     query: count(count by (node) (kube_node_status_condition{kubernetes_node=~"[A-Za-z-]+", status="true"}))
+    colors:
+      - { color: "green", min: 0, max: 9999 }
 
   - name: cluster_pod_count
     query: sum(kube_pod_status_phase{kubernetes_node=~"[A-Za-z-]+", phase="Running"})
+    colors:
+      - { color: "green", min: 0, max: 9999 }
 
   - name: cluster_cpu_usage
     query: round(avg(instance:node_cpu_utilisation:rate5m{kubernetes_node=~"[A-Za-z-]+"}) * 100, 0.1)
@@ -56,7 +60,7 @@ metrics:
       - { color: red, min: 76, max: 9999 }
 
   - name: cluster_age_days
-    query: round((time() - max(kube_node_created{kubernetes_node=~"[A-Za-z-]+"}) ) / 86400)
+    query: round((time() - min(kube_node_created{kubernetes_node=~"[A-Za-z-]+"}) ) / 86400)
     suffix: "d"
     colors:
       - { color: "green", min: 0, max: 180 }
