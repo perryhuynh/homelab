@@ -43,6 +43,11 @@ spec:
             image:
               repository: ghcr.io/perryhuynh/overseerr-exporter
               tag: 1.2.2@sha256:513344d7912c1a9df146e4c39ad60d2f3099d8bb8124bbaa5efed96106a9efcd
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             resources:
               limits:
                 memory: 128Mi
