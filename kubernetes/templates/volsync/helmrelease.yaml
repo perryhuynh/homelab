@@ -26,8 +26,6 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
-        enabled: false
       minio:
         annotations:
           kyverno.io/suspend-cronjob: "true"
