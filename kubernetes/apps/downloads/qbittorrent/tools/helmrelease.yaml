@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,8 +29,6 @@ spec:
       namespace: downloads
   values:
     controllers:
-      main:
-        enabled: false
       tagging:
         type: cronjob
         cronjob: &cronJobSpec
@@ -94,7 +92,7 @@ spec:
             resources: *resources
             securityContext: *securityContext
         containers:
-          main:
+          app:
             args: [
               "prune",
               "--exclude-category", "lidarr",
@@ -121,7 +119,7 @@ spec:
           <<: *cronJobSpec
           schedule: "@daily"
         containers:
-          main:
+          app:
             args: [
               "orphaned",
               "--exclude-pattern", "*/manual/*",
@@ -138,7 +136,7 @@ spec:
         pod: *podSecurityContext
       reannounce:
         containers:
-          main:
+          app:
             args: [
               "reannounce",
               "--process-seeding",
@@ -168,6 +166,3 @@ spec:
           orphaned:
             main:
               - path: /downloads
-    service:
-      main:
-        enabled: false
