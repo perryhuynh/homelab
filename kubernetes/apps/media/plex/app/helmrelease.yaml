@@ -91,7 +91,7 @@ spec:
       config:
         enabled: true
         existingClaim: plex
-      plex-cache:
+      cache:
         existingClaim: plex-cache
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server/Cache
@@ -102,6 +102,10 @@ spec:
         globalMounts:
           - path: /data
             readOnly: true
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server/Logs
       profile-chromecast:
         type: configMap
         name: plex-config
