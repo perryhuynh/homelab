@@ -53,7 +53,7 @@ spec:
         replicas: 2
         strategy: RollingUpdate
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
