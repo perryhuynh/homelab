@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -35,7 +35,7 @@ spec:
       namespace: default
   values:
     controllers:
-      main:
+      paperless:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -47,7 +47,7 @@ spec:
               - secretRef:
                   name: paperless-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
               tag: 2.6.2@sha256:9483e2fff0b50c1b5f90c6e6d085fc3551f9dd7d039c29efb3ace712ba9ee42e
@@ -105,7 +105,7 @@ spec:
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
     ingress:
-      main:
+      app:
         annotations:
           nginx.ingress.kubernetes.io/auth-method: GET
           nginx.ingress.kubernetes.io/auth-url: http://authelia.security.svc.cluster.local/api/verify
@@ -120,7 +120,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -137,13 +137,15 @@ spec:
       tmp:
         type: emptyDir
         advancedMounts:
-          main:
+          paperless:
             redis:
               - path: /data
     service:
-      main:
+      app:
+        controller: paperless
         ports:
           http:
+            primary: true
             port: *port
           metrics:
             port: *metricsPort
