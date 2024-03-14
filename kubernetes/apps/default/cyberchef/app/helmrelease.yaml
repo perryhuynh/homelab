@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,11 +26,11 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      cyberchef:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: docker.io/mpepping/cyberchef
               tag: v10.8.2@sha256:508cc7988fda7e2e36053a02c7752460da37cc5864557c3c5915df2f34f57248
@@ -76,7 +76,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -85,7 +85,9 @@ spec:
       tmp:
         type: emptyDir
     service:
-      main:
+      app:
+        controller: cyberchef
         ports:
           http:
+            primary: true
             port: *port
