@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,9 +29,9 @@ spec:
       namespace: media
   values:
     controllers:
-      main:
+      plex-auto-languages:
         containers:
-          main:
+          app:
             image:
               repository: docker.io/remirigal/plex-auto-languages
               tag: v1.2.3
@@ -64,5 +64,6 @@ spec:
         globalMounts:
           - path: /config/cache
     service:
-      main:
+      app:
+        controller: plex-auto-languages
         enabled: false
