@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,11 +29,11 @@ spec:
       namespace: monitoring
   values:
     controllers:
-      main:
+      graphite-exporter:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             args:
               - "--graphite.mapping-config=/tmp/graphite_mapping.conf"
               - "--graphite.listen-address=:2003"
@@ -41,6 +41,11 @@ spec:
             image:
               repository: docker.io/prom/graphite-exporter
               tag: v0.15.0
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             resources:
               limits:
                 memory: 128Mi
@@ -66,24 +71,24 @@ spec:
             subPath: graphite_mapping.conf
             readOnly: true
     service:
-      main:
+      app:
+        controller: graphite-exporter
+        type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.1.205
         ports:
-          http:
-            enabled: false
           graphite-tcp:
             protocol: TCP
             port: 2003
+            primary: true
           graphite-udp:
             protocol: UDP
             port: 2003
           metrics:
             port: 9108
-        type: LoadBalancer
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: graphite-exporter
         endpoints:
           - port: metrics
             scheme: http
