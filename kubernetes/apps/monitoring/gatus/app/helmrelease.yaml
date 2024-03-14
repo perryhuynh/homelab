@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,12 +26,11 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      gatus:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
           init-db:
-            order: 1
             image:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
@@ -39,7 +38,7 @@ spec:
               - secretRef:
                   name: gatus-secret
           init-config:
-            order: 2
+            dependsOn: init-db
             image: &configSyncImage
               repository: ghcr.io/kiwigrid/k8s-sidecar
               tag: 1.26.1
@@ -61,7 +60,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/twin/gatus
               tag: v5.7.0
@@ -70,6 +69,19 @@ spec:
               GATUS_CONFIG_PATH: /config
               TZ: America/Los_Angeles
             envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: &path /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               limits:
                 memory: 256Mi
@@ -89,7 +101,7 @@ spec:
             runAsGroup: 568
             runAsNonRoot: true
     ingress:
-      main:
+      app:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
         enabled: true
@@ -99,7 +111,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -116,7 +128,8 @@ spec:
             subPath: config.yaml
             readOnly: true
     service:
-      main:
+      app:
+        controller: gatus
         ports:
           http:
             port: *port
@@ -124,5 +137,11 @@ spec:
       create: true
       name: gatus
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: gatus
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
