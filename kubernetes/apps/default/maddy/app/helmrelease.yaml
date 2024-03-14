@@ -41,6 +41,11 @@ spec:
             envFrom:
               - secretRef:
                   name: maddy-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             resources:
               limits:
                 memory: 256Mi
