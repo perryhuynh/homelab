@@ -93,10 +93,11 @@ spec:
           http:
             port: 8080
     serviceMonitor:
-      serviceName: karma
-      endpoints:
-        - port: http
-          scheme: http
-          path: /metrics
-          interval: 1m
-          scrapeTimeout: 10s
+      app:
+        serviceName: karma
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
