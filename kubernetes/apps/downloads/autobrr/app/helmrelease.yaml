@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,7 +26,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      autobrr:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -38,7 +38,7 @@ spec:
               - secretRef:
                   name: autobrr-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/autobrr/autobrr
               tag: v1.39.1
@@ -62,8 +62,6 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-              startup:
-                enabled: false
             resources:
               limits:
                 memory: 256Mi
@@ -93,7 +91,7 @@ spec:
             paths: &paths
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -108,7 +106,8 @@ spec:
           - hosts:
               - *app
     service:
-      main:
+      app:
+        controller: autobrr
         ports:
           http:
             port: *port
