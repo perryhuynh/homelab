@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,12 +25,12 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      onepassword-connect:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: docker.io/1password/connect-api
               tag: 1.7.2@sha256:0c5ae74396e3c18c3b65acb89cb76d31088968cf0c25deca3818c72b01586606
@@ -63,8 +63,6 @@ spec:
                     path: /health
                     port: *apiPort
                   initialDelaySeconds: 15
-              startup:
-                enabled: false
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -108,10 +106,8 @@ spec:
                     path: /health
                     port: *syncPort
                   initialDelaySeconds: 15
-              startup:
-                enabled: false
-              securityContext: *securityContext
-              resources: *resources
+            securityContext: *securityContext
+            resources: *resources
         pod:
           securityContext:
             runAsUser: 999
@@ -120,7 +116,7 @@ spec:
             fsGroup: 999
             fsGroupChangePolicy: OnRootMismatch
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -128,7 +124,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -140,7 +136,8 @@ spec:
         globalMounts:
           - path: *configDir
     service:
-      main:
+      app:
+        controller: onepassword-connect
         ports:
           http:
             port: *apiPort
