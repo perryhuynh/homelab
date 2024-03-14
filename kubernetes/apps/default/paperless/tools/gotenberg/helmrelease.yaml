@@ -57,7 +57,7 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: paperless
+        controller: gotenberg
         ports:
           http:
             port: 3000
