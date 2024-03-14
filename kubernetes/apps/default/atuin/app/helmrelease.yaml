@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,7 +26,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      atuin:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -38,7 +38,7 @@ spec:
               - secretRef:
                   name: atuin-secret
         containers:
-          main:
+          app:
             args: ["server", "start"]
             image:
               repository: ghcr.io/atuinsh/atuin
@@ -83,7 +83,7 @@ spec:
         replicas: 2
         strategy: RollingUpdate
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -91,7 +91,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -101,15 +101,17 @@ spec:
         enabled: true
         type: emptyDir
     service:
-      main:
+      app:
+        controller: atuin
         ports:
           http:
+            primary: true
             port: *port
           metrics:
             port: *metricsPort
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: atuin
         endpoints:
           - port: metrics
             scheme: http
