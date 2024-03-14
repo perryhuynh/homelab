@@ -37,6 +37,11 @@ spec:
               repository: docker.io/timberio/vector
               tag: 0.36.1-debian@sha256:67c4cfc8fd70c7a0182fdc3ba815f34cebb0c9702e9a0a2b1fbe4f11dac719fa
             args: ["--config", "/etc/vector/vector.yaml"]
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
         pod:
           topologySpreadConstraints:
             - maxSkew: 1
@@ -53,6 +58,7 @@ spec:
           io.cilium/lb-ipam-ips: 192.168.1.204
         ports:
           http:
+            primary: true
             port: 8686
           journald:
             port: 6000
