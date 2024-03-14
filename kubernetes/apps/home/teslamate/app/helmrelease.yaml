@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,7 +29,7 @@ spec:
       namespace: home
   values:
     controllers:
-      main:
+      teslamate:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -41,7 +41,7 @@ spec:
               - secretRef:
                   name: teslamate-secret
         containers:
-          main:
+          app:
             env:
               CHECK_ORIGIN: true
               DATABASE_HOST: postgres16-rw.database.svc.cluster.local
@@ -118,7 +118,7 @@ spec:
             runAsUser: 10000
             seccompProfile: { type: RuntimeDefault }
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -126,22 +126,21 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
               - path: /api
                 service:
-                  name: api
-                  port: http
+                  identifier: app
+                  port: api
         tls:
           - hosts:
               - *host
     service:
-      main:
+      app:
+        controller: teslamate
         ports:
           http:
             port: *port
-      api:
-        controller: main
-        ports:
-          http:
+            primary: true
+          api:
             port: *apiPort
