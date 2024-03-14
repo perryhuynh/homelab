@@ -120,6 +120,6 @@ spec:
         ports:
           http:
             port: *port
-            primary: true
           rebroadcast:
             port: 34135
+            primary: true
