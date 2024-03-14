@@ -141,5 +141,6 @@ spec:
         ports:
           http:
             port: *port
+            primary: true
           api:
             port: *apiPort
