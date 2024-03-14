@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,11 +31,11 @@ spec:
       namespace: storage
   values:
     controllers:
-      main:
+      tachidesk:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/suwayomi/tachidesk
               tag: v1.0.0@sha256:373e7fb21a8ea751cbca63007802af82d717ef691001c94f797281f118bbcfed
@@ -85,7 +85,7 @@ spec:
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -93,7 +93,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -106,7 +106,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: codeserver
+                  identifier: codeserver
                   port: http
         tls:
           - hosts:
@@ -127,13 +127,13 @@ spec:
       tmp:
         type: emptyDir
     service:
-      main:
+      app:
+        controller: tachidesk
         ports:
           http:
             port: *port
       codeserver:
-        controller: main
+        controller: tachidesk
         ports:
           http:
-            enabled: true
             port: 8080
