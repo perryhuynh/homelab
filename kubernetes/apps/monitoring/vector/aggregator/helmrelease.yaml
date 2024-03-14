@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,13 +26,13 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      vector-aggregator:
         replicas: 2
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: docker.io/timberio/vector
               tag: 0.36.1-debian@sha256:67c4cfc8fd70c7a0182fdc3ba815f34cebb0c9702e9a0a2b1fbe4f11dac719fa
@@ -46,8 +46,9 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: vector-aggregator
     service:
-      main:
+      app:
         type: LoadBalancer
+        controller: vector-aggregator
         annotations:
           io.cilium/lb-ipam-ips: 192.168.1.204
         ports:
