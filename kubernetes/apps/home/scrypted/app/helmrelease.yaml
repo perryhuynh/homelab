@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,11 +31,11 @@ spec:
       namespace: storage
   values:
     controllers:
-      main:
+      scrypted:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             env:
               SCRYPTED_INSECURE_PORT: &port 80
             image:
@@ -43,11 +43,9 @@ spec:
               tag: 18-jammy-full-v0.94.5
             probes:
               liveness:
-                enabled: false
+                enabled: true
               readiness:
-                enabled: false
-              startup:
-                enabled: false
+                enabled: true
             resources:
               limits:
                 gpu.intel.com/i915: 1
@@ -95,7 +93,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -117,9 +115,11 @@ spec:
       tmp:
         type: emptyDir
     service:
-      main:
+      app:
+        controller: scrypted
         ports:
           http:
             port: *port
+            primary: true
           rebroadcast:
             port: 34135
