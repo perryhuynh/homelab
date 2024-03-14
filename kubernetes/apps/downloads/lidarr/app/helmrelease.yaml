@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,7 +29,7 @@ spec:
       namespace: storage
   values:
     controllers:
-      main:
+      lidarr:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -41,7 +41,7 @@ spec:
               - secretRef:
                   name: lidarr-secret
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/lidarr-develop
               tag: 2.2.1.4073@sha256:ae2b24d5406e32c70e604b10c515f2355bac33f14382e013973a758770e863e8
@@ -91,7 +91,7 @@ spec:
             seccompProfile: { type: RuntimeDefault }
             supplementalGroups: [65532]
     ingress:
-      main:
+      app:
         annotations:
           nginx.ingress.kubernetes.io/auth-method: GET
           nginx.ingress.kubernetes.io/auth-url: http://authelia.security.svc.cluster.local/api/verify
@@ -106,7 +106,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -130,7 +130,8 @@ spec:
       tmp:
         type: emptyDir
     service:
-      main:
+      app:
+        controller: lidarr
         ports:
           http:
             port: *port
