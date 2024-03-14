@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,11 +31,11 @@ spec:
       namespace: storage
   values:
     controllers:
-      main:
+      qbittorrent:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/qbittorrent
               tag: "4.6.3@sha256:f2895e632fe66299d8ccc68265cc11aea92a232b7d0844de9961864b3e504026"
@@ -43,6 +43,11 @@ spec:
               QBITTORRENT__BT_PORT: &bittorrentPort 50143
               QBITTORRENT__PORT: &port 80
               TZ: America/Los_Angeles
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             # probes:
             #   liveness: &probes
             #     enabled: true
@@ -78,7 +83,7 @@ spec:
             seccompProfile: { type: RuntimeDefault }
             supplementalGroups: [65532]
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -86,7 +91,7 @@ spec:
             paths: &paths
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -122,17 +127,16 @@ spec:
       tmp:
         type: emptyDir
     service:
-      main:
-        ports:
-          http:
-            port: *port
-      bittorrent:
+      app:
+        controller: qbittorrent
+        type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.1.250
-        controller: main
         ports:
+          http:
+            primary: true
+            port: *port
           bittorrent:
             enabled: true
             port: *bittorrentPort
             protocol: TCP
-        type: LoadBalancer
