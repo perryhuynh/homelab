@@ -44,10 +44,14 @@ spec:
               QBITTORRENT__PORT: &port 80
               TZ: America/Los_Angeles
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
+                spec:
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 5
+              readiness: *probes
             # probes:
             #   liveness: &probes
             #     enabled: true
