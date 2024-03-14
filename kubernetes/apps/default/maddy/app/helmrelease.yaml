@@ -85,3 +85,9 @@ spec:
     serviceMonitor:
       app:
         serviceName: maddy
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
