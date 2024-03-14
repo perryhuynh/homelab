@@ -36,6 +36,11 @@ spec:
             image:
               repository: docker.io/gotenberg/gotenberg
               tag: 8.2.1
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             resources:
               limits:
                 memory: 512Mi
