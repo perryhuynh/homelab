@@ -134,6 +134,7 @@ spec:
           io.cilium/lb-ipam-ips: 192.168.1.250
         ports:
           http:
+            primary: true
             port: *port
           bittorrent:
             enabled: true
