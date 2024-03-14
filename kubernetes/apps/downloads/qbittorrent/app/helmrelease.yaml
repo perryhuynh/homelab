@@ -43,10 +43,11 @@ spec:
               QBITTORRENT__BT_PORT: &bittorrentPort 50143
               QBITTORRENT__PORT: &port 80
               TZ: America/Los_Angeles
-            liveness:
-              enabled: true
-            readiness:
-              enabled: true
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             # probes:
             #   liveness: &probes
             #     enabled: true
