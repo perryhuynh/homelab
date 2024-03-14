@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -39,7 +39,7 @@ spec:
           successfulJobsHistory: 1
           failedJobsHistory: 1
         containers:
-          main:
+          app:
             args: &args [
               "unlock",
               "--remove-all"
@@ -56,12 +56,12 @@ spec:
         type: cronjob
         cronjob: *cronjobSpec
         containers:
-          main:
+          app:
             args: *args
             image: *image
             envFrom:
               - secretRef:
                   name: "${APP}-volsync-r2-secret"
     service:
-      main:
+      app:
         enabled: false
