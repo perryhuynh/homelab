@@ -141,6 +141,3 @@ spec:
         ports:
           http:
             port: *apiPort
-      sync:
-        controller: onepassword-connect
-        enabled: false
