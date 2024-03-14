@@ -106,8 +106,8 @@ spec:
                     path: /health
                     port: *syncPort
                   initialDelaySeconds: 15
-              securityContext: *securityContext
-              resources: *resources
+            securityContext: *securityContext
+            resources: *resources
         pod:
           securityContext:
             runAsUser: 999
