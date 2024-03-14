@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -33,9 +33,9 @@ spec:
       namespace: storage
   values:
     controllers:
-      main:
+      plex:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/plex-beta
               tag: 1.40.1.8173-3e92df2db@sha256:2d03a4cc820faff2f7299ea880441571e47b9205913eb1058a986e7ec3bac3d3
@@ -115,7 +115,7 @@ spec:
       transcode:
         type: emptyDir
     ingress:
-      main:
+      app:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -126,16 +126,17 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
               - *host
     service:
-      main:
+      app:
+        type: LoadBalancer
+        controller: plex
         annotations:
           io.cilium/lb-ipam-ips: 192.168.1.251
         ports:
           http:
             port: *port
-        type: LoadBalancer
