@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,9 +31,9 @@ spec:
       namespace: storage
   values:
     controllers:
-      main:
+      thelounge:
         containers:
-          main:
+          app:
             env:
               # https://github.com/thelounge/thelounge/issues/2656
               THELOUNGE_HOME: /config/thelounge
@@ -59,7 +59,7 @@ spec:
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     ingress:
-      main:
+      app:
         enabled: true
         className: internal
         hosts:
@@ -67,7 +67,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -77,7 +77,8 @@ spec:
         enabled: true
         existingClaim: thelounge
     service:
-      main:
+      app:
+        controller: thelounge
         ports:
           http:
             port: 9000
