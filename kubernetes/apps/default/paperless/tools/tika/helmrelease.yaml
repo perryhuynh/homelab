@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,9 +26,9 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      tika:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/paperless-ngx/tika
               tag: 2.9.1-minimal@sha256:7831bfdd31fa3c2d7935f56eedb299ca57f532988d1d824588cf073b36bcfab0
@@ -52,7 +52,8 @@ spec:
         enabled: true
         type: emptyDir
     service:
-      main:
+      app:
+        controller: tika
         ports:
           http:
             port: 9998
