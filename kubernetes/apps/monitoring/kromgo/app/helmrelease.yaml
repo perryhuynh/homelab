@@ -41,6 +41,11 @@ spec:
             env:
               PROMETHEUS_URL: http://thanos-query-frontend.monitoring.svc.cluster.local:9090
               PORT: &port 80
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
