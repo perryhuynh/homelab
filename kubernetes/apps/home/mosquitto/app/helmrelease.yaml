@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -31,7 +31,7 @@ spec:
       namespace: storage
   values:
     controllers:
-      main:
+      mosquitto:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -42,7 +42,7 @@ spec:
             command: ["/bin/sh", "-c"]
             args: ["cp /tmp/secret/* /mosquitto/external_config/ && mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd"]
         containers:
-          main:
+          app:
             image:
               repository: docker.io/library/eclipse-mosquitto
               tag: 2.0.18@sha256:da38d58ee0037af94f746dc3d884c57f50140ef5f592bf6fcbb80d66d131a77b
@@ -72,8 +72,8 @@ spec:
         type: configMap
         name: mosquitto-config
         advancedMounts:
-          main:
-            main:
+          mosquitto:
+            app:
               - path: /mosquitto/config/mosquitto.conf
                 readOnly: true
                 subPath: mosquitto.conf
@@ -81,7 +81,7 @@ spec:
         type: secret
         name: mosquitto-secret
         advancedMounts:
-          main:
+          mosquitto:
             init-config:
               - path: /tmp/secret
       external-config:
@@ -89,10 +89,11 @@ spec:
         globalMounts:
           - path: /mosquitto/external_config
     service:
-      main:
+      app:
+        controller: mosquitto
+        type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.1.210
         ports:
           http:
             port: 1883
-        type: LoadBalancer
