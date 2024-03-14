@@ -164,5 +164,5 @@ spec:
         server: ${SECRET_NAS_IP:=temp}
         advancedMounts:
           orphaned:
-            main:
+            app:
               - path: /downloads
