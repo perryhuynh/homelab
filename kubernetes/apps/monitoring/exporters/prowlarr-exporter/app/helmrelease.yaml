@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,11 +29,11 @@ spec:
       namespace: downloads
   values:
     controllers:
-      main:
+      prowlarr-exporter:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             args:
               - "prowlarr"
             image:
@@ -78,12 +78,17 @@ spec:
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     service:
-      main:
+      app:
+        controller: prowlarr-exporter
         ports:
           http:
             port: *port
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: prowlarr-exporter
         endpoints:
           - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
