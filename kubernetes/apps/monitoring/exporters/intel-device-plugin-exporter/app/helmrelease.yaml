@@ -58,6 +58,7 @@ spec:
             intel.feature.node.kubernetes.io/gpu: "true"
     service:
       app:
+        controller: intel-device-plugin-exporter
         ports:
           http:
             port: 8080
