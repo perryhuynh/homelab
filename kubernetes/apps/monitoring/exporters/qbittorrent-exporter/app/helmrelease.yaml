@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -29,15 +29,20 @@ spec:
       namespace: downloads
   values:
     controllers:
-      main:
+      qbittorrent-exporter:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
               # TODO: switch back to semver after new release tag is fixed
               tag: v1.5.1@sha256:3aef59197a9f14fc36a9963848d495f9a85e4f096b448a0ed4cb3aca122e793b
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             env:
               EXPORTER_PORT: &port 80
               QBITTORRENT_HOST: qbittorrent.downloads.svc.cluster.local
@@ -59,10 +64,17 @@ spec:
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     service:
-      main:
+      app:
+        controller: qbittorrent-exporter
         ports:
           http:
             port: *port
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: qbittorrent-exporter
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
