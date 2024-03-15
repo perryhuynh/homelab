@@ -118,7 +118,7 @@ spec:
           http:
             port: *port
     serviceMonitor:
-      main:
+      app:
         serviceName: *app
         endpoints:
           - port: http
