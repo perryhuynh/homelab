@@ -126,8 +126,6 @@ spec:
         type: nfs
         path: /mnt/tank/media/downloads/torrents
         server: ${SECRET_NAS_IP:=temp}
-      tmp:
-        type: emptyDir
     service:
       app:
         controller: qbittorrent
