@@ -6,11 +6,11 @@ metadata:
   name: &app intel-device-plugin
   namespace: flux-system
 spec:
-  targetNamespace: tools
+  targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/tools/intel-device-plugin/app
+  path: ./kubernetes/apps/kube-system/intel-device-plugin/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -27,13 +27,13 @@ metadata:
   name: &app intel-device-plugin-gpu
   namespace: flux-system
 spec:
-  targetNamespace: tools
+  targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: intel-device-plugin
-  path: ./kubernetes/apps/tools/intel-device-plugin/gpu
+  path: ./kubernetes/apps/kube-system/intel-device-plugin/gpu
   prune: true
   sourceRef:
     kind: GitRepository
