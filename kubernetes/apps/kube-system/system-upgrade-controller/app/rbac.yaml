@@ -26,4 +26,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: system-upgrade
-    namespace: tools
+    namespace: kube-system
