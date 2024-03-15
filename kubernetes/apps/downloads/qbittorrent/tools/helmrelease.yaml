@@ -149,9 +149,9 @@ spec:
             securityContext: *securityContext
         pod: *podSecurityContext
     persistence:
-      config-file:
-        type: configMap
-        name: qbittorrent-tools-config
+      secret-file:
+        type: secret
+        name: qbittorrent-tools-secret
         advancedMounts:
           tagging:
             01-tag:
