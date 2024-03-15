@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,13 +26,13 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      cloudflared:
         replicas: 2
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: docker.io/cloudflare/cloudflared
               tag: 2024.2.1
@@ -62,8 +62,6 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-              startup:
-                enabled: false
             resources:
               limits:
                 memory: 512Mi
@@ -74,13 +72,20 @@ spec:
             runAsUser: 568
             runAsGroup: 568
     service:
-      main:
+      app:
+        controller: cloudflared
         ports:
           http:
             port: *port
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: cloudflared
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
     persistence:
       config:
         enabled: true
