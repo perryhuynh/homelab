@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app node-feature-discovery
+  name: &app descheduler
   namespace: flux-system
 spec:
-  targetNamespace: tools
+  targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/tools/node-feature-discovery/app
+  path: ./kubernetes/apps/kube-system/descheduler/app
   prune: true
   sourceRef:
     kind: GitRepository
