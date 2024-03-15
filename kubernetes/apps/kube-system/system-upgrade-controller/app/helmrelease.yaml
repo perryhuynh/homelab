@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,10 +26,10 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      system-upgrade-controller:
         strategy: RollingUpdate
         containers:
-          main:
+          app:
             image:
               repository: docker.io/rancher/system-upgrade-controller
               tag: v0.13.4
@@ -48,14 +48,15 @@ spec:
                 valueFrom:
                   fieldRef:
                     fieldPath: metadata.namespace
+            securityContext:
+              allowPrivilegeEscalation: false
+              seccompProfile: { type: RuntimeDefault }
+              capabilities: { drop: ["ALL"] }
         pod:
           securityContext:
             runAsNonRoot: true
             runAsUser: 65534
             runAsGroup: 65534
-            allowPrivilegeEscalation: false
-            seccompProfile: { type: RuntimeDefault }
-            capabilities: { drop: ["ALL"] }
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -72,7 +73,8 @@ spec:
     serviceAccount:
       name: system-upgrade
     service:
-      main:
+      app:
+        controller: system-upgrade-controller
         enabled: false
     persistence:
       tmp:
