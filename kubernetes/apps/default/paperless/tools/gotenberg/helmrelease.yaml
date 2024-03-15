@@ -35,7 +35,7 @@ spec:
               - "--chromium-allow-list=file:///tmp/.*"
             image:
               repository: docker.io/gotenberg/gotenberg
-              tag: 8.2.1
+              tag: 8.2.2
             probes:
               liveness:
                 enabled: true
