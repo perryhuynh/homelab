@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.0.4
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -26,14 +26,19 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      speedtest-exporter:
         containers:
-          main:
+          app:
             env:
               SPEEDTEST_PORT: &port 80
             image:
               repository: ghcr.io/miguelndecarvalho/speedtest-exporter
               tag: v3.5.4@sha256:f1064d49124c7fc45faabb87c6c876a2fd04e92b3dc14d4b871301217ba30fed
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             resources:
               limits:
                 memory: 128Mi
@@ -59,13 +64,14 @@ spec:
         globalMounts:
           - path: /.config
     service:
-      main:
+      app:
+        controller: speedtest-exporter
         ports:
           http:
             port: *port
     serviceMonitor:
-      main:
-        enabled: true
+      app:
+        serviceName: speedtest-exporter
         endpoints:
           - port: http
             scheme: http
