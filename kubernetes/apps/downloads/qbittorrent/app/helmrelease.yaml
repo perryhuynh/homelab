@@ -42,6 +42,12 @@ spec:
             env:
               QBITTORRENT__BT_PORT: &bittorrentPort 50143
               QBITTORRENT__PORT: &port 80
+              QBT_Application__MemoryWorkingSetLimit:
+                valueFrom:
+                  resourceFieldRef:
+                    containerName: app
+                    resource: limits.memory
+                    divisor: 1Mi
               QBT_Preferences__WebUI__LocalHostAuth: false
               QBT_BitTorrent__Session__Interface: eth0
               QBT_BitTorrent__Session__InterfaceAddress:
