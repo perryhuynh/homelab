@@ -80,7 +80,7 @@ spec:
             seccompProfile: { type: RuntimeDefault }
             supplementalGroups: [44, 105, 65532]
     ingress:
-      app:
+      nginx:
         enabled: true
         className: internal
         hosts:

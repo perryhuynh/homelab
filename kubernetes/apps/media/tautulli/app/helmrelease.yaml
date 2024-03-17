@@ -91,7 +91,7 @@ spec:
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     ingress:
-      app:
+      nginx:
         enabled: true
         className: internal
         hosts:

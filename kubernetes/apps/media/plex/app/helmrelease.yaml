@@ -119,7 +119,7 @@ spec:
       transcode:
         type: emptyDir
     ingress:
-      app:
+      nginx:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"

@@ -77,7 +77,7 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     ingress:
-      app:
+      nginx:
         enabled: true
         className: external
         annotations:
