@@ -57,7 +57,6 @@ spec:
               capabilities: { drop: ["ALL"] }
         pod:
           automountServiceAccountToken: false
-          enableServiceLinks: false
           securityContext:
             runAsUser: 568
             runAsGroup: 568
