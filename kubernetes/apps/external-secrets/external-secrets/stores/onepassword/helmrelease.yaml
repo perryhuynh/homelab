@@ -116,7 +116,7 @@ spec:
             fsGroup: 999
             fsGroupChangePolicy: OnRootMismatch
     ingress:
-      app:
+      nginx:
         enabled: true
         className: internal
         hosts:

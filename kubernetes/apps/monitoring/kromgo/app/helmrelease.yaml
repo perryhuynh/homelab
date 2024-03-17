@@ -75,7 +75,7 @@ spec:
           http:
             port: *port
     ingress:
-      app:
+      nginx:
         enabled: true
         className: external
         annotations:

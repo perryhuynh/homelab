@@ -75,7 +75,7 @@ spec:
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     ingress:
-      app:
+      nginx:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
         enabled: true
