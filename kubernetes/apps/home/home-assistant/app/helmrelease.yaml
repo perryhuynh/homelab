@@ -54,11 +54,6 @@ spec:
                   fieldRef:
                     fieldPath: status.podIP
             envFrom: *envFrom
-            probes:
-              liveness:
-                enabled: true
-              readiness:
-                enabled: true
             resources:
               limits:
                 memory: 1Gi
