@@ -54,6 +54,11 @@ spec:
                   fieldRef:
                     fieldPath: status.podIP
             envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             resources:
               limits:
                 memory: 1Gi
@@ -129,6 +134,7 @@ spec:
         controller: home-assistant
         ports:
           http:
+            primary: true
             port: 8123
           codeserver:
             port: 8080
