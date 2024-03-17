@@ -60,10 +60,6 @@ spec:
             args: ["--config", "/etc/vector/vector.yaml"]
             securityContext:
               privileged: true
-    service:
-      app:
-        controller: vector-agent
-        enabled: false
     serviceAccount:
       create: true
       name: vector-agent

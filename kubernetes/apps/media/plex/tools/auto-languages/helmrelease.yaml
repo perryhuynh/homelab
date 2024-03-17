@@ -63,7 +63,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /config/cache
-    service:
-      app:
-        controller: plex-auto-languages
-        enabled: false

@@ -60,11 +60,3 @@ spec:
             envFrom:
               - secretRef:
                   name: "${APP}-volsync-r2-secret"
-    service:
-      r2:
-        controller: app
-        enabled: false
-      minio:
-        controller: app
-        enabled: false
-
