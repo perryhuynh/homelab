@@ -58,7 +58,7 @@ spec:
         replicas: 2
         strategy: RollingUpdate
     ingress:
-      app:
+      nginx:
         enabled: true
         className: internal
         hosts:

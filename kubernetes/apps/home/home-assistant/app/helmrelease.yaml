@@ -99,7 +99,7 @@ spec:
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     ingress:
-      app:
+      nginx:
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.perryhuynh.com"

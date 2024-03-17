@@ -83,7 +83,7 @@ spec:
         enabled: true
         type: emptyDir
     ingress:
-      app:
+      nginx:
         enabled: true
         className: internal
         hosts:
