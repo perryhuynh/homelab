@@ -95,22 +95,16 @@ spec:
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
-      codeserver:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}-code.perryhuynh.com"
+          - host: &codeserverHost "{{ .Release.Name }}-code.perryhuynh.com"
             paths:
               - path: /
                 service:
-                  identifier: codeserver
-                  port: http
+                  identifier: app
+                  port: codeserver
         tls:
           - hosts:
               - *host
+              - *codeserverHost
     persistence:
       config:
         enabled: true
@@ -132,8 +126,5 @@ spec:
         ports:
           http:
             port: *port
-      codeserver:
-        controller: tachidesk
-        ports:
-          http:
+          codeserver:
             port: 8080
