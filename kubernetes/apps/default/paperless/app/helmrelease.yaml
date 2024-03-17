@@ -96,6 +96,7 @@ spec:
               repository: docker.io/redis
               tag: 7.2.4-alpine
         pod:
+          automountServiceAccountToken: false
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
