@@ -78,7 +78,6 @@ spec:
               readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
-          enableServiceLinks: false
           securityContext:
             runAsUser: 568
             runAsGroup: 568
