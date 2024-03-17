@@ -56,6 +56,7 @@ spec:
               requests:
                 cpu: 5m
         pod:
+          automountServiceAccountToken: false
           securityContext:
             runAsUser: 568
             runAsGroup: 568
