@@ -48,6 +48,19 @@ spec:
               JAVA_TOOL_OPTIONS: -XX:+UseG1GC -XX:MaxRAMPercentage=75 -XX:+PrintFlagsFinal
               TZ: &TZ America/Los_Angeles
               WEB_UI_CHANNEL: "preview"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /manifest.json
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               limits:
                 memory: 4Gi
@@ -125,6 +138,7 @@ spec:
         controller: tachidesk
         ports:
           http:
+            primary: true
             port: *port
           codeserver:
             port: 8080
