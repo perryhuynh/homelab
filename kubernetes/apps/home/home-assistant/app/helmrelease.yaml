@@ -108,21 +108,16 @@ spec:
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
-      codeserver:
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}-code.perryhuynh.com"
+          - host: &codeserverHost "{{ .Release.Name }}-code.perryhuynh.com"
             paths:
               - path: /
                 service:
-                  identifier: codeserver
-                  port: http
+                  identifier: app
+                  port: codeserver
         tls:
           - hosts:
               - *host
+              - *codeserverHost
     persistence:
       config:
         enabled: true
@@ -135,9 +130,5 @@ spec:
         ports:
           http:
             port: 8123
-      codeserver:
-        controller: home-assistant
-        ports:
-          http:
-            enabled: true
+          codeserver:
             port: 8080
