@@ -54,7 +54,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /about
+                    path: /manifest.json
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
