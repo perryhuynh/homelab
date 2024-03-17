@@ -84,7 +84,3 @@ spec:
           - path: /config/recyclarr.yml
             subPath: recyclarr.yml
             readOnly: true
-    service:
-      app:
-        controller: recyclarr
-        enabled: false
