@@ -85,8 +85,7 @@ spec:
             supplementalGroups: [65532]
     persistence:
       config:
-        enabled: true
-        existingClaim: qbittorrent
+        type: emptyDir
       config-file:
         type: configMap
         name: cross-seed-config
@@ -94,15 +93,12 @@ spec:
           - path: /config/config.js
             readOnly: true
             subPath: config.js
-      downloads:
-        enabled: true
-        type: nfs
-        path: /mnt/tank/media/downloads/torrents
-        server: ${SECRET_NAS_IP:=temp}
       logs:
         type: emptyDir
         globalMounts:
           - path: /config/logs
+      qbittorrent:
+        existingClaim: qbittorrent
     service:
       app:
         controller: cross-seed
