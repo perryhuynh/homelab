@@ -41,11 +41,11 @@ spec:
           app:
             image:
               repository: ghcr.io/autobrr/autobrr
-              tag: v1.39.1
+              tag: v1.39.1@sha256:7149943f3f6a528ea653662272e8a2c78156cdbf51fd3313911eb57a03378a50
             env:
               AUTOBRR__CHECK_FOR_UPDATES: "false"
               AUTOBRR__HOST: 0.0.0.0
-              AUTOBRR__LOG_LEVEL: DEBUG
+              AUTOBRR__LOG_LEVEL: INFO
               AUTOBRR__PORT: &port 80
               AUTOBRR__DATABASE_TYPE: postgres
             envFrom: *envFrom
