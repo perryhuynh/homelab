@@ -82,7 +82,7 @@ spec:
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     ingress:
-      main:
+      app:
         annotations:
           nginx.ingress.kubernetes.io/auth-method: GET
           nginx.ingress.kubernetes.io/auth-url: http://authelia.security.svc.cluster.local/api/verify
