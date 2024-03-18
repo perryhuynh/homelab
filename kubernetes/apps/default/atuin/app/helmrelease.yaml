@@ -96,6 +96,7 @@ spec:
               - *host
     persistence:
       config:
+        enabled: true
         type: emptyDir
     service:
       app:
