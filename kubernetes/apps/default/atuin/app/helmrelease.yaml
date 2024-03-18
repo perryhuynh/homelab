@@ -83,7 +83,6 @@ spec:
         strategy: RollingUpdate
     ingress:
       nginx:
-        enabled: true
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.perryhuynh.com"
@@ -97,7 +96,6 @@ spec:
               - *host
     persistence:
       config:
-        enabled: true
         type: emptyDir
     service:
       app:
