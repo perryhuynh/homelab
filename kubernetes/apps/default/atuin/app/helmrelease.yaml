@@ -1,5 +1,6 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: atuin
@@ -63,6 +64,8 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: false
             resources:
               limits:
                 memory: 256Mi
@@ -73,7 +76,6 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
         pod:
-          automountServiceAccountToken: false
           securityContext:
             runAsUser: 568
             runAsGroup: 568
@@ -81,8 +83,7 @@ spec:
         replicas: 2
         strategy: RollingUpdate
     ingress:
-      nginx:
-        enabled: true
+      app:
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.perryhuynh.com"
@@ -96,7 +97,6 @@ spec:
               - *host
     persistence:
       config:
-        enabled: true
         type: emptyDir
     service:
       app:
