@@ -30,7 +30,7 @@ spec:
     - name: plex
       namespace: media
     - name: volsync
-      namespace: storage
+      namespace: volsync-system
   values:
     controllers:
       tautulli:

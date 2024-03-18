@@ -28,7 +28,7 @@ spec:
     - name: longhorn
       namespace: storage
     - name: volsync
-      namespace: storage
+      namespace: volsync-system
   values:
     controllers:
       home-assistant:
