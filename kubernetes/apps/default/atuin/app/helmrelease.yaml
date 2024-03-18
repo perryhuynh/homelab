@@ -1,6 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 kind: HelmRelease
 metadata:
   name: atuin
@@ -83,6 +82,7 @@ spec:
         strategy: RollingUpdate
     ingress:
       nginx:
+        enabled: true
         className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.perryhuynh.com"
