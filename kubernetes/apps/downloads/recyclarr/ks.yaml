@@ -24,4 +24,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      MINIO_SCHEDULE: "0 0 * * *"
       VOLSYNC_CAPACITY: 1Gi
