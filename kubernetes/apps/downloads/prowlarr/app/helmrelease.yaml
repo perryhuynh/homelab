@@ -113,7 +113,8 @@ spec:
               - *app
     persistence:
       config:
-        enabled: true
+        type: emptyDir
+      tmp:
         type: emptyDir
     service:
       app:
