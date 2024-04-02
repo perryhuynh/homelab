@@ -43,9 +43,6 @@ spec:
               repository: ghcr.io/onedr0p/prowlarr-develop
               tag: 1.15.0.4361@sha256:79e4fef8281de06fe1fd1d7b6fa2aeca7d76585fc1155828aac6c9ca4b950eb1
             env:
-              # https://github.com/Radarr/Radarr/issues/7030#issuecomment-1039689518
-              # https://github.com/dotnet/runtime/issues/9336
-              COMPlus_EnableDiagnostics: "0"
               PROWLARR__AUTHENTICATION_METHOD: External
               PROWLARR__PORT: &port 80
               TZ: America/Los_Angeles
