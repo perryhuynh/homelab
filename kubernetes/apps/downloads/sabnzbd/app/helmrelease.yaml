@@ -127,7 +127,7 @@ spec:
         existingClaim: sabnzbd
       downloads:
         type: nfs
-        path: /mnt/tank/media/downloads/usenet
+        path: /pool/media/downloads/usenet
         server: ${SECRET_NEW_NAS_IP:=temp}
         globalMounts:
           - path: /downloads
