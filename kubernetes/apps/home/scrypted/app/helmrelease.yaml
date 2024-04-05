@@ -40,7 +40,17 @@ spec:
               SCRYPTED_INSECURE_PORT: &port 80
             image:
               repository: ghcr.io/koush/scrypted
-              tag: 28-jammy-full-v0.97.0
+              tag: 20-jammy-full-v0.97.0
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
             resources:
               limits:
                 gpu.intel.com/i915: 1
@@ -115,6 +125,6 @@ spec:
         ports:
           http:
             port: *port
+            primary: true
           rebroadcast:
             port: 34135
-            primary: true
