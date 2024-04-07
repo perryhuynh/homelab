@@ -131,12 +131,6 @@ spec:
             subPath: ./data
           - path: /usr/src/paperless/media
             subPath: ./media
-      tmp:
-        type: emptyDir
-        advancedMounts:
-          paperless:
-            redis:
-              - path: /data
     service:
       app:
         controller: paperless

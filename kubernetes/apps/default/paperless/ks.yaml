@@ -13,6 +13,7 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
+    - name: dragonfly-cluster
   path: ./kubernetes/apps/default/paperless/app
   prune: true
   sourceRef:
