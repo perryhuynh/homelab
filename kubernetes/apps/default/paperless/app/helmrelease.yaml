@@ -60,7 +60,7 @@ spec:
               PAPERLESS_METRICS__PORT: &metricsPort 8080
               PAPERLESS_OPEN_REGISTRATION: "true"
               PAPERLESS_PORT: &port 80
-              PAPERLESS_REDIS: dragonfly.database.svc.cluster.local
+              PAPERLESS_REDIS: redis://dragonfly.database.svc.cluster.local
               PAPERLESS_REDIS_PREFIX: paperless
               PAPERLESS_TASK_WORKERS: 2
               PAPERLESS_THREADS_PER_WORKER: 2
