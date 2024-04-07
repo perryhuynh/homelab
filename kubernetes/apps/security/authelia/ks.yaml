@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
-    - name: redis
+    - name: dragonfly-cluster
   path: ./kubernetes/apps/security/authelia/app
   prune: true
   sourceRef:
