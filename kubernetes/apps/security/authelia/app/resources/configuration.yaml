@@ -1,20 +1,17 @@
 ---
 authentication_backend:
-  password_reset:
-    disable: true
-  refresh_interval: 1m
   ldap:
-    address: ldap://lldap.security.svc.cluster.local:389
+    address: ldap://glauth.security.svc.cluster.local:389
     implementation: custom
     timeout: 5s
     start_tls: false
     base_dn: dc=home,dc=arpa
-    additional_users_dn: ou=people
-    users_filter: (&({username_attribute}={input})(objectClass=person))
+    additional_users_dn: ou=users
+    users_filter: (&({username_attribute}={input})(objectClass=posixAccount))
     additional_groups_dn: ou=groups
-    groups_filter: (member={dn})
+    groups_filter: (&(memberUid={username})(objectClass=posixGroup))
     group_search_mode: filter
-    user: uid=admin,ou=people,dc=home,dc=arpa
+    user: cn=search,ou=svcaccts,dc=home,dc=arpa
     password: password
     attributes:
       username: uid
@@ -22,6 +19,9 @@ authentication_backend:
       mail: mail
       member_of: memberOf
       group_name: cn
+  password_reset:
+    disable: true
+  refresh_interval: 1m
 
 session:
   same_site: lax
@@ -34,8 +34,8 @@ session:
       authelia_url: https://auth.perryhuynh.com
       default_redirection_url: https://perryhuynh.com
   redis:
-    host: dragonfly.database.svc.cluster.local
     database_index: 2
+    host: dragonfly.database.svc.cluster.local
 
 notifier:
   disable_startup_check: true
@@ -85,12 +85,3 @@ identity_providers:
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://miniflux.perryhuynh.com/oauth2/oidc/callback"]
         userinfo_signed_response_alg: none
-      - id: weave-gitops
-        description: Weave GitOps
-        secret: "${WEAVE_GITOPS_OAUTH_CLIENT_SECRET}"
-        public: false
-        authorization_policy: two_factor
-        pre_configured_consent_duration: 1y
-        scopes: ["openid", "profile", "groups", "email"]
-        redirect_uris: ["https://gitops.perryhuynh.com/oauth2/callback"]
-        userinfo_signing_algorithm: none
