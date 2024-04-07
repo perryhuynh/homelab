@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.0.4
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -25,11 +25,13 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: lldap
+    - name: glauth
       namespace: security
   values:
     controllers:
       authelia:
+        replicas: 2
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -44,7 +46,7 @@ spec:
           app:
             image:
               repository: ghcr.io/authelia/authelia
-              tag: v4.38.0-beta3@sha256:b48ae4d0ed9d1eee76efe382df60928bae550ec19e5663858dde6dc5f41cf285
+              tag: 4.38.7@sha256:1bfa7206c144f8cd184743a7ed629f4a02d2dceb50e7260588373fe6de4cd959
             env:
               AUTHELIA_SERVER_ADDRESS: "tcp://0.0.0.0:80"
               AUTHELIA_SERVER_DISABLE_HEALTHCHECK: "true"
@@ -82,8 +84,6 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
-        replicas: 2
-        strategy: RollingUpdate
     ingress:
       nginx:
         enabled: true
