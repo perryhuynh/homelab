@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/sonarr
-              tag: 4.0.3.1413@sha256:04d8e198752b67df3f95c46144b507f437e7669f0088e7d2bbedf0e762606655
+              tag: 4.0.3.1413@sha256:a8daeb1690ce2870b291d444de5c69bf27a64248484699dddf07c26dff7074b1
             env:
               PUSHOVER_DEBUG: "false"
               PUSHOVER_PRIORITY: 0
