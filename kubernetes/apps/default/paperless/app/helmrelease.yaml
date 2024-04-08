@@ -54,11 +54,9 @@ spec:
             env:
               # Configure application
               PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
-              PAPERLESS_AUDIT_LOG_ENABLED: "true"
               PAPERLESS_PORT: &port 80
               PAPERLESS_TASK_WORKERS: 2
               PAPERLESS_THREADS_PER_WORKER: 2
-              PAPERLESS_TIKA_ENABLED: "true"
               PAPERLESS_TIME_ZONE: America/Los_Angeles
               PAPERLESS_URL: https://paperless.perryhuynh.com
               PAPERLESS_WEBSERVER_WORKERS: 2
@@ -69,6 +67,7 @@ spec:
               PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"
               PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "false"
               # Configure tika/gotenberg integration
+              PAPERLESS_TIKA_ENABLED: "true"
               PAPERLESS_TIKA_ENDPOINT: http://paperless-tika.default.svc.cluster.local:9998
               PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless-gotenberg.default.svc.cluster.local:3000
             envFrom: *envFrom
