@@ -30,6 +30,7 @@ spec:
   values:
     controllers:
       miniflux:
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -90,8 +91,6 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
-        replicas: 2
-        strategy: RollingUpdate
     ingress:
       nginx:
         enabled: true
