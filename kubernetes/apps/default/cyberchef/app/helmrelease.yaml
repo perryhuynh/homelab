@@ -27,6 +27,7 @@ spec:
   values:
     controllers:
       cyberchef:
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -64,8 +65,6 @@ spec:
             runAsUser: 568
             runAsGroup: 568
             runAsNonRoot: true
-        replicas: 2
-        strategy: RollingUpdate
     ingress:
       nginx:
         enabled: true
