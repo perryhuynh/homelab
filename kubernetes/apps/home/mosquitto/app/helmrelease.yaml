@@ -39,8 +39,13 @@ spec:
             image:
               repository: docker.io/library/eclipse-mosquitto
               tag: 2.0.18@sha256:cb3afd02611b0c58b328196ab00de0158322b4c1e014841fb182d2a0ea3a79b9
-            command: ["/bin/sh", "-c"]
-            args: ["cp /tmp/secret/* /mosquitto/external_config/ && mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd"]
+            command:
+              - "/bin/sh"
+              - "-c"
+              - |
+                cp /tmp/secret/mosquitto_pwd /mosquitto/external_config/;
+                chmod 600 /mosquitto/external_config/mosquitto_pwd;
+                mosquitto_passwd -U /mosquitto/external_config/mosquitto_pwd;
         containers:
           app:
             image:
@@ -88,7 +93,9 @@ spec:
         advancedMounts:
           mosquitto:
             init-config:
-              - path: /tmp/secret
+              - path: /tmp/secret/mosquitto_pwd
+                subPath: mosquitto_pwd
+                readOnly: true
       external-config:
         type: emptyDir
         globalMounts:
