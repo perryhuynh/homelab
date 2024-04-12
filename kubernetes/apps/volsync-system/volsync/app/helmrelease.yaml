@@ -29,35 +29,5 @@ spec:
       namespace: volsync-system
   values:
     manageCRDs: true
-    image:
-      # https://github.com/backube/volsync/issues/828
-      repository: &image ghcr.io/onedr0p/volsync
-      tag: &tag 0.9.1
-    rclone:
-      repository: *image
-      tag: *tag
-    restic:
-      repository: *image
-      tag: *tag
     metrics:
       disableAuth: true
-  # postRenderers:
-  #   - kustomize:
-  #       patchesStrategicMerge:
-  #         - apiVersion: apps/v1
-  #           kind: Deployment
-  #           metadata:
-  #             name: volsync
-  #           spec:
-  #             template:
-  #               spec:
-  #                 containers:
-  #                   - name: manager
-  #                     volumeMounts:
-  #                       - name: tz-config
-  #                         mountPath: /etc/localtime
-  #                 volumes:
-  #                   - name: tz-config
-  #                     hostPath:
-  #                       path: /usr/share/zoneinfo/America/Los_Angeles
-  #                       type: File
