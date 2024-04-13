@@ -190,7 +190,7 @@ spec:
         longhorn:
           # renovate: depName="Longhorn"
           gnetId: 16888
-          revision: 8
+          revision: 9
           datasource: Prometheus
         miniflux:
           url: https://raw.githubusercontent.com/miniflux/v2/main/contrib/grafana/dashboard.json
