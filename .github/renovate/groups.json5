@@ -2,6 +2,19 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
+      "description": ["Actions Runner Controller Group"],
+      "groupName": "Actions Runner Controller",
+      "matchPackagePatterns": [
+        "gha-runner-scale-set-controller",
+        "gha-runner-scale-set"
+      ],
+      "matchDatasources": ["docker", "helm"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
+    },
+    {
       "description": ["Dragonfly Operator Group"],
       "groupName": "Dragonfly Operator",
       "matchPackagePatterns": ["dragonfly(?:db)?.operator"],
@@ -23,7 +36,7 @@
       "separateMinorPatch": true
     },
     {
-      "description": "Rook-Ceph Group",
+      "description": ["Rook-Ceph Group"],
       "groupName": "Rook-Ceph",
       "matchPackagePatterns": ["rook.ceph"],
       "matchDatasources": ["helm"],
@@ -37,6 +50,17 @@
       "groupName": "System Upgrade Controller",
       "matchPackagePatterns": ["system-upgrade-controller"],
       "matchDatasources": ["docker", "github-releases"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
+    },
+    {
+      "description": ["Volsync Group"],
+      "groupName": "Volsync",
+      "matchPackagePatterns": ["volsync"],
+      "matchDatasources": ["docker", "helm"],
+      "matchUpdateTypes": ["minor", "patch"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
