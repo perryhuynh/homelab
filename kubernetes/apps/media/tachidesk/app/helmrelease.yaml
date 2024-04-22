@@ -127,10 +127,11 @@ spec:
       downloads:
         enabled: true
         type: nfs
-        path: /mnt/tank/media/downloads/tachidesk
+        path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk/downloads
+            subPath: downloads/tachidesk
       tmp:
         type: emptyDir
     service:
