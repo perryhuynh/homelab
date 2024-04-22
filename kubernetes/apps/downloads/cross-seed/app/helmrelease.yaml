@@ -25,12 +25,8 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: longhorn
-      namespace: storage
     - name: qbittorrent
       namespace: downloads
-    - name: volsync
-      namespace: volsync-system
   values:
     controllers:
       cross-seed:
@@ -38,14 +34,11 @@ spec:
           reloader.stakater.com/auto: "true"
         containers:
           app:
-            args: [
-              "daemon"
-            ]
+            args: ["daemon"]
             image:
               repository: ghcr.io/cross-seed/cross-seed
-              tag: 5.9.2
+              tag: 6.0.0-0@sha256:ae6da5e53ef2b279520d9b98ecdcea209475b703f7e15d972ec193053c000c45
             env:
-              CROSSSEED_PORT: &port 80
               TZ: America/Los_Angeles
             envFrom:
               - secretRef:
@@ -87,21 +80,25 @@ spec:
       config:
         type: emptyDir
       config-file:
-        type: configMap
-        name: cross-seed-config
+        type: secret
+        name: cross-seed-secret
         globalMounts:
           - path: /config/config.js
-            readOnly: true
             subPath: config.js
-      logs:
-        type: emptyDir
-        globalMounts:
-          - path: /config/logs
+            readOnly: true
       qbittorrent:
         existingClaim: qbittorrent
+        globalMounts:
+          - path: /qbittorrent/qBittorrent/BT_backup
+            subPath: qBittorrent/BT_backup
+            readOnly: true
+      downloads:
+        type: nfs
+        path: /mnt/tank/media/downloads/torrents
+        server: ${SECRET_NAS_IP:=temp}
     service:
       app:
         controller: cross-seed
         ports:
           http:
-            port: *port
+            port: 80
