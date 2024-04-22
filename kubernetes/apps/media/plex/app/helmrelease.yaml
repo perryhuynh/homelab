@@ -102,10 +102,11 @@ spec:
           - path: /config/Library/Application Support/Plex Media Server/Cache
       data:
         type: nfs
-        path: /mnt/tank/media/library
+        path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
         globalMounts:
           - path: /data
+            subPath: library
             readOnly: true
       logs:
         type: emptyDir
