@@ -5,11 +5,3 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-configMapGenerator:
-  - name: cross-seed-config
-    files:
-      - config.js=./resources/config.js
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
