@@ -119,8 +119,11 @@ spec:
         existingClaim: qbittorrent
       downloads:
         type: nfs
-        path: /mnt/tank/media/downloads/torrents
+        path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
+        globalMounts:
+          - path: /downloads
+            subPath: downloads/torrents
     service:
       app:
         controller: qbittorrent

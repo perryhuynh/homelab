@@ -160,9 +160,10 @@ spec:
                 readOnly: true
       downloads:
         type: nfs
-        path: /mnt/tank/media/downloads/torrents
+        path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
         advancedMounts:
           orphaned:
             app:
               - path: /downloads
+                subPath: downloads/torrents

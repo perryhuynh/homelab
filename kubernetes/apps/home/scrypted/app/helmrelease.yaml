@@ -105,8 +105,11 @@ spec:
           - path: /.npm
       recs:
         type: nfs
-        path: /mnt/tank/media/scrypted
+        path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
+        globalMounts:
+          - path: /recs
+            subPath: scrypted
       tmp:
         type: emptyDir
     service:
