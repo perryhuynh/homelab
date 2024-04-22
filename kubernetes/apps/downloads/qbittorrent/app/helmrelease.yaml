@@ -116,18 +116,8 @@ spec:
               - *app
     persistence:
       config:
-        enabled: true
         existingClaim: qbittorrent
-      completed-script:
-        type: configMap
-        name: qbittorrent-config
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/completed.sh
-            readOnly: true
-            subPath: completed.sh
       downloads:
-        enabled: true
         type: nfs
         path: /mnt/tank/media/downloads/torrents
         server: ${SECRET_NAS_IP:=temp}

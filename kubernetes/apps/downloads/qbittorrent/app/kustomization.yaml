@@ -5,11 +5,3 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ../../../../templates/volsync
-configMapGenerator:
-  - name: qbittorrent-config
-    files:
-      - completed.sh=./resources/completed.sh
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
