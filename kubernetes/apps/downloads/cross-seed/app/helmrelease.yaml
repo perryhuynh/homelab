@@ -101,4 +101,4 @@ spec:
         controller: cross-seed
         ports:
           http:
-            port: *port
+            port: 80
