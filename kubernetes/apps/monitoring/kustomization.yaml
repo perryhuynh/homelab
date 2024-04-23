@@ -11,6 +11,5 @@ resources:
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
-  - ./node-problem-detector/ks.yaml
   - ./thanos/ks.yaml
   - ./vector/ks.yaml
