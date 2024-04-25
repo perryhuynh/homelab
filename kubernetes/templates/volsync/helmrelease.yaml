@@ -27,8 +27,6 @@ spec:
   values:
     controllers:
       minio:
-        annotations:
-          kyverno.io/suspend-cronjob: "true"
         type: cronjob
         cronjob: &cronjobSpec
           schedule: "* * 31 2 *"
@@ -36,6 +34,7 @@ spec:
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 1
+          suspend: true
         containers:
           app:
             args: &args [
@@ -49,8 +48,6 @@ spec:
               - secretRef:
                   name: "${APP}-volsync-minio-secret"
       r2:
-        annotations:
-          kyverno.io/suspend-cronjob: "true"
         type: cronjob
         cronjob: *cronjobSpec
         containers:
