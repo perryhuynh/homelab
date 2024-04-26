@@ -29,8 +29,6 @@ spec:
       create: true
     monitoring:
       podMonitorEnabled: false
-      grafanaDashboard:
-        create: true
     config:
       data:
         INHERITED_ANNOTATIONS: kyverno.io/ignore
