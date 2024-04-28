@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/prowlarr-develop
-              tag: 1.16.2.4435@sha256:165014d759de0cedcc3b7d3d45713a995c626d1a6e6ab6838728dc8126b0d943
+              tag: 1.17.0.4448@sha256:b2b78c1d5b09048ead2b4b6c352947ab79a675c2b695adf4d74cf482401f89ed
             env:
               PROWLARR__AUTHENTICATION_METHOD: External
               PROWLARR__PORT: &port 80
