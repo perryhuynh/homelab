@@ -56,6 +56,7 @@ spec:
     bucketweb:
       enabled: true
       replicaCount: 2
+      resourcesPreset: "micro"
     compactor:
       enabled: true
       extraFlags:
