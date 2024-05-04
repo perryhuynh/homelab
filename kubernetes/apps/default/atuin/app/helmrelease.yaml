@@ -86,7 +86,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+          - host: "{{ .Release.Name }}.perryhuynh.com"
             paths:
               - path: /
                 service:
