@@ -33,7 +33,7 @@ spec:
     queryFrontend:
       enabled: true
       replicaCount: 2
-      config:
+      config: |-
         type: REDIS
         config:
           addr: dragonfly.database.svc.cluster.local:6379
