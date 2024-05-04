@@ -64,9 +64,9 @@ spec:
               readiness: *probes
             resources:
               limits:
-                memory: 1Gi
+                memory: 2Gi
               requests:
-                cpu: 15m
+                cpu: 10m
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
@@ -81,11 +81,10 @@ spec:
               GITSYNC_PERIOD: 24h
               GITSYNC_ROOT: /jbops
             resources:
-              requests:
-                cpu: 10m
-                memory: 32Mi
               limits:
                 memory: 128Mi
+              requests:
+                cpu: 5m
             securityContext: *securityContext
         pod:
           automountServiceAccountToken: false
