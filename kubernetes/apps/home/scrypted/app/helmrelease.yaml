@@ -40,7 +40,7 @@ spec:
               SCRYPTED_INSECURE_PORT: &port 80
             image:
               repository: ghcr.io/koush/scrypted
-              tag: v0.100.1-jammy-full@sha256:888027b2b4a9ce65fae139efebf6a32abeaa8d533d8988074263c3dd934c5963
+              tag: v0.100.2-jammy-full@sha256:5ab056480dc55d1a147c3afd5edad443830e06f865072d54bfcf97694a4cbec5
             resources:
               limits:
                 gpu.intel.com/i915: 1
