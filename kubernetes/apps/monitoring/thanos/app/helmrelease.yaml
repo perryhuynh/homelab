@@ -58,9 +58,9 @@ spec:
       replicaCount: 2
       resources:
         limits:
-          memory: 512Mi
+          memory: 256Mi
         requests:
-          cpu: 25m
+          cpu: 10m
     compactor:
       enabled: true
       extraFlags:
@@ -73,6 +73,11 @@ spec:
         enabled: true
         storageClass: local-hostpath
         size: 10Gi
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 10m
     storegateway:
       enabled: true
       replicaCount: 2
@@ -80,6 +85,11 @@ spec:
         enabled: true
         storageClass: local-hostpath
         size: 10Gi
+      resources:
+        limits:
+          memory: 256Mi
+        requests:
+          cpu: 10m
     ruler:
       enabled: true
       replicaCount: 2
@@ -101,6 +111,11 @@ spec:
         enabled: true
         storageClass: local-hostpath
         size: 10Gi
+      resources:
+        limits:
+          memory: 256Mi
+        requests:
+          cpu: 10m
     metrics:
       enabled: true
       serviceMonitor:
