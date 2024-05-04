@@ -56,7 +56,11 @@ spec:
     bucketweb:
       enabled: true
       replicaCount: 2
-      resourcesPreset: "micro"
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 25m
     compactor:
       enabled: true
       extraFlags:
