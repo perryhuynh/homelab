@@ -28,6 +28,11 @@ spec:
     - name: snapshot-controller
       namespace: volsync-system
   values:
+    resources:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: 100m
     manageCRDs: true
     metrics:
       disableAuth: true
