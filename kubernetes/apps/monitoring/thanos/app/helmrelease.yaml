@@ -33,7 +33,7 @@ spec:
     queryFrontend:
       enabled: true
       replicaCount: 2
-      config: &config |-
+      config: |-
         type: REDIS
         config:
           addr: dragonfly.database.svc.cluster.local:6379
@@ -46,6 +46,11 @@ spec:
         extraTls:
           - hosts:
               - *host
+      resources:
+        limits:
+          memory: 256Mi
+        requests:
+          cpu: 10m
     query:
       enabled: true
       replicaCount: 2
@@ -53,6 +58,11 @@ spec:
       dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
+      resources:
+        limits:
+          memory: 256Mi
+        requests:
+          cpu: 10m
     bucketweb:
       enabled: true
       replicaCount: 2
