@@ -68,11 +68,10 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources: &resources
-              requests:
-                cpu: 10m
-                memory: 256M
               limits:
                 memory: 256M
+              requests:
+                cpu: 10m
           sync:
             image:
               repository: docker.io/1password/connect-sync
