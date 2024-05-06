@@ -36,10 +36,9 @@ spec:
         config: /etc/cni/net.d
         bin: /opt/cni/bin
     resources:
-      requests:
-        cpu: 5m
-        memory: 128Mi
       limits:
         memory: 128Mi
+      requests:
+        cpu: 5m
     hostPaths:
       netns: /var/run/netns
