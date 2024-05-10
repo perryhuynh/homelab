@@ -46,7 +46,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2024.5.2
+              tag: 2024.5.2@ sha256:76e416dd4ab2f14ca9be120617fe69f51ad335c284352c189a0315954bed4b4e
             env:
               TZ: &TZ America/Los_Angeles
               SERVER_HOST:
@@ -66,7 +66,7 @@ spec:
           codeserver:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.89.0
+              tag: 4.89.0@ sha256:19d4480011242bcad63e84dd2408ccbf834ce48a9d34381dcc22bf126daf6873
             env:
               TZ: *TZ
             args:
