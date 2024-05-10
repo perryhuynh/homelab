@@ -39,7 +39,7 @@ spec:
               THELOUNGE_HOME: /config/thelounge
             image:
               repository: ghcr.io/thelounge/thelounge
-              tag: 4.4.3
+              tag: 4.4.3@sha256:6e701d1413a322992e23293cdb633adf14713ba356162b4a0a30cdeb5d1311ae
             probes:
               liveness:
                 enabled: true
