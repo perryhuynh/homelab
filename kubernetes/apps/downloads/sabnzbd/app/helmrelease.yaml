@@ -36,8 +36,6 @@ spec:
           reloader.stakater.com/auto: "true"
         containers:
           app:
-            # dependsOn:
-            #   - vpn
             image:
               repository: ghcr.io/onedr0p/sabnzbd
               tag: 4.3@sha256:10aa04902725e2fb8325b71fc6bbdf3399e63d6520028c2571220d54fd928aee
@@ -78,25 +76,6 @@ spec:
               runAsGroup: 568
               runAsNonRoot: true
               runAsUser: 568
-          # vpn:
-          #   image:
-          #     repository: ghcr.io/qdm12/gluetun
-          #     tag: v3.36.0
-          #   env:
-          #     VPN_TYPE: wireguard
-          #   envFrom:
-          #     - secretRef:
-          #         name: sabnzbd-secret
-          #   resources:
-          #     limits:
-          #       memory: 1Gi
-          #     requests:
-          #       cpu: 25m
-          #       memory: 1Gi
-          #   securityContext:
-          #     capabilities:
-          #       add:
-          #         - NET_ADMIN
         pod:
           automountServiceAccountToken: false
           securityContext:
