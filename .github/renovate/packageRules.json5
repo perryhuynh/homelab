@@ -8,12 +8,6 @@
       "matchPackagePatterns": ["changedetection", "plex", "qbittorrent"]
     },
     {
-      "description": "Custom versioning for frigate",
-      "matchDatasources": ["docker"],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<compatibility>beta)(?<build>\\d+))?$",
-      "matchPackagePatterns": ["frigate"]
-    },
-    {
       "description": "Custom versioning for k3s",
       "matchDatasources": ["github-releases"],
       "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<compatibility>\\+k3s)(?<build>\\d+)$",
@@ -30,18 +24,6 @@
       "matchDatasources": ["docker"],
       "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
       "matchPackagePatterns": ["minio"]
-    },
-    {
-      "description": "Custom versioning for Scrypted",
-      "matchDatasources": ["docker"],
-      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<ubuntuVersion>.*?)-(?<scryptedFlavor>.*?)$",
-      "matchPackageNames": ["ghcr.io/koush/scrypted"]
-    },
-    {
-      "description": "Custom versioning for tachidesk",
-      "matchDatasources": ["docker"],
-      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-r(?<build>\\d+)$",
-      "matchPackagePatterns": ["tachidesk"]
     }
   ]
 }
