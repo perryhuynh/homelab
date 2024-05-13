@@ -50,9 +50,9 @@ spec:
             resources:
               limits:
                 gpu.intel.com/i915: 1
-                memory: 4Gi
+                memory: 8Gi
               requests:
-                cpu: 150m
+                cpu: 100m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
