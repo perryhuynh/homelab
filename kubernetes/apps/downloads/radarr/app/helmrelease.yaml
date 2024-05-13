@@ -40,14 +40,18 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/radarr
-              tag: 5.5.3.8819@sha256:2d89b183fa0d2a734d1301bf84fd7e0a9a1dc2402e5a5dab5a25de78d45444fd
+              repository: ghcr.io/onedr0p/radarr-develop
+              tag: 5.5.3.8819@sha256:c9637c4bdf6e929b823dc8497ff34fdcb2e0868703cd686a20a1d55b8b6381de
             env:
               PUSHOVER_DEBUG: "false"
               PUSHOVER_PRIORITY: 0
-              RADARR__AUTHENTICATION_METHOD: External
-              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
-              RADARR__PORT: &port 80
+              RADARR__APP__INSTANCENAME: Radarr
+              RADARR__APP__THEME: dark
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__LOG__DBENABLED: "False"
+              RADARR__LOG__LEVEL: info
+              RADARR__SERVER__PORT: &port 80
               TZ: America/Los_Angeles
             envFrom: *envFrom
             probes:
