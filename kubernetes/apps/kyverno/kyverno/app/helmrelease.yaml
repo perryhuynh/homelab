@@ -85,5 +85,12 @@ spec:
       webhooks:
         - objectSelector:
             matchExpressions:
-            - key: webhooks.kyverno.io/exclude
-              operator: DoesNotExist
+              - key: webhooks.kyverno.io/exclude
+                operator: DoesNotExist
+        - namespaceSelector:
+            matchExpressions:
+              - key: kubernetes.io/metadata.name
+                operator: NotIn
+                values:
+                    - kube-system
+                    - storage
