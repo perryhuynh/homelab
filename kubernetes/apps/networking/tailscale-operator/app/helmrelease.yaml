@@ -26,13 +26,6 @@ spec:
     keepHistory: false
   values:
     operatorConfig:
-      image:
-        # TODO: pinning/renovate etc
-        repo: ghcr.io/tailscale/k8s-operator
       logging: "debug"
-    proxyConfig:
-      image:
-        # TODO: pinning/renovate etc
-        repo: ghcr.io/tailscale/tailscale
     apiServerProxyConfig:
       mode: "true"
