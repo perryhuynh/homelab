@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: atuin
+  name: &app atuin
 spec:
   interval: 30m
   chart:
@@ -66,9 +66,9 @@ spec:
               readiness: *probes
             resources:
               limits:
-                memory: 256Mi
+                memory: 128Mi
               requests:
-                cpu: 10m
+                cpu: 5m
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -87,11 +87,20 @@ spec:
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   identifier: app
                   port: http
+      tailscale:
+        enabled: true
+        className: tailscale
+        hosts:
+          - host: *app
+            paths: *paths
+        tls:
+          - hosts:
+              - *app
     persistence:
       config:
         enabled: true
