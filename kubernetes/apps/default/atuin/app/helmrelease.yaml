@@ -87,7 +87,7 @@ spec:
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   identifier: app
