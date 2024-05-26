@@ -122,7 +122,8 @@ spec:
           app:
             args: [
               "orphaned",
-              "--exclude-pattern",  "*/incomplete/*", "*/manual/*",
+              "--exclude-pattern",  "*/incomplete/*",
+              "--exclude-pattern",  "*/manual/*",
               # "--dry-run",
               "--server", "qbittorrent.downloads.svc.cluster.local",
               "--port", "80"
