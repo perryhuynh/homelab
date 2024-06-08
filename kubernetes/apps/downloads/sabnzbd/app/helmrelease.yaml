@@ -106,10 +106,11 @@ spec:
         existingClaim: sabnzbd
       downloads:
         type: nfs
-        path: /pool/media/downloads/usenet
+        path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
         globalMounts:
           - path: /downloads
+            subPath: downloads/usenet
       incomplete:
         type: emptyDir
       tmp:
