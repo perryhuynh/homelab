@@ -24,3 +24,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  values:
+    global:
+      storageClass: local-hostpath
