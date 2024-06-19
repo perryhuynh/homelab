@@ -5,3 +5,6 @@ metadata:
   name: rabbitmq
 spec:
   replicas: 3
+  persistence:
+    storageClassName: local-hostpath
+    storage: 10Gi
