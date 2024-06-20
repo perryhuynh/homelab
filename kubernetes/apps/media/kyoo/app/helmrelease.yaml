@@ -40,7 +40,6 @@ spec:
               tag: edge@sha256:f158ffdbf6c3bd2e463bdb97fd8d708e7ad25f207d860554593ae10c37e28737
             env:
               KYOO_URL: http://kyoo-backend:5000
-              PUBLIC_URL: &host "{{ .Release.Name }}.perryhuynh.com"
             resources:
               limits:
                 memory: 2Gi
@@ -73,6 +72,7 @@ spec:
               repository: ghcr.io/zoriya/kyoo_back
               tag: edge@sha256:9d4e600635c20753ff17142cf74fafe71a3add02688b8118a8e5f583db19ef46
             env:
+              PUBLIC_URL: &host "{{ .Release.Name }}.perryhuynh.com"
               TRANSCODER_URL: http://kyoo-transcoder:7666
               # If this is true, new accounts wont have any permissions before you approve them in your admin dashboard.
               REQUIRE_ACCOUNT_VERIFICATION: "true"
