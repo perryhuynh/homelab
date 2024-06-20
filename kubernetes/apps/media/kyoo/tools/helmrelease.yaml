@@ -27,6 +27,8 @@ spec:
   values:
     controllers:
       matcher:
+        annotations:
+          reloader.stakater.com/auto: "true"
         strategy: RollingUpdate
         containers:
           app:
@@ -70,6 +72,8 @@ spec:
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
       scanner:
+        annotations:
+          reloader.stakater.com/auto: "true"
         strategy: RollingUpdate
         containers:
           app:
