@@ -87,7 +87,7 @@ spec:
             subPath: library
             readOnly: true
       metadata:
-        existingClaim: kyoo-backend
+        existingClaim: kyoo-metadata
     service:
       app:
         controller: kyoo-transcoder
