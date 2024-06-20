@@ -2,14 +2,13 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-  name: rabbitmq
+  name: kyoo-rabbitmq
 spec:
   replicas: 3
   resources:
     limits:
-      memory: 2Gi
+      memory: 1Gi
     requests:
-      cpu: 100m
+      cpu: 50m
   persistence:
     storageClassName: local-hostpath
-    storage: 10Gi
