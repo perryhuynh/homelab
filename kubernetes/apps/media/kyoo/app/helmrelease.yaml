@@ -30,6 +30,8 @@ spec:
   values:
     controllers:
       frontend:
+        annotations:
+          reloader.stakater.com/auto: "true"
         strategy: RollingUpdate
         containers:
           app:
@@ -48,6 +50,8 @@ spec:
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
       backend:
+        annotations:
+          reloader.stakater.com/auto: "true"
         initContainers:
           00-init-db:
             image:
