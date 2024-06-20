@@ -1,0 +1,138 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kyoo-backend
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: meilisearch
+      namespace: media
+  values:
+    controllers:
+      kyoo-backend:
+        initContainers:
+          00-init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom:
+              - secretRef: &kyooSecret
+                  name: kyoo-backend-secret
+          01-migrations:
+            envFrom:
+              - secretRef: *kyooSecret
+            image:
+              repository: ghcr.io/zoriya/kyoo_migrations
+              tag: edge@sha256:436dd3769c273d8e5c426383cf9d5d5552dc08b9185a1efbb4b183262d074253
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_back
+              tag: edge@sha256:9d4e600635c20753ff17142cf74fafe71a3add02688b8118a8e5f583db19ef46
+            env:
+              LIBRARY_ROOT: &libraryPath /data
+              TRANSCODER_URL: http://kyoo-transcoder:7666
+              # If this is true, new accounts wont have any permissions before you approve them in your admin dashboard.
+              REQUIRE_ACCOUNT_VERIFICATION: "true"
+              # You can specify this to allow guests users to see your collection without behing able to play videos for example:
+              UNLOGGED_PERMISSIONS: overall.read
+              # Specify permissions of new accounts.
+              DEFAULT_PERMISSIONS: overall.read,overall.play
+              # Meilisearch specific
+              RUN_MIGRATIONS: true
+              MEILI_HOST: http://kyoo-meilisearch:7700
+              MEILI_MASTER_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: kyoo-meilisearch-secret
+                    key:
+            envFrom:
+              - secretRef: *kyooSecret
+              - secretRef:
+                  name: kyoo-meilisearch-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 5000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            resources:
+              limits:
+                cpu: 2
+                memory: 8Gi
+              requests:
+                cpu: 50m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    persistence:
+      data:
+        type: nfs
+        path: /mnt/tank/media
+        server: ${SECRET_NAS_IP:=temp}
+        advancedMounts:
+          scanner:
+            app:
+              - path: *libraryPath
+                subPath: library
+                readOnly: true
+      metadata:
+        existingClaim: kyoo-metadata
+    ingress:
+      nginx:
+        enabled: true
+        className: internal
+        hosts:
+          - host: "kyoo.perryhuynh.com"
+            paths:
+              - path: /api
+                service:
+                  identifier: app
+                  port: http
+    service:
+      kyoo-backend:
+        controller: kyoo-backend
+        ports:
+          http:
+            port: *port
