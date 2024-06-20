@@ -25,8 +25,14 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
+    - name: intel-device-plugin-gpu
+      namespace: kube-system
+    - name: longhorn
+      namespace: storage
     - name: kyoo-meilisearch
       namespace: media
+    - name: volsync
+      namespace: volsync-system
   values:
     controllers:
       frontend:
@@ -131,7 +137,39 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
+      kyoo-transcoder:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_transcoder
+              tag: 4.6
+            envFrom:
+              - configMapRef:
+                  name: kyoo-config
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+            resources:
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 8Gi
+              requests:
+                cpu: 250m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: 'true'
     defaultPodOptions:
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
@@ -140,6 +178,22 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
     persistence:
+      cache:
+        type: emptyDir
+        advancedMounts:
+          transcoder:
+            app:
+              - path: /cache
+      data:
+        type: nfs
+        path: /mnt/tank/media
+        server: ${SECRET_NAS_IP:=temp}
+        advancedMounts:
+          transcoder:
+            app:
+              - path: /data
+                subPath: library
+                readOnly: true
       metadata:
         existingClaim: kyoo-metadata
         advancedMounts:
@@ -148,10 +202,6 @@ spec:
               - path: /metadata
     ingress:
       nginx:
-        annotations:
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            rewrite /api/(.*) /$1 break;
-          nginx.ingress.kubernetes.io/proxy-body-size: "0"
         enabled: true
         className: internal
         hosts:
@@ -178,3 +228,8 @@ spec:
         ports:
           http:
             port: *backendPort
+      transcoder:
+        controller: transcoder
+        ports:
+          http:
+            port: 7666
