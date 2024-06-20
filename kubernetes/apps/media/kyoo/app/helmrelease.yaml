@@ -166,8 +166,18 @@ spec:
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
         pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["plex"]
+                  topologyKey: kubernetes.io/hostname
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: 'true'
+          supplementalGroups: [44, 105, 65532]
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
