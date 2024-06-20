@@ -58,6 +58,8 @@ spec:
             envFrom: &envFrom
               - configMapRef:
                   name: kyoo-config
+              - secretRef:
+                  name: kyoo-backend-secret
             resources:
               limits:
                 memory: 512Mi
