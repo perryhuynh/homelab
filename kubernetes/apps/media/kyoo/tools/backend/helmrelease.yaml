@@ -61,11 +61,6 @@ spec:
               # Meilisearch specific
               RUN_MIGRATIONS: true
               MEILI_HOST: http://kyoo-meilisearch:7700
-              MEILI_MASTER_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: kyoo-meilisearch-secret
-                    key:
             envFrom:
               - secretRef: *kyooSecret
               - secretRef:
