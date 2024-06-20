@@ -154,12 +154,12 @@ spec:
                   port: http
     service:
       frontend:
-        controller: kyoo-frontend
+        controller: frontend
         ports:
           http:
             port: 8901
       backend:
-        controller: kyoo-backend
+        controller: backend
         ports:
           http:
             port: *backendPort
