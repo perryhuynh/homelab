@@ -13,6 +13,7 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
+    - name: kyoo-rabbitmq
   path: ./kubernetes/apps/media/kyoo/tools/backend
   prune: true
   sourceRef:
