@@ -30,6 +30,7 @@ spec:
   values:
     controllers:
       frontend:
+        strategy: RollingUpdate
         containers:
           app:
             image:
