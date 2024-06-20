@@ -35,5 +35,5 @@ data:
   # Read by the api container to know if it should run meilisearch's migrations/sync
   # and download missing images. This is a good idea to only have one instance with this on
   # Note: it does not run postgres migrations, use the migration container for that.
-  RUN_MIGRATIONS: true
+  RUN_MIGRATIONS: "true"
   MEILI_HOST: http://kyoo-meilisearch:7700
