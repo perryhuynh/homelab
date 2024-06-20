@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kyoo-backend
+  name: kyoo
 spec:
   interval: 30m
   chart:
@@ -29,7 +29,24 @@ spec:
       namespace: media
   values:
     controllers:
-      kyoo-backend:
+      frontend:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_back
+              tag: edge@sha256:9d4e600635c20753ff17142cf74fafe71a3add02688b8118a8e5f583db19ef46
+            env:
+              KYOO_URL: http://kyoo-backend:5000
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                cpu: 50m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+      backend:
         initContainers:
           00-init-db:
             image:
@@ -92,7 +109,7 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: &port 5000
+                    port: &backendPort 5000
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -136,8 +153,13 @@ spec:
                   identifier: app
                   port: http
     service:
-      app:
+      frontend:
+        controller: kyoo-frontend
+        ports:
+          http:
+            port: 8901
+      backend:
         controller: kyoo-backend
         ports:
           http:
-            port: *port
+            port: *backendPort
