@@ -43,8 +43,9 @@ spec:
               # warning: using vaapi hwaccel disable presets (they are not supported).
               GOCODER_PRESET: fast
               GOCODER_VAAPI_RENDERER: /dev/dri/renderD128
-              GOCODER_SAFE_PATH: /data
+              GOCODER_SAFE_PATH: &libraryPath /data
               GOCODER_PREFIX: /video
+              LIBRARY_ROOT: *libraryPath
             probes:
               liveness:
                 enabled: true
@@ -82,7 +83,7 @@ spec:
         path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
         globalMounts:
-          - path: /data
+          - path: *libraryPath
             subPath: library
             readOnly: true
       metadata:

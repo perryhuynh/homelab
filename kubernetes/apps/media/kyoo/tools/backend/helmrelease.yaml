@@ -50,7 +50,6 @@ spec:
               repository: ghcr.io/zoriya/kyoo_back
               tag: edge@sha256:9d4e600635c20753ff17142cf74fafe71a3add02688b8118a8e5f583db19ef46
             env:
-              LIBRARY_ROOT: &libraryPath /data
               TRANSCODER_URL: http://kyoo-transcoder:7666
               # If this is true, new accounts wont have any permissions before you approve them in your admin dashboard.
               REQUIRE_ACCOUNT_VERIFICATION: "true"
@@ -116,7 +115,7 @@ spec:
                   identifier: app
                   port: http
     service:
-      kyoo-backend:
+      app:
         controller: kyoo-backend
         ports:
           http:
