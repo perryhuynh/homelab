@@ -77,7 +77,7 @@ spec:
         path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
         globalMounts:
-          - path: *libraryPath
+          - path: /data
             subPath: library
             readOnly: true
       metadata:
