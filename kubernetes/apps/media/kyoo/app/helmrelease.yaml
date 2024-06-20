@@ -177,7 +177,8 @@ spec:
                   topologyKey: kubernetes.io/hostname
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: 'true'
-          supplementalGroups: [44, 105, 65532]
+          securityContext:
+            supplementalGroups: [44, 105, 65532]
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
