@@ -59,18 +59,18 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-          pod:
-            automountServiceAccountToken: false
-            nodeSelector:
-              intel.feature.node.kubernetes.io/gpu: 'true'
-            securityContext:
-              fsGroup: 568
-              fsGroupChangePolicy: OnRootMismatch
-              runAsGroup: 568
-              runAsNonRoot: true
-              runAsUser: 568
-              seccompProfile: { type: RuntimeDefault }
-              supplementalGroups: [44, 105, 65532]
+        pod:
+          automountServiceAccountToken: false
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: 'true'
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            runAsGroup: 568
+            runAsNonRoot: true
+            runAsUser: 568
+            seccompProfile: { type: RuntimeDefault }
+            supplementalGroups: [44, 105, 65532]
     persistence:
       cache:
         type: emptyDir
