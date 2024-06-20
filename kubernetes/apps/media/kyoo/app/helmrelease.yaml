@@ -177,8 +177,6 @@ spec:
                   topologyKey: kubernetes.io/hostname
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: 'true'
-          securityContext:
-            supplementalGroups: [44, 105, 65532]
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
@@ -188,6 +186,7 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
+        supplementalGroups: [44, 105, 65532]
     persistence:
       cache:
         type: emptyDir
