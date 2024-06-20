@@ -29,3 +29,6 @@ spec:
       MEILI_ENV: production
     auth:
       existingMasterKeySecret: kyoo-meilisearch-secret
+    persistence:
+      enabled: true
+      storageClass: longhorn
