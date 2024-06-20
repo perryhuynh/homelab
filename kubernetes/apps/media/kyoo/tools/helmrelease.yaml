@@ -97,6 +97,6 @@ spec:
         advancedMounts:
           scanner:
             app:
-              - path: *scannerPath
+              - path: /data
                 subPath: library
                 readOnly: true
