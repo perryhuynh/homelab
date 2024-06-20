@@ -129,10 +129,10 @@ spec:
                   periodSeconds: 10
             resources:
               limits:
-                cpu: 2
+                cpu: 4
                 memory: 8Gi
               requests:
-                cpu: 50m
+                cpu: 100m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
