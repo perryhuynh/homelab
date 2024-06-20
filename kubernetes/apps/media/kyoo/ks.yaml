@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/kyoo/tools/meilisearch
+  path: ./kubernetes/apps/media/kyoo/tools/meilisearch
   prune: true
   sourceRef:
     kind: GitRepository
