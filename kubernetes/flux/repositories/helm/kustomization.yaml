@@ -28,6 +28,7 @@ resources:
   - ./kubernetes-dashboard.yaml
   - ./kyverno.yaml
   - ./longhorn.yaml
+  - ./meilisearch.yaml
   - ./metrics-server.yaml
   - ./node-feature-discovery.yaml
   - ./piraeus.yaml
