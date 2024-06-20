@@ -80,7 +80,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: kyoo-backend
+    - name: kyoo
   path: ./kubernetes/apps/media/kyoo/tools/transcoder
   prune: true
   sourceRef:
