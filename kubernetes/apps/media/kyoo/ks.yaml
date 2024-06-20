@@ -31,6 +31,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: rabbitmq-cluster-operator
   path: ./kubernetes/apps/media/kyoo/tools/rabbitmq
   prune: true
   sourceRef:
