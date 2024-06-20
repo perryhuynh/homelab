@@ -202,6 +202,8 @@ spec:
               - path: /metadata
     ingress:
       nginx:
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+            rewrite /api/(.*) /$1 break;
         enabled: true
         className: internal
         hosts:
