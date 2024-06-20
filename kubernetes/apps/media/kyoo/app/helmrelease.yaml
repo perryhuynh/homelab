@@ -137,7 +137,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-      kyoo-transcoder:
+      transcoder:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
