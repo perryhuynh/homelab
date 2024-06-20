@@ -35,7 +35,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/media/kyoo/tools/meilisearch
+  path: ./kubernetes/apps/media/kyoo/meilisearch
   prune: true
   sourceRef:
     kind: GitRepository
@@ -58,7 +58,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: rabbitmq-cluster-operator
-  path: ./kubernetes/apps/media/kyoo/tools/rabbitmq
+  path: ./kubernetes/apps/media/kyoo/rabbitmq
   prune: true
   sourceRef:
     kind: GitRepository
