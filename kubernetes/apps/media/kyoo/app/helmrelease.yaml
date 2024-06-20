@@ -166,6 +166,15 @@ spec:
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
         pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values: ["plex"]
+                  topologyKey: kubernetes.io/hostname
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: 'true'
     defaultPodOptions:
@@ -177,6 +186,7 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
+        supplementalGroups: [44, 105, 65532]
     persistence:
       cache:
         type: emptyDir
