@@ -39,7 +39,7 @@ spec:
               repository: ghcr.io/zoriya/kyoo_front
               tag: edge@sha256:f158ffdbf6c3bd2e463bdb97fd8d708e7ad25f207d860554593ae10c37e28737
             envFrom:
-              - configMapRef: &kyooConfig
+              - configMapRef:
                   name: kyoo-config
             resources:
               limits:
@@ -59,7 +59,7 @@ spec:
               repository: ghcr.io/onedr0p/postgres-init
               tag: 16
             envFrom:
-              - secretRef: &kyooSecret
+              - secretRef:
                   name: kyoo-backend-secret
           01-migrations:
             envFrom:
@@ -96,8 +96,10 @@ spec:
                     name: kyoo-rabbitmq-default-user
                     key: port
             envFrom:
-              - configMapRef: *kyooConfig
-              - secretRef: *kyooSecret
+              - configMapRef:
+                  name: kyoo-config
+              - secretRef:
+                  name: kyoo-backend-secret
               - secretRef:
                   name: kyoo-meilisearch-secret
             probes:
