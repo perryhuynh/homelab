@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kyoo-backend
+  name: kyoo
 spec:
   interval: 30m
   chart:
@@ -29,7 +29,25 @@ spec:
       namespace: media
   values:
     controllers:
-      kyoo-backend:
+      frontend:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_front
+              tag: edge@sha256:f158ffdbf6c3bd2e463bdb97fd8d708e7ad25f207d860554593ae10c37e28737
+            env:
+              KYOO_URL: http://kyoo-backend:5000
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                cpu: 50m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+      backend:
         initContainers:
           00-init-db:
             image:
@@ -92,7 +110,7 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: &port 5000
+                    port: &backendPort 5000
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -129,15 +147,26 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: "kyoo.perryhuynh.com"
+          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+            paths:
+              - path: /
+                service:
+                  identifier: frontend
+                  port: http
+          - host: *host
             paths:
               - path: /api
                 service:
-                  identifier: app
+                  identifier: backend
                   port: http
     service:
-      app:
-        controller: kyoo-backend
+      frontend:
+        controller: frontend
         ports:
           http:
-            port: *port
+            port: 8901
+      backend:
+        controller: backend
+        ports:
+          http:
+            port: *backendPort
