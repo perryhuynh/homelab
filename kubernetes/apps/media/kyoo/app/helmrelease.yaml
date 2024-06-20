@@ -146,11 +146,17 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: "kyoo.perryhuynh.com"
+          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+            paths:
+              - path: /
+                service:
+                  identifier: frontend
+                  port: http
+          - host: *host
             paths:
               - path: /api
                 service:
-                  identifier: app
+                  identifier: backend
                   port: http
     service:
       frontend:
