@@ -142,6 +142,10 @@ spec:
     persistence:
       metadata:
         existingClaim: kyoo-metadata
+        advancedMounts:
+          backend:
+            app:
+              - path: /metadata
     ingress:
       nginx:
         enabled: true
