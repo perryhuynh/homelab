@@ -60,6 +60,27 @@ spec:
               # Meilisearch specific
               RUN_MIGRATIONS: true
               MEILI_HOST: http://kyoo-meilisearch:7700
+              # RabbitMQ
+              RABBITMQ_DEFAULT_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: kyoo-rabbitmq-default-user
+                    key: username
+              RABBITMQ_DEFAULT_PASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: kyoo-rabbitmq-default-user
+                    key: password
+              RABBITMQ_HOST:
+                valueFrom:
+                  secretKeyRef:
+                    name: kyoo-rabbitmq-default-user
+                    key: host
+              RABBITMQ_PORT:
+                valueFrom:
+                  secretKeyRef:
+                    name: kyoo-rabbitmq-default-user
+                    key: port
             envFrom:
               - secretRef: *kyooSecret
               - secretRef:
