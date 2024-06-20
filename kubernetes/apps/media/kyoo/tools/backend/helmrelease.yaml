@@ -102,16 +102,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
     persistence:
-      data:
-        type: nfs
-        path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:=temp}
-        advancedMounts:
-          scanner:
-            app:
-              - path: *libraryPath
-                subPath: library
-                readOnly: true
       metadata:
         existingClaim: kyoo-metadata
     ingress:
