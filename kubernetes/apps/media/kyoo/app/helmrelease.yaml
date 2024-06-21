@@ -112,15 +112,16 @@ spec:
             probes:
               liveness: &probes
                 enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: &backendPort 5000
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 5
+                # TODO: re enable after cpu load issue is fixed
+                # custom: true
+                # spec:
+                #   httpGet:
+                #     path: /health
+                #     port: &backendPort 5000
+                #   initialDelaySeconds: 0
+                #   periodSeconds: 10
+                #   timeoutSeconds: 5
+                #   failureThreshold: 5
               readiness: *probes
               startup:
                 enabled: true
@@ -183,4 +184,4 @@ spec:
         controller: backend
         ports:
           http:
-            port: *backendPort
+            port: 5000
