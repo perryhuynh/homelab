@@ -38,6 +38,8 @@ spec:
             args: ["matcher"]
             env: &env
               KYOO_URL: http://kyoo-backend:5000
+              LIBRARY_LANGUAGES: en
+              SCANNER_LIBRARY_ROOT: &libraryPath /data
               RABBITMQ_DEFAULT_USER:
                 valueFrom:
                   secretKeyRef:
@@ -79,8 +81,6 @@ spec:
             image: *image
             env:
               <<: *env
-              LIBRARY_LANGUAGES: en
-              SCANNER_LIBRARY_ROOT: &libraryPath /data
             envFrom: *envFrom
             resources:
               limits:
