@@ -79,8 +79,7 @@ spec:
         containers:
           app:
             image: *image
-            env:
-              <<: *env
+            env: *env
             envFrom: *envFrom
             resources:
               limits:
