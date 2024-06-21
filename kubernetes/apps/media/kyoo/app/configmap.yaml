@@ -18,3 +18,8 @@ data:
   PUBLIC_URL: https://kyoo.perryhuynh.com
   # To debug the front end, you can set the following to an external backend
   KYOO_URL: http://kyoo-backend:5000
+  # Read by the api container to know if it should run meilisearch's migrations/sync
+  # and download missing images. This is a good idea to only have one instance with this on
+  # Note: it does not run postgres migrations, use the migration container for that.
+  RUN_MIGRATIONS: "true"
+  MEILI_HOST: http://kyoo-meilisearch:7700
