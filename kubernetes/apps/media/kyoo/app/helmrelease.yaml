@@ -80,6 +80,11 @@ spec:
               repository: ghcr.io/zoriya/kyoo_back
               tag: edge@sha256:9d4e600635c20753ff17142cf74fafe71a3add02688b8118a8e5f583db19ef46
             env:
+              # Read by the api container to know if it should run meilisearch's migrations/sync
+              # and download missing images. This is a good idea to only have one instance with this on
+              # Note: it does not run postgres migrations, use the migration container for that.
+              RUN_MIGRATIONS: "true"
+              MEILI_HOST: http://kyoo-meilisearch:7700
               TRANSCODER_URL: http://kyoo-transcoder:7666
               # RabbitMQ
               RABBITMQ_DEFAULT_USER:
