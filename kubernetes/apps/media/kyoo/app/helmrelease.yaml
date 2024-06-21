@@ -44,9 +44,8 @@ spec:
             image:
               repository: ghcr.io/zoriya/kyoo_front
               tag: edge@sha256:f158ffdbf6c3bd2e463bdb97fd8d708e7ad25f207d860554593ae10c37e28737
-            envFrom:
-              - configMapRef:
-                  name: kyoo-config
+            env:
+              KYOO_URL: http://kyoo-backend:5000
             resources:
               limits:
                 memory: 2Gi
@@ -80,8 +79,17 @@ spec:
               repository: ghcr.io/zoriya/kyoo_back
               tag: edge@sha256:9d4e600635c20753ff17142cf74fafe71a3add02688b8118a8e5f583db19ef46
             env:
+              # general
+              PUBLIC_URL: https://kyoo.perryhuynh.com
               TRANSCODER_URL: http://kyoo-transcoder:7666
-              # RabbitMQ
+              # permissions
+              DEFAULT_PERMISSIONS: overall.read,overall.play
+              REQUIRE_ACCOUNT_VERIFICATION: "true"
+              UNLOGGED_PERMISSIONS: overall.read
+              # meilisearch
+              RUN_MIGRATIONS: "true"
+              MEILI_HOST: http://kyoo-meilisearch:7700
+              # rabbitmq
               RABBITMQ_DEFAULT_USER:
                 valueFrom:
                   secretKeyRef:

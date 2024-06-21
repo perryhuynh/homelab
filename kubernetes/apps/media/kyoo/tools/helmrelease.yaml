@@ -37,6 +37,7 @@ spec:
               tag: 4.6
             args: ["matcher"]
             env: &env
+              KYOO_URL: http://kyoo-backend:5000
               RABBITMQ_DEFAULT_USER:
                 valueFrom:
                   secretKeyRef:
@@ -58,8 +59,6 @@ spec:
                     name: kyoo-rabbitmq-default-user
                     key: port
             envFrom: &envFrom
-              - configMapRef:
-                  name: kyoo-config
               - secretRef:
                   name: kyoo-backend-secret
             resources:
@@ -78,7 +77,10 @@ spec:
         containers:
           app:
             image: *image
-            env: *env
+            env:
+              <<: *env
+              LIBRARY_LANGUAGES: en
+              SCANNER_LIBRARY_ROOT: &libraryPath /data
             envFrom: *envFrom
             resources:
               limits:
@@ -103,6 +105,6 @@ spec:
         advancedMounts:
           scanner:
             app:
-              - path: /data
+              - path: *libraryPath
                 subPath: library
                 readOnly: true
