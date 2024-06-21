@@ -164,7 +164,8 @@ spec:
       nginx:
         annotations:
           nginx.ingress.kubernetes.io/configuration-snippet: |
-              rewrite /api/(.*) /$1 break;
+            rewrite /api/(.*) /$1 break;
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
         enabled: true
         className: internal
         hosts:
