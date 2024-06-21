@@ -32,3 +32,8 @@ spec:
     persistence:
       enabled: true
       storageClass: longhorn
+    resources:
+      limits:
+        memory: 8Gi
+      requests:
+        cpu: 50m
