@@ -111,8 +111,6 @@ spec:
                     name: kyoo-rabbitmq-default-user
                     key: port
             envFrom:
-              - configMapRef:
-                  name: kyoo-config
               - secretRef:
                   name: kyoo-backend-secret
               - secretRef:
