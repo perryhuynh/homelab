@@ -72,12 +72,12 @@ spec:
                   name: kyoo-backend-secret
             image:
               repository: ghcr.io/zoriya/kyoo_migrations
-              tag: edge@sha256:436dd3769c273d8e5c426383cf9d5d5552dc08b9185a1efbb4b183262d074253
+              tag: edge@sha256:296bc4b4f557f21d3ad8594764f0eec9045c3e4dd4627444f5d4328f9623878f
         containers:
           app:
             image:
               repository: ghcr.io/zoriya/kyoo_back
-              tag: edge@sha256:9d4e600635c20753ff17142cf74fafe71a3add02688b8118a8e5f583db19ef46
+              tag: edge@sha256:a35a03536c42fcfc9b6928114ee990cf982b10dffd9b48e59e8ecccce7026b06
             env:
               # general
               PUBLIC_URL: https://kyoo.perryhuynh.com
