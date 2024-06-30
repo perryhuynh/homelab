@@ -46,6 +46,19 @@
       "separateMinorPatch": true
     },
     {
+      "description": ["Kyoo Backend Group"],
+      "groupName": "Kyoo-Backend",
+      "matchPackagePatterns": [
+        "kyoo_back",
+        "kyoo_migrations"
+      ],
+      "matchDatasources": ["docker", "helm"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
+    },
+    {
       "description": ["Rook-Ceph Group"],
       "groupName": "Rook-Ceph",
       "matchPackagePatterns": ["rook.ceph"],
