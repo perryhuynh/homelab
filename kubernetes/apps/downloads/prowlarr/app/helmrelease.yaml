@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/prowlarr-develop
-              tag: 1.19.0.4568@sha256:83a27c6b794a62298f7e7d053153377ebdc6a5ed87072a41d03fe0fc1d7928fe
+              tag: 1.20.0.4590@sha256:1011777d02a4f5febd280f3906900cbf6b96b780133702672a781f8a8c72a410
             env:
               PROWLARR__APP__INSTANCENAME: Prowlarr
               PROWLARR__APP__THEME: dark
