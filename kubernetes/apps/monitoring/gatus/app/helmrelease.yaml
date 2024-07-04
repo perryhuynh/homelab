@@ -37,6 +37,11 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: gatus-secret
+            securityContext: &securityContext
+              runAsNonRoot: true
+              runAsUser: 65534
+              runAsGroup: 65534
+              seccompProfile: { type: RuntimeDefault }
           init-config:
             dependsOn: init-db
             image:
@@ -55,6 +60,7 @@ spec:
                 memory: 256Mi
               requests:
                 cpu: 10m
+            securityContext: *securityContext
         containers:
           app:
             image:
@@ -79,6 +85,7 @@ spec:
                   failureThreshold: 3
               readiness: *probes
             resources: *resources
+            securityContext: *securityContext
     ingress:
       nginx:
         annotations:
