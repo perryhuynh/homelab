@@ -74,11 +74,14 @@ spec:
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
+        allowPrivilegeEscalation: false
+        capabilities: { drop: ["ALL"] }
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
         runAsNonRoot: true
         runAsUser: 65534
         runAsGroup: 65534
-        fsGroup: 65534
-        fsGroupChangePolicy: OnRootMismatch
+        readOnlyRootFilesystem: true
         seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
