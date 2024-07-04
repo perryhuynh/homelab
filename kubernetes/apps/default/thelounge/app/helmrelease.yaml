@@ -54,15 +54,15 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: [ALL] }
               readOnlyRootFilesystem: true
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsNonRoot: true
-            runAsUser: 568
-            seccompProfile: { type: RuntimeDefault }
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
         enabled: true
