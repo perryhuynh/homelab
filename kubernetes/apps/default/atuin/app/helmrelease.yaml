@@ -37,6 +37,10 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: atuin-secret
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
         containers:
           app:
             args: ["server", "start"]
@@ -69,19 +73,15 @@ spec:
                 memory: 128Mi
               requests:
                 cpu: 5m
+            securityContext: *securityContext
         replicas: 2
         strategy: RollingUpdate
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
-        allowPrivilegeEscalation: false
-        capabilities: { drop: ["ALL"] }
-        fsGroup: 65534
-        fsGroupChangePolicy: OnRootMismatch
         runAsNonRoot: true
         runAsUser: 65534
         runAsGroup: 65534
-        readOnlyRootFilesystem: true
         seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
