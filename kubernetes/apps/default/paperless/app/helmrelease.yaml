@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.11.0@sha256:c9c6eeff6cf2da5f977e58fade3406fc61f5bfbe18ff3cd5f2c8001b53cd3f6b
+              tag: 2.10.2@sha256:f6038522ba8029e765dfbd9366ed41d65c3f0f5be5aacabbae501eb7e3ff3944
             env:
               # Configure application
               PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
