@@ -43,7 +43,7 @@ spec:
           app:
             args:
               - "sync"
-              - "--preview"
+              # - "--preview"
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 7.1.1@sha256:3bc426b72453e76767a7f2144ebcea2870cdf1ecfef6886ee1115c88890f9091
