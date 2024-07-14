@@ -165,18 +165,18 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/configuration-snippet: |
             rewrite /api/(.*) /$1 break;
+          nginx.ingress.kubernetes.io/custom-http-errors: "418"
+          nginx.ingress.kubernetes.io/large-client-header-buffers: 4 100k
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
         enabled: true
         className: internal
         hosts:
-          - host:  &host "{{ .Release.Name }}.perryhuynh.com"
+          - host: "{{ .Release.Name }}.perryhuynh.com"
             paths:
               - path: /
                 service:
                   identifier: frontend
                   port: http
-          - host: *host
-            paths:
               - path: /api
                 service:
                   identifier: backend
