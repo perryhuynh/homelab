@@ -22,7 +22,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      MINIO_SCHEDULE: &cronSchedule "30 * * * *"
+      MINIO_SCHEDULE: &cronSchedule "0,30 * * * *"
       R2_SCHEDULE: *cronSchedule
       VOLSYNC_CAPACITY: 5Gi
 ---
