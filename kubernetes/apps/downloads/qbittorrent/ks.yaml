@@ -22,6 +22,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      MINIO_SCHEDULE: &cronSchedule "*/30 * * * *"
+      R2_SCHEDULE: *cronSchedule
       VOLSYNC_CAPACITY: 5Gi
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
