@@ -34,6 +34,8 @@ spec:
   values:
     controllers:
       plex:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
@@ -71,27 +73,17 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-        pod:
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: app.kubernetes.io/name
-                        operator: In
-                        values: ["scrypted"]
-                  topologyKey: kubernetes.io/hostname
-          automountServiceAccountToken: false
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: 'true'
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsNonRoot: true
-            runAsUser: 568
-            seccompProfile: { type: RuntimeDefault }
-            supplementalGroups: [44, 105, 65532]
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 568
+        runAsNonRoot: true
+        runAsUser: 568
+        seccompProfile: { type: RuntimeDefault }
+        supplementalGroups: [44, 65532]
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: 'true'
     persistence:
       config:
         enabled: true
