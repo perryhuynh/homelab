@@ -74,6 +74,7 @@ spec:
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      automountServiceAccountToken: false
       securityContext:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
