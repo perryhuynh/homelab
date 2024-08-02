@@ -211,7 +211,7 @@ sonarr:
           - 7dd31f3dee6d2ef8eeaa156e23c3857e  # B-Global
           - 4c67ff059210182b59cdd41697b8cb08  # Bilibili
           - 570b03b3145a25011bf073274a407259  # HIDIVE
-        quality_profiles:
+        assign_scores_to:
           - name: Anime
       - trash_ids:
           # Streaming Services
@@ -239,5 +239,5 @@ sonarr:
           - 77a7b25585c18af08f60b1547bb9b4fb  # CC
           # HQ Source Groups
           - d0c516558625b04b363fa6c5c2c7cfd4  # WEB Scene
-        quality_profiles:
+        assign_scores_to:
           - name: Standard
