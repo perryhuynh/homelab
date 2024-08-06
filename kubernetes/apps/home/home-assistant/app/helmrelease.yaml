@@ -102,22 +102,18 @@ spec:
       nginx:
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+          - host: "{{ .Release.Name }}.perryhuynh.com"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-          - host: &codeserverHost "{{ .Release.Name }}-code.perryhuynh.com"
+          - host: "{{ .Release.Name }}-code.perryhuynh.com"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: codeserver
-        tls:
-          - hosts:
-              - *host
-              - *codeserverHost
     persistence:
       config:
         enabled: true
