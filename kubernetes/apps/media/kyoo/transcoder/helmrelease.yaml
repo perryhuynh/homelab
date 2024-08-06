@@ -51,6 +51,9 @@ spec:
               GOCODER_VAAPI_RENDERER: /dev/dri/renderD128
               GOCODER_PREFIX: &libraryPath /data
               GOCODER_SAFE_PATH: *libraryPath
+            envFrom:
+              - secretRef:
+                  name: kyoo-backend-secret
             probes:
               liveness:
                 enabled: true
