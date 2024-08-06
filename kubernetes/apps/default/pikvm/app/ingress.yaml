@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host pikvm.perryhuynh.com
+    - host: pikvm.perryhuynh.com
       http:
         paths:
           - pathType: Prefix
@@ -23,6 +23,3 @@ spec:
                 name: pikvm
                 port:
                   number: 9100
-  tls:
-    - hosts:
-        - *host

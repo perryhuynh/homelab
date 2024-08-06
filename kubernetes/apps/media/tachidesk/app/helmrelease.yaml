@@ -114,10 +114,6 @@ spec:
                 service:
                   identifier: app
                   port: codeserver
-        tls:
-          - hosts:
-              - *host
-              - *codeserverHost
     persistence:
       config:
         enabled: true
