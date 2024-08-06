@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host opnsense.perryhuynh.com
+    - host: opnsense.perryhuynh.com
       http:
         paths:
           - pathType: Prefix
@@ -25,9 +25,6 @@ spec:
                 name: opnsense
                 port:
                   number: 9100
-  tls:
-    - hosts:
-        - *host
 ---
 apiVersion: v1
 kind: Endpoints

@@ -98,15 +98,12 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+          - host: "{{ .Release.Name }}.perryhuynh.com"
             paths: &paths
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
       tailscale:
         enabled: true
         className: tailscale

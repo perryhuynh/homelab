@@ -89,15 +89,12 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.perryhuynh.com
         hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+          - host: "{{ .Release.Name }}.perryhuynh.com"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config-file:
         type: configMap

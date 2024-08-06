@@ -81,15 +81,12 @@ spec:
         enabled: true
         className: external
         hosts:
-          - host: &host "canyouadd.perryhuynh.com"
+          - host: "canyouadd.perryhuynh.com"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config:
         enabled: true

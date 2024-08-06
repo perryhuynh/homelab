@@ -125,15 +125,12 @@ spec:
         enabled: true
         className: external
         hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+          - host: "{{ .Release.Name }}.perryhuynh.com"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
     service:
       app:
         type: LoadBalancer

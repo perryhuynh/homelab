@@ -96,15 +96,12 @@ spec:
             add_header X-Frame-Options "SAMEORIGIN";
             add_header X-XSS-Protection "1; mode=block";
         hosts:
-          - host: &host "auth.perryhuynh.com"
+          - host: "auth.perryhuynh.com"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config:
         enabled: true
