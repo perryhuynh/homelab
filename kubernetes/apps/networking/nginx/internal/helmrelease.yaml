@@ -51,6 +51,7 @@ spec:
         client-header-timeout: 120
         enable-brotli: "true"
         enable-real-ip: "true"
+        enable-ocsp: "true"
         force-ssl-redirect: "true"
         hsts-max-age: 31449600
         keep-alive-requests: 10000
@@ -74,6 +75,7 @@ spec:
             any: true
       extraArgs:
         default-ssl-certificate: "networking/perryhuynh-com-production-tls"
+      terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
