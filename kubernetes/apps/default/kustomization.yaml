@@ -12,4 +12,5 @@ resources:
   - ./pikvm/ks.yaml
   - ./paperless/ks.yaml
   - ./redlib/ks.yaml
+  - ./searxng/ks.yaml
   - ./thelounge/ks.yaml
