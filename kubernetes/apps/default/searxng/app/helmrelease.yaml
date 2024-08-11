@@ -107,10 +107,8 @@ spec:
             readOnly: true
       tmp:
         type: emptyDir
-        advancedMounts:
-          app:
-            app:
-              - path: /etc/searxng
+        globalMounts:
+          - path: /etc/searxng
     service:
       app:
         controller: searxng
