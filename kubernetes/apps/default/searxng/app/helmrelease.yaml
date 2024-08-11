@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: docker.io/searxng/searxng
-              tag: 2024.8.8-dcf95644c@sha256:1f9f7f4f4f05e3d74b05b4c02a10b847a266aa3cfdb2251659010af7ed33a6f8
+              tag: 2024.8.9-fec8ab75e@sha256:a781932edfa31d243ca1aaddb1a6b8f0769bd54338c0e5de9ac9a4164dc191d8
             env:
               BASE_URL: https://search.perryhuynh.com
             envFrom:
