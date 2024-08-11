@@ -13,7 +13,7 @@ search:
   autocomplete: duckduckgo
 
 general:
-  instance_name: Search
+  instance_name: SearXNG
 
 ui:
   static_use_hash: true
