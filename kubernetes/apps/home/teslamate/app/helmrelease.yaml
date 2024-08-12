@@ -46,7 +46,7 @@ spec:
               CHECK_ORIGIN: true
               DATABASE_HOST: postgres16-rw.database.svc.cluster.local
               MQTT_HOST: &mqttHost mosquitto.home.svc.cluster.local
-              PORT: &port 80
+              PORT: &port 8080
               TZ: &TZ America/Los_Angeles
               VIRTUAL_HOST: "{{ .Release.Name }}.perryhuynh.com"
             envFrom: *envFrom
@@ -94,7 +94,7 @@ spec:
                 spec:
                   httpGet:
                     path: /api/ping
-                    port: &apiPort 8080
+                    port: *port
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
@@ -138,4 +138,4 @@ spec:
             port: *port
             primary: true
           api:
-            port: *apiPort
+            port: *port
