@@ -14,7 +14,7 @@ ipv6_prefix = 48
 
 # To get unlimited access in a local network, by default link-lokal addresses
 # (networks) are not monitored by the ip_limit
-filter_link_local = true
+filter_link_local = false
 
 # activate link_token method in the ip_limit method
 link_token = false
