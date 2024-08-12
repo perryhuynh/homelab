@@ -68,10 +68,15 @@ spec:
                     path: /api/v2/app/version
                     port: *port
                   initialDelaySeconds: 30
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 5
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+                  failureThreshold: 6
               readiness: *probes
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               limits:
                 memory: 16Gi
