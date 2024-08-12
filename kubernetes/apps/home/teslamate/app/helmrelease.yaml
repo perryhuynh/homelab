@@ -85,7 +85,7 @@ spec:
             envFrom: *envFrom
             image:
               repository: ghcr.io/tobiasehlert/teslamateapi
-              tag: 1.18.1@sha256:00c45de46fd7265a2b699c166f488efc256b2815aa512cfb0c575aed7483eef4
+              tag: 1.18.2@sha256:0fca4d86eb95296209cc3e58b4ff12bb4974741ecdace9cd080a0b288d34f4d2
             probes:
               liveness: &probes
                 enabled: true
