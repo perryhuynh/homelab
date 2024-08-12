@@ -37,6 +37,12 @@ spec:
               tag: 2024.8.9-fec8ab75e@sha256:a781932edfa31d243ca1aaddb1a6b8f0769bd54338c0e5de9ac9a4164dc191d8
             env:
               BASE_URL: https://search.perryhuynh.com
+              UWSGI_WORKERS: &cpu
+                valueFrom:
+                  resourceFieldRef:
+                    containerName: main
+                    resource: limits.cpu # not defined, so will use node allocatable
+              UWSGI_THREADS: *cpu
             envFrom:
               - secretRef:
                   name: searxng-secret
@@ -61,14 +67,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - "ALL"
-                add:
-                  - CHOWN
-                  - SETGID
-                  - SETUID
-                  - DAC_OVERRIDE
+              capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
