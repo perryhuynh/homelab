@@ -45,11 +45,12 @@ spec:
                   httpGet:
                     path: /
                     port: &port 8000
-                  initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
             resources:
               limits:
                 memory: 256Mi
