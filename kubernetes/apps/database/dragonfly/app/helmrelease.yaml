@@ -59,6 +59,8 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
+              startup:
+                enabled: true
             resources:
               requests:
                 cpu: 10m
@@ -86,6 +88,7 @@ spec:
         ports:
           http:
             port: *port
+            primary: true
           metrics:
             port: 8080
     serviceMonitor:
