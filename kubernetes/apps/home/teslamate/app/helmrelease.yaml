@@ -65,6 +65,8 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
             resources:
               limits:
                 memory: 512Mi
@@ -97,6 +99,8 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
             resources:
               limits:
                 memory: 256Mi
