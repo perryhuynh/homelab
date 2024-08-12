@@ -47,11 +47,12 @@ spec:
                   httpGet:
                     path: /healthz
                     port: *port
-                  initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
             resources:
               limits:
                 memory: 64Mi
@@ -83,7 +84,7 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
         hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+          - host: "{{ .Release.Name }}.perryhuynh.com"
             paths:
               - path: /
                 service:
