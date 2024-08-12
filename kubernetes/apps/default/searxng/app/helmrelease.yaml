@@ -53,13 +53,15 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /stats
+                    path: /healthz
                     port: &port 8080
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
             resources:
               limits:
                 memory: 2Gi
