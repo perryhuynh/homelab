@@ -40,7 +40,7 @@ spec:
               UWSGI_WORKERS: &cpu
                 valueFrom:
                   resourceFieldRef:
-                    containerName: main
+                    containerName: app
                     resource: limits.cpu # not defined, so will use node allocatable
               UWSGI_THREADS: *cpu
             envFrom:
