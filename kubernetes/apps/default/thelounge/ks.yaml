@@ -25,5 +25,4 @@ spec:
     substitute:
       APP: *app
       MINIO_SCHEDULE: "0 0 * * *"
-      MINIO_URL: http://minio.default.svc.cluster.local:9000
       VOLSYNC_CAPACITY: 1Gi
