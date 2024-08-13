@@ -75,11 +75,10 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [65532]
         seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
