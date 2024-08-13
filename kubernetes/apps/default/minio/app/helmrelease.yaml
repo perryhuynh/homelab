@@ -27,7 +27,6 @@ spec:
   values:
     controllers:
       minio:
-        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -46,6 +45,9 @@ spec:
               MINIO_STORAGE_CLASS_RRS: EC:0
               MINIO_STORAGE_CLASS_STANDARD: EC:0
               MINIO_UPDATE: "off"
+            envFrom:
+              - secretRef:
+                  name: minio-secret
             probes:
               liveness: &probes
                 enabled: true
