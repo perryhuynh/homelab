@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: quay.io/minio/minio
-              tag: RELEASE.2024-07-31T05-46-26Z@sha256:9eea83a4e1425067e7b768397756efad19d36fc1c710808b8e1072236e8806c
+              tag: RELEASE.2024-07-31T05-46-26Z@sha256:9eea83a4e1425067e7b768397756efad19d36fc1c710808b8e1072236e8806c7
             args: ["server", "/data", "--console-address", ":9001"]
             env:
               MINIO_API_CORS_ALLOW_ORIGIN: https://minio.perryhuynh.com,https://s3.perryhuynh.com
