@@ -90,7 +90,7 @@ spec:
                 service:
                   identifier: app
                   port: http
-          - host: *s3host
+          - host: s3.perryhuynh.com
             paths:
               - path: /
                 service:
