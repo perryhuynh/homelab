@@ -12,8 +12,8 @@ spec:
     template:
       engineVersion: v2
       data:
-        AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
-        AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
+        AWS_ACCESS_KEY_ID: "{{ .VOLSYNC_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .VOLSYNC_SECRET_ACCESS_KEY }}"
         RESTIC_REPOSITORY: "s3:${MINIO_URL:-http://minio.default.svc.cluster.local:9000}/volsync/${APP}"
         RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
   dataFrom:
