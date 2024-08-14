@@ -116,6 +116,8 @@ spec:
     kubeProxy:
       enabled: false
     prometheus:
+      annotations:
+        secret.reloader.stakater.com/reload: thanos-secret
       ingress:
         enabled: true
         ingressClassName: internal
