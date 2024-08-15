@@ -69,7 +69,7 @@ spec:
     singleBinary:
       replicas: *replicas
       persistence:
-        enabled: false
+        storageClass: local-hostpath
     gateway:
       replicas: 0
     backend:
