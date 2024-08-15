@@ -29,27 +29,37 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: local-path-provisioner
-      namespace: storage
+    - name: minio
+      namespace: default
   values:
     deploymentMode: SingleBinary
     loki:
       auth_enabled: false
+      podAnnotations:
+        secret.reloader.stakater.com/reload: loki-secret
       analytics:
         reporting_enabled: false
       server:
         log_level: info
       commonConfig:
-        replication_factor: 1
+        replication_factor: &replicas 2
       ingester:
         chunk_encoding: snappy
       storage:
-        type: filesystem
+        type: s3
+        bucketNames:
+          chunks: loki-chunks
+          ruler: loki-ruler
+          admin: loki-admin
+        s3:
+          endpoint: minio.default.svc.cluster.local:9000
+          s3ForcePathStyle: true
+          insecure: true
       schemaConfig:
         configs:
           - from: "2024-04-01" # quote
             store: tsdb
-            object_store: filesystem
+            object_store: s3
             schema: v13
             index:
               prefix: loki_index_
@@ -57,11 +67,9 @@ spec:
       limits_config:
         retention_period: 14d
     singleBinary:
-      replicas: 1
+      replicas: *replicas
       persistence:
-        enabled: true
-        storageClass: local-hostpath
-        size: 50Gi
+        enabled: false
     gateway:
       replicas: 0
     backend:
@@ -78,3 +86,12 @@ spec:
       enabled: false
     test:
       enabled: false
+  valuesFrom:
+    - kind: Secret
+      name: loki-secret
+      valuesKey: AWS_ACCESS_KEY_ID
+      targetPath: loki.storage.s3.accessKeyId
+    - kind: Secret
+      name: loki-secret
+      valuesKey: AWS_SECRET_ACCESS_KEY
+      targetPath: loki.storage.s3.secretAccessKey
