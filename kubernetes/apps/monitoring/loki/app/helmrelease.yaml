@@ -32,17 +32,10 @@ spec:
     - name: minio
       namespace: default
   values:
-    deploymentMode: SingleBinary
+    deploymentMode: SimpleScalable
     loki:
-      auth_enabled: false
       podAnnotations:
         secret.reloader.stakater.com/reload: loki-secret
-      analytics:
-        reporting_enabled: false
-      server:
-        log_level: info
-      commonConfig:
-        replication_factor: &replicas 2
       ingester:
         chunk_encoding: snappy
       storage:
@@ -64,26 +57,64 @@ spec:
             index:
               prefix: loki_index_
               period: 24h
-      limits_config:
-        retention_period: 14d
-    singleBinary:
-      replicas: *replicas
-      persistence:
-        storageClass: local-hostpath
+      structuredConfig:
+        auth_enabled: false
+        analytics:
+          reporting_enabled: false
+        server:
+          log_level: info
+          http_listen_port: 3100
+          grpc_listen_port: 9095
+          grpc_server_max_recv_msg_size: 8388608
+          grpc_server_max_send_msg_size: 8388608
+        limits_config:
+          ingestion_burst_size_mb: 128
+          ingestion_rate_mb: 64
+          max_query_parallelism: 100
+          per_stream_rate_limit: 64M
+          per_stream_rate_limit_burst: 128M
+          reject_old_samples: true
+          reject_old_samples_max_age: 168h
+          retention_period: 30d
+          shard_streams:
+            enabled: true
+          split_queries_by_interval: 1h
+        query_scheduler:
+          max_outstanding_requests_per_tenant: 4096
+        frontend:
+          max_outstanding_per_tenant: 4096
+        ruler:
+          enable_api: true
+          enable_alertmanager_v2: true
+          alertmanager_url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
+          storage:
+            type: local
+            local:
+              directory: /rules
+          rule_path: /rules/fake
     gateway:
-      replicas: 0
+      replicas: 3
+      image:
+        registry: ghcr.io
     backend:
-      replicas: 0
+      replicas: 3
+      persistence: &persistence
+        size: 20Gi
+        storageClass: local-hostpath
     read:
-      replicas: 0
+      replicas: 3
     write:
-      replicas: 0
-    chunksCache:
-      enabled: false
-    resultsCache:
-      enabled: false
+      replicas: 3
+      persistence: *persistence
     lokiCanary:
-      enabled: false
+      enabled: true
+    sidecar:
+      image:
+        repository: ghcr.io/kiwigrid/k8s-sidecar
+      enableUniqueFilenames: true
+      rules:
+        searchNamespace: ALL
+        folder: /rules/fake
     test:
       enabled: false
   valuesFrom:
