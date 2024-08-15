@@ -68,6 +68,8 @@ spec:
         retention_period: 14d
     singleBinary:
       replicas: *replicas
+      persistence:
+        enabled: false
     gateway:
       replicas: 0
     backend:
