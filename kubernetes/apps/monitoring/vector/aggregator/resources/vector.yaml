@@ -9,6 +9,14 @@ sources:
     type: vector
     version: "2"
     address: 0.0.0.0:6000
+  opnsense_logs:
+    type: syslog
+    address: 0.0.0.0:6001
+    mode: udp
+  truenas_logs:
+    type: syslog
+    address: 0.0.0.0:6002
+    mode: udp
 
 transforms:
   kubernetes_transform:
