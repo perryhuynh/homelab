@@ -30,10 +30,10 @@ sinks:
   kubernetes:
     inputs: ["kubernetes_transform"]
     type: loki
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local
+    endpoint: &lokiEndpoint http://loki-gateway.monitoring.svc.cluster.local
     encoding:
       codec: json
-    out_of_order_action: rewrite_timestamp
+    out_of_order_action: &action rewrite_timestamp
     remove_label_fields: true
     remove_timestamp: true
     labels:
@@ -41,3 +41,13 @@ sinks:
       container: "{{ container_name }}"
       namespace: '{{ kubernetes.pod_namespace }}'
       node: '{{ kubernetes.pod_node_name }}'
+  truenas:
+    inputs: ["truenas_logs"]
+    type: loki
+    endpoint: *lokiEndpoint
+    encoding:
+      codec: json
+    out_of_order_action: *action
+    labels:
+      hostname: truenas
+      namespace: truenas
