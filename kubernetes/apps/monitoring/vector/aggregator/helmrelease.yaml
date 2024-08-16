@@ -69,8 +69,11 @@ spec:
             port: *port
           kubernetes:
             port: 6000
-          syslog:
-            port: 5140
+          opnsense:
+            port: 6001
+            protocol: UDP
+          truenas:
+            port: 6002
             protocol: UDP
     persistence:
       config:
