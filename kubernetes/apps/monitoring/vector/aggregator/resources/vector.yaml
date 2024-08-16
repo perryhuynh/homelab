@@ -120,7 +120,7 @@ transforms:
   opnsense_split:
     type: "route"
     inputs:
-      - "opnsense_filterlog"
+      - "opnsense_transform"
     route:
       pass: '.action == "pass"'
       therest: '.action != "pass"'
