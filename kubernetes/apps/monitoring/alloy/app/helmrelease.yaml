@@ -38,3 +38,8 @@ spec:
         name: alloy-config
         key: config.alloy
       stabilityLevel: public-preview
+      securityContext:
+        capabilities:
+          add:
+            - CAP_SYS_ADMIN
+            - CAP_SYS_PTRACE
