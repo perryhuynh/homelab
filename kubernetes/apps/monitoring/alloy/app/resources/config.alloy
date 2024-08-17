@@ -9,7 +9,7 @@ beyla.ebpf "default" {
   discovery {
     services {
       kubernetes {
-        namespace = "media"
+        deployment_name = "(plex|overseerr)"
       }
     }
   }
