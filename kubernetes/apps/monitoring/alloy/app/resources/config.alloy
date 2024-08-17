@@ -6,6 +6,13 @@ beyla.ebpf "default" {
       cluster_name = "joyuriz"
     }
   }
+  discovery {
+    services {
+      kubernetes {
+        namespace = "media"
+      }
+    }
+  }
   output {
     traces = [otelcol.processor.batch.default.input]
   }
