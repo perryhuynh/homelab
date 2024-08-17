@@ -5,6 +5,10 @@ beyla.ebpf "default" {
       cluster_name = "joyuriz"
     }
   }
+  routes {
+    ignore_patterns = ["(\/(healthz?|metrics|ping))"]
+    ignore_mode = "all"
+  }
   discovery {
     services {
       kubernetes {
