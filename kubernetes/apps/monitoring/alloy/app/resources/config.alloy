@@ -6,7 +6,9 @@ beyla.ebpf "default" {
   }
   discovery {
     services {
-      deployment_name = "plex"
+      kubernetes {
+        deployment_name = "plex"
+      }
     }
   }
   output {
