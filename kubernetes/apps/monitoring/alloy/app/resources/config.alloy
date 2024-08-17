@@ -1,0 +1,28 @@
+beyla.ebpf "default" {
+  attributes {
+    kubernetes {
+      enable = "true"
+    }
+  }
+  discovery {
+    services {
+      deployment_name = "plex"
+    }
+  }
+  output {
+    traces = [otelcol.processor.batch.default.input]
+  }
+}
+
+
+otelcol.processor.batch "default" {
+  output {
+    traces  = [otelcol.exporter.otlp.tempo.input]
+  }
+}
+
+otelcol.exporter.otlp "tempo" {
+  client {
+  endpoint = "tempo.monitoring.svc.cluster.local:3100"
+  }
+}
