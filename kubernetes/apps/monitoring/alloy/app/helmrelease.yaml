@@ -38,7 +38,6 @@ spec:
         name: alloy-config
         key: config.alloy
       stabilityLevel: public-preview
-
       securityContext:
         capabilities:
           add:
