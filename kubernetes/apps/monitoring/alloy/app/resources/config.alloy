@@ -1,17 +1,9 @@
 beyla.ebpf "default" {
-  open_port = "32400"
   debug = true
   attributes {
     kubernetes {
       enable = "true"
       cluster_name = "joyuriz"
-    }
-  }
-  discovery {
-    services {
-      kubernetes {
-        deployment_name = "plex"
-      }
     }
   }
   output {
@@ -28,6 +20,10 @@ otelcol.processor.batch "default" {
 
 otelcol.exporter.otlp "tempo" {
   client {
-    endpoint = "tempo.monitoring.svc.cluster.local:4318"
+    endpoint = "tempo.monitoring.svc.cluster.local:4317"
+    tls {
+      insecure = true
+      insecure_skip_verify = true
+    }
   }
 }
