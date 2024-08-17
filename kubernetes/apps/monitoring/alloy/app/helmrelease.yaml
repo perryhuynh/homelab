@@ -43,3 +43,4 @@ spec:
           add:
             - CAP_SYS_ADMIN
             - CAP_SYS_PTRACE
+          privileged: true
