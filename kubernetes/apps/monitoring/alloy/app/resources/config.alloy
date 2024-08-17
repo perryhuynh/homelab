@@ -5,14 +5,10 @@ beyla.ebpf "default" {
       cluster_name = "joyuriz"
     }
   }
-  routes {
-    ignore_patterns = ["(\/(healthz?|metrics|ping))"]
-    ignore_mode = "all"
-  }
   discovery {
     services {
       kubernetes {
-        deployment_name = "(authelia|plex|overseerr|[a-zA-Z]*arr)"
+        pod_labels = [{ key: 'instrumentation.opentelemetry.io/beyla', value: 'true' }]
       }
     }
   }
