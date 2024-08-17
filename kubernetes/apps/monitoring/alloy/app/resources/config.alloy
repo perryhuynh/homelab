@@ -1,5 +1,4 @@
 beyla.ebpf "default" {
-  debug = true
   attributes {
     kubernetes {
       enable = "true"
