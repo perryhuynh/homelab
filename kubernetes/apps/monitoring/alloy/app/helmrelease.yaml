@@ -38,14 +38,15 @@ spec:
         name: alloy-config
         key: config.alloy
       stabilityLevel: public-preview
-      controller:
-        podAnnotations:
-          configmap.reloader.stakater.com/reload: alloy-config
+
       securityContext:
         capabilities:
           add:
             - CAP_SYS_ADMIN
             - CAP_SYS_PTRACE
           privileged: true
-      configReloader:
-        enabled: false
+    controller:
+      podAnnotations:
+        configmap.reloader.stakater.com/reload: alloy-config
+    configReloader:
+      enabled: false
