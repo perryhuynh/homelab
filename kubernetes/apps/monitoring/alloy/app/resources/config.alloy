@@ -9,7 +9,7 @@ beyla.ebpf "default" {
   discovery {
     services {
       kubernetes {
-        deployment_name = "(plex|overseerr\w*arr)"
+        deployment_name = "(plex|overseerr|\w*arr)"
       }
     }
   }
