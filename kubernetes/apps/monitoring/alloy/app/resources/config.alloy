@@ -1,9 +1,9 @@
 beyla.ebpf "default" {
   open_port = "32400"
-  debug = true
+  debug = "true"
   attributes {
     kubernetes {
-      enable = true
+      enable = "true"
       cluster_name = "joyuriz"
     }
   }
