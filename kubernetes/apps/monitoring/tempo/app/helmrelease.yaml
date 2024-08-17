@@ -35,9 +35,6 @@ spec:
     replicas: 2
     tempo:
       reportingEnabled: false
-      metricsGenerator:
-        enabled: true
-        remoteWriteUrl: "http://kube-prometheus-stack-prometheus.monitoring:9090/api/v1/write"
       storage:
         trace:
           backend: s3
