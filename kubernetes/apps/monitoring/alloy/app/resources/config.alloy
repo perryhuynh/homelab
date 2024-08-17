@@ -8,9 +8,9 @@ beyla.ebpf "default" {
   discovery {
     services {
       kubernetes {
-        pod_labels = { 
-					instrumentation.opentelemetry.io/beyla: "true"
-				}
+        pod_labels = {
+          instrumentation.opentelemetry.io/beyla = "true"
+        }
       }
     }
   }
