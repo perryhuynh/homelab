@@ -28,6 +28,6 @@ otelcol.processor.batch "default" {
 
 otelcol.exporter.otlp "tempo" {
   client {
-    endpoint = "tempo.monitoring.svc.cluster.local:3100"
+    endpoint = "tempo.monitoring.svc.cluster.local:4318"
   }
 }
