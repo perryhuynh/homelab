@@ -37,3 +37,4 @@ spec:
         create: false
         name: alloy-config
         key: config.alloy
+    stabilityLevel: public-preview
