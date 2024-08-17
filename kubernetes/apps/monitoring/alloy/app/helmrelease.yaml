@@ -38,12 +38,17 @@ spec:
         name: alloy-config
         key: config.alloy
       stabilityLevel: public-preview
+      # https://grafana.com/docs/beyla/latest/setup/kubernetes/#deploy-beyla-unprivileged
       securityContext:
         capabilities:
           add:
+            - CAP_BPF
+            - CAP_CHECKPOINT_RESTORE
+            - CAP_DAC_READ_SEARCH
+            - CAP_NET_RAW
+            - CAP_PERFMON
             - CAP_SYS_ADMIN
             - CAP_SYS_PTRACE
-          privileged: true
     controller:
       podAnnotations:
         configmap.reloader.stakater.com/reload: alloy-config
