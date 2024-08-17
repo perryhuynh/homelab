@@ -44,3 +44,8 @@ spec:
             - CAP_SYS_ADMIN
             - CAP_SYS_PTRACE
           privileged: true
+    controller:
+      podAnnotations:
+        configmap.reloader.stakater.com/reload: alloy-config
+    configReloader:
+      enabled: false
