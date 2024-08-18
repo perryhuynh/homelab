@@ -75,7 +75,7 @@ spec:
     defaultPodOptions:
       automountServiceAccountToken: false
       labels:
-        instrumentation.opentelemetry.io/beyla: 'true'
+        instrumentation.grafana.com/beyla: 'true'
       securityContext:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
