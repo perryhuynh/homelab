@@ -79,12 +79,15 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            runAsNonRoot: true
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      labels:
+        instrumentation.grafana.com/beyla: 'true'
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        runAsNonRoot: true
+        seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
         enabled: true
