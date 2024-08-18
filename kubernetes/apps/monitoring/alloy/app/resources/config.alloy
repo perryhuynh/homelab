@@ -28,7 +28,7 @@ beyla.ebpf "database" {
   discovery {
     services {
       kubernetes {
-        pod_name = "((dragonfly|postgres)-[0-9]|)"
+        pod_name = "(dragonfly|postgres)-[0-9]"
       }
     }
   }
