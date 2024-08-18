@@ -18,6 +18,24 @@ beyla.ebpf "default" {
     traces = [otelcol.processor.batch.default.input]
   }
 }
+beyla.ebpf "database" {
+  attributes {
+    kubernetes {
+      enable = "true"
+      cluster_name = "joyuriz"
+    }
+  }
+  discovery {
+    services {
+      kubernetes {
+        pod_name = "((dragonfly|postgres)-[0-9]|)"
+      }
+    }
+  }
+  output {
+    traces = [otelcol.processor.batch.default.input]
+  }
+}
 
 
 otelcol.processor.batch "default" {
