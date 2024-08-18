@@ -68,6 +68,8 @@ spec:
               readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
+          labels:
+            instrumentation.opentelemetry.io/beyla: 'true'
           securityContext:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
