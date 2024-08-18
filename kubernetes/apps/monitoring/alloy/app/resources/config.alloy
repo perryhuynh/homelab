@@ -31,9 +31,9 @@ beyla.ebpf "database" {
         pod_name = "(dragonfly|postgres)-[0-9]"
       }
     }
-    metrics {
-      instrumentations = ["redis", "sql"]
-    }
+  }
+  metrics {
+    instrumentations = ["redis", "sql"]
   }
   output {
     traces = [otelcol.processor.batch.default.input]
