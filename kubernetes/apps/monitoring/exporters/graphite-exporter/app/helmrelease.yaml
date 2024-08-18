@@ -40,7 +40,7 @@ spec:
               # - "--log.level=debug"
             image:
               repository: docker.io/prom/graphite-exporter
-              tag: v0.15.1@sha256:9b2900c0ffe258eb4f5485270b12a01c385753897f7f3ad6a2cb64101292a879
+              tag: v0.15.2@sha256:24f15907f472713531b137958631de9d90845aa91843a484b9096be5fdc3258a
             probes:
               liveness:
                 enabled: true
