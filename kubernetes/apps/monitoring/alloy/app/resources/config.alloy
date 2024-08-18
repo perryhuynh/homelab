@@ -9,7 +9,7 @@ beyla.ebpf "default" {
     services {
       kubernetes {
         pod_labels = {
-          "instrumentation.opentelemetry.io/beyla" = "true",
+          "instrumentation.grafana.com/beyla" = "true",
         }
       }
     }
