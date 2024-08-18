@@ -66,17 +66,17 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-        pod:
-          automountServiceAccountToken: false
-          labels:
-            instrumentation.opentelemetry.io/beyla: 'true'
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsNonRoot: true
-            runAsUser: 568
-            seccompProfile: { type: RuntimeDefault }
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      labels:
+        instrumentation.opentelemetry.io/beyla: 'true'
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 568
+        runAsNonRoot: true
+        runAsUser: 568
+        seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
         annotations:
