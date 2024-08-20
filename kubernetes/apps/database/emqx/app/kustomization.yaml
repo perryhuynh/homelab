@@ -5,10 +5,3 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ./pvc.yaml
-configMapGenerator:
-  - name: mosquitto-config
-    files:
-      - mosquitto.conf=./resources/mosquitto.conf
-generatorOptions:
-  disableNameSuffixHash: true
