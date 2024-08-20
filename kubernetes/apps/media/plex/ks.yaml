@@ -22,7 +22,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_PATH: /web/index.html
+      GATUS_PATH: /identity
       MINIO_SCHEDULE: "0,15 */6 * * *"
       # Runs at 01:15 PST / 09:15 UTC because volsync container runs in UTC
       R2_SCHEDULE: "0,15 9 * * *"
