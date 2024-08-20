@@ -47,7 +47,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /-/ready
+                    path: /readyz
                     port: *port
                   periodSeconds: 10
                   timeoutSeconds: 1
