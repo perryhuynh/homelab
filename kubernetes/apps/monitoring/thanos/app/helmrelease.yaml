@@ -60,7 +60,7 @@ spec:
         sidecarsNamespace: monitoring
       resources:
         limits:
-          memory: 512Mi
+          memory: 1Gi
         requests:
           cpu: 10m
     bucketweb:
