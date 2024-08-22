@@ -38,7 +38,7 @@ spec:
           successfulJobsHistory: 1
           failedJobsHistory: 1
         initContainers:
-          01-tag:
+          tagging: &container
             args: [
               "tagging",
               "--added-on",
@@ -47,12 +47,16 @@ spec:
               "--not-working",
               "--sites",
               "--unregistered",
-              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
               "--port", "80",
               "--config", "/config/config.yaml"
             ]
             env: &env
               TZ: *timeZone
+              POD_NAMESPACE:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
             image: &image
               repository: ghcr.io/buroa/qbtools
               tag: v0.16.3@sha256:1eb3be84d7d63bfd0aaffd1e85f1cfd9a5064fd8ce5ed94522672eca0d201e56
@@ -65,54 +69,28 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-          02-auto-prune:
-            args: [
-              "prune",
-              # "--dry-run",
-              "--include-tag", "auto-prune",
-              "--include-tag", "expired",
-              "--server", "qbittorrent.downloads.svc.cluster.local",
-              "--port", "80"
-            ]
-            env: *env
-            image: *image
-            resources: *resources
-            securityContext: *securityContext
-          03-nyaa:
-            args: [
-              "prune",
-              # "--dry-run",
-              "--include-tag", "site:nyaa",
-              "--include-tag", "expired",
-              "--server", "qbittorrent.downloads.svc.cluster.local",
-              "--port", "80"
-            ]
-            env: *env
-            image: *image
-            resources: *resources
-            securityContext: *securityContext
         containers:
-          app:
+          unregistered:
+            <<: *container
             args: [
               "prune",
               "--exclude-category", "lidarr",
               "--exclude-category", "manual",
               "--include-tag", "unregistered",
               # "--dry-run",
-              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
               "--port", "80"
             ]
-            env: *env
-            image: *image
-            resources: *resources
-            securityContext: *securityContext
-        pod: &podSecurityContext
-          automountServiceAccountToken: false
-          securityContext:
-            runAsGroup: 568
-            runAsNonRoot: true
-            runAsUser: 568
-            seccompProfile: { type: RuntimeDefault }
+          auto-prune:
+            <<: *container
+            args: [
+              "prune",
+              # "--dry-run",
+              "--include-tag", "auto-prune",
+              "--include-tag", "expired",
+              "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
+              "--port", "80"
+            ]
       orphaned:
         type: cronjob
         cronjob:
@@ -138,24 +116,25 @@ spec:
       reannounce:
         containers:
           app:
+            <<: *container
             args: [
               "reannounce",
-              "--process-seeding",
-              "--server", "qbittorrent.downloads.svc.cluster.local",
+              "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
               "--port", "80"
             ]
-            env: *env
-            image: *image
-            resources: *resources
-            securityContext: *securityContext
-        pod: *podSecurityContext
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        seccompProfile: { type: RuntimeDefault }
     persistence:
       secret-file:
         type: secret
         name: qbittorrent-tools-secret
         advancedMounts:
           tagging:
-            01-tag:
+            tagging:
               - path: /config/config.yaml
                 subPath: config.yaml
                 readOnly: true
