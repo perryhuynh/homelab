@@ -97,6 +97,7 @@ spec:
           <<: *cronJobSpec
           schedule: "@daily"
         containers:
+          <<: *container
           app:
             args: [
               "orphaned",
@@ -106,13 +107,6 @@ spec:
               "--server", "qbittorrent.downloads.svc.cluster.local",
               "--port", "80"
             ]
-            env: *env
-            image: *image
-            resources: *resources
-            securityContext:
-              <<: *securityContext
-              supplementalGroups: [65532]
-        pod: *podSecurityContext
       reannounce:
         containers:
           app:
