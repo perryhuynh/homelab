@@ -1,0 +1,99 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kavita
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+    - name: volsync
+      namespace: volsync-system
+  values:
+    controllers:
+      kavita:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/kareadita/kavita
+              tag: 0.8.2@sha256:3fbd326ca5bde61318200751289a289ef0040b4c842874814ffaf05107d91fe8
+            env:
+              TZ: America/Los_Angeles
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 568
+        runAsNonRoot: true
+        runAsUser: 568
+        seccompProfile: { type: RuntimeDefault }
+        supplementalGroups: [65532]
+    persistence:
+      config:
+        enabled: true
+        existingClaim: kavita
+      cache:
+        existingClaim: kavita-cache
+        globalMounts:
+          - path: /kavita/config/cache
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /kavita/config/logs
+      media:
+        type: nfs
+        path: /mnt/tank/media
+        server: ${SECRET_NAS_IP:=temp}
+        globalMounts:
+          - path: /media
+            subPath: library/books
+            readOnly: true
+    ingress:
+      nginx:
+        enabled: true
+        className: internal
+        hosts:
+          - host: "{{ .Release.Name }}.perryhuynh.com"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    service:
+      app:
+        controller: kavita
+        ports:
+          http:
+            port: 5000
