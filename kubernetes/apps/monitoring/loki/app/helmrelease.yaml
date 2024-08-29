@@ -97,7 +97,7 @@ spec:
               directory: /rules
           rule_path: /rules/fake
     gateway:
-      replicas: 3
+      replicas: 2
       image:
         registry: ghcr.io
     backend:
