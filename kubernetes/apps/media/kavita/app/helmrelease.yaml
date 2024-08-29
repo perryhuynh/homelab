@@ -64,6 +64,8 @@ spec:
       config:
         enabled: true
         existingClaim: kavita
+        globalMounts:
+          - path: /kavita/config
       cache:
         existingClaim: kavita-cache
         globalMounts:
