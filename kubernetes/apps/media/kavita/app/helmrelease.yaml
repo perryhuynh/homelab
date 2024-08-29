@@ -41,6 +41,20 @@ spec:
               tag: 0.8.2@sha256:3fbd326ca5bde61318200751289a289ef0040b4c842874814ffaf05107d91fe8
             env:
               TZ: America/Los_Angeles
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: &port 5000
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
             resources:
               limits:
                 memory: 1Gi
@@ -98,4 +112,4 @@ spec:
         controller: kavita
         ports:
           http:
-            port: 5000
+            port: *port
