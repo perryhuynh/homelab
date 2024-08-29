@@ -96,4 +96,4 @@ spec:
         controller: kavita
         ports:
           http:
-            port: *port
+            port: 5000
