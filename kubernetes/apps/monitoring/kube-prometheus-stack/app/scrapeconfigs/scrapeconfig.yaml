@@ -1,0 +1,12 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: external
+spec:
+  staticConfigs:
+    - targets:
+        - pikvm.default.svc.cluster.local:9100
+        - opnsense.default.svc.cluster.local:9100
+        - ${SECRET_DESKTOP_PC_IP:=temp}:9182
+  metricsPath: /metrics
