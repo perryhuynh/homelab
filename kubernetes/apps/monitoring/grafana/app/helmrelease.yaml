@@ -242,8 +242,8 @@ spec:
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         windows-exporter:
-          # renovate: depName="Windows Exporter Dashboard"
-          gnetId: 14694
+          # renovate: depName="Windows Exporter Dashboard 2024"
+          gnetId: 20763
           revision: 2
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
