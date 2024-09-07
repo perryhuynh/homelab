@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: opnsense
+  name: pc
 spec:
   staticConfigs:
     - targets: ["${SECRET_DESKTOP_PC_IP:=temp}:9182"]
