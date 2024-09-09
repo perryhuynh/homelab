@@ -81,8 +81,6 @@ spec:
               readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
-      labels:
-        instrumentation.grafana.com/beyla: 'true'
       securityContext:
         runAsUser: 568
         runAsGroup: 568
