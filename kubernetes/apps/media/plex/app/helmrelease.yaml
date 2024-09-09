@@ -74,8 +74,6 @@ spec:
               readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
-      labels:
-        instrumentation.grafana.com/beyla: 'true'
       securityContext:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
