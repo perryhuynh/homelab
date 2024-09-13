@@ -53,10 +53,10 @@ spec:
                 memory: 8Gi
               requests:
                 cpu: 100m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
+            # securityContext:
+            #   allowPrivilegeEscalation: false
+            #   capabilities: { drop: ["ALL"] }
+            #   readOnlyRootFilesystem: true
         pod:
           annotations:
             k8s.v1.cni.cncf.io/networks: |
@@ -78,13 +78,14 @@ spec:
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: 'true'
           securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
-            runAsNonRoot: true
-            runAsUser: 568
-            seccompProfile: { type: RuntimeDefault }
-            supplementalGroups: [44, 105, 65532]
+            privileged: true
+            # fsGroup: 568
+            # fsGroupChangePolicy: OnRootMismatch
+            # runAsGroup: 568
+            # runAsNonRoot: true
+            # runAsUser: 568
+            # seccompProfile: { type: RuntimeDefault }
+            # supplementalGroups: [44, 105, 65532]
     ingress:
       nginx:
         enabled: true
