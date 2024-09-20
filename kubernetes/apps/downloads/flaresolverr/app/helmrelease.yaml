@@ -72,8 +72,8 @@ spec:
       tmp:
         type: emptyDir
         globalMounts:
-          - /tmp
-          - /.local
+          - path: /tmp
+          - path: /.local
     service:
       app:
         controller: flaresolverr
