@@ -68,6 +68,9 @@ spec:
             runAsNonRoot: true
             runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
+    persistence:
+      tmp:
+        type: emptyDir
     service:
       app:
         controller: flaresolverr
