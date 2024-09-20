@@ -60,13 +60,13 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
         pod:
           automountServiceAccountToken: false
           securityContext:
-            runAsGroup: 568
+            runAsGroup: 1000
+            runAsUser: 1000
             runAsNonRoot: true
-            runAsUser: 568
             seccompProfile: { type: RuntimeDefault }
     persistence:
       tmp:
