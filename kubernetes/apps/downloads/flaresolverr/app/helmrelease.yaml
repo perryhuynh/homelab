@@ -71,6 +71,9 @@ spec:
     persistence:
       tmp:
         type: emptyDir
+        globalMounts:
+          - /tmp
+          - /.local
     service:
       app:
         controller: flaresolverr
