@@ -40,10 +40,7 @@ spec:
               repository: ghcr.io/suwayomi/tachidesk
               tag: v1.1.1@sha256:2ab0107a86970367a80346d5ea645bce7997896272d75cff1d0bd866c78f34b5
             env:
-              AUTO_DOWNLOAD_CHAPTERS: true
               BIND_PORT: &port 80
-              DEBUG: true
-              DOWNLOAD_AS_CBZ: true
               EXTENSION_REPOS: "[\"https://github.com/keiyoushi/extensions/tree/repo\"]"
               FLARESOLVERR_ENABLED: true
               FLARESOLVERR_URL: http://flaresolverr.downloads.cluster.svc.local.
