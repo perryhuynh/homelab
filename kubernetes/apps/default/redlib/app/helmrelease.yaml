@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: quay.io/redlib/redlib
-              tag: latest@sha256:206d8e74b91d9169f6bf0df680239970c55d0906f39cbaa7c3cf52ee309a9dcd
+              tag: latest@sha256:12419bd19858672f01ea87cd3672161d32f06c706adf8d49ae95ed1b01cf1a3a
             env:
               # instance settings
               ROBOTS_DISABLE_INDEXING: "on"
