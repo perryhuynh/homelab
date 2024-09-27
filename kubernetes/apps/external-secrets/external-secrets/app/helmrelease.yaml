@@ -26,15 +26,20 @@ spec:
     keepHistory: false
   values:
     installCRDS: true
-    replicaCount: 2
-    serviceMonitor:
-      enabled: true
-      interval: 1m
+    image:
+      repository: ghcr.io/external-secrets/external-secrets
     webhook:
+      image:
+        repository: ghcr.io/external-secrets/external-secrets
       serviceMonitor:
         enabled: true
         interval: 1m
     certController:
+      image:
+        repository: ghcr.io/external-secrets/external-secrets
       serviceMonitor:
         enabled: true
         interval: 1m
+    serviceMonitor:
+      enabled: true
+      interval: 1m
