@@ -137,7 +137,7 @@ spec:
         replicaExternalLabelName: __replica__
         scrapeInterval: 1m
         podMonitorSelector: &selector
-        matchLabels: null
+          matchLabels: null
         probeSelector: *selector
         ruleSelector: *selector
         scrapeConfigSelector: *selector
