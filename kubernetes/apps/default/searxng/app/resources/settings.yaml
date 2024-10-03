@@ -45,5 +45,6 @@ hostnames:
     - (.*\.)?stackoverflow.com$
     - (.*\.)?askubuntu.com$
     - (.*\.)?superuser.com$
+    - (.*\.)?runescape.wiki$
   replace:
     (www\.)?reddit\.com$: redlib.perryhuynh.com
