@@ -59,7 +59,7 @@ spec:
                     fieldPath: metadata.namespace
             image:
               repository: ghcr.io/buroa/qbtools
-              tag: v0.17.1@sha256:38bfa33fa264994ccff031fdcab5676d6752b33aa3c7526b7abf2d541547768c
+              tag: v0.19.3@sha256:ac16aa76a78d3ece395f3e037defaf48328f73f4f83afc9c772bf814b9ded56e
             resources:
               requests:
                 cpu: 10m
