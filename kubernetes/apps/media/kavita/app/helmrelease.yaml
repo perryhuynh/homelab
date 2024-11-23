@@ -38,7 +38,7 @@ spec:
           app:
             image:
               repository: ghcr.io/kareadita/kavita
-              tag: 0.8.3@sha256:5f354422c55682507bc8afbda20b30ea3aafa847a46e2a1744bf64b77a312c1b
+              tag: 0.8.4@sha256:9b4693293e0f1f482393cb80abce7e9d11078aabd68f9534bdf46b7fcd0132c5
             env:
               TZ: America/Los_Angeles
             probes:
