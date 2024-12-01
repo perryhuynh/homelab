@@ -40,7 +40,7 @@ spec:
               SCRYPTED_INSECURE_PORT: &port 80
             image:
               repository: ghcr.io/koush/scrypted
-              tag: v0.123.43-jammy-full@sha256:b0322b9bece3b173e210ab0ada4df5d469218b7157141dc9d952f29a6511e9d4
+              tag: v0.123.46-jammy-full@sha256:eebc0e861a309cff6028e89d23e140143b8d3c29d66e79eeb654565a67d8c240
             command: ["npm"]
             args:
               - "--prefix"
