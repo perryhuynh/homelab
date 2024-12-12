@@ -76,8 +76,8 @@ spec:
           cpu: 10m
     compactor:
       enabled: true
+      concurrency: 4
       extraFlags:
-        - --compact.concurrency=4
         - --delete-delay=30m
       retentionResolutionRaw: 14d
       retentionResolution5m: 30d
