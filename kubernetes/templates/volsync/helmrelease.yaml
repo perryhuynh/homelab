@@ -28,11 +28,22 @@ spec:
     controllers:
       r2:
         type: cronjob
-        cronjob: *cronjobSpec
+        cronjob:
+          schedule: "* * 31 2 *"
+          timeZone: America/Los_Angeles
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+          suspend: true
         containers:
           app:
-            args: *args
-            image: *image
+            args: [
+              "unlock",
+              "--remove-all"
+            ]
+            image:
+              repository: docker.io/restic/restic
+              tag: 0.17.3@sha256:8f5a62b422a2cb1277ea0dd6e826fe1acf649e5b9f02d60e5268d5fd1976255a
             envFrom:
               - secretRef:
                   name: "${APP}-volsync-r2-secret"
