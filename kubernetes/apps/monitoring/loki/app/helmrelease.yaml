@@ -29,8 +29,8 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: minio
-      namespace: default
+    - name: local-path-provisioner
+      namespace: storage
   values:
     deploymentMode: SingleBinary
     loki:
