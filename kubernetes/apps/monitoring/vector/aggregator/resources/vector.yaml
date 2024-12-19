@@ -151,7 +151,7 @@ sinks:
   kubernetes:
     inputs: ["kubernetes_transform"]
     type: loki
-    endpoint: &lokiEndpoint http://loki-headless.monitoring.svc.cluster.local:3100/loki/api/v1/push
+    endpoint: &lokiEndpoint http://loki-gateway.monitoring.svc.cluster.local
     encoding:
       codec: json
     out_of_order_action: &action rewrite_timestamp
