@@ -44,6 +44,7 @@ spec:
               "--added-on",
               "--expired",
               "--last-activity",
+              "--not-linked",
               "--not-working",
               "--sites",
               "--unregistered",
