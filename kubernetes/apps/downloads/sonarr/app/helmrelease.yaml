@@ -59,7 +59,7 @@ spec:
             envFrom: *envFrom
             resources:
               limits:
-                memory: 4Gi
+                memory: 6Gi
               requests:
                 cpu: 25m
             probes:
