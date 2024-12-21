@@ -42,4 +42,3 @@ spec:
       enabled: true
       ingressClassName: internal
       host: longhorn.perryhuynh.com
-      tls: true
