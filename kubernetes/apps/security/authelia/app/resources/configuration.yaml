@@ -72,7 +72,7 @@ identity_providers:
         authorization_policy: two_factor
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "groups", "email"]
-        redirect_uris: ["https://autobrr.perryhuynh.com/oauth2/oidc/callback"]
+        redirect_uris: ["https://autobrr.perryhuynh.com/api/auth/oidc/callback"]
         userinfo_signed_response_alg: none
       - client_id: grafana
         client_name: Grafana
