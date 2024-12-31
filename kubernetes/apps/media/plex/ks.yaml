@@ -26,6 +26,7 @@ spec:
       NFS_SCHEDULE: "0,15 */6 * * *"
       # Runs at 01:15 PST / 09:15 UTC because volsync container runs in UTC
       R2_SCHEDULE: "0,15 9 * * *"
+      VOLSYNC_CACHE_CAPACITY: 15Gi
       VOLSYNC_CAPACITY: 50Gi
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
