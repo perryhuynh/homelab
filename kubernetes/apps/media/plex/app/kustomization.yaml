@@ -11,6 +11,12 @@ configMapGenerator:
   - name: plex-config
     files:
       - Chromecast.xml=./resources/Chromecast.xml
+  - name: plex-loki-rules
+    files:
+      - plex.yaml=./resources/lokirule.yaml
+    options:
+      labels:
+        loki_rule: "true"
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
