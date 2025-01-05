@@ -121,7 +121,7 @@ spec:
         enabled: true
         existingClaim: *app
       cache:
-        type: emptyDir
+        existingClaim: tautulli-cache
         globalMounts:
           - path: /config/cache
       jbops:
