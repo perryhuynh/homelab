@@ -60,6 +60,8 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
             resources:
               limits:
                 memory: 4Gi
@@ -101,18 +103,12 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
+          - host: "{{ .Release.Name }}.perryhuynh.com"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-          - host: &codeserverHost "{{ .Release.Name }}-code.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: codeserver
     persistence:
       config:
         enabled: true
