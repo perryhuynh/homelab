@@ -72,21 +72,6 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-          jbops:
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.4.0@sha256:0330739a707a2969d617e859f096659ab6d149212658ac0ad7e550b59482ebf0
-            env:
-              GITSYNC_REPO: https://github.com/blacktwin/JBOPS
-              GITSYNC_REF: master
-              GITSYNC_PERIOD: 24h
-              GITSYNC_ROOT: /jbops
-            resources:
-              limits:
-                memory: 128Mi
-              requests:
-                cpu: 5m
-            securityContext: *securityContext
         pod:
           automountServiceAccountToken: false
           securityContext:
@@ -128,8 +113,6 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /config/logs
-      jbops:
-        type: emptyDir
       tmp:
         type: emptyDir
     service:
