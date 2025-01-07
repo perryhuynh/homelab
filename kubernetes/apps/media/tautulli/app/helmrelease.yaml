@@ -124,6 +124,10 @@ spec:
         existingClaim: tautulli-cache
         globalMounts:
           - path: /config/cache
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
       jbops:
         type: emptyDir
       tmp:
