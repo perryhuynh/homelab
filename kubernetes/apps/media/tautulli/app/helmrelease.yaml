@@ -41,7 +41,6 @@ spec:
             image:
               repository: ghcr.io/onedr0p/tautulli
               tag: 2.15.0@sha256:189f7b29da755a8e20da45af1e56bc9fc88d836a363da4273a52b267609511c4
-            command: ["/usr/local/bin/python", "Tautulli.py"]
             env:
               TZ: America/Los_Angeles
               TAUTULLI__PORT: &port 80
