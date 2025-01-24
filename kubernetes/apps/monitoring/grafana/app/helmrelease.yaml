@@ -226,7 +226,7 @@ spec:
         opnsense:
           # renovate: depName="OPNSense"
           gnetId: 19366
-          revision: 3
+          revision: 4
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         speedtest-exporter:
