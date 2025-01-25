@@ -201,22 +201,11 @@ spec:
         miniflux:
           url: https://raw.githubusercontent.com/miniflux/v2/main/contrib/grafana/dashboard.json
           datasource: Prometheus
-        minio:
-          # renovate: depName="MinIO Dashboard"
-          gnetId: 13502
-          revision: 26
-          datasource: Prometheus
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
           revision: 37
           datasource: Prometheus
-        palworld:
-          # renovate: depName="Palworld"
-          gnetId: 20421
-          revision: 3
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
         smartctl-exporter:
           # renovate: depName="Dashboard for smartctl_exporter"
           gnetId: 20204
