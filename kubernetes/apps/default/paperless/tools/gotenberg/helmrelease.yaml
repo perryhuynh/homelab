@@ -36,7 +36,7 @@ spec:
             image:
               repository: docker.io/gotenberg/gotenberg
               tag: 8.17.0@sha256:3ac36389a59e43a64ac56d4b683bd680ed8060374a332cbf8cef77bc6f752798
-            environment:
+            env:
               API_PORT: &port 80
             probes:
               liveness:
