@@ -39,9 +39,18 @@ spec:
             env:
               API_PORT: &port 80
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
                 enabled: true
             resources:
               limits:
