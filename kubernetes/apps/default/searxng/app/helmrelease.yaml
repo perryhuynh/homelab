@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: docker.io/searxng/searxng
-              tag: 2025.2.7-d45dea56c@sha256:83a2a3faefbc7178efedf5d33cf8735011a70ebe076ed82ef9f005940f9d002d
+              tag: 2025.2.9-a1e2b2546@sha256:5bb3025ca5e39e3c9728ff2f217dc4d133af62adb40715d61502024f691d8eb4
             command: ["uwsgi", "--master", "--http-socket", "0.0.0.0:8080", "/usr/local/searxng/dockerfiles/uwsgi.ini"]
             env:
               BASE_URL: https://search.perryhuynh.com
