@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-    - name: multus-config
+    - name: multus-networks
   path: ./kubernetes/apps/home/scrypted/app
   prune: true
   sourceRef:
