@@ -36,7 +36,7 @@ spec:
               repository: ghcr.io/buroa/cni-plugins
               tag: 1.6.2@sha256:fd78504277d802ec8ad8d8d8c919edfa783ca69065232e59292427f59ab76fb2
         containers:
-          multus:
+          app:
             image:
               repository: ghcr.io/k8snetworkplumbingwg/multus-cni
               tag: v4.1.4@sha256:09fdfb7ce090ccbf8927d2728970c3cdeb5917d48209f692de849e384f00d893
@@ -46,9 +46,9 @@ spec:
               - --cleanup-config-on-exit=true
             resources:
               requests:
-                cpu: "10m"
+                cpu: 10m
               limits:
-                memory: "512Mi"
+                memory: 256Mi
             securityContext:
               privileged: true
     persistence:
