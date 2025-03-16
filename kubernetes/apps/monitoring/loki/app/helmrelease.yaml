@@ -47,6 +47,8 @@ spec:
         retention_enabled: true
       ingester:
         chunk_encoding: snappy
+      limits_config:
+        retention_period: 14d
       storage:
         type: filesystem
       schemaConfig:
@@ -58,8 +60,6 @@ spec:
             index:
               prefix: loki_index_
               period: 24h
-      limits_config:
-        retention_period: 14d
       structuredConfig:
         ruler:
           enable_api: true
