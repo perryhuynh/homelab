@@ -39,7 +39,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@4e53f9c809b54e432fc49f7ee18e56ee4aa45bdc
+        uses: Homebrew/actions/setup-homebrew@5c64c5df6a286170ac8672a68d4810616b4ca313
 
       - name: Setup Workflow Tools
         shell: bash
