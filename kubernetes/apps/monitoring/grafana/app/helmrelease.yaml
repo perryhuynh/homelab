@@ -314,6 +314,9 @@ spec:
         charging-stats:
           url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats.json
           datasource: TeslaMate
+        database-info:
+          url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/database-info.json
+          datasource: TeslaMate
         drive-stats:
           url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drive-stats.json
           datasource: TeslaMate
