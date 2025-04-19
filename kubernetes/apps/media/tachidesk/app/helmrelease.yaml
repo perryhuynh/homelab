@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: tachidesk
+  name: &app tachidesk
 spec:
   interval: 30m
   chart:
@@ -70,25 +70,6 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-          codeserver:
-            image:
-              repository: ghcr.io/coder/code-server
-              tag: 4.99.2@sha256:6b5fcf74bb19579ca1666c8f96ac406ca5146a5c8756963a10991c4e520fa085
-            env:
-              TZ: *TZ
-            args:
-              - "/config"
-              - --auth
-              - "none"
-              - --user-data-dir
-              - "/config/.vscode"
-              - --extensions-dir
-              - "/config/.vscode"
-            resources:
-              limits:
-                memory: 256Mi
-              requests:
-                cpu: 10m
         pod:
           automountServiceAccountToken: false
           securityContext:
@@ -104,11 +85,20 @@ spec:
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   identifier: app
                   port: http
+      tailscale:
+        enabled: true
+        className: tailscale
+        hosts:
+          - host: *app
+            paths: *paths
+        tls:
+          - hosts:
+              - *app
     persistence:
       config:
         enabled: true
