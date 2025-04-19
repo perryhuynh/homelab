@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: tachidesk
+  name: &app tachidesk
 spec:
   interval: 30m
   chart:
@@ -104,11 +104,20 @@ spec:
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   identifier: app
                   port: http
+        tailscale:
+          enabled: true
+          className: tailscale
+          hosts:
+            - host: *app
+              paths: *paths
+          tls:
+            - hosts:
+                - *app
     persistence:
       config:
         enabled: true
