@@ -109,15 +109,15 @@ spec:
                 service:
                   identifier: app
                   port: http
-        tailscale:
-          enabled: true
-          className: tailscale
-          hosts:
-            - host: *app
-              paths: *paths
-          tls:
-            - hosts:
-                - *app
+      tailscale:
+        enabled: true
+        className: tailscale
+        hosts:
+          - host: *app
+            paths: *paths
+        tls:
+          - hosts:
+              - *app
     persistence:
       config:
         enabled: true
