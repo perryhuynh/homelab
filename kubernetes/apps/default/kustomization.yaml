@@ -11,5 +11,4 @@ resources:
   - ./opnsense/ks.yaml
   - ./pikvm/ks.yaml
   - ./paperless/ks.yaml
-  - ./searxng/ks.yaml
   - ./thelounge/ks.yaml
