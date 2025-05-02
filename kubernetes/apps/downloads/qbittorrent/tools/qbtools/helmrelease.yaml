@@ -144,7 +144,7 @@ spec:
               - path: /downloads
                 subPath: downloads/torrents
           tagging:
-            app:
+            tagging:
               - path: /downloads
                 subPath: downloads/torrents
                 readOnly: true
