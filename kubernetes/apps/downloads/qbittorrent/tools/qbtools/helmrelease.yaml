@@ -52,6 +52,11 @@ spec:
             env:
               QBITTORRENT_HOST: qbittorrent.downloads.svc.cluster.local
               QBITTORRENT_PORT: 80
+              SABNZBD_HOST: sabnzbd.downloads.svc.cluster.local
+              SABNZBD_PORT: 80
+            envFrom:
+              - secretRef:
+                  name: qbittorrent-tools-secret
             image:
               repository: ghcr.io/buroa/qbtools
               tag: v0.20.1@sha256:e7e88a05a5f8091ba4030d4ce3a8b9ec16acbdca22b9c5e0efb1ac0bcbc1fd02
