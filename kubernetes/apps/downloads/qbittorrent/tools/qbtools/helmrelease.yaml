@@ -140,12 +140,10 @@ spec:
         server: ${SECRET_NAS_IP:=temp}
         advancedMounts:
           orphaned:
-            app:
+            app: &mountPath
               - path: /downloads
                 subPath: downloads/torrents
           tagging:
             app:
-              - path: /downloads
-                subPath: downloads/torrents
-                readOnly: true
-
+              <<: *mountPath
+              readOnly: true
