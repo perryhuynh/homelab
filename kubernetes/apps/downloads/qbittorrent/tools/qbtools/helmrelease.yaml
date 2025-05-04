@@ -33,7 +33,7 @@ spec:
         type: cronjob
         cronjob: &cronJobSpec
           schedule: "@hourly"
-          timeZone: America/Los_Angeles
+          timeZone: &timeZone America/Los_Angeles
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 1
@@ -54,6 +54,7 @@ spec:
               QBITTORRENT_PORT: 80
               SABNZBD_HOST: sabnzbd.downloads.svc.cluster.local
               SABNZBD_PORT: 80
+              TZ: *timeZone
             envFrom:
               - secretRef:
                   name: qbtools-secret
@@ -91,6 +92,8 @@ spec:
               "--with-data"
               # "--dry-run"
             ]
+        pod:
+          restartPolicy: OnFailure
       orphaned:
         type: cronjob
         cronjob:
