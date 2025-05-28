@@ -100,10 +100,6 @@ spec:
           - path: /data
             subPath: library
             readOnly: true
-      logs:
-        type: emptyDir
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Logs
       profile-chromecast:
         type: configMap
         name: plex-config
@@ -112,10 +108,17 @@ spec:
           - path: /usr/lib/plexmediaserver/Resources/Profiles/Chromecast.xml
             readOnly: true
             subPath: Chromecast.xml
-      tmp:
+      tmpfs:
         type: emptyDir
-      transcode:
-        type: emptyDir
+        advancedMounts:
+          plex:
+            app:
+              - path: /config/Library/Application Support/Plex Media Server/Logs
+                subPath: logs
+              - path: /transcode
+                subPath: transcode
+              - path: /tmp
+                subPath: tmp
     ingress:
       nginx:
         annotations:
