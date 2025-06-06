@@ -113,14 +113,6 @@ spec:
         type: nfs
         path: /mnt/tank/media
         server: ${SECRET_NAS_IP:=temp}
-      pushover-notify:
-        type: configMap
-        name: radarr-config
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/pushover-notify.sh
-            subPath: pushover-notify.sh
-            readOnly: true
       tmp:
         type: emptyDir
     service:
