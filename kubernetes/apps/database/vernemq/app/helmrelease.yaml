@@ -164,4 +164,6 @@ spec:
         ports:
           http:
             port: *httpPort
+    serviceAccount:
+      vernemq: {}
 
