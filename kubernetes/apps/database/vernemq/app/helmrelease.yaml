@@ -94,9 +94,9 @@ spec:
         pod:
           automountServiceAccountToken: false
           securityContext:
-            runAsGroup: 568
+            runAsGroup: 10000
             runAsNonRoot: true
-            runAsUser: 568
+            runAsUser: 10000
             seccompProfile: { type: RuntimeDefault }
         serviceAccount:
           identifier: *app
