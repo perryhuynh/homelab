@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -70,8 +70,8 @@ spec:
             - {key: node-role.kubernetes.io/controlplane, operator: Exists, effect: NoSchedule}
             - {key: node-role.kubernetes.io/control-plane, operator: Exists, effect: NoSchedule}
             - {key: node-role.kubernetes.io/etcd, operator: Exists, effect: NoExecute}
-    serviceAccount:
-      name: system-upgrade
+        serviceAccount:
+          identifier: *app
     persistence:
       tmp:
         type: emptyDir
@@ -98,3 +98,15 @@ spec:
         globalMounts:
           - path: /etc/ca-certificates
             readOnly: true
+    rbac:
+      bindings:
+        system-upgrade-controller:
+          type: ClusterRoleBinding
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: ClusterRole
+            name: cluster-admin
+          subjects:
+            - identifier: *app
+    serviceAccount:
+      system-upgrade-controller: {}
