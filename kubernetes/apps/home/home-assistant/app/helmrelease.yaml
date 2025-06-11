@@ -63,7 +63,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
               readOnlyRootFilesystem: true
-          codeserver:
+          code:
             image:
               repository: ghcr.io/coder/code-server
               tag: 4.100.3@sha256:c5b7ec231b24f26ecee243e8d9f9df57af906d03c9c8238efd893217c9f1f725
@@ -79,9 +79,9 @@ spec:
               - "/config/.vscode"
             resources:
               limits:
-                memory: 256Mi
+                memory: 1Gi
               requests:
-                cpu: 10m
+                cpu: 5m
         pod:
           annotations:
             k8s.v1.cni.cncf.io/networks: |
@@ -113,7 +113,7 @@ spec:
               - path: /
                 service:
                   identifier: app
-                  port: codeserver
+                  port: code
     persistence:
       config:
         enabled: true
@@ -135,5 +135,5 @@ spec:
           http:
             primary: true
             port: 8123
-          codeserver:
+          code:
             port: 8080
