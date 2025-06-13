@@ -40,7 +40,13 @@ spec:
               repository: ghcr.io/actualbudget/actual
               tag: 25.6.1@sha256:cb23c488bb517550dea10f42ae9a69c2e746fc2736b068e8c4cc2a224641222f
             env:
+              ACTUAL_OPENID_DISCOVERY_URL: https://auth.perryhuynh.com
+              ACTUAL_OPENID_CLIENT_ID: actual
+              ACTUAL_OPENID_SERVER_HOSTNAME: &host "{{ .Release.Name }}.perryhuynh.com"
               ACTUAL_PORT: &port 80
+            envFrom:
+              - secretRef:
+                  name: actual-secret
             probes:
               liveness:
                 enabled: true
@@ -86,7 +92,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: "{{ .Release.Name }}.perryhuynh.com"
+          - host: *host
             paths:
               - path: /
                 service:
