@@ -16,8 +16,15 @@ spec:
   enableSuperuserAccess: true
   # # Note: Bootstrap is needed when recovering from an existing cnpg cluster
   bootstrap:
-    recovery:
-      source: &previousCluster postgres16-v1.0.5
+    initdb:
+      import:
+        type: monolith
+        databases:
+          -  "*"
+        roles:
+          - "*"
+        source:
+          externalCluster: &previousCluster postgres16-v1.0.5
   postgresql:
     parameters:
       max_connections: "600"
