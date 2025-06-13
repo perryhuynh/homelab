@@ -40,7 +40,7 @@ spec:
               repository: ghcr.io/actualbudget/actual-server
               tag: 25.6.1@sha256:cb23c488bb517550dea10f42ae9a69c2e746fc2736b068e8c4cc2a224641222f
             env:
-              ACTUAL_PORT: &httpPort 80
+              ACTUAL_PORT: &port 80
             probes:
               liveness:
                 enabled: true
@@ -50,7 +50,7 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: *httpPort
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
