@@ -24,7 +24,7 @@ spec:
         roles:
           - "*"
         source:
-          externalCluster: &previousCluster postgres16-v1.0.5
+          externalCluster: &previousCluster postgres16
   postgresql:
     parameters:
       max_connections: "600"
@@ -60,7 +60,14 @@ spec:
           key: AWS_SECRET_ACCESS_KEY
   # # Note: externalClusters is needed when recovering from an existing cnpg cluster
   externalClusters:
+    # this represents an existing cnpg cluster to migrate from (e.g. upgrading from postgres v14 to postgres v15)
     - name: *previousCluster
-      barmanObjectStore:
-        <<: *barmanObjectStore
-        serverName: *previousCluster
+      connectionParameters:
+        host: postgres16-rw.database.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: cloudnative-pg-secret
+        key: password
+
