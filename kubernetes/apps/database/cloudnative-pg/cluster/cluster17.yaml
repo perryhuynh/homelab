@@ -6,7 +6,7 @@ metadata:
   name: postgres17
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.4
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.5-6@sha256:87513c339cad291f54ee5ae819c1bf4bb728b30bf1b48d4d944c19fa4adaf382
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
@@ -15,16 +15,9 @@ spec:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
   # # Note: Bootstrap is needed when recovering from an existing cnpg cluster
-  bootstrap:
-    initdb:
-      import:
-        type: monolith
-        databases:
-          -  "*"
-        roles:
-          - "*"
-        source:
-          externalCluster: &previousCluster postgres16
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster postgres17-v1
   postgresql:
     parameters:
       max_connections: "600"
@@ -59,15 +52,9 @@ spec:
           name: cloudnative-pg-secret
           key: AWS_SECRET_ACCESS_KEY
   # # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  externalClusters:
-    # this represents an existing cnpg cluster to migrate from (e.g. upgrading from postgres v14 to postgres v15)
-    - name: *previousCluster
-      connectionParameters:
-        host: postgres16-rw.database.svc.cluster.local
-        user: postgres
-        dbname: postgres
-        sslmode: require
-      password:
-        name: cloudnative-pg-secret
-        key: password
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
 
