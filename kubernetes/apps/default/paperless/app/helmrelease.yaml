@@ -70,6 +70,8 @@ spec:
               PAPERLESS_TIKA_ENABLED: "true"
               PAPERLESS_TIKA_ENDPOINT: http://paperless-tika.default.svc.cluster.local:9998
               PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless-gotenberg.default.svc.cluster.local
+              # User Permissions
+              USERMAP_GID: "65532"
             envFrom: *envFrom
             probes:
               liveness:
@@ -86,18 +88,8 @@ spec:
                 memory: 2Gi
               requests:
                 cpu: 25m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
     defaultPodOptions:
       automountServiceAccountToken: false
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
         enabled: true
