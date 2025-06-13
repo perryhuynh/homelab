@@ -1,0 +1,100 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actual
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: longhorn
+      namespace: storage
+    - name: volsync
+      namespace: volsync-system
+  values:
+    controllers:
+      actual:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/actualbudget/actual-server
+              tag: 25.6.1@sha256:cb23c488bb517550dea10f42ae9a69c2e746fc2736b068e8c4cc2a224641222f
+            env:
+              ACTUAL_PORT: &httpPort 80
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *httpPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              startup:
+                enabled: true
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 2000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 2000
+        seccompProfile: { type: RuntimeDefault }
+    persistence:
+      config:
+        enabled: true
+        existingClaim: actual
+        globalMounts:
+          - path: /data
+    ingress:
+      nginx:
+        enabled: true
+        className: internal
+        hosts:
+          - host: "{{ .Release.Name }}.perryhuynh.com"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    service:
+      app:
+        controller: actual
+        ports:
+          http:
+            port: *port
