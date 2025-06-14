@@ -91,15 +91,22 @@ spec:
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths:
+            paths: &paths
               - path: /
                 service:
                   identifier: app
                   port: http
+      tailscale:
+        enabled: true
+        className: tailscale
+        hosts:
+          - host: *app
+            paths: *paths
+        tls:
+          - hosts:
+              - *app
     service:
       app:
-        annotations:
-          tailscale.com/expose: "true"
         controller: actual
         ports:
           http:
