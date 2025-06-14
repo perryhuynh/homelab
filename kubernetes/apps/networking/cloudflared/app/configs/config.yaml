@@ -1,14 +1,10 @@
 ---
 originRequest:
-  http2Origin: true
+  originServerName: "external.perryhuynh.com"
 
 ingress:
   - hostname: "perryhuynh.com"
-    service: https://nginx-external-controller.networking.svc.cluster.local:443
-    originRequest:
-      originServerName: "external.perryhuynh.com"
+    service: &service https://nginx-external-controller.networking.svc.cluster.local:443
   - hostname: "*.perryhuynh.com"
-    service: https://nginx-external-controller.networking.svc.cluster.local:443
-    originRequest:
-      originServerName: "external.perryhuynh.com"
+    service: *service
   - service: http_status:404
