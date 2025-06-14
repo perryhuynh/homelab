@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: actual
+  name: &app actual
 spec:
   interval: 30m
   chart:
@@ -41,12 +41,12 @@ spec:
               tag: 25.6.1@sha256:cb23c488bb517550dea10f42ae9a69c2e746fc2736b068e8c4cc2a224641222f
             env:
               ACTUAL_OPENID_DISCOVERY_URL: "https://auth.${SECRET_DOMAIN}"
-              ACTUAL_OPENID_CLIENT_ID: actual
+              ACTUAL_OPENID_CLIENT_ID: *app
               ACTUAL_OPENID_SERVER_HOSTNAME: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
               ACTUAL_PORT: &port 80
             envFrom:
               - secretRef:
-                  name: actual-secret
+                  name: *app
             probes:
               liveness: &probes
                 enabled: true
@@ -82,7 +82,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: actual
+        existingClaim: *app
         globalMounts:
           - path: /data
     ingress:
@@ -107,7 +107,7 @@ spec:
               - *app
     service:
       app:
-        controller: actual
+        controller: *app
         ports:
           http:
             port: *port
