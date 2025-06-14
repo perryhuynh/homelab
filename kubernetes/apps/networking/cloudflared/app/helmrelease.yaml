@@ -38,17 +38,17 @@ spec:
               tag: 2025.6.0@sha256:783e0e52ddad1e91f0dba5f305fc7a8dc94afab8b4c8c309bcd17c5a45654dfb
             env:
               NO_AUTOUPDATE: "true"
-              TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
               TUNNEL_MANAGEMENT_DIAGNOSTICS: false
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_TRANSPORT_PROTOCOL: quic
+              TUNNEL_ORIGIN_ENABLE_HTTP2: true
               TUNNEL_POST_QUANTUM: true
+              TUNNEL_TRANSPORT_PROTOCOL: quic
+            envFrom:
+              - secretRef:
+                  name: cloudflared-secret
             args:
               - tunnel
-              - --config
-              - /etc/cloudflared/config/config.yaml
               - run
-              - "${SECRET_CLOUDFLARE_TUNNEL_ID})"
             probes:
               liveness: &probes
                 enabled: true
@@ -68,10 +68,25 @@ spec:
                 memory: 512Mi
               requests:
                 cpu: 25m
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
         pod:
           securityContext:
             runAsUser: 568
             runAsGroup: 568
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: cloudflared-configmap
+        globalMounts:
+          - path: /etc/cloudflared/config.yaml
+            subPath: config.yaml
+            readOnly: true
     service:
       app:
         controller: cloudflared
@@ -87,19 +102,3 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    persistence:
-      config:
-        enabled: true
-        type: configMap
-        name: cloudflared-configmap
-        globalMounts:
-          - path: /etc/cloudflared/config/config.yaml
-            subPath: config.yaml
-            readOnly: true
-      creds:
-        type: secret
-        name: cloudflared-tunnel-secret
-        globalMounts:
-          - path: /etc/cloudflared/creds/credentials.json
-            subPath: credentials.json
-            readOnly: true

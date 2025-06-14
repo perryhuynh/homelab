@@ -30,16 +30,16 @@ spec:
     fullnameOverride: *app
     provider: cloudflare
     env:
-      - name: CF_API_EMAIL
+      - name: &email CF_API_EMAIL
         valueFrom:
           secretKeyRef:
             name: external-dns-cloudflare-secret
-            key: CLOUDFLARE_EMAIL
-      - name: CF_API_TOKEN
+            key: *email
+      - name: &token CF_API_TOKEN
         valueFrom:
           secretKeyRef:
             name: external-dns-cloudflare-secret
-            key: CLOUDFLARE_API_KEY
+            key: *token
     extraArgs:
       - --ingress-class=external
       - --cloudflare-proxied
