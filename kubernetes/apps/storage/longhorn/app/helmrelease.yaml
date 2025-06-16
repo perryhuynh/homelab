@@ -17,7 +17,7 @@ spec:
   maxHistory: 2
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
@@ -26,8 +26,9 @@ spec:
     keepHistory: false
   values:
     defaultSettings:
-      backupstorePollInterval: 0
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
+      createDefaultDiskLabeledNodes: true
+      defaultDataLocality: best-effort
       defaultDataPath: /var/lib/rancher/k3s/longhorn
       defaultLonghornStaticStorageClass: longhorn
       defaultReplicaCount: 3
@@ -36,8 +37,10 @@ spec:
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       orphanAutoDeletion: true
       restoreVolumeRecurringJobs: true
-      storageMinimalAvailablePercentage: 10
-      storageOverProvisioningPercentage: 200
+      storageMinimalAvailablePercentage: 1
+      storageReservedPercentageForDefaultDisk: 10
+    persistence:
+      defaultDataLocality: best-effort
     ingress:
       enabled: true
       ingressClassName: internal
