@@ -74,7 +74,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: "networking/perryhuynh-com-production-tls"
+        default-ssl-certificate: "networking/perryhuynh-com-tls"
       terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1
