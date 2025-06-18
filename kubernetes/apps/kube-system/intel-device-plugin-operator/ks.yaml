@@ -18,7 +18,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-    namespace: flux-system
   targetNamespace: kube-system
   timeout: 5m
 ---
@@ -54,6 +53,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-    namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
