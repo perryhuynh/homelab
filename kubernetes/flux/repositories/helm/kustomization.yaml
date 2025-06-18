@@ -6,5 +6,4 @@ resources:
   - ./actions-runner-controller.yaml
   - ./bitnami.yaml
   - ./bjw-s.yaml
-  - ./cilium.yaml
   - ./ingress-nginx.yaml
