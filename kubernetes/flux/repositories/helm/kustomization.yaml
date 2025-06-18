@@ -19,7 +19,6 @@ resources:
   - ./external-secrets.yaml
   - ./emqx.yaml
   - ./fairwinds.yaml
-  - ./grafana.yaml
   - ./hajimari.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
