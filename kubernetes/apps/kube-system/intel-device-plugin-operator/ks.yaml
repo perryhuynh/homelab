@@ -9,6 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: node-feature-discovery
   interval: 1h
   path: ./kubernetes/apps/kube-system/intel-device-plugin-operator/app
   prune: true
