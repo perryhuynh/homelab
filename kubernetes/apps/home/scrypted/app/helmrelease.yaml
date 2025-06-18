@@ -24,11 +24,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: longhorn
-      namespace: storage
-    - name: volsync
-      namespace: volsync-system
   values:
     controllers:
       scrypted:
@@ -75,8 +70,6 @@ spec:
                         values: ["plex"]
                   topologyKey: kubernetes.io/hostname
           automountServiceAccountToken: false
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: 'true'
           securityContext:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
