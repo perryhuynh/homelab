@@ -19,5 +19,3 @@ resources:
   - ./kyverno.yaml
   - ./metrics-server.yaml
   - ./prometheus-community.yaml
-  - ./rook-ceph.yaml
-  - ./tailscale.yaml
