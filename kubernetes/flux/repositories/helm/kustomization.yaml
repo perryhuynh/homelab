@@ -8,4 +8,3 @@ resources:
   - ./bjw-s.yaml
   - ./cilium.yaml
   - ./ingress-nginx.yaml
-  - ./k8s-gateway.yaml
