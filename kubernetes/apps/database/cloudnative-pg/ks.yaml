@@ -35,6 +35,19 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cloudnative-pg
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: cloudnative-pg
+      namespace: database
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      name: postgres17
+  healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      failed: status.instances != status.readyInstances
+      current: status.instances == status.readyInstances
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   prune: true
   sourceRef:
