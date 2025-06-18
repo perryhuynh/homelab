@@ -24,13 +24,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: intel-device-plugin-gpu
-      namespace: kube-system
-    - name: longhorn
-      namespace: storage
-    - name: volsync
-      namespace: volsync-system
   values:
     controllers:
       plex:
@@ -82,8 +75,6 @@ spec:
         runAsUser: 568
         seccompProfile: { type: RuntimeDefault }
         supplementalGroups: [44, 105, 65532]
-      nodeSelector:
-        intel.feature.node.kubernetes.io/gpu: 'true'
     persistence:
       config:
         enabled: true

@@ -12,6 +12,10 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/keda/nfs-scaler
+  dependsOn:
+    - name: intel-device-plugin-gpu
+    - name: keda
+    - name: longhorn
   path: ./kubernetes/apps/media/plex/app
   prune: true
   sourceRef:
