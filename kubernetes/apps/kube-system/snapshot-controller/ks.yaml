@@ -6,16 +6,16 @@ metadata:
   name: &app snapshot-controller
   namespace: flux-system
 spec:
-  targetNamespace: volsync-system
+  targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/volsync-system/snapshot-controller/app
+  path: ./kubernetes/apps/kube-system/snapshot-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
   wait: false
-  interval: 30m
-  retryInterval: 1m
+  interval: 1h
+  retryInterval: 2m
   timeout: 5m
