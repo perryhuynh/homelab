@@ -12,7 +12,6 @@ resources:
   - ./csi-driver-nfs.yaml
   - ./democratic-csi.yaml
   - ./external-dns.yaml
-  - ./external-secrets.yaml
   - ./ingress-nginx.yaml
   - ./k8s-gateway.yaml
   - ./kyverno.yaml

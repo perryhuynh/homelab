@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: reloader
+  name: spegel
 spec:
   interval: 5m
   layerSelector:
@@ -20,14 +20,9 @@ metadata:
   name: spegel
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: spegel
-      version: v0.0.30
-      sourceRef:
-        kind: HelmRepository
-        name: spegel
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: spegel
   install:
     remediation:
       retries: 3
