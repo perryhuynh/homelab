@@ -19,7 +19,6 @@ resources:
   - ./ingress-nginx.yaml
   - ./k8s-gateway.yaml
   - ./kyverno.yaml
-  - ./longhorn.yaml
   - ./metrics-server.yaml
   - ./piraeus.yaml
   - ./prometheus-community.yaml
