@@ -35,6 +35,9 @@ spec:
     keepHistory: false
   values:
     domain: "perryhuynh.com"
+    filters:
+      ingressClasses: ["internal"]
+    watchedResources: ["Ingress"]
     ttl: 1
     service:
       type: LoadBalancer
