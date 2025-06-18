@@ -6,7 +6,6 @@ namespace: default
 components:
   - ../../components/common
 resources:
-  - ./namespace.yaml
   - ./cyberchef/ks.yaml
   - ./maddy/ks.yaml
   - ./opnsense/ks.yaml
