@@ -8,5 +8,3 @@ resources:
   - ./maddy/ks.yaml
   - ./opnsense/ks.yaml
   - ./pikvm/ks.yaml
-  - ./paperless/ks.yaml
-  - ./thelounge/ks.yaml

@@ -6,15 +6,19 @@ metadata:
   name: &app paperless
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: selfhosted
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cloudnative-pg-cluster
-    - name: external-secrets-stores
     - name: dragonfly-cluster
-  path: ./kubernetes/apps/default/paperless/app
+    - name: external-secrets-stores
+    - name: paperless-gotenberg
+    - name: paperless-tika
+    - name: longhorn
+    - name: volsync
+  path: ./kubernetes/apps/selfhosted/paperless/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -37,11 +41,11 @@ metadata:
   name: &app paperless-gotenberg
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: selfhosted
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/default/paperless/tools/gotenberg
+  path: ./kubernetes/apps/selfhosted/paperless/tools/gotenberg
   prune: true
   sourceRef:
     kind: GitRepository
@@ -58,11 +62,11 @@ metadata:
   name: &app paperless-tika
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: selfhosted
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/default/paperless/tools/tika
+  path: ./kubernetes/apps/selfhosted/paperless/tools/tika
   prune: true
   sourceRef:
     kind: GitRepository
