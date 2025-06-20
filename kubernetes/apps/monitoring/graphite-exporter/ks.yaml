@@ -3,19 +3,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app qbittorrent-exporter
+  name: &app graphite-exporter
   namespace: flux-system
 spec:
   targetNamespace: monitoring
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/monitoring/exporters/qbittorrent-exporter/app
+  path: ./kubernetes/apps/monitoring/graphite-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true
+  wait: false
   interval: 30m
   retryInterval: 1m
   timeout: 5m
