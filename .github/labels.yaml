@@ -1,14 +1,18 @@
 ---
-# Area
-- name: area/addons
-  color: "0e8a16"
-- name: area/ansible
-  color: "0e8a16"
+# Areas
 - name: area/bootstrap
+  color: "0e8a16"
+- name: area/docs
   color: "0e8a16"
 - name: area/github
   color: "0e8a16"
 - name: area/kubernetes
+  color: "0e8a16"
+- name: area/renovate
+  color: "0e8a16"
+- name: area/scripts
+  color: "0e8a16"
+- name: area/talos
   color: "0e8a16"
 - name: area/taskfile
   color: "0e8a16"
@@ -24,6 +28,8 @@
 - name: renovate/helm
   color: "027fa0"
 # Semantic Type
+- name: type/digest
+  color: "ffec19"
 - name: type/patch
   color: "ffec19"
 - name: type/minor
@@ -33,5 +39,8 @@
 - name: type/break
   color: "f6412d"
 # Uncategorized
-- name: hold/upstream
+- name: community
+  color: "370fb2"
+- name: hold
   color: "ee0701"
+
