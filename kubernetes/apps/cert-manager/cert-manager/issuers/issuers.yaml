@@ -14,7 +14,7 @@ spec:
           cloudflare:
             apiTokenSecretRef:
               name: cert-manager-secret
-              key: api-token
+              key: api_key
         selector:
           dnsZones:
             - "perryhuynh.com"
@@ -34,7 +34,7 @@ spec:
           cloudflare:
             apiTokenSecretRef:
               name: cert-manager-secret
-              key: api-token
+              key: api_key
         selector:
           dnsZones:
             - "perryhuynh.com"
