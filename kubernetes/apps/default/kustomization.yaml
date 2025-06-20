@@ -5,6 +5,5 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./cyberchef/ks.yaml
-  - ./maddy/ks.yaml
   - ./opnsense/ks.yaml
   - ./pikvm/ks.yaml
