@@ -24,15 +24,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: longhorn
-      namespace: storage
-    - name: volsync
-      namespace: volsync-system
-    - name: paperless-gotenberg
-      namespace: default
-    - name: paperless-tika
-      namespace: default
   values:
     controllers:
       paperless:
