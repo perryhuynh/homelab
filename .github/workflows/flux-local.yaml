@@ -133,7 +133,9 @@ jobs:
   # Summarize matrix https://github.community/t/status-check-for-a-matrix-jobs/127354/7
   success:
     if: ${{ always() }}
-    needs: ["flux-diff"]
+    needs:
+      - test
+      - diff
     name: Flux Diff Successful
     runs-on: ubuntu-latest
     steps:
