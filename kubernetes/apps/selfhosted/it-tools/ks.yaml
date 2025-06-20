@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cyberchef
+  name: &app it-tools
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: selfhosted
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/default/cyberchef/app
+  path: ./kubernetes/apps/selfhosted/it-tools/app
   prune: true
   sourceRef:
     kind: GitRepository
