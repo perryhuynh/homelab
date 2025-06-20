@@ -33,10 +33,8 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/mpepping/cyberchef
-              tag: v10.19.4@sha256:91e04eaaa1ba1eac6b8e410d6f7b340e1ea0450d48ccbb52ec67ce6faa3672c5
-            env:
-              TZ: "America/Los_Angeles"
+              repository: ghcr.io/gchq/cyberchef
+              tag: 10.19.4@sha256:sha256:a2bfe382b2547bdd0a3d0523b9a6b85fab833c56bcec86d600ba6266910b533e
             probes:
               liveness: &probes
                 enabled: true
