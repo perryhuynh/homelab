@@ -5,15 +5,17 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./blackbox-exporter/ks.yaml
-  - ./exporters/
   - ./gatus/ks.yaml
   - ./grafana/ks.yaml
+  - ./graphite-exporter/ks.yaml
+  - ./intel-device-plugin-exporter/ks.yaml
   - ./karma/ks.yaml
   - ./keda/ks.yaml
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
   - ./promtrail/ks.yaml
+  - ./qbittorrent-exporter/ks.yaml
   - ./silence-operator/ks.yaml
   - ./smartctl-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
