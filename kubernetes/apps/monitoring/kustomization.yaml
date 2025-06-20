@@ -15,4 +15,7 @@ resources:
   - ./loki/ks.yaml
   - ./promtrail/ks.yaml
   - ./silence-operator/ks.yaml
+  - ./smartctl-exporter/ks.yaml
+  - ./snmp-exporter/ks.yaml
+  - ./speedtest-exporter/ks.yaml
   - ./thanos/ks.yaml

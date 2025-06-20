@@ -7,6 +7,3 @@ resources:
   - ./intel-device-plugin-exporter/ks.yaml
   - ./overseerr-exporter/ks.yaml
   - ./qbittorrent-exporter/ks.yaml
-  - ./smartctl-exporter/ks.yaml
-  - ./snmp-exporter/ks.yaml
-  - ./speedtest-exporter/ks.yaml
