@@ -42,7 +42,7 @@ jobs:
 
   test:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
-    needs: filter
+    needs: ["changed-files"]
     name: Flux Local - Test
     runs-on: ubuntu-latest
     steps:
