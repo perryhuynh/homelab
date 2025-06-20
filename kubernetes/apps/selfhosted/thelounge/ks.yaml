@@ -6,13 +6,15 @@ metadata:
   name: &app thelounge
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: selfhosted
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/apps/default/thelounge/app
+    - name: longhorn
+    - name: volsync
+  path: ./kubernetes/apps/selfhosted/thelounge/app
   prune: true
   sourceRef:
     kind: GitRepository
