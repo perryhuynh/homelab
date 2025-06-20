@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: v0.0.30
+    tag: 0.3.0
   url: oci://ghcr.io/spegel-org/helm-charts/spegel
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
@@ -34,10 +34,20 @@ spec:
     keepHistory: false
   values:
     spegel:
-      appendMirrors: true
       containerdSock: /run/k3s/containerd/containerd.sock
       containerdRegistryConfigPath: /var/lib/rancher/k3s/agent/etc/containerd/certs.d
       containerdContentPath: /var/lib/rancher/k3s/agent/containerd/io.containerd.content.v1.content
+      mirroredRegistries:
+        - https://cgr.dev
+        - https://docker.io
+        - https://ghcr.io
+        - https://quay.io
+        - https://mcr.microsoft.com
+        - https://public.ecr.aws
+        - https://gcr.io
+        - https://registry.k8s.io
+        - https://k8s.gcr.io
+        - https://lscr.io 
     service:
       registry:
         hostPort: 29999 # need to set this due to port conflict with cilium
