@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - ./graphite-exporter/ks.yaml
   - ./intel-device-plugin-exporter/ks.yaml
-  - ./overseerr-exporter/ks.yaml
   - ./qbittorrent-exporter/ks.yaml
