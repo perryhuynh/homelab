@@ -236,12 +236,6 @@ spec:
           revision: 1
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
-        truenas:
-          # renovate: depName="TrueNAS"
-          gnetId: 19661
-          revision: 1
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
         windows-exporter:
           # renovate: depName="Windows Exporter Dashboard 2024"
           gnetId: 20763

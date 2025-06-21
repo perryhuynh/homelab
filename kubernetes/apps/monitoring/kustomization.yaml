@@ -7,7 +7,6 @@ resources:
   - ./blackbox-exporter/ks.yaml
   - ./gatus/ks.yaml
   - ./grafana/ks.yaml
-  - ./graphite-exporter/ks.yaml
   - ./intel-device-plugin-exporter/ks.yaml
   - ./karma/ks.yaml
   - ./keda/ks.yaml
