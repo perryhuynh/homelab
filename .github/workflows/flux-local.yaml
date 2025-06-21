@@ -43,7 +43,7 @@ jobs:
   test:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
     needs: ["changed-files"]
-    name: Flux Local - Test
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -62,9 +62,9 @@ jobs:
             --verbose
 
   diff:
-    name: Flux Local - Diff
+    name: Diff
     runs-on: ubuntu-latest
-    needs: ["changed-files", "test"]
+    needs: ["changed-files"]
     permissions:
       contents: read
       pull-requests: write
@@ -136,7 +136,7 @@ jobs:
     needs:
       - test
       - diff
-    name: Flux Diff Successful
+    name: Success
     runs-on: ubuntu-latest
     steps:
       - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
