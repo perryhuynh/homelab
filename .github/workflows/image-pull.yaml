@@ -15,11 +15,11 @@ permissions:
   contents: read
 
 jobs:
-  filter:
-    name: Image Pull - Filter
+  changed-files:
+    name: Changed Files
     runs-on: ubuntu-latest
     outputs:
-      changed-files: ${{ steps.changed-files.outputs.changed_files }}
+      files: ${{ steps.changed-files.outputs.changed_files }}
     steps:
       - name: Get Changed Files
         id: changed-files
@@ -28,9 +28,9 @@ jobs:
           patterns: kubernetes/**/*
 
   extract:
-    if: ${{ needs.filter.outputs.changed-files != '[]' }}
-    needs: filter
-    name: Image Pull - Extract Images
+    if: ${{ needs.changed-files.output.files != '[]' }}
+    needs: changed-files
+    name: Extract Images
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -71,7 +71,7 @@ jobs:
   diff:
     if: ${{ needs.extract.outputs.default != needs.extract.outputs.pull }}
     needs: extract
-    name: Image Pull - Diff Images
+    name: Diff Images
     runs-on: ubuntu-latest
     outputs:
       images: ${{ steps.diff.outputs.images }}
@@ -94,7 +94,7 @@ jobs:
   pull:
     if: ${{ needs.diff.outputs.images != '[]' }}
     needs: diff
-    name: Image Pull - Pull Images
+    name: Pull Images
     # TODO: replace with arc-runner-set-homelab after switching to talos
     # runs-on: arc-runner-set-homelab
     runs-on: ubuntu-latest
@@ -118,7 +118,7 @@ jobs:
   success:
     if: ${{ !cancelled() }}
     needs: pull
-    name: Image Pull - Success
+    name: Success
     runs-on: ubuntu-latest
     steps:
       - name: Any jobs failed?
