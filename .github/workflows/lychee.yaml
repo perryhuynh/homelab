@@ -36,26 +36,9 @@ jobs:
           fail: false
 
       - if: steps.lychee.outputs.exit_code != 0
-        name: Find Link Checker Issue
-        id: find-issue
-        shell: bash
-        env:
-          GH_TOKEN: "${{ steps.app-token.outputs.token }}"
-        run: |
-          issue_number=$( \
-              gh issue list \
-                  --search "in:title ${{ env.WORKFLOW_ISSUE_TITLE }}" \
-                  --state open \
-                  --json number \
-                  | jq --raw-output '.[0].number' \
-          )
-          echo "issue-number=${issue_number}" >> $GITHUB_OUTPUT
-          echo "${issue_number}"
-
-      - if: steps.lychee.outputs.exit_code != 0
         name: Create Issue From File
         uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd # v5.0.1
         with:
           content-filepath: ./lychee/out.md
-          issue-number: "${{ steps.find-issue.outputs.issue-number || '' }}"
-          title: "${{ env.WORKFLOW_ISSUE_TITLE }}"
+          issue-number: 465
+          title: "Link Checker Dashboard 🔗"
