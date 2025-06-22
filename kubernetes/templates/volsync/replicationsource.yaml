@@ -7,7 +7,7 @@ metadata:
 spec:
   sourcePVC: "${APP}"
   trigger:
-    schedule: "${NFS_SCHEDULE:-0 0 * * *}"
+    schedule: "${VOLSYNC_SCHEDULE:-0 * * * *}"
   restic:
     copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
     pruneIntervalDays: 14
@@ -24,6 +24,6 @@ spec:
       fsGroup: ${VOLSYNC_PGID:-568}
       supplementalGroups: [65532]
     retain:
-      hourly: 24
-      daily: 7
+      hourly: ${VOLSYNC_RETAIN_HOURLY:-24}
+      daily: ${VOLSYNC_RETAIN_DAILY:-7}
 
