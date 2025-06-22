@@ -42,6 +42,9 @@ spec:
               name: &secret grafana-secret
     replicas: 2
     env:
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: false
+      GF_ANALYTICS_CHECK_FOR_UPDATES: false
+      GF_ANALYTICS_REPORTING_ENABLED: false
       GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.perryhuynh.com/api/oidc/userinfo
       GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.perryhuynh.com/api/oidc/authorization
       GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
@@ -49,6 +52,8 @@ spec:
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
       GF_FEATURE_TOGGLES_ENABLE: publicDashboards
+      GF_LOG_MODE: console
+      GF_NEWS_NEWS_FEED_ENABLED: false
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SECURITY_COOKIE_SAMESITE: grafana
       GF_SERVER_ROOT_URL: https://grafana.perryhuynh.com
@@ -245,6 +250,11 @@ spec:
           revision: 3
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
+        zfs:
+          # renovate: dashboardName="ZFS"
+          gnetId: 7845
+          revision: 4
+          datasource: Prometheus
       flux:
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
