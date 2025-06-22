@@ -7,4 +7,4 @@ spec:
   endpoints:
     - dnsName: "external.perryhuynh.com"
       recordType: CNAME
-      targets: ["${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"]
+      targets: ["${SECRET_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"]
