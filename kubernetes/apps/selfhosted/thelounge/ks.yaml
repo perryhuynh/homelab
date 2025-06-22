@@ -26,5 +26,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      NFS_SCHEDULE: "0 0 * * *"
       VOLSYNC_CAPACITY: 1Gi
