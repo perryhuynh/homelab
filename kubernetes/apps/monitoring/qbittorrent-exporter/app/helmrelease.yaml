@@ -24,9 +24,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: qbittorrent
-      namespace: downloads
   values:
     controllers:
       qbittorrent-exporter:

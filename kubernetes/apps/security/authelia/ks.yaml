@@ -14,6 +14,7 @@ spec:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
     - name: dragonfly-cluster
+    - name: glauth
   path: ./kubernetes/apps/security/authelia/app
   prune: true
   sourceRef:
