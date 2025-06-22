@@ -43,6 +43,7 @@ spec:
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   dependsOn:
     - name: external-secrets
+    - name: onepassword-connect
   path: ./kubernetes/apps/external-secrets/external-secrets/stores
   prune: true
   sourceRef:
