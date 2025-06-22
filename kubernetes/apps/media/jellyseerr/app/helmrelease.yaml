@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: overseerr
+  name: jellyseerr
 spec:
   interval: 30m
   chart:
@@ -26,16 +26,19 @@ spec:
     keepHistory: false
   values:
     controllers:
-      overseerr:
+      jellyseerr:
         containers:
           app:
             image:
-              repository: ghcr.io/sct/overseerr
-              tag: 1.34.0@sha256:4f38f58d68555004d3f487a4c5cbe2823e6a0942d946a25a2d9391d8492240a4
+              repository: ghcr.io/fallenbagel/jellyseerr
+              tag: 2.7.0@sha256:3ec2ce92445719ea1e610b3e758da20cd317c8e1028fc810d001b1370a339226
             env:
               LOG_LEVEL: "info"
               PORT: &port 80
               TZ: America/Los_Angeles
+            envFrom:
+              - secretRef:
+                  name: jellyseerr-secret
             probes:
               liveness: &probes
                 enabled: true
@@ -54,7 +57,7 @@ spec:
               limits:
                 memory: 2Gi
               requests:
-                cpu: 15m
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
@@ -62,11 +65,11 @@ spec:
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: 568
         runAsNonRoot: true
-        runAsUser: 568
+        runAsGroup: &uid 568
+        runAsUser: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
@@ -84,22 +87,25 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: overseerr
+        existingClaim: jellyseerr
         globalMounts:
           - path: /app/config
       cache:
-        existingClaim: overseerr-cache
+        existingClaim: jellyseerr-cache
         globalMounts:
-          - path: /app/config/cache/images
-      logs:
+          - path: /app/config/cache
+      tmpfs:
         type: emptyDir
-        globalMounts:
-          - path: /app/config/logs
-      tmp:
-        type: emptyDir
+        advancedMounts:
+          jellyseerr:
+            app:
+              - path: /app/config/logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
     service:
       app:
-        controller: overseerr
+        controller: jellyseerr
         ports:
           http:
             port: *port
