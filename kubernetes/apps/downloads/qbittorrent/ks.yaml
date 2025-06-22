@@ -28,8 +28,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      NFS_SCHEDULE: &cronSchedule "30 * * * *"
-      R2_SCHEDULE: *cronSchedule
+      NFS_SCHEDULE: "0 * * * *"
       VOLSYNC_CAPACITY: 5Gi
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
