@@ -24,6 +24,6 @@ spec:
       value: NodeMemoryHighUtilization
       isRegex: false
     - name: instance
-      value: expanse.internal:9100
+      value: ${SECRET_NAS_IP:=nas.home.arpa}:9100
       isRegex: false
 
