@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app overseerr
+  name: &app jellyseerr
   namespace: flux-system
 spec:
   targetNamespace: media
@@ -20,7 +20,7 @@ spec:
     - name: radarr
     - name: sonarr
     - name: volsync
-  path: ./kubernetes/apps/media/overseerr/app
+  path: ./kubernetes/apps/media/jellyseerr/app
   prune: true
   sourceRef:
     kind: GitRepository
