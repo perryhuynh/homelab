@@ -12,6 +12,10 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/keda/nfs-scaler
+  dependsOn:
+    - name: keda
+    - name: longhorn
+    - name: volsync
   path: ./kubernetes/apps/downloads/qbittorrent/app
   prune: true
   sourceRef:
@@ -39,6 +43,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: qbittorrent
   path: ./kubernetes/apps/downloads/qbittorrent/tools
   prune: true
   sourceRef:

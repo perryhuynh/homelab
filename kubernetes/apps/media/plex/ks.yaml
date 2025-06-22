@@ -16,6 +16,7 @@ spec:
     - name: intel-device-plugin-gpu
     - name: keda
     - name: longhorn
+    - name: volsync
   path: ./kubernetes/apps/media/plex/app
   prune: true
   sourceRef:
@@ -48,6 +49,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
+    - name: plex
   path: ./kubernetes/apps/media/plex/tools/auto-languages
   prune: true
   sourceRef:

@@ -33,9 +33,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: local-path-provisioner
-      namespace: storage
   values:
     extraInitContainers:
       - name: 01-init-db

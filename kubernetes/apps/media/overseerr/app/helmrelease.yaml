@@ -24,13 +24,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: plex
-      namespace: media
-    - name: radarr
-      namespace: downloads
-    - name: sonarr
-      namespace: downloads
   values:
     controllers:
       overseerr:

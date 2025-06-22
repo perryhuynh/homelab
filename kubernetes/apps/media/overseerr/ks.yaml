@@ -10,6 +10,13 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: longhorn
+    - name: plex
+    - name: qbittorrent
+    - name: radarr
+    - name: sonarr
+    - name: volsync
   path: ./kubernetes/apps/media/overseerr/app
   prune: true
   sourceRef:
