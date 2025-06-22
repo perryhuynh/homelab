@@ -23,9 +23,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  dependsOn:
-    - name: thanos
-      namespace: monitoring
   values:
     controllers:
       kromgo:

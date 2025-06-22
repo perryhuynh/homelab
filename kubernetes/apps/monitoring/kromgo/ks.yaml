@@ -10,6 +10,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: thanos
   path: ./kubernetes/apps/monitoring/kromgo/app
   prune: true
   sourceRef:

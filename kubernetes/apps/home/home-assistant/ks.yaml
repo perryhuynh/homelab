@@ -13,7 +13,9 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: external-secrets-stores
+    - name: longhorn
     - name: multus-networks
+    - name: volsync
   path: ./kubernetes/apps/home/home-assistant/app
   prune: true
   sourceRef:

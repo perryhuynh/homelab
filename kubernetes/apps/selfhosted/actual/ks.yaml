@@ -10,6 +10,10 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: external-secrets-stores
+    - name: longhorn
+    - name: volsync
   path: ./kubernetes/apps/selfhosted/actual/app
   prune: true
   sourceRef:

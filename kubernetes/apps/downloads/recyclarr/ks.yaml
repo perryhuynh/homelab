@@ -12,6 +12,10 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
+    - name: longhorn
+    - name: radarr
+    - name: sonarr
+    - name: volsync
   path: ./kubernetes/apps/downloads/recyclarr/app
   prune: true
   sourceRef:
