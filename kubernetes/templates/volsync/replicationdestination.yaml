@@ -7,12 +7,12 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: "${APP}-volsync-nfs-secret"
+    repository: "${APP}-volsync-secret"
     copyMethod: Snapshot # must be Snapshot
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-longhorn}"
     cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-local-hostpath}"
     cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
-    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-8Gi}"
+    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-5Gi}"
     storageClassName: "${VOLSYNC_STORAGECLASS:-longhorn-volsync}"
     accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
     capacity: "${VOLSYNC_CAPACITY}"
