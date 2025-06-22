@@ -14,6 +14,10 @@ spec:
     - name: external-dns-cloudflare
     - name: external-secrets-stores
   path: ./kubernetes/apps/networking/cloudflared/app
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cloudflare-tunnel-id-secret
   prune: true
   sourceRef:
     kind: GitRepository
