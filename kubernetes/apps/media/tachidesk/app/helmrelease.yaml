@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: ghcr.io/suwayomi/tachidesk
-              tag: v2.0.1804@sha256:142bada165d33d8d4de45923a5283c65e67a2cad35bce206462472a320ac5cbd
+              tag: v2.0.1805@sha256:60b0609db7a1d0fd0bcf7e5c794942b608169f3958fda922009f36374a568da4
             env:
               BIND_PORT: &port 80
               EXTENSION_REPOS: "[\"https://github.com/keiyoushi/extensions/tree/repo\"]"
