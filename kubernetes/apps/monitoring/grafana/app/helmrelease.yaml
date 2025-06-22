@@ -213,9 +213,9 @@ spec:
           revision: 41
           datasource: Prometheus
         smartctl-exporter:
-          # renovate: depName="Dashboard for smartctl_exporter"
-          gnetId: 20204
-          revision: 1
+          # renovate: depName="SMARTctl Exporter Dashboard"
+          gnetId: 22604
+          revision: 2
           datasource:
             - { name: DS_PROMETHEUS, value: Prometheus }
         opnsense:
