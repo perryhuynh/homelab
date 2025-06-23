@@ -79,8 +79,8 @@ spec:
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
-        runAsGroup: 10000
-        runAsUser: 10001
+        runAsUser: 10000
+        runAsGroup: 10001
         seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
