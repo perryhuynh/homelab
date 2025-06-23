@@ -43,6 +43,7 @@ spec:
               TZ: America/Los_Angeles
               UPDATE_EXCLUDE_STARTED: false
               UPDATE_EXCLUDE_UNREAD: false
+              UPDATE_MANGA_INFO: true
             probes:
               liveness: &probes
                 enabled: true
