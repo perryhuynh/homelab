@@ -108,8 +108,15 @@ spec:
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk/downloads
             subPath: downloads/tachidesk
-      tmp:
+      tmpfs:
         type: emptyDir
+        advancedMounts:
+          plex:
+            app:
+              - path: /home/suwayomi/.local/share/Tachidesk/logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
     service:
       app:
         controller: *app
