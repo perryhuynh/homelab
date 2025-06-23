@@ -7,5 +7,5 @@ resources:
   - ./kavita/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./plex/ks.yaml
-  - ./tachidesk/ks.yaml
+  # - ./tachidesk/ks.yaml
   - ./tautulli/ks.yaml
