@@ -75,9 +75,9 @@ spec:
         pod:
           automountServiceAccountToken: false
           securityContext:
-            runAsGroup: 568
             runAsNonRoot: true
-            runAsUser: 568
+            runAsUser: 1000
+            runAsGroup: 1000
             seccompProfile: { type: RuntimeDefault }
     persistence:
       config:

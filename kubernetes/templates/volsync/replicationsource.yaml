@@ -19,10 +19,9 @@ spec:
     storageClassName: "${VOLSYNC_STORAGECLASS:-longhorn-volsync}"
     accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:-ReadWriteOnce}"]
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:-568}
-      runAsGroup: ${VOLSYNC_PGID:-568}
-      fsGroup: ${VOLSYNC_PGID:-568}
-      supplementalGroups: [65532]
+      runAsUser: ${VOLSYNC_PUID:-1000}
+      runAsGroup: ${VOLSYNC_PGID:-1000}
+      fsGroup: ${VOLSYNC_PGID:-1000}
     retain:
       hourly: ${VOLSYNC_RETAIN_HOURLY:-24}
       daily: ${VOLSYNC_RETAIN_DAILY:-7}
