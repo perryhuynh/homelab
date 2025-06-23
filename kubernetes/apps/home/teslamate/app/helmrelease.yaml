@@ -63,9 +63,6 @@ spec:
               readiness: *probes
               startup:
                 enabled: true
-                spec:
-                  tcpSocket:
-                    port: *port
             resources:
               limits:
                 memory: 512Mi
