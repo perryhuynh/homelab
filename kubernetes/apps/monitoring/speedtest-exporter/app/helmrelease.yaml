@@ -54,9 +54,9 @@ spec:
               - name: ndots
                 value: "1"
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
             runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
     persistence:
       config:
         enabled: true
