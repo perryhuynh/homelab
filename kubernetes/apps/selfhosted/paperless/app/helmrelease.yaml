@@ -62,7 +62,7 @@ spec:
               PAPERLESS_TIKA_ENDPOINT: http://paperless-tika.default.svc.cluster.local:9998
               PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless-gotenberg.default.svc.cluster.local
               # User Permissions
-              USERMAP_GID: "65532"
+              USERMAP_GID: "1000"
             envFrom: *envFrom
             probes:
               liveness:
