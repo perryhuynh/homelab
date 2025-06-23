@@ -52,9 +52,9 @@ spec:
               capabilities: { drop: ["ALL"] }
         pod:
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
             runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
         replicas: 2
         strategy: RollingUpdate
     ingress:

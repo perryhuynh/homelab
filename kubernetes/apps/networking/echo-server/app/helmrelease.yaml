@@ -60,8 +60,9 @@ spec:
                 cpu: 5m
         pod:
           securityContext:
-            runAsUser: 568
-            runAsGroup: 568
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
     service:
       app:
         controller: echo-server
