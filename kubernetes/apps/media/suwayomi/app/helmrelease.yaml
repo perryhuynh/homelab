@@ -35,14 +35,14 @@ spec:
               repository: ghcr.io/suwayomi/suwayomi-server
               tag: v2.0.1809@sha256:60759cf5878143e4c170c8979a4f01f490e3cc6e7c3ac3f5c600fdbda70e72d7
             env:
+              BACKUP_INTERVAL: 0
               BIND_PORT: &port 80
               EXTENSION_REPOS: "[\"https://github.com/keiyoushi/extensions/tree/repo\"]"
               FLARESOLVERR_ENABLED: true
               FLARESOLVERR_URL: http://flaresolverr.downloads.cluster.svc.local.
+              TZ: America/Los_Angeles
               UPDATE_EXCLUDE_STARTED: false
               UPDATE_EXCLUDE_UNREAD: false
-              TZ: America/Los_Angeles
-              WEB_UI_CHANNEL: "preview"
             probes:
               liveness: &probes
                 enabled: true
@@ -108,8 +108,15 @@ spec:
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk/downloads
             subPath: downloads/tachidesk
-      tmp:
+      tmpfs:
         type: emptyDir
+        advancedMounts:
+          suwayomi:
+            app:
+              - path: /home/suwayomi/.local/share/Tachidesk/logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
     service:
       app:
         controller: *app
