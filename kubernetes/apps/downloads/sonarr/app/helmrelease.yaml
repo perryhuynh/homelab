@@ -80,17 +80,16 @@ spec:
         pod:
           automountServiceAccountToken: false
           securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            runAsGroup: 568
             runAsNonRoot: true
-            runAsUser: 568
+            runAsGroup: &uid 1000
+            runAsUser: *uid
+            fsGroup: *uid
+            fsGroupChangePolicy: OnRootMismatch
             seccompProfile: { type: RuntimeDefault }
-            supplementalGroups: [65532]
     ingress:
       nginx:
         enabled: true
-        annotations: &annotations
+        annotations:
           nginx.ingress.kubernetes.io/auth-method: GET
           nginx.ingress.kubernetes.io/auth-url: http://authelia.security.svc.cluster.local/api/verify
           nginx.ingress.kubernetes.io/auth-signin: https://auth.perryhuynh.com?rm=$request_method
