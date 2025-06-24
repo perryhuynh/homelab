@@ -106,6 +106,8 @@ spec:
         advancedMounts:
           suwayomi:
             app:
+              - path: /home/suwayomi/.local/share/Tachidesk/bin
+                subPath: bin
               - path: /home/suwayomi/.local/share/Tachidesk/downloads
                 subPath: downloads
               - path: /home/suwayomi/.local/share/Tachidesk/logs
