@@ -101,19 +101,13 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk
-      downloads:
-        enabled: true
-        type: nfs
-        path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:=temp}
-        globalMounts:
-          - path: /home/suwayomi/.local/share/Tachidesk/downloads
-            subPath: downloads/tachidesk
       tmpfs:
         type: emptyDir
         advancedMounts:
           suwayomi:
             app:
+              - path: /home/suwayomi/.local/share/Tachidesk/downloads
+                subPath: /downloads
               - path: /home/suwayomi/.local/share/Tachidesk/logs
                 subPath: logs
               - path: /tmp
@@ -123,7 +117,4 @@ spec:
         controller: *app
         ports:
           http:
-            primary: true
             port: *port
-          codeserver:
-            port: 8080
