@@ -10,10 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/keda/nfs-scaler
   dependsOn:
-    - name: keda
     - name: longhorn
     - name: volsync
   path: ./kubernetes/apps/media/suwayomi/app
