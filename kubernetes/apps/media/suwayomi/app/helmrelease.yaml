@@ -66,15 +66,16 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               capabilities: { drop: ["ALL"] }
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
-            seccompProfile: { type: RuntimeDefault }
+              readOnlyRootFileSystem: true
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
     ingress:
       nginx:
         enabled: true
@@ -101,6 +102,10 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk
+      downloads:
+        existingClaim: suwayomi-downloads
+        globalMounts:
+          - path: /home/suwayomi/.local/share/Tachidesk/downloads
       tmpfs:
         type: emptyDir
         advancedMounts:
@@ -108,8 +113,6 @@ spec:
             app:
               - path: /home/suwayomi/.local/share/Tachidesk/bin
                 subPath: bin
-              - path: /home/suwayomi/.local/share/Tachidesk/downloads
-                subPath: downloads
               - path: /home/suwayomi/.local/share/Tachidesk/logs
                 subPath: logs
               - path: /tmp
