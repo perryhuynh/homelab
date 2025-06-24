@@ -107,7 +107,7 @@ spec:
           suwayomi:
             app:
               - path: /home/suwayomi/.local/share/Tachidesk/downloads
-                subPath: /downloads
+                subPath: downloads
               - path: /home/suwayomi/.local/share/Tachidesk/logs
                 subPath: logs
               - path: /tmp
