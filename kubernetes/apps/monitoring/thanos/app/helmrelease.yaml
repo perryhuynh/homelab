@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 17.0.4
+    tag: 17.0.3
   url: oci://registry-1.docker.io/bitnamicharts/thanos
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
@@ -40,7 +40,7 @@ spec:
     image:
       registry: quay.io
       repository: thanos/thanos
-      tag: v0.39.0@sha256:cf5ec774f031046485790d6ad03fe1ed927345714b8a4681febc970e32c81aac
+      tag: v0.38.0@sha256:365873d05a2f59dbaf3d40f526d3b8a2e66b9882dd6cab9396d16e8410aa46e6
     existingObjstoreSecret: thanos-secret
     queryFrontend:
       enabled: true
@@ -58,10 +58,9 @@ spec:
         extraTls:
           - hosts:
               - *host
-      logLevel: debug
       resources:
         limits:
-          memory: 512Mi
+          memory: 256Mi
         requests:
           cpu: 10m
     query:
@@ -71,7 +70,6 @@ spec:
       dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
-      logLevel: debug
       resources:
         limits:
           memory: 1Gi
