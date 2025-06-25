@@ -58,6 +58,7 @@ spec:
         extraTls:
           - hosts:
               - *host
+      logLevel: debug
       resources:
         limits:
           memory: 512Mi
@@ -70,6 +71,7 @@ spec:
       dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
+      logLevel: debug
       resources:
         limits:
           memory: 1Gi
