@@ -34,8 +34,14 @@ spec:
             env:
               SCRYPTED_INSECURE_PORT: &port 80
             image:
-              repository: ghcr.io/koush/scrypted
-              tag: 0.140.1-noble-lite@sha256:7641b9b18189731266af6f29ec4f35b2ff09209f2aa8e3d4d9ad18067650e82b
+              repository: ghcr.io/bjw-s-labs/scrypted
+              tag: 0.139.0@sha256:0a376e9166d51e0d0fae47b9234774338809fdbd317db614fdc95cef532f024e
+            command: ["npm"]
+            args:
+              - "--prefix"
+              - "/server"
+              - "exec"
+              - "scrypted-serve"
             resources:
               limits:
                 gpu.intel.com/i915: 1
