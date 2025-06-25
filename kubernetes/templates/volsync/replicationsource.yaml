@@ -14,7 +14,7 @@ spec:
     repository: "${APP}-volsync-secret"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-longhorn}"
     cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-5Gi}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-local-hostpath}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-openebs-hostpath}"
     cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
     storageClassName: "${VOLSYNC_STORAGECLASS:-longhorn-volsync}"
     accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:-ReadWriteOnce}"]
@@ -25,4 +25,3 @@ spec:
     retain:
       hourly: ${VOLSYNC_RETAIN_HOURLY:-24}
       daily: ${VOLSYNC_RETAIN_DAILY:-7}
-
