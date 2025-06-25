@@ -30,19 +30,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 17.5.0@sha256:e0c87ce7df39d06b93f27cf2cc6a056611f13faaa88cc07ab4dc8bf7a85d0b11
-            envFrom: &envFrom
-              - secretRef:
-                  name: gatus-secret
-            securityContext: &securityContext
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
           init-config:
-            dependsOn: init-db
             image:
               repository: ghcr.io/home-operations/k8s-sidecar
               tag: 1.30.5@sha256:0c429f991b01b39e73bf926bfaee8e4ce90eae422789c8c24b8bab4f2739df2b
@@ -59,7 +47,10 @@ spec:
                 memory: 256Mi
               requests:
                 cpu: 10m
-            securityContext: *securityContext
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
         containers:
           app:
             image:
@@ -69,7 +60,6 @@ spec:
               GATUS_CONFIG_PATH: /config
               WEB_PORT: &port 80
               TZ: America/Los_Angeles
-            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
