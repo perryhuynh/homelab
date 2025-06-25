@@ -34,14 +34,8 @@ spec:
             env:
               SCRYPTED_INSECURE_PORT: &port 80
             image:
-              repository: ghcr.io/koush/scrypted
-              tag: v0.123.58-jammy-full@sha256:d84d2a8cc897e3ddd0635aecb681900f551e3f5bf702200df4b92e4014bc22b3
-            command: ["npm"]
-            args:
-              - "--prefix"
-              - "/server"
-              - "exec"
-              - "scrypted-serve"
+              repository: ghcr.io/bjw-s-labs/scrypted
+              tag: 0.139.0@sha256:0a376e9166d51e0d0fae47b9234774338809fdbd317db614fdc95cef532f024e
             resources:
               limits:
                 gpu.intel.com/i915: 1
@@ -95,10 +89,6 @@ spec:
         existingClaim: scrypted
         globalMounts:
           - path: /server/volume
-      npm:
-        type: emptyDir
-        globalMounts:
-          - path: /.npm
       recs:
         type: nfs
         path: /mnt/tank/media
@@ -106,8 +96,15 @@ spec:
         globalMounts:
           - path: /recs
             subPath: scrypted
-      tmp:
+      tmpfs:
         type: emptyDir
+        advancedMounts:
+          scrypted:
+            app:
+              - path: /.cache
+                subPath: cache
+              - path: /.npm
+                subPath: npm
     service:
       app:
         controller: scrypted
