@@ -33,7 +33,7 @@ spec:
           backoffLimit: 0
           concurrencyPolicy: Forbid
           failedJobsHistory: 1
-          successfulJobsHistory: 0
+          successfulJobsHistory: 1
         containers:
           app:
             image:
@@ -42,6 +42,7 @@ spec:
             env:
               PLEX_URL: http://plex.media.svc.cluster.local:32400
               PLEX_PATH: /data/plex_config/Library/Application Support/Plex Media Server
+              LOG_REQUESTS: true
               MODE: remove
               PHOTO_TRANSCODER: true
             envFrom:
