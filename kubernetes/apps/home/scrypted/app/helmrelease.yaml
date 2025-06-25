@@ -109,8 +109,10 @@ spec:
             app:
               - path: /.cache
                 subPath: cache
-              - path: /.npm
+              - path: /home/ubuntu/.npm
                 subPath: npm
+              - path: /server/volume/plugins
+                subPath: plugins
     service:
       app:
         controller: scrypted
