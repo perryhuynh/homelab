@@ -36,6 +36,12 @@ spec:
             image:
               repository: ghcr.io/bjw-s-labs/scrypted
               tag: 0.139.0@sha256:0a376e9166d51e0d0fae47b9234774338809fdbd317db614fdc95cef532f024e
+            command: ["npm"]
+            args:
+              - "--prefix"
+              - "/server"
+              - "exec"
+              - "scrypted-serve"
             resources:
               limits:
                 gpu.intel.com/i915: 1
