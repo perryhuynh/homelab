@@ -91,10 +91,13 @@ spec:
                   port: http
     persistence:
       config:
-        enabled: true
         existingClaim: scrypted
         globalMounts:
           - path: /server/volume
+      plugins:
+        existingClaim: scrypted-plugins
+        globalMounts:
+          - path: /server/volume/plugins
       recs:
         type: nfs
         path: /mnt/tank/media
@@ -111,8 +114,6 @@ spec:
                 subPath: cache
               - path: /home/ubuntu/.npm
                 subPath: npm
-              - path: /server/volume/plugins
-                subPath: plugins
     service:
       app:
         controller: scrypted
