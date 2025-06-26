@@ -8,7 +8,7 @@ spec:
   cron: 50 0 * * *
   groups:
     - default
-  name: auto-trim
+  name: *task
   task: *task
 ---
 apiVersion: longhorn.io/v1beta2
@@ -20,5 +20,5 @@ spec:
   cron: 40 0 * * *
   groups:
     - default
-  name: auto-trim
+  name: *task
   task: *task
