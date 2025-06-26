@@ -36,7 +36,8 @@ spec:
             image:
               repository: ghcr.io/bjw-s-labs/scrypted
               tag: 0.139.0@sha256:0a376e9166d51e0d0fae47b9234774338809fdbd317db614fdc95cef532f024e
-            command: ["npm"]
+            command:
+              - "npm"
             args:
               - "--prefix"
               - "/server"
@@ -50,7 +51,9 @@ spec:
                 cpu: 100m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
         pod:
           annotations:
@@ -67,7 +70,8 @@ spec:
                     matchExpressions:
                       - key: app.kubernetes.io/name
                         operator: In
-                        values: ["plex"]
+                        values:
+                          - "plex"
                   topologyKey: kubernetes.io/hostname
           automountServiceAccountToken: false
           securityContext:
@@ -76,8 +80,11 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
-            seccompProfile: { type: RuntimeDefault }
-            supplementalGroups: [44, 105]
+            seccompProfile:
+              type: RuntimeDefault
+            supplementalGroups:
+              - 44
+              - 105
     ingress:
       nginx:
         enabled: true
@@ -114,6 +121,8 @@ spec:
                 subPath: cache
               - path: /home/ubuntu/.npm
                 subPath: npm
+              - path: /tmp
+                subPath: tmp
     service:
       app:
         controller: scrypted
