@@ -131,7 +131,7 @@ spec:
                   severity: critical
       persistence:
         enabled: true
-        storageClass: storageClass
+        storageClass: *storageClass
         size: 10Gi
       resources:
         limits:
