@@ -51,9 +51,7 @@ spec:
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 80
               TZ: America/Los_Angeles
-            envFrom:
-              - secretRef:
-                  name: prowlarr-secret
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
@@ -75,7 +73,9 @@ spec:
                 cpu: 25m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
@@ -83,7 +83,8 @@ spec:
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
-            seccompProfile: { type: RuntimeDefault }
+            seccompProfile:
+              type: RuntimeDefault
     ingress:
       nginx:
         annotations:
@@ -103,10 +104,13 @@ spec:
                   identifier: app
                   port: http
     persistence:
-      config:
+      tmpfs:
         type: emptyDir
-      tmp:
-        type: emptyDir
+        globalMounts:
+          - path: /config
+            subPath: config
+          - path: /tmp
+            subPath: tmp
     service:
       app:
         controller: prowlarr
