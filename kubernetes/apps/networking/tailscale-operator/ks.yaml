@@ -34,7 +34,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: tailscale-connector
+    - name: tailscale-operator
   path: ./kubernetes/apps/networking/tailscale-operator/connector
   prune: true
   sourceRef:
