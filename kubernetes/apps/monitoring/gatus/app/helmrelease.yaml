@@ -42,9 +42,9 @@ spec:
               RESOURCE: both
               UNIQUE_FILENAMES: true
             restartPolicy: Always
-            resources: &resources
+            resources:
               limits:
-                memory: 64Mi
+                memory: 128Mi
               requests:
                 cpu: 5m
             securityContext: &securityContext
@@ -76,7 +76,11 @@ spec:
               readiness: *probes
               startup:
                 enabled: true
-            resources: *resources
+            resources:
+              limits:
+                memory: 64Mi
+              requests:
+                cpu: 5m
             securityContext: *securityContext
         serviceAccount:
           identifier: gatus
