@@ -27,7 +27,6 @@ spec:
   values:
     controllers:
       echo-server:
-        replicas: 2
         strategy: RollingUpdate
         containers:
           app:
@@ -56,19 +55,24 @@ spec:
             resources:
               limits:
                 memory: 64Mi
+                cpu: 50m
               requests:
                 cpu: 5m
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - "ALL"
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsGroup: 1000
         runAsUser: 1000
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile:
+          type: RuntimeDefault
+
     service:
       app:
         controller: echo-server
