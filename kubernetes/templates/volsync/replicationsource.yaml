@@ -22,6 +22,7 @@ spec:
       runAsUser: ${VOLSYNC_PUID:-1000}
       runAsGroup: ${VOLSYNC_PGID:-1000}
       fsGroup: ${VOLSYNC_PGID:-1000}
+      fsGroupChangePolicy: "OnRootMismatch"
     retain:
       hourly: ${VOLSYNC_RETAIN_HOURLY:-24}
       daily: ${VOLSYNC_RETAIN_DAILY:-7}
