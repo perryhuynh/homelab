@@ -100,15 +100,13 @@ spec:
         existingClaim: tautulli-cache
         globalMounts:
           - path: /config/cache
-      logs:
-        type: emptyDir
-        globalMounts:
-          - path: /config/logs
       tmpfs:
         type: emptyDir
         globalMounts:
           - path: /config/backups
             subPath: backups
+          - path: /config/logs
+            subPath: logs
           - path: /tmp
             subPath: tmp
     service:
