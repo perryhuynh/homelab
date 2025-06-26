@@ -35,29 +35,31 @@ spec:
               repository: ghcr.io/home-operations/k8s-sidecar
               tag: 1.30.5@sha256:0c429f991b01b39e73bf926bfaee8e4ce90eae422789c8c24b8bab4f2739df2b
             env:
-              FOLDER: /config
+              FOLDER: &configDir /config
               LABEL: gatus.io/enabled
+              METHOD: WATCH
               NAMESPACE: ALL
               RESOURCE: both
               UNIQUE_FILENAMES: true
-              METHOD: WATCH
             restartPolicy: Always
             resources: &resources
               limits:
                 memory: 256Mi
               requests:
-                cpu: 10m
+                cpu: 5m
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - "ALL"
         containers:
           app:
             image:
               repository: ghcr.io/twin/gatus
               tag: v5.18.1@sha256:97525568fdef34539b1b4d015aef2d1cf6f58f1bc087443387b349940544394d
             env:
-              GATUS_CONFIG_PATH: /config
+              GATUS_CONFIG_PATH: *configDir
               WEB_PORT: &port 80
               TZ: America/Los_Angeles
             probes:
@@ -94,14 +96,16 @@ spec:
     defaultPodOptions:
       dnsConfig:
         options:
-          - { name: ndots, value: "1" }
+          - name: ndots
+            value: "1"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile:
+          type: RuntimeDefault
     persistence:
       config:
         existingClaim: *app
@@ -117,9 +121,15 @@ spec:
         gatus:
           type: ClusterRole
           rules:
-            - apiGroups: [""]
-              resources: ["configmaps", "secrets"]
-              verbs: ["get", "watch", "list"]
+            - apiGroups:
+                - ""
+              resources:
+                - "configmaps"
+                - "secrets"
+              verbs:
+                - "get"
+                - "watch"
+                - "list"
       bindings:
         gatus:
           type: ClusterRoleBinding
