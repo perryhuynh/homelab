@@ -67,7 +67,9 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
@@ -77,7 +79,8 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
-            seccompProfile: { type: RuntimeDefault }
+            seccompProfile:
+              type: RuntimeDefault
     ingress:
       nginx:
         enabled: true
