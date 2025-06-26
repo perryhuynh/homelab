@@ -13,9 +13,12 @@ spec:
       match:
         any:
           - resources:
-              kinds: ["batch/v1/Job"]
-              names: ["volsync-src-*"]
-              namespaces: ["*"]
+              kinds:
+                - "batch/v1/Job"
+              names:
+                - "volsync-src-*"
+              namespaces:
+                - "*"
               selector:
                 matchLabels:
                   app.kubernetes.io/created-by: volsync
@@ -29,14 +32,18 @@ spec:
                   onExitCodes:
                     containerName: restic
                     operator: In
-                    values: [11]
+                    values:
+                      - 11
             template:
               spec:
                 initContainers:
                   - name: jitter
-                    image: docker.io/library/busybox:latest
+                    image: ghcr.io/home-operations/busybox:1.37.0@sha256:026ed7273270ec08f6902b4ae8334c23b473e5394bec3bbbdbfe580c710d50bc
                     imagePullPolicy: IfNotPresent
-                    command: ['sh', '-c', 'sleep $(shuf -i 0-60 -n 1)']
+                    command:
+                      - "sh"
+                      - "-c"
+                      - "sleep $(shuf -i 0-90 -n 1)"
                 containers:
                   - name: restic
                     volumeMounts:
@@ -51,9 +58,12 @@ spec:
       match:
         any:
           - resources:
-              kinds: ["batch/v1/Job"]
-              names: ["volsync-dst-*"]
-              namespaces: ["*"]
+              kinds:
+                - "batch/v1/Job"
+              names:
+                - "volsync-dst-*"
+              namespaces:
+                - "*"
               selector:
                 matchLabels:
                   app.kubernetes.io/created-by: volsync
@@ -70,5 +80,5 @@ spec:
                 volumes:
                   - name: repository
                     nfs:
-                      server: ${SECRET_NAS_IP:=temp}
+                      server: ${SECRET_NAS_IP:=nas.home.arpa}
                       path: /mnt/tank/volsync
