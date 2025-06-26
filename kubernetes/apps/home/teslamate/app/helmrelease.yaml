@@ -41,7 +41,7 @@ spec:
           app:
             env:
               CHECK_ORIGIN: true
-              MQTT_HOST: vernemq.database.svc.cluster.local
+              MQTT_HOST: mosquitto.database.svc.cluster.local
               PORT: &port 80
               TZ: America/Los_Angeles
               VIRTUAL_HOST: &host "{{ .Release.Name }}.perryhuynh.com"

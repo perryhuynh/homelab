@@ -1,0 +1,108 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app mosquitto
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    configMaps:
+      config:
+        data:
+          mosquitto-0.conf: |
+            listener 1883
+            allow_anonymous true
+            log_type error
+            log_type warning
+          mosquitto-1.conf: |
+            listener 1883
+            allow_anonymous true
+            log_type error
+            log_type warning
+            connection mosquitto-bridge
+            address mosquitto-0.mosquitto.database.svc.cluster.local:1883
+            clientid mosquitto-bridge
+            topic # both 0
+    controllers:
+      mosquitto:
+        type: statefulset
+        replicas: 2
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: public.ecr.aws/docker/library/eclipse-mosquitto
+              tag: 2.0.21@sha256:54d618b2654b20fdb9c737701dc0e4f9e8331f16ecf0d43f3182a1ec26e994bf
+            command:
+              - sh
+              - -c
+            args:
+              - exec mosquitto -c "/config/$(hostname).conf"
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - >-
+                        /usr/bin/mosquitto_pub -h localhost -p 1883 -t mosquitto/healthcheck/$(hostname)/liveness -m "ok $(date)" -r -q 0
+              readiness:
+                enabled: true
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 5m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsGroup: 2000
+            runAsUser: 2000
+            fsGroup: 2000
+            seccompProfile:
+              type: RuntimeDefault
+    persistence:
+      config:
+        type: configMap
+        identifier: config
+        globalMounts:
+          - path: /config
+    service:
+      app:
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.1.206
+        sessionAffinity: ClientIP
+        type: LoadBalancer
+        controller: *app
+        ports:
+          mqtt:
+            port: 1883
