@@ -58,7 +58,9 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
@@ -68,7 +70,8 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
-            seccompProfile: { type: RuntimeDefault }
+            seccompProfile:
+              type: RuntimeDefault
     ingress:
       nginx:
         enabled: true
@@ -101,8 +104,13 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /config/logs
-      tmp:
+      tmpfs:
         type: emptyDir
+        globalMounts:
+          - path: /config/backups
+            subPath: backups
+          - path: /tmp
+            subPath: tmp
     service:
       app:
         controller: tautulli
