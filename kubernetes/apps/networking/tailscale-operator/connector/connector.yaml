@@ -2,10 +2,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ts-pod-cidrs
+  name: &name k8s-exit-node
 spec:
-  hostname: ts-pod-cidrs
+  hostname: *name
   exitNode: true
-  subnetRouter:
-    advertiseRoutes:
-      - "10.40.0.0/14"
