@@ -103,10 +103,13 @@ spec:
                   identifier: app
                   port: http
     persistence:
-      config:
+      tmpfs:
         type: emptyDir
-      tmp:
-        type: emptyDir
+        globalMounts:
+          - path: /config
+            subPath: config
+          - path: /tmp
+            subPath: tmp
     service:
       app:
         controller: prowlarr

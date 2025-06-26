@@ -100,10 +100,13 @@ spec:
         globalMounts:
           - path: /downloads
             subPath: downloads/usenet
-      incomplete:
+      tmpfs:
         type: emptyDir
-      tmp:
-        type: emptyDir
+        globalMounts:
+          - path: /incomplete
+            subPath: incomplete
+          - path: /tmp
+            subPath: tmp
     service:
       app:
         controller: sabnzbd

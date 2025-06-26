@@ -117,12 +117,13 @@ spec:
         existingClaim: home-assistant-cache
         globalMounts:
           - path: /config/.venv
-      logs:
+      tmpfs:
         type: emptyDir
         globalMounts:
           - path: /config/logs
-      tmp:
-        type: emptyDir
+            subPath: logs
+          - path: /tmp
+            subPath: tmp
     service:
       app:
         controller: home-assistant

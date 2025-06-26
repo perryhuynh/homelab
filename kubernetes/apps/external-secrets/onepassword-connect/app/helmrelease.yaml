@@ -129,8 +129,6 @@ spec:
       config:
         enabled: true
         type: emptyDir
-        globalMounts:
-          - path: *configDir
     service:
       app:
         controller: onepassword-connect
