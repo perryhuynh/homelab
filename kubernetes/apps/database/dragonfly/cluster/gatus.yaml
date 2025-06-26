@@ -8,7 +8,7 @@ metadata:
 data:
   config.yaml: |
     endpoints:
-      - name: dragonfly
+      - name: cache
         group: infrastructure
         url: tcp://dragonfly.database.svc.cluster.local:6379
         interval: 1m
@@ -17,5 +17,3 @@ data:
           hide-hostname: true
         conditions:
           - "[CONNECTED] == true"
-        alerts:
-          - type: pushover

@@ -2,15 +2,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-gatus-ep
+  name: mosquitto-gatus-ep
   labels:
     gatus.io/enabled: "true"
 data:
   config.yaml: |-
     endpoints:
-      - name: database
+      - name: queue
         group: infrastructure
-        url: tcp://postgres17-rw.database.svc.cluster.local:5432
+        url: tcp://mosquitto.database.svc.cluster.local:1883
         interval: 1m
         ui:
           hide-url: true
