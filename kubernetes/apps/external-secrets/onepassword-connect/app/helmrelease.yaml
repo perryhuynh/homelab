@@ -26,16 +26,9 @@ spec:
   values:
     controllers:
       onepassword-connect:
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
-        strategy: RollingUpdate
-        defaultContainerOptions:
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - "ALL"
         containers:
           app:
             image:
@@ -70,6 +63,12 @@ spec:
                     path: /health
                     port: *apiPort
                   initialDelaySeconds: 15
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - "ALL"
             resources: &resources
               limits:
                 memory: 256M
@@ -108,16 +107,17 @@ spec:
                     path: /health
                     port: *syncPort
                   initialDelaySeconds: 15
+            securityContext: *securityContext
             resources: *resources
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 999
-        runAsGroup: 999
-        runAsNonRoot: true
-        fsGroup: 999
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile:
-          type: RuntimeDefault
+        pod:
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
+            runAsNonRoot: true
+            fsGroup: 999
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
     ingress:
       nginx:
         enabled: true
