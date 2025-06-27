@@ -75,6 +75,13 @@ spec:
     persistence:
       config:
         existingClaim: cross-seed
+      config-file:
+        type: secret
+        name: cross-seed-secret
+        globalMounts:
+          - path: /config/config.js
+            subPath: config.js
+            readOnly: true
       downloads:
         type: nfs
         path: /mnt/tank/media
