@@ -83,8 +83,8 @@ identity_providers:
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://autobrr.perryhuynh.com/api/auth/oidc/callback"]
         userinfo_signed_response_alg: none
-      - client_id: grafana
-        client_name: Grafana
+      - client_name: Grafana
+        client_id: ${GRAFANA_OAUTH_CLIENT_ID}
         client_secret: "${GRAFANA_OAUTH_CLIENT_SECRET}"
         public: false
         authorization_policy: two_factor

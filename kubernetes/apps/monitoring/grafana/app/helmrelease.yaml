@@ -17,7 +17,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: grafana
+  name: &app grafana
 spec:
   interval: 30m
   chartRef:
@@ -34,31 +34,17 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    extraInitContainers:
-      - name: 01-init-db
-        image: ghcr.io/home-operations/postgres-init:17.5.0@sha256:e0c87ce7df39d06b93f27cf2cc6a056611f13faaa88cc07ab4dc8bf7a85d0b11
-        envFrom:
-          - secretRef:
-              name: &secret grafana-secret
-    replicas: 2
     env:
-      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: false
-      GF_ANALYTICS_CHECK_FOR_UPDATES: false
-      GF_ANALYTICS_REPORTING_ENABLED: false
-      GF_AUTH_GENERIC_OAUTH_API_URL: https://auth.perryhuynh.com/api/oidc/userinfo
-      GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.perryhuynh.com/api/oidc/authorization
-      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
-      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://auth.perryhuynh.com/api/oidc/token
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_EXPLORE_ENABLED: true
       GF_FEATURE_TOGGLES_ENABLE: publicDashboards
       GF_LOG_MODE: console
       GF_NEWS_NEWS_FEED_ENABLED: false
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
-      GF_SECURITY_COOKIE_SAMESITE: grafana
+      GF_SECURITY_COOKIE_SAMESITE: *app
       GF_SERVER_ROOT_URL: https://grafana.perryhuynh.com
     envFromSecrets:
-      - name: *secret
+      - name: grafana-secret
     grafana.ini:
       analytics:
         check_for_updates: false
@@ -68,8 +54,8 @@ spec:
         oauth_auto_login: false
         oauth_allow_insecure_email_lookup: true
       auth.generic_oauth:
-        enabled: true
         name: Authelia
+        enabled: true
         icon: signin
         scopes: openid profile email groups
         empty_scopes: false
@@ -77,6 +63,11 @@ spec:
         groups_attribute_path: groups
         name_attribute_path: name
         use_pkce: true
+        api_url: https://auth.perryhuynh.com/api/oidc/userinfo
+        auth_: https://auth.perryhuynh.com/api/oidc/authorization
+        token_url: https://auth.perryhuynh.com/api/oidc/token
+        # Optionally map user groups to Grafana roles
+        role_attribute_path: contains(groups[*], 'Grafana Admins') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
       auth.generic_oauth.group_mapping:
         org_id: 1
         role_attribute_path: |
@@ -150,9 +141,12 @@ spec:
       datasources.yaml:
         apiVersion: 1
         deleteDatasources:
-          - { name: Alertmanager, orgId: 1 }
-          - { name: Loki, orgId: 1 }
-          - { name: Prometheus, orgId: 1 }
+          - name: Alertmanager
+            orgId: 1
+          - name: Loki
+            orgId: 1
+          - name: Prometheus
+            orgId: 1
         datasources:
           - name: Prometheus
             type: prometheus
@@ -188,7 +182,8 @@ spec:
           gnetId: 17457
           revision: 6
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         dragonfly:
           url: https://raw.githubusercontent.com/dragonflydb/dragonfly/main/tools/local/monitoring/grafana/provisioning/dashboards/dashboard.json
           datasource: Prometheus
@@ -200,7 +195,8 @@ spec:
           gnetId: 19363
           revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         node-feature-discovery:
           url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
           datasource: Prometheus
@@ -219,38 +215,45 @@ spec:
           gnetId: 22604
           revision: 2
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         opnsense:
           # renovate: depName="OPNSense"
           gnetId: 19366
           revision: 5
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         speedtest-exporter:
           # renovate: depName="Speedtest-Exporter Dashboard"
           gnetId: 13665
           revision: 4
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         spegel:
           # renovate: depName="Spegel"
           gnetId: 18089
           revision: 1
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         windows-exporter:
           # renovate: depName="Windows Exporter Dashboard 2024"
           gnetId: 20763
           revision: 2
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
         volsync:
           # renovate: depName="VolSync Dashboard"
           gnetId: 21356
           revision: 3
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
-            - { name: VAR_REPLICATIONDESTNAME, value: .*-dst }
+            - name: DS_PROMETHEUS
+              value: Prometheus
+            - name: VAR_REPLICATIONDESTNAME
+              value: .*-dst
         zfs:
           # renovate: dashboardName="ZFS"
           gnetId: 7845
@@ -402,7 +405,8 @@ spec:
         qbittorrent:
           url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+            - name: DS_PROMETHEUS
+              value: Prometheus
     sidecar:
       dashboards:
         enabled: true
