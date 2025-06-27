@@ -65,8 +65,8 @@ identity_providers:
       endpoints: ["authorization", "token", "revocation", "introspection"]
       allowed_origins_from_client_redirect_uris: true
     clients:
-      - client_id: actual
-        client_name: actual
+      - client_name: actual
+        client_id: "${ACTUAL_OAUTH_CLIENT_ID}"
         client_secret: "${ACTUAL_OAUTH_CLIENT_SECRET}"
         public: false
         authorization_policy: two_factor
@@ -74,8 +74,8 @@ identity_providers:
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://actual.perryhuynh.com/openid/callback"]
         userinfo_signed_response_alg: none
-      - client_id: autobrr
-        client_name: autobrr
+      - client_name: autobrr
+        client_id: "${AUTOBRR_OAUTH_CLIENT_ID}"
         client_secret: "${AUTOBRR_OAUTH_CLIENT_SECRET}"
         public: false
         authorization_policy: two_factor
@@ -92,8 +92,8 @@ identity_providers:
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://grafana.perryhuynh.com/login/generic_oauth"]
         userinfo_signed_response_alg: none
-      - client_id: paperless
-        client_name: Paperless
+      - client_name: Paperless
+        client_id: "${PAPERLESS_OAUTH_CLIENT_ID}"
         client_secret: "${PAPERLESS_OAUTH_CLIENT_SECRET}"
         public: false
         authorization_policy: two_factor
