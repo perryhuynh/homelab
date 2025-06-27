@@ -29,6 +29,13 @@ spec:
       gatus:
         annotations:
           reloader.stakater.com/auto: "true"
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - "ALL"
         initContainers:
           init-config:
             image:
@@ -47,12 +54,6 @@ spec:
                 memory: 128Mi
               requests:
                 cpu: 5m
-            securityContext: &securityContext
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - "ALL"
         containers:
           app:
             image:
@@ -81,7 +82,6 @@ spec:
                 memory: 64Mi
               requests:
                 cpu: 5m
-            securityContext: *securityContext
         serviceAccount:
           identifier: gatus
     ingress:
