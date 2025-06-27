@@ -74,8 +74,14 @@ spec:
               type: RuntimeDefault
     ingress:
       tailscale:
-        enabled: true
         className: tailscale
+        hosts:
+          - host: *app
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
         tls:
           - hosts:
               - *app
