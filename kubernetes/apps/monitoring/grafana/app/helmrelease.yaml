@@ -64,7 +64,7 @@ spec:
         name_attribute_path: name
         use_pkce: true
         api_url: https://auth.perryhuynh.com/api/oidc/userinfo
-        auth_: https://auth.perryhuynh.com/api/oidc/authorization
+        auth_url: https://auth.perryhuynh.com/api/oidc/authorization
         token_url: https://auth.perryhuynh.com/api/oidc/token
         # Optionally map user groups to Grafana roles
         role_attribute_path: contains(groups[*], 'Grafana Admins') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
