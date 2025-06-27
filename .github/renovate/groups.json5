@@ -46,19 +46,6 @@
       "separateMinorPatch": true
     },
     {
-      "description": ["Kyoo Backend Group"],
-      "groupName": "Kyoo-Backend",
-      "matchPackagePatterns": [
-        "kyoo_back",
-        "kyoo_migrations"
-      ],
-      "matchDatasources": ["docker", "helm"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "separateMinorPatch": true
-    },
-    {
       "description": ["Rook-Ceph Group"],
       "groupName": "Rook-Ceph",
       "matchPackagePatterns": ["rook.ceph"],
@@ -73,6 +60,17 @@
       "groupName": "System Upgrade Controller",
       "matchPackagePatterns": ["system-upgrade-controller"],
       "matchDatasources": ["docker", "github-releases"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
+    },
+    {
+      "description": ["Thanos Group"],
+      "groupName": "Thanos",
+      "matchPackagePatterns": ["thanos"],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
