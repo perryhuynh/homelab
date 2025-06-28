@@ -85,24 +85,6 @@ spec:
             runAsGroup: 1000
             seccompProfile:
               type: RuntimeDefault
-    ingress:
-      nginx:
-        annotations:
-          nginx.ingress.kubernetes.io/auth-method: GET
-          nginx.ingress.kubernetes.io/auth-url: http://authelia.security.svc.cluster.local/api/verify
-          nginx.ingress.kubernetes.io/auth-signin: https://auth.perryhuynh.com?rm=$request_method
-          nginx.ingress.kubernetes.io/auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
-          nginx.ingress.kubernetes.io/auth-snippet: |
-            proxy_set_header X-Forwarded-Method $request_method;
-        enabled: true
-        className: internal
-        hosts:
-          - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       tmpfs:
         type: emptyDir
@@ -111,6 +93,14 @@ spec:
             subPath: config
           - path: /tmp
             subPath: tmp
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: prowlarr

@@ -84,21 +84,18 @@ spec:
         runAsUser: 65534
         runAsGroup: 65534
         seccompProfile: { type: RuntimeDefault }
-    ingress:
-      nginx:
-        enabled: true
-        className: internal
-        hosts:
-          - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths: &paths
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       config:
         enabled: true
         type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: atuin
