@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
-  name: gateway-api-crd
+  name: gateway-api
 spec:
   interval: 30m
   url: https://github.com/kubernetes-sigs/gateway-api
@@ -15,18 +15,3 @@ spec:
     /*
     # include
     !config/crd/experimental
----
-# yaml-language-server: $schema=https://k8s-schemas.bjw-s.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: gateway-api
-spec:
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: gateway-api-crd
-  wait: true
-  interval: 15m
-  retryInterval: 1m
-  timeout: 5m

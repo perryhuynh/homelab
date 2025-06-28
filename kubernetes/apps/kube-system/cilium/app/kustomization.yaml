@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./cilium-l2.yaml
   - ./crds.yaml
+  - ./gitrepository.yaml
   - ./helmrelease.yaml
