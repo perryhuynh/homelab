@@ -22,21 +22,22 @@ spec:
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: cilium-gateway-api-crd
   namespace: flux-system
 spec:
-  targetNamespace: &namespace kube-system
   dependsOn:
     - name: cilium
+  interval: 15m
   prune: true
   sourceRef:
     kind: GitRepository
     name: gateway-api
-    namespace: *namespace
-  wait: false
-  interval: 15m
-  retryInterval: 1m
+    namespace: kube-system
+  targetNamespace: kube-system
   timeout: 5m
+  wait: false
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
