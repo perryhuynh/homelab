@@ -119,12 +119,16 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: &port 8123
     service:
       app:
         controller: home-assistant
         ports:
           http:
             primary: true
-            port: 8123
+            port: *port
           code:
             port: 8080
