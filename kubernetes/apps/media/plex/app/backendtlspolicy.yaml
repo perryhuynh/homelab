@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://schemas.pages.dev/gateway.networking.k8s.io/backendtlspolicy_v1alpha3.json
+apiVersion: gateway.networking.k8s.io/v1alpha3
+kind: BackendTLSPolicy
+metadata:
+  name: plex-backend-tls
+spec:
+  targetRefs:
+    - group: ""
+      kind: Service
+      name: plex
+      sectionName: http
+  validation:
+    wellKnownCACertificates: System
+    hostname: plex.perryhuynh.com
