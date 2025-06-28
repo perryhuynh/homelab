@@ -39,9 +39,6 @@ spec:
       masquerade: true
     bgp:
       enabled: false
-    cluster:
-      name: home-cluster
-      id: 1
     cni:
       exclusive: false
     dashboards:
