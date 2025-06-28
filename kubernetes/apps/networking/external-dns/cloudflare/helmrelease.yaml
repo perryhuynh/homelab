@@ -39,23 +39,25 @@ spec:
     fullnameOverride: *app
     provider: cloudflare
     env:
-      - name: &email CF_API_EMAIL
+      - name: &name CF_API_TOKEN
         valueFrom:
           secretKeyRef:
             name: external-dns-cloudflare-secret
-            key: *email
-      - name: &token CF_API_TOKEN
+            key: *name
+      - name: &name CF_ZONE_ID
         valueFrom:
           secretKeyRef:
             name: external-dns-cloudflare-secret
-            key: *token
+            key: *name
     extraArgs:
-      - --ingress-class=external
+      - --cloudflare-dns-records-per-page=1000
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
+      - --gateway-name=external
+      - --zone-id-filter=$(CF_ZONE_ID)
     policy: sync
-    sources: ["crd", "ingress"]
+    sources: ["crd", "gateway-httproute"]
     txtPrefix: k8s.
     txtOwnerId: default
     domainFilters: ["perryhuynh.com"]

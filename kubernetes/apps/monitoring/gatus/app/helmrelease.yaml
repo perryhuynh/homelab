@@ -84,19 +84,6 @@ spec:
             securityContext: *securityContext
         serviceAccount:
           identifier: gatus
-    ingress:
-      nginx:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
-        enabled: true
-        className: external
-        hosts:
-          - host: "status.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     defaultPodOptions:
       dnsConfig:
         options:
@@ -120,6 +107,14 @@ spec:
           - path: /config/config.yaml
             subPath: config.yaml
             readOnly: true
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: external
+            namespace: kube-system
+            sectionName: https
     rbac:
       roles:
         gatus:

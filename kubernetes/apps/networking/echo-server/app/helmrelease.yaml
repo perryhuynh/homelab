@@ -72,7 +72,14 @@ spec:
         runAsUser: 1000
         seccompProfile:
           type: RuntimeDefault
-
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: external
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: echo-server
@@ -88,16 +95,3 @@ spec:
             path: /metrics
             interval: 1m
             scrapeTimeout: 10s
-    ingress:
-      nginx:
-        enabled: true
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.perryhuynh.com"
-        hosts:
-          - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
