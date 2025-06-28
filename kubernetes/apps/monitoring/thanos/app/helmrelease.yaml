@@ -50,14 +50,6 @@ spec:
         config:
           addr: dragonfly.database.svc.cluster.local:6379
           db: 1
-      ingress:
-        enabled: true
-        ingressClassName: internal
-        hostname: &host thanos-query-frontend.perryhuynh.com
-        tls: true
-        extraTls:
-          - hosts:
-              - *host
       resources:
         limits:
           memory: 256Mi

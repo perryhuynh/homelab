@@ -85,17 +85,6 @@ spec:
             supplementalGroups:
               - 44
               - 105
-    ingress:
-      nginx:
-        enabled: true
-        className: internal
-        hosts:
-          - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       config:
         existingClaim: scrypted
@@ -123,6 +112,14 @@ spec:
                 subPath: npm
               - path: /tmp
                 subPath: tmp
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: scrypted

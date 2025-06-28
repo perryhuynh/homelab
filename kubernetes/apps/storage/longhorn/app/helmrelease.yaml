@@ -47,7 +47,3 @@ spec:
       restoreVolumeRecurringJobs: true
       storageMinimalAvailablePercentage: 10
       storageOverProvisioningPercentage: 200
-    ingress:
-      enabled: true
-      ingressClassName: internal
-      host: longhorn.perryhuynh.com

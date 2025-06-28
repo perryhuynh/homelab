@@ -96,22 +96,6 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile:
               type: RuntimeDefault
-    ingress:
-      nginx:
-        className: internal
-        hosts:
-          - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: "{{ .Release.Name }}-code.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: code
     persistence:
       config:
         enabled: true
@@ -127,6 +111,14 @@ spec:
             subPath: logs
           - path: /tmp
             subPath: tmp
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: home-assistant
