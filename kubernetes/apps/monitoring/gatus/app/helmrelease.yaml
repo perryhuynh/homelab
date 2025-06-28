@@ -110,7 +110,7 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.perryhuynh.com"
+          - "status.perryhuynh.com"
         parentRefs:
           - name: external
             namespace: kube-system
