@@ -57,15 +57,10 @@ spec:
       - --gateway-name=external
       - --zone-id-filter=$(CF_ZONE_ID)
     policy: sync
-    sources:
-      - "crd"
-      - "gateway-httproute"
-      - "crd"
-      - "gateway-tlsroute"
+    sources: ["crd", "gateway-httproute"]
     txtPrefix: k8s.
     txtOwnerId: default
-    domainFilters:
-      - "perryhuynh.com"
+    domainFilters: ["perryhuynh.com"]
     serviceMonitor:
       enabled: true
     podAnnotations:
