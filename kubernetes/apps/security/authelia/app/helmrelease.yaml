@@ -74,7 +74,9 @@ spec:
                 cpu: 15m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
@@ -82,25 +84,8 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-        seccompProfile: { type: RuntimeDefault }
-    ingress:
-      nginx:
-        enabled: true
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: external.perryhuynh.com
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            add_header Cache-Control "no-store";
-            add_header Pragma "no-cache";
-            add_header X-Frame-Options "SAMEORIGIN";
-            add_header X-XSS-Protection "1; mode=block";
-        hosts:
-          - host: "auth.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        seccompProfile:
+          type: RuntimeDefault
     persistence:
       config:
         enabled: true
@@ -112,6 +97,39 @@ spec:
             readOnly: true
       tmp:
         type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: external
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: Cache-Control
+                      value: no-store
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: Pragma
+                      value: no-cache
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: X-Frame-Options
+                      value: SAMEORIGIN
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  add:
+                    - name: X-XSS-Protection
+                      value: 1; mode=block
     service:
       app:
         controller: authelia
