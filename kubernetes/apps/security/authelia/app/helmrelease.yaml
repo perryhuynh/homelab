@@ -115,19 +115,10 @@ spec:
                   add:
                     - name: Cache-Control
                       value: no-store
-              - type: RequestHeaderModifier
-                requestHeaderModifier:
-                  add:
                     - name: Pragma
                       value: no-cache
-              - type: RequestHeaderModifier
-                requestHeaderModifier:
-                  add:
                     - name: X-Frame-Options
                       value: SAMEORIGIN
-              - type: RequestHeaderModifier
-                requestHeaderModifier:
-                  add:
                     - name: X-XSS-Protection
                       value: 1; mode=block
     service:
