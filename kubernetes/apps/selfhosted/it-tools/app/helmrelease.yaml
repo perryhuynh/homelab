@@ -57,28 +57,25 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
         runAsGroup: 65534
-        seccompProfile: { type: RuntimeDefault }
-    ingress:
-      nginx:
-        enabled: true
-        className: internal
-        hosts:
-          - host: "{{ .Release.Name }}.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        seccompProfile: {type: RuntimeDefault}
     persistence:
       tmp:
         type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: it-tools

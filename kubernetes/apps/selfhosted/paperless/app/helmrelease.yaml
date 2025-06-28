@@ -81,20 +81,6 @@ spec:
                 cpu: 25m
     defaultPodOptions:
       automountServiceAccountToken: false
-    ingress:
-      nginx:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.perryhuynh.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
     persistence:
       config:
         enabled: true
@@ -104,6 +90,14 @@ spec:
             subPath: ./data
           - path: /usr/src/paperless/media
             subPath: ./media
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: paperless

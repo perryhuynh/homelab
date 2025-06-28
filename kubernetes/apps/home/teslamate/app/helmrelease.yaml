@@ -70,7 +70,7 @@ spec:
                 cpu: 25m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
@@ -78,21 +78,18 @@ spec:
         runAsNonRoot: true
         runAsUser: 10000
         runAsGroup: 10001
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}
     persistence:
       tmp:
         type: emptyDir
-    ingress:
-      nginx:
-        enabled: true
-        className: internal
-        hosts:
-          - host: *host
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
     service:
       app:
         controller: teslamate
