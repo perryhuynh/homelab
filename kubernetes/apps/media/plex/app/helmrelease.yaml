@@ -63,7 +63,9 @@ spec:
                 cpu: 250m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
@@ -73,8 +75,11 @@ spec:
         runAsUser: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
-        supplementalGroups: [44, 105]
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          - 44
+          - 105
     persistence:
       config:
         enabled: true
@@ -112,6 +117,7 @@ spec:
                 subPath: tmp
     route:
       app:
+        kind: TLSRoute
         hostnames:
           - "{{ .Release.Name }}.perryhuynh.com"
         parentRefs:
@@ -125,7 +131,8 @@ spec:
             filters:
               - type: RequestHeaderModifier
                 requestHeaderModifier:
-                  remove: ["Range"]
+                  remove:
+                    - "Range"
             matches:
               - path:
                   type: PathPrefix
