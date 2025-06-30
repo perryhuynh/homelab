@@ -42,7 +42,7 @@ spec:
               OPNSENSE_EXPORTER_OPS_API: "${SECRET_OPNSENSE_IP:=opnsense.home.arpa}"
               OPNSENSE_EXPORTER_OPS_INSECURE: true
               OPNSENSE_EXPORTER_OPS_PROTOCOL: https
-            envFrom:
+            envFrom: &envFrom
               - secretRef:
                   name: opnsense-exporter-secret
             probes:
@@ -50,17 +50,46 @@ spec:
                 enabled: true
               readiness:
                 enabled: true
-            resources:
+            resources: &resources
               limits:
                 memory: 128Mi
               requests:
                 cpu: 10m
-            securityContext:
+            securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
+      check-firmware-update:
+        type: cronjob
+        cronjob:
+          schedule: "@daily"
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+          timeZone: "America/Los_Angeles"
+        containers:
+          app:
+            image:
+              repository: docker.io/alpine/curl
+              tag: 8.14.1@sha256:b5da38ed5a4ef16b06b518727b3bd3afe204c93cad179082cc26d65b8294ff8d
+            args:
+              - "--fail"
+              - "--silent"
+              - "--show-error"
+              - "--location"
+              - "--insecure"
+              - "--request"
+              - POST
+              - "--user"
+              - >-
+                $(OPNSENSE_EXPORTER_OPS_API_KEY):$(OPNSENSE_EXPORTER_OPS_API_SECRET)
+              - "--data"
+              - "{}"
+              - https://${SECRET_OPNSENSE_IP:=opnsense.home.arpa}/api/core/firmware/status
+            envFrom: *envFrom
+            resources: *resources
+            securityContext: *securityContext
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
