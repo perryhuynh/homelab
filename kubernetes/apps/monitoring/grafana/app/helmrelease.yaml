@@ -122,13 +122,6 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/thanos
-          - name: media
-            folder: Media
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/media
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -233,6 +226,11 @@ spec:
           # renovate: depName="Spegel"
           gnetId: 18089
           revision: 1
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
+        qbittorrent:
+          url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
@@ -392,12 +390,6 @@ spec:
         thanos-store:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/thanos/dashboards/store.json
           datasource: Prometheus
-      media:
-        qbittorrent:
-          url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
-          datasource:
-            - name: DS_PROMETHEUS
-              value: Prometheus
     plugins:
       - grafana-clock-panel
       - grafana-piechart-panel
