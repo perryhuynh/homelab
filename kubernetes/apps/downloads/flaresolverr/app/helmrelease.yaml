@@ -56,10 +56,10 @@ spec:
               limits:
                 memory: 1Gi
               requests:
-                cpu: 25m
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: false
         pod:
           automountServiceAccountToken: false
@@ -67,7 +67,7 @@ spec:
             runAsGroup: 1000
             runAsUser: 1000
             runAsNonRoot: true
-            seccompProfile: { type: RuntimeDefault }
+            seccompProfile: {type: RuntimeDefault}
     persistence:
       tmp:
         type: emptyDir

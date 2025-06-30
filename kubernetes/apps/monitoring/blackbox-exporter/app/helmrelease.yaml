@@ -56,6 +56,11 @@ spec:
           timeout: 5s
           tcp:
             preferred_ip_protocol: ipv4
+    resources:
+      limits:
+        memory: 64Mi
+      requests:
+        cpu: 10m
     serviceMonitor:
       enabled: true
       defaults:
