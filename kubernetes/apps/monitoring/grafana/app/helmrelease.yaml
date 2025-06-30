@@ -179,6 +179,12 @@ spec:
         dragonfly:
           url: https://raw.githubusercontent.com/dragonflydb/dragonfly/main/tools/local/monitoring/grafana/provisioning/dashboards/dashboard.json
           datasource: Prometheus
+        envoy:
+          # renovate: depName="Envoy Proxy Monitoring gRPC"
+          gnetId: 23239
+          revision: 1
+          datasource:
+            - { name: DS_AFRANET_PROMETHEUS, value: Prometheus }
         external-secrets:
           url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
           datasource: Prometheus
@@ -392,7 +398,20 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
+    plugins:
+      - grafana-clock-panel
+      - grafana-piechart-panel
+      - grafana-worldmap-panel
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - vonage-status-panel
+    serviceMonitor:
+      enabled: true
     sidecar:
+      image:
+        registry: ghcr.io
+        repository: home-operations/k8s-sidecar
+        tag: 1.30.5@sha256:0c429f991b01b39e73bf926bfaee8e4ce90eae422789c8c24b8bab4f2739df2b
       dashboards:
         enabled: true
         searchNamespace: ALL
@@ -406,15 +425,6 @@ spec:
         enabled: true
         searchNamespace: ALL
         labelValue: ""
-    plugins:
-      - grafana-clock-panel
-      - grafana-piechart-panel
-      - grafana-worldmap-panel
-      - natel-discrete-panel
-      - pr0ps-trackmap-panel
-      - vonage-status-panel
-    serviceMonitor:
-      enabled: true
     route:
       main:
         enabled: true
