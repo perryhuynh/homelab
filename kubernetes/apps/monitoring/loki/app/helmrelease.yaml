@@ -77,6 +77,11 @@ spec:
           rule_path: /rules/fake
     singleBinary:
       replicas: 1
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 10m
       persistence:
         enabled: true
         storageClass: openebs-hostpath
