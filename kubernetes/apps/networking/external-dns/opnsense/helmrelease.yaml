@@ -64,13 +64,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /healthz
-            port: http-wh-metrics
+            port: &port 8888
           initialDelaySeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /readyz
-            port: http-wh-metrics
+            port: *port
           initialDelaySeconds: 10
           timeoutSeconds: 5
     extraArgs:
