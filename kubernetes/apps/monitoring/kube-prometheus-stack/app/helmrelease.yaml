@@ -137,26 +137,25 @@ spec:
         podMetadata:
           annotations:
             secret.reloader.stakater.com/reload: thanos-secret
-        replicas: 2
-        replicaExternalLabelName: __replica__
-        scrapeInterval: 1m
+        image:
+          registry: docker.io
+          repository: prompp/prompp
+          tag: 2.53.2-0.3.2@sha256:2a9fb3c213b5c7681f0e546bd16a113872d490d93a7718e9f4ab7b2eb1168a23
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 64535
+          runAsGroup: 64535
+          fsGroup: 64535
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
-        enableAdminAPI: true
-        walCompression: true
-        enableFeatures:
-          - auto-gomaxprocs
-          - memory-snapshot-on-shutdown
-          - new-service-discovery-manager
-        thanos:
-          image: quay.io/thanos/thanos:v0.38.0
-          objectStorageConfig:
-            existingSecret:
-              name: thanos-secret
-              key: objstore.yml
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            cpu: 100m
         retention: 2d
         retentionSize: 15GB
         externalLabels:
@@ -168,6 +167,12 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
+        thanos:
+          image: quay.io/thanos/thanos:v0.38.0
+          objectStorageConfig:
+            existingSecret:
+              name: thanos-secret
+              key: objstore.yml
     nodeExporter:
       enabled: true
     prometheus-node-exporter:
@@ -203,11 +208,6 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
-      sidecar:
-        dashboards:
-          multicluster:
-            etcd:
-              enabled: true
     additionalPrometheusRulesMap:
       dockerhub-rules:
         groups:
