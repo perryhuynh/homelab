@@ -17,7 +17,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: promtail
+  name: &app promtail
 spec:
   interval: 1h
   chartRef:
@@ -31,10 +31,14 @@ spec:
     remediation:
       retries: 3
   values:
-    fullnameOverride: promtail
+    fullnameOverride: *app
     config:
       clients:
         - url: http://loki-headless.monitoring.svc.cluster.local:3100/loki/api/v1/push
+    resources:
+      limits:
+        memory: 256Mi
+      requests:
+        cpu: 10m
     serviceMonitor:
       enabled: true
-
