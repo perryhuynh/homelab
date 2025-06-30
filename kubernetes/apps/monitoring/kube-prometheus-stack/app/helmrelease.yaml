@@ -140,7 +140,7 @@ spec:
         image:
           registry: docker.io
           repository: prompp/prompp
-          tag: 2.53.2-0.3.2@sha256:2a9fb3c213b5c7681f0e546bd16a113872d490d93a7718e9f4ab7b2eb1168a23
+          tag: 2.53.2-0.3.2
         securityContext:
           runAsNonRoot: true
           runAsUser: 64535
