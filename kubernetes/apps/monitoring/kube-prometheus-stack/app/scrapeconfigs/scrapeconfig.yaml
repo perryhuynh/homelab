@@ -7,7 +7,6 @@ spec:
   staticConfigs:
     - targets:
         - ${SECRET_NAS_IP:=temp}:9100
-        - ${SECRET_OPNSENSE_IP:=temp}:9100
         - ${SECRET_PIKVM_IP:=temp}:9100
   metricsPath: /metrics
   relabelings:
@@ -58,4 +57,3 @@ spec:
     - action: replace
       targetLabel: job
       replacement: *name
-
