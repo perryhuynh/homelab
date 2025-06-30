@@ -76,6 +76,9 @@ spec:
     extraArgs:
       - --gateway-name=internal
       - --ignore-ingress-tls-spec
+    managedRecordTypesFilters:
+      - A
+      - AAAA
     policy: sync
     sources: ["crd", "gateway-httproute"]
     registry: noop
