@@ -53,7 +53,7 @@ spec:
               limits:
                 memory: 1Gi
               requests:
-                cpu: 25m
+                cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -78,7 +78,7 @@ spec:
               limits:
                 memory: 1Gi
               requests:
-                cpu: 5m
+                cpu: 10m
         pod:
           annotations:
             k8s.v1.cni.cncf.io/networks: |

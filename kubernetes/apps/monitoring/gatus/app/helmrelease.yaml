@@ -46,7 +46,7 @@ spec:
               limits:
                 memory: 128Mi
               requests:
-                cpu: 5m
+                cpu: 10m
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -80,7 +80,7 @@ spec:
               limits:
                 memory: 128Mi
               requests:
-                cpu: 5m
+                cpu: 10m
             securityContext: *securityContext
         serviceAccount:
           identifier: gatus

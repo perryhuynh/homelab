@@ -78,7 +78,7 @@ spec:
               limits:
                 memory: 2Gi
               requests:
-                cpu: 25m
+                cpu: 10m
     defaultPodOptions:
       automountServiceAccountToken: false
     persistence:

@@ -43,7 +43,7 @@ spec:
                 gpu.intel.com/i915_monitoring: 1
                 memory: 256Mi
               requests:
-                cpu: 5m
+                cpu: 10m
             securityContext:
               capabilities:
                 add:
@@ -69,5 +69,6 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
             relabelings:
-              - sourceLabels: [__meta_kubernetes_pod_node_name]
+              - sourceLabels:
+                  - __meta_kubernetes_pod_node_name
                 targetLabel: node

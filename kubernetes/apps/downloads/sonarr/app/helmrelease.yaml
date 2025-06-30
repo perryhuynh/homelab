@@ -58,7 +58,7 @@ spec:
               limits:
                 memory: 6Gi
               requests:
-                cpu: 25m
+                cpu: 10m
             probes:
               liveness: &probes
                 enabled: true
@@ -75,7 +75,7 @@ spec:
                 enabled: true
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
@@ -85,7 +85,7 @@ spec:
             runAsUser: *uid
             fsGroup: *uid
             fsGroupChangePolicy: OnRootMismatch
-            seccompProfile: { type: RuntimeDefault }
+            seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
         enabled: true

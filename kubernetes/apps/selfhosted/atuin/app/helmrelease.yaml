@@ -39,11 +39,13 @@ spec:
                   name: atuin-secret
             securityContext: &securityContext
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
         containers:
           app:
-            args: ["server", "start"]
+            args:
+              - "server"
+              - "start"
             image:
               repository: ghcr.io/atuinsh/atuin
               tag: v18.6.1@sha256:869a85bcc169ae9a3ea65dcf32a99dae982d28d8562172e2712d3313d7349203
@@ -73,7 +75,7 @@ spec:
               limits:
                 memory: 128Mi
               requests:
-                cpu: 5m
+                cpu: 10m
             securityContext: *securityContext
         replicas: 2
         strategy: RollingUpdate
@@ -83,7 +85,7 @@ spec:
         runAsNonRoot: true
         runAsUser: 65534
         runAsGroup: 65534
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
         enabled: true
