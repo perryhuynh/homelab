@@ -38,7 +38,12 @@ spec:
       devices:
         - /dev/sda
         - /dev/nvme0n1
-    serviceMonitor:
-      enabled: true
+    resources:
+      limits:
+        memory: 64Mi
+      requests:
+        cpu: 10m
     prometheusRules:
       enabled: false
+    serviceMonitor:
+      enabled: true
