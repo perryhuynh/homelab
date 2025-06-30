@@ -61,6 +61,11 @@ spec:
             value: "true" # optional depending on your environment
           - name: LOG_LEVEL
             value: debug
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 10m
         livenessProbe:
           httpGet:
             path: /healthz
@@ -75,12 +80,9 @@ spec:
           timeoutSeconds: 5
     extraArgs:
       - --gateway-name=internal
-      - --ignore-ingress-tls-spec
     managedRecordTypesFilters:
-      - A
-      - AAAA
     policy: sync
-    sources: ["crd", "gateway-httproute"]
+    sources: ["gateway-httproute"]
     registry: noop
     domainFilters: ["perryhuynh.com"]
     serviceMonitor:
