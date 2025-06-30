@@ -67,6 +67,7 @@ spec:
           schedule: "@daily"
           successfulJobsHistory: 1
           failedJobsHistory: 1
+          timeZone: "America/Los_Angeles"
         containers:
           app:
             image:
