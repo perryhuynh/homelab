@@ -6,7 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: authelia-configmap
+  - name: authelia-config
     files:
       - configuration.yaml=./resources/configuration.yaml
 generatorOptions:
