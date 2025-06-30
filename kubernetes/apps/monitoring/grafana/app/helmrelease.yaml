@@ -72,10 +72,6 @@ spec:
         org_id: 1
         role_attribute_path: |
           contains(groups[*], 'admins') && 'Admin' || contains(groups[*], 'people') && 'Viewer'
-      auth.basic:
-        enabled: false
-      auth.anonymous:
-        enabled: false
       news:
         news_feed_enabled: false
     dashboardProviders:
