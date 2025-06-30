@@ -80,13 +80,8 @@ spec:
           timeoutSeconds: 5
     extraArgs:
       - --gateway-name=internal
-    managedRecordTypes:
-      - A
-      - AAAA
     policy: sync
     sources: ["gateway-httproute", "service"]
-    txtOwnerId: default
-    txtPrefix: k8s.
     registry: noop
     domainFilters: ["perryhuynh.com"]
     serviceMonitor:
