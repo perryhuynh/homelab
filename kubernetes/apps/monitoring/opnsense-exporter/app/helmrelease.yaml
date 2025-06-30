@@ -30,9 +30,14 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/intel-gpu-exporter
-              tag: rolling@sha256:90a95483bf5d3752f4db2ab2e1663f19bba307fd832bf53557cbdc38c3701f84
+              repository: ghcr.io/athennamind/opnsense-exporter
+              tag: 0.0.10@sha256:a8a90260e30ce3bd8d06caf2d534d143c96a51cfc2d004c09b7a4911a4b84db2
+            args:
+              # - --log.level=debug
+              # - --log.format=json
+              - --web.listen-address=:8080
             env:
+              OPNSENSE_EXPORTER_INSTANCE_LABEL: "gw"
               OPNSENSE_EXPORTER_DISABLE_OPENVPN: "true"
               OPNSENSE_EXPORTER_OPS_API: "${SECRET_OPNSENSE_IP:=opnsense.home.arpa}"
               OPNSENSE_EXPORTER_OPS_INSECURE: true
