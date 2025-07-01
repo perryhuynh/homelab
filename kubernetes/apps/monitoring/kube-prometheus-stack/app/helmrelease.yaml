@@ -146,6 +146,18 @@ spec:
               sourceLabels:
                 - __meta_kubernetes_pod_node_name
               targetLabel: kubernetes_node
+    prometheusOperator:
+      resources:
+        limits:
+          memory: 128Mi
+        requests:
+          cpu: 10m
+      prometheusConfigReloader:
+        resources:
+          limits:
+            memory: 32Mi
+          requests:
+            cpu: 10m
     prometheus:
       route:
         main:
