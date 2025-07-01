@@ -91,6 +91,7 @@ spec:
                     path: /health
                     port: *syncPort
                   initialDelaySeconds: 15
+        defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           resources:
             limits:
