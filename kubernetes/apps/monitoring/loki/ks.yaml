@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: openebs
+    - name: longhorn
   path: ./kubernetes/apps/monitoring/loki/app
   prune: true
   sourceRef:
