@@ -155,6 +155,10 @@ spec:
             - name: internal
               namespace: kube-system
               sectionName: https
+        thanosService:
+          enabled: true
+        thanosServiceMonitor:
+          enabled: true
       prometheusSpec:
         replicas: 2
         replicaExternalLabelName: "__replica__" # must match with thanos value `.query.replicaLabel[0]`
@@ -195,10 +199,6 @@ spec:
             existingSecret:
               name: thanos-secret
               key: objstore.yml
-        thanosService:
-          enabled: true
-        thanosServiceMonitor:
-          enabled: true
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:
