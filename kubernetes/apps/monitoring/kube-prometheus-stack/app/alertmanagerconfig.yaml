@@ -51,6 +51,7 @@ spec:
         - urlSecret:
             name: &secret alertmanager-secret
             key: HEARTBEAT_URL
+          sendResolved: true
     - name: pushover
       pushoverConfigs:
         - html: true

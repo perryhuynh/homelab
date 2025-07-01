@@ -44,11 +44,9 @@ spec:
         forceConflicts: true
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
-      alertmanagerConfiguration:
-        name: alertmanager
-        global:
-          resolveTimeout: 5m
       alertmanagerSpec:
+        useExistingSecret: true
+        configSecret: alertmanager-secret
         resources:
           limits:
             memory: 256Mi
