@@ -120,7 +120,7 @@ spec:
         parentRefs:
           - name: external
             namespace: kube-system
-            sectionName: https
+            sectionName: tls
         rules:
           - backendRefs:
               - identifier: app
