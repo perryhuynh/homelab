@@ -42,7 +42,6 @@ spec:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       alertmanagerSpec:
-        replicas: 2
         useExistingSecret: true
         configSecret: alertmanager-secret
         resources:
@@ -53,7 +52,7 @@ spec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: openebs-hostpath
+              storageClassName: longhorn
               resources:
                 requests:
                   storage: 1Gi
@@ -168,16 +167,7 @@ spec:
             - name: internal
               namespace: kube-system
               sectionName: https
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
       prometheusSpec:
-        replicas: 2
-        replicaExternalLabelName: "__replica__" # must match with thanos value `.query.replicaLabel[0]`
-        podMetadata:
-          annotations:
-            secret.reloader.stakater.com/reload: thanos-secret
         image:
           registry: docker.io
           repository: prompp/prompp
@@ -197,21 +187,15 @@ spec:
             memory: 2Gi
           requests:
             cpu: 100m
-        retention: 2d
-        retentionSize: 15GB
+        retention: 14d
+        retentionSize: 50GB
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: openebs-hostpath
+              storageClassName: longhorn
               resources:
                 requests:
-                  storage: 20Gi
-        thanos:
-          image: quay.io/thanos/thanos:v0.38.0@sha256:365873d05a2f59dbaf3d40f526d3b8a2e66b9882dd6cab9396d16e8410aa46e6
-          objectStorageConfig:
-            existingSecret:
-              name: thanos-secret
-              key: objstore.yml
+                  storage: 50Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:
