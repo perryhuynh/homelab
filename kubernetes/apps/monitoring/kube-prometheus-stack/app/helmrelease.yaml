@@ -155,10 +155,10 @@ spec:
             - name: internal
               namespace: kube-system
               sectionName: https
-        thanosService:
-          enabled: true
-        thanosServiceMonitor:
-          enabled: true
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
         replicas: 2
         replicaExternalLabelName: "__replica__" # must match with thanos value `.query.replicaLabel[0]`
