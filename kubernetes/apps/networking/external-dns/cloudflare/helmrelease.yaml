@@ -60,7 +60,6 @@ spec:
     sources:
       - "crd"
       - "gateway-httproute"
-      - "gateway-tlsroute"
     txtPrefix: k8s.
     txtOwnerId: default
     domainFilters:

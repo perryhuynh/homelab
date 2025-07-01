@@ -33,12 +33,3 @@ spec:
         certificateRefs:
           - kind: Secret
             name: perryhuynh-com-tls
-    - name: tls
-      protocol: TLS
-      port: 443
-      hostname: "*.plex.direct"
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        mode: Passthrough

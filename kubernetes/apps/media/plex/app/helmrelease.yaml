@@ -63,7 +63,9 @@ spec:
                 cpu: 250m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
@@ -73,7 +75,8 @@ spec:
         runAsUser: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: {type: RuntimeDefault}
+        seccompProfile:
+          type: RuntimeDefault
         supplementalGroups:
           - 44
           - 105
@@ -88,7 +91,7 @@ spec:
       data:
         type: nfs
         path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:=temp}
+        server: ${SECRET_NAS_IP:=nas.home.arpa}
         globalMounts:
           - path: /data
             subPath: library
@@ -114,13 +117,12 @@ spec:
                 subPath: tmp
     route:
       app:
-        kind: TLSRoute
         hostnames:
           - "{{ .Release.Name }}.perryhuynh.com"
         parentRefs:
           - name: external
             namespace: kube-system
-            sectionName: tls
+            sectionName: https
         rules:
           - backendRefs:
               - identifier: app
