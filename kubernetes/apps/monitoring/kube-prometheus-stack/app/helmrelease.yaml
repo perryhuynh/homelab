@@ -39,6 +39,9 @@ spec:
   values:
     crds:
       enabled: true
+      upgradeJob:
+        enabled: true
+        forceConflicts: true
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       alertmanagerConfiguration:
@@ -198,6 +201,45 @@ spec:
               resources:
                 requests:
                   storage: 50Gi
+        additionalScrapeConfigs:
+          - job_name: &name node-exporter
+            staticConfigs:
+              - targets:
+                  - ${SECRET_NAS_IP:=temp}:9100
+                  - ${SECRET_PIKVM_IP:=temp}:9100
+            metricsPath: /metrics
+            relabelings:
+              - action: replace
+                targetLabel: job
+                replacement: *name
+          - job_name: &name smartctl-exporter
+            staticConfigs:
+              - targets:
+                  - ${SECRET_NAS_IP:=temp}:9633
+            metricsPath: /metrics
+            relabelings:
+              - action: replace
+                targetLabel: job
+                replacement: *name
+          - job_name: &name pikvm
+            staticConfigs:
+              - targets:
+                  - ${SECRET_PIKVM_IP:=temp}:8080
+            metricsPath: /api/export/prometheus/metrics
+            relabelings:
+              - action: replace
+                targetLabel: job
+                replacement: *name
+          - job_name: &name pc
+            staticConfigs:
+              - targets:
+                  - ${SECRET_DESKTOP_PC_IP:=temp}:9182
+            metricsPath: /metrics
+            relabelings:
+              - action: replace
+                targetLabel: job
+                replacement: *name
+
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:
