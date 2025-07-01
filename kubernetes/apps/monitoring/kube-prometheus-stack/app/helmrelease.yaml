@@ -191,6 +191,12 @@ spec:
               resources:
                 requests:
                   storage: 20Gi
+        thanos:
+          image: quay.io/thanos/thanos:v0.38.0
+          objectStorageConfig:
+            existingSecret:
+              name: thanos-secret
+              key: objstore.yml
         thanosService:
           enabled: true
         thanosServiceMonitor:
@@ -228,12 +234,6 @@ spec:
                 expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
                 labels:
                   severity: critical
-    thanos:
-      image: quay.io/thanos/thanos:v0.38.0
-      objectStorageConfig:
-        existingSecret:
-          name: thanos-secret
-          key: objstore.yml
   postRenderers:
     - kustomize:
         patches:
