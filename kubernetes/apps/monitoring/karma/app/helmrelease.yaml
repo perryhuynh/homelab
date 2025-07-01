@@ -27,6 +27,7 @@ spec:
   values:
     controllers:
       karma:
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -37,9 +38,18 @@ spec:
             env:
               CONFIG_FILE: &configPath /config/config.yaml
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 8080
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
                 enabled: true
             resources:
               limits:
@@ -49,14 +59,14 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
-        pod:
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-        replicas: 2
-        strategy: RollingUpdate
+              capabilities:
+                drop:
+                  - "ALL"
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
     persistence:
       config:
         enabled: true
@@ -81,7 +91,7 @@ spec:
         controller: karma
         ports:
           http:
-            port: 8080
+            port: *port
     serviceMonitor:
       app:
         serviceName: karma
