@@ -34,61 +34,67 @@ spec:
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 1
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions: &defaultContainerOptions
+          image:
+            repository: ghcr.io/buroa/qbtools
+            tag: v0.21.0@sha256:3a60f001c3f5fd068ff38960fbf9db726fa59edf135b18cd50294230366c284e
+          env:
+            QBITTORRENT_HOST: qbittorrent.downloads.svc.cluster.local
+            QBITTORRENT_PORT: 80
+            SABNZBD_HOST: sabnzbd.downloads.svc.cluster.local
+            SABNZBD_PORT: 80
+            TZ: *timeZone
+          envFrom:
+            - secretRef:
+                name: qbtools-secret
+          resources:
+            requests:
+              cpu: 10m
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "ALL"
+            readOnlyRootFilesystem: true
         initContainers:
-          tagging: &container
-            args: [
-              "tagging",
-              "--added-on",
-              "--expired",
-              "--last-activity",
-              "--not-linked",
-              "--not-working",
-              "--sites",
-              "--unregistered"
-            ]
-            env:
-              QBITTORRENT_HOST: qbittorrent.downloads.svc.cluster.local
-              QBITTORRENT_PORT: 80
-              SABNZBD_HOST: sabnzbd.downloads.svc.cluster.local
-              SABNZBD_PORT: 80
-              TZ: *timeZone
-            envFrom:
-              - secretRef:
-                  name: qbtools-secret
-            image:
-              repository: ghcr.io/buroa/qbtools
-              tag: v0.21.0@sha256:3a60f001c3f5fd068ff38960fbf9db726fa59edf135b18cd50294230366c284e
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 256Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: true
+          tagging:
+            args:
+              - "tagging"
+              - "--added-on"
+              - "--expired"
+              - "--last-activity"
+              - "--not-linked"
+              - "--not-working"
+              - "--sites"
+              - "--unregistered"
         containers:
           unlinked:
-            <<: *container
-            args: [
-              "prune",
-              "--exclude-category", "manual",
-              "--exclude-tag", "added:1d",
-              "--include-tag", "expired",
-              "--include-tag", "not-linked",
-              "--with-data"
+            args:
+              - "prune"
+              - "--exclude-category"
+              - "manual"
+              - "--exclude-tag"
+              - "added:1d"
+              - "--include-tag"
+              - "expired"
+              - "--include-tag"
+              - "not-linked"
+              - "--with-data"
               # "--dry-run"
-            ]
           unregistered:
-            <<: *container
-            args: [
-              "prune",
-              "--exclude-category", "manual",
-              "--exclude-tag", "added:1d",
-              "--include-tag", "unregistered",
-              "--with-data"
+            args:
+              - "prune"
+              - "--exclude-category"
+              - "manual"
+              - "--exclude-tag"
+              - "added:1d"
+              - "--include-tag"
+              - "unregistered"
+              - "--with-data"
               # "--dry-run"
-            ]
         pod:
           restartPolicy: OnFailure
       orphaned:
@@ -96,41 +102,44 @@ spec:
         cronjob:
           <<: *cronJobSpec
           schedule: "@daily"
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions: *defaultContainerOptions
         containers:
           app:
-            <<: *container
-            args: [
-              "orphaned",
-              "--exclude-pattern",  "*/incomplete/*",
-              "--exclude-pattern",  "*/manual/*"
+            args:
+              - "orphaned"
+              - "--exclude-pattern"
+              - "*/incomplete/*"
+              - "--exclude-pattern"
+              - "*/manual/*"
               # "--dry-run"
-            ]
       reannounce:
         containers:
           app:
-            <<: *container
-            args: [
-              "reannounce",
-              "--process-seeding"
-            ]
+            args:
+              - "reannounce"
+              - "--process-seeding"
       limiter:
         containers:
           app:
-            <<: *container
-            args: [
-              "limiter",
-              "--max-line-speed-mbps", "200",
-              "--max-percent", "0.8",
-              "--limit-percent", "0.4",
-              "--interval", "5"
-            ]
+            args:
+              - "limiter"
+              - "--max-line-speed-mbps"
+              - "200"
+              - "--max-percent"
+              - "0.8"
+              - "--limit-percent"
+              - "0.4"
+              - "--interval"
+              - "5"
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile:
+          type: RuntimeDefault
     persistence:
       secret-file:
         type: secret
