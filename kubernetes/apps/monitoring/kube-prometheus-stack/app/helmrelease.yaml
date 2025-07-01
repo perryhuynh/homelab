@@ -215,7 +215,7 @@ spec:
             metrics_path: /api/export/prometheus/metrics
             static_configs:
               - targets:
-                  - ${SECRET_PIKVM_IP:=temp}:8080
+                  - ${SECRET_PIKVM_IP:=temp}
           - job_name: pc
             metrics_path: /metrics
             static_configs:
