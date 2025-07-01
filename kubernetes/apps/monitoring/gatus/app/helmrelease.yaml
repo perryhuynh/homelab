@@ -29,6 +29,19 @@ spec:
       gatus:
         annotations:
           reloader.stakater.com/auto: "true"
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          resources:
+            limits:
+              memory: 128Mi
+            requests:
+              cpu: 10m
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - "ALL"
         initContainers:
           init-config:
             image:
@@ -42,17 +55,6 @@ spec:
               RESOURCE: both
               UNIQUE_FILENAMES: true
             restartPolicy: Always
-            resources:
-              limits:
-                memory: 128Mi
-              requests:
-                cpu: 10m
-            securityContext: &securityContext
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - "ALL"
         containers:
           app:
             image:
@@ -76,12 +78,6 @@ spec:
               readiness: *probes
               startup:
                 enabled: true
-            resources:
-              limits:
-                memory: 128Mi
-              requests:
-                cpu: 10m
-            securityContext: *securityContext
         serviceAccount:
           identifier: gatus
     defaultPodOptions:
