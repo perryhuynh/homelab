@@ -65,6 +65,9 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
     kubelet:
       enabled: true
       serviceMonitor:
@@ -125,6 +128,24 @@ spec:
             regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authenticated_user|authentication|disabled_metric|go|hidden_metric|kubernetes_build|kubernetes_feature|leader_election|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scheduler|scrape_duration|scrape_samples|scrape_series|workqueue)_(.+)"
     kubeProxy:
       enabled: false
+    kubeStateMetrics:
+      enabled: true
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      metricLabelsAllowlist:
+        - pods=[*]
+        - deployments=[*]
+        - persistentvolumeclaims=[*]
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: kubernetes_node
     prometheus:
       route:
         main:
@@ -178,8 +199,6 @@ spec:
             existingSecret:
               name: thanos-secret
               key: objstore.yml
-    nodeExporter:
-      enabled: true
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:
@@ -192,27 +211,6 @@ spec:
               sourceLabels:
                 - __meta_kubernetes_pod_node_name
               targetLabel: kubernetes_node
-    kubeStateMetrics:
-      enabled: true
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-      metricLabelsAllowlist:
-        - pods=[*]
-        - deployments=[*]
-        - persistentvolumeclaims=[*]
-      prometheus:
-        monitor:
-          enabled: true
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels:
-                - __meta_kubernetes_pod_node_name
-              targetLabel: kubernetes_node
-    grafana:
-      enabled: false
-      forceDeployDashboards: true
     additionalPrometheusRulesMap:
       dockerhub-rules:
         groups:
@@ -232,6 +230,16 @@ spec:
                 annotations:
                   summary: Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.
                 expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+                labels:
+                  severity: critical
+      zfs-rules:
+        groups:
+          - name: zfs
+            rules:
+              - alert: ZfsUnexpectedPoolState
+                annotations:
+                  summary: ZFS pool {{$labels.zpool}} on {{$labels.instance}} is in a unexpected state {{$labels.state}}
+                expr: node_zfs_zpool_state{state!="online"} > 0
                 labels:
                   severity: critical
   postRenderers:
