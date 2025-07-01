@@ -202,43 +202,27 @@ spec:
                 requests:
                   storage: 50Gi
         additionalScrapeConfigs:
-          - job_name: &name node-exporter
+          - job_name:
             staticConfigs:
               - targets:
                   - ${SECRET_NAS_IP:=temp}:9100
                   - ${SECRET_PIKVM_IP:=temp}:9100
-            metricsPath: /metrics
-            relabelings:
-              - action: replace
-                targetLabel: job
-                replacement: *name
-          - job_name: &name smartctl-exporter
+            metrics_path: /metrics
+          - job_name:
             staticConfigs:
               - targets:
                   - ${SECRET_NAS_IP:=temp}:9633
-            metricsPath: /metrics
-            relabelings:
-              - action: replace
-                targetLabel: job
-                replacement: *name
-          - job_name: &name pikvm
+            metrics_path: /metrics
+          - job_name:
             staticConfigs:
               - targets:
                   - ${SECRET_PIKVM_IP:=temp}:8080
-            metricsPath: /api/export/prometheus/metrics
-            relabelings:
-              - action: replace
-                targetLabel: job
-                replacement: *name
-          - job_name: &name pc
+            metrics_path: /api/export/prometheus/metrics
+          - job_name:
             staticConfigs:
               - targets:
                   - ${SECRET_DESKTOP_PC_IP:=temp}:9182
-            metricsPath: /metrics
-            relabelings:
-              - action: replace
-                targetLabel: job
-                replacement: *name
+            metrics_path: /metrics
 
     prometheus-node-exporter:
       fullnameOverride: node-exporter
