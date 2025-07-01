@@ -134,6 +134,8 @@ spec:
       thanosServiceMonitor:
         enabled: true
       prometheusSpec:
+        replicas: 2
+        replicaExternalLabelName: "__replica__" # must match with thanos value `.query.replicaLabel[0]`
         podMetadata:
           annotations:
             secret.reloader.stakater.com/reload: thanos-secret
