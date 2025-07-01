@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: thanos
+    - name: kube-prometheus-stack
   path: ./kubernetes/apps/monitoring/kromgo/app
   prune: true
   sourceRef:
