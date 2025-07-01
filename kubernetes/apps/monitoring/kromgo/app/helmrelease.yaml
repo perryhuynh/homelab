@@ -63,19 +63,29 @@ spec:
                 cpu: 100m
               requests:
                 cpu: 10m
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
+    persistence:
+      config-file:
+        type: configMap
+        name: kromgo-configmap
+        globalMounts:
+          - path: /kromgo/config.yaml
+            subPath: config.yaml
+            readOnly: true
     route:
       app:
         hostnames:
@@ -93,11 +103,3 @@ spec:
             port: *serverPort
           health:
             port: *healthPort
-    persistence:
-      config-file:
-        type: configMap
-        name: kromgo-configmap
-        globalMounts:
-          - path: /kromgo/config.yaml
-            subPath: config.yaml
-            readOnly: true
