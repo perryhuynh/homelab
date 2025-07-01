@@ -203,23 +203,23 @@ spec:
                   storage: 50Gi
         additionalScrapeConfigs:
           - job_name:
-            staticConfigs:
+            static_configs:
               - targets:
                   - ${SECRET_NAS_IP:=temp}:9100
                   - ${SECRET_PIKVM_IP:=temp}:9100
             metrics_path: /metrics
           - job_name:
-            staticConfigs:
+            static_configs:
               - targets:
                   - ${SECRET_NAS_IP:=temp}:9633
             metrics_path: /metrics
           - job_name:
-            staticConfigs:
+            static_configs:
               - targets:
                   - ${SECRET_PIKVM_IP:=temp}:8080
             metrics_path: /api/export/prometheus/metrics
           - job_name:
-            staticConfigs:
+            static_configs:
               - targets:
                   - ${SECRET_DESKTOP_PC_IP:=temp}:9182
             metrics_path: /metrics
