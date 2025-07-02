@@ -73,11 +73,11 @@ pyroscope.java "java" {
     lock = "10ms"
     sample_rate = 100
   }
-  forward_to = [pyroscope.write.example.receiver]
+  forward_to = [pyroscope.write.main.receiver]
   targets = discovery.relabel.java_pods.output
 }
 
-pyroscope.write "example" {
+pyroscope.write "main" {
   endpoint {
     url = "http://pyroscope-headless.monitoring.svc.cluster.local:4040"
   }
