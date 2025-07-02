@@ -3,9 +3,9 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: pyroscope-dotnet-alpine
+  name: pyroscope
   annotations:
-    policies.kyverno.io/title: Inject Pyroscope into .NET applications on Alpine Linux
+    policies.kyverno.io/title: Inject Pyroscope instrumentation
     policies.kyverno.io/subject: Pod
 spec:
   rules:
@@ -21,7 +21,7 @@ spec:
                 - "*"
               selector:
                 matchLabels:
-                  instrumentation.grafana.com/pyroscope: "true"
+                  instrumentation.grafana.com/pyroscope: "dotnet-alpine"
       mutate:
         patchStrategicMerge:
           spec:
@@ -68,6 +68,49 @@ spec:
                         value: "1"
                       - name: PYROSCOPE_PROFILING_HEAP_ENABLED
                         value: "1"
+                      - name: PYROSCOPE_SERVER_ADDRESS
+                        value: http://pyroscope-headless.monitoring.svc.cluster.local:4040
+                    volumeMounts: *volumeMounts
+                volumes:
+                  - name: pyroscope
+                    emptyDir: {}
+    - name: mutate-java
+      match:
+        any:
+          - resources:
+              kinds:
+                - "apps/v1/Deployment"
+              names:
+                - "*"
+              namespaces:
+                - "*"
+              selector:
+                matchLabels:
+                  instrumentation.grafana.com/pyroscope: "java"
+      mutate:
+        patchStrategicMerge:
+          spec:
+            template:
+              spec:
+                initContainers:
+                  - name: init-pyroscope
+                    image: docker.io/pyroscope/pyroscope-dotnet:0.10.0-musl@sha256:a10fb562918a3f9f7056adf80b78f4267876328e6e47d5183420dfa03304072c
+                    imagePullPolicy: IfNotPresent
+                    command:
+                      - "sh"
+                      - "-c"
+                      - |
+                        wget -o /pyroscope/pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.1.2/pyroscope.jar
+                    volumeMounts: *volumeMounts
+                containers:
+                  - name: app
+                    env:
+                      - name: JAVA_TOOL_OPTIONS
+                        value: "-javaagent:/pyroscope/pyroscope.jar"
+                      - name: PYROSCOPE_APPLICATION_NAME
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: metadata.labels['app.kubernetes.io/name']
                       - name: PYROSCOPE_SERVER_ADDRESS
                         value: http://pyroscope-headless.monitoring.svc.cluster.local:4040
                     volumeMounts: *volumeMounts
