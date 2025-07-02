@@ -83,7 +83,7 @@ spec:
               PYROSCOPE_PROFILING_ENABLED: 1
               PYROSCOPE_PROFILING_ALLOCATION_ENABLED: 1
               PYROSCOPE_PROFILING_HEAP_ENABLED: 1
-              PYROSCOPE_SERVER_ADDRESS: http://pyroscope.monitoring.svc.cluster.local:4040
+              PYROSCOPE_SERVER_ADDRESS: http://pyroscope-headless.monitoring.svc.cluster.local:4040
             envFrom: *envFrom
             resources:
               limits:

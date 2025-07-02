@@ -145,7 +145,7 @@ spec:
             type: grafana-pyroscope-datasource
             uid: pyroscope
             access: proxy
-            url: http://pyroscope.monitoring.svc.cluster.local:4040
+            url: http://pyroscope-headless.monitoring.svc.cluster.local:4040
     dashboards:
       default:
         cert-manager:
