@@ -61,7 +61,7 @@ spec:
                       - name: PYROSCOPE_APPLICATION_NAME
                         valueFrom:
                           fieldRef:
-                            fieldPath: metadata.name
+                            fieldPath: metadata.labels['app.kubernetes.io/name']
                       - name: PYROSCOPE_PROFILING_ENABLED
                         value: "1"
                       - name: PYROSCOPE_PROFILING_ALLOCATION_ENABLED
