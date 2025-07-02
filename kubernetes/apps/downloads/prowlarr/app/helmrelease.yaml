@@ -53,7 +53,7 @@ spec:
               - "sh"
               - "-c"
               - |
-                cp -rT /Pyroscope*.so /pyroscope
+                cp /Pyroscope*.so /pyroscope
         containers:
           app:
             image:
