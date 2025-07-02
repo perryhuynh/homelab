@@ -37,4 +37,5 @@ spec:
     alloy:
       enabled: false
     persistence:
+      enabled: true
       storageClassName: longhorn
