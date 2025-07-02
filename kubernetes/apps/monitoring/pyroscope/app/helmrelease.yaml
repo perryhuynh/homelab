@@ -36,6 +36,7 @@ spec:
   values:
     alloy:
       enabled: false
-    persistence:
-      enabled: true
-      storageClassName: longhorn
+    pyroscope:
+      persistence:
+        enabled: true
+        storageClassName: longhorn
