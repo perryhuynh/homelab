@@ -94,13 +94,12 @@ spec:
               spec:
                 initContainers:
                   - name: init-pyroscope
-                    image: docker.io/pyroscope/pyroscope-dotnet:0.10.0-musl@sha256:a10fb562918a3f9f7056adf80b78f4267876328e6e47d5183420dfa03304072c
+                    image: docker.io/alpine/curl:8.14.1@sha256:b5da38ed5a4ef16b06b518727b3bd3afe204c93cad179082cc26d65b8294ff8d
                     imagePullPolicy: IfNotPresent
-                    command:
-                      - "sh"
-                      - "-c"
-                      - |
-                        wget -o /pyroscope/pyroscope.jar https://github.com/grafana/pyroscope-java/releases/download/v2.1.2/pyroscope.jar
+                    args:
+                      - "--output"
+                      - "/pyroscope/pyroscope.jar"
+                      - "https://github.com/grafana/pyroscope-java/releases/download/v2.1.2/pyroscope.jar"
                     volumeMounts: *volumeMounts
                 containers:
                   - name: app
