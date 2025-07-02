@@ -1,0 +1,76 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kyverno.io/clusterpolicy_v1.json
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: pyroscope-dotnet-alpine
+  annotations:
+    policies.kyverno.io/title: Inject Pyroscope into .NET applications on Alpine Linux
+    policies.kyverno.io/subject: Pod
+spec:
+  rules:
+    - name: mutate-dotnet-alpine
+      match:
+        any:
+          - resources:
+              kinds:
+                - "apps/v1/Deployment"
+              names:
+                - "*"
+              namespaces:
+                - "*"
+              selector:
+                matchLabels:
+                  app.kubernetes.io/created-by: volsync
+      mutate:
+        patchStrategicMerge:
+          spec:
+            template:
+              spec:
+                initContainers:
+                  - name: init-pyroscope
+                    image: docker.io/pyroscope/pyroscope-dotnet:0.10.0-musl@sha256:a10fb562918a3f9f7056adf80b78f4267876328e6e47d5183420dfa03304072c
+                    imagePullPolicy: IfNotPresent
+                    command:
+                      - "sh"
+                      - "-c"
+                      - |
+                        cp /Pyroscope*.so /pyroscope
+                    volumeMounts: &volumeMounts
+                      - name: pyroscope
+                        mountPath: /pyroscope
+                containers:
+                  - name: app
+                    env:
+                      - name: CORECLR_ENABLE_PROFILING
+                        value: 1
+                      - name: CORECLR_PROFILER_PATH
+                        value: "/pyroscope/Pyroscope.Profiler.Native.so"
+                      - name: CORECLR_PROFILER
+                        value: "{BD1A650D-AC5D-4896-B64F-D6FA25D6B26A}"
+                      - name: DOTNET_EnableDiagnostics_Debugger
+                        value: 0
+                      - name: DOTNET_EnableDiagnostics_IPC
+                        value: 0
+                      - name: DOTNET_EnableDiagnostics_Profiler
+                        value: 1
+                      - name: DOTNET_EnableDiagnostics
+                        value: 1
+                      - name: LD_PRELOAD
+                        value: "/pyroscope/Pyroscope.Linux.ApiWrapper.x64.so"
+                      - name: PYROSCOPE_APPLICATION_NAME
+                        valueFrom:
+                          fieldRef:
+                            fieldPath: metadata.name
+                      - name: PYROSCOPE_PROFILING_ENABLED
+                        value: 1
+                      - name: PYROSCOPE_PROFILING_ALLOCATION_ENABLED
+                        value: 1
+                      - name: PYROSCOPE_PROFILING_HEAP_ENABLED
+                        value: 1
+                      - name: PYROSCOPE_SERVER_ADDRESS
+                        value: http://pyroscope-headless.monitoring.svc.cluster.local:4040
+                    volumeMounts: *volumeMounts
+                volumes:
+                  - name: pyroscope
+                    emptyDir: {}
