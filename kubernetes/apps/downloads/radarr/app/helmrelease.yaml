@@ -29,6 +29,8 @@ spec:
       radarr:
         annotations:
           reloader.stakater.com/auto: "true"
+        labels:
+          instrumentation.grafana.com/pyroscope: "true"
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:
@@ -45,15 +47,6 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: radarr-secret
-          init-pyroscope:
-            image:
-              repository: pyroscope/pyroscope-dotnet
-              tag: 0.10.0-musl@sha256:a10fb562918a3f9f7056adf80b78f4267876328e6e47d5183420dfa03304072c
-            command:
-              - "sh"
-              - "-c"
-              - |
-                cp /Pyroscope*.so /pyroscope
         containers:
           app:
             image:
@@ -70,20 +63,6 @@ spec:
               RADARR__LOG__LEVEL: info
               RADARR__SERVER__PORT: &port 80
               TZ: America/Los_Angeles
-              # Pyroscope
-              CORECLR_ENABLE_PROFILING: 1
-              CORECLR_PROFILER_PATH: "/pyroscope/Pyroscope.Profiler.Native.so"
-              CORECLR_PROFILER: "{BD1A650D-AC5D-4896-B64F-D6FA25D6B26A}"
-              DOTNET_EnableDiagnostics_Debugger: 0
-              DOTNET_EnableDiagnostics_IPC: 0
-              DOTNET_EnableDiagnostics_Profiler: 1
-              DOTNET_EnableDiagnostics: 1
-              LD_PRELOAD: "/pyroscope/Pyroscope.Linux.ApiWrapper.x64.so"
-              PYROSCOPE_APPLICATION_NAME: *app
-              PYROSCOPE_PROFILING_ENABLED: 1
-              PYROSCOPE_PROFILING_ALLOCATION_ENABLED: 1
-              PYROSCOPE_PROFILING_HEAP_ENABLED: 1
-              PYROSCOPE_SERVER_ADDRESS: http://pyroscope-headless.monitoring.svc.cluster.local:4040
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -125,8 +104,6 @@ spec:
       tmpfs:
         type: emptyDir
         globalMounts:
-          - path: /pyroscope
-            subPath: pyroscope
           - path: /tmp
             subPath: tmp
     route:
