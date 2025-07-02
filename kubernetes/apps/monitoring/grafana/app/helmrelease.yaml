@@ -142,7 +142,7 @@ spec:
             jsonData:
               implementation: prometheus
           - name: Pyroscope
-            type: pyroscope
+            type: grafana-pyroscope-datasource
             uid: pyroscope
             access: proxy
             url: http://pyroscope.monitoring.svc.cluster.local:4040
