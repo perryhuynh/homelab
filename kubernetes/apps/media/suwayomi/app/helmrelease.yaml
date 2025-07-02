@@ -38,8 +38,6 @@ spec:
               BACKUP_INTERVAL: 0
               BIND_PORT: &port 80
               EXTENSION_REPOS: "[\"https://github.com/keiyoushi/extensions/tree/repo\"]"
-              FLARESOLVERR_ENABLED: true
-              FLARESOLVERR_URL: http://flaresolverr.downloads.cluster.svc.local.
               TZ: America/Los_Angeles
               UPDATE_EXCLUDE_STARTED: false
               UPDATE_EXCLUDE_UNREAD: false
