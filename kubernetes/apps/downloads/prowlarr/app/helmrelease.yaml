@@ -48,7 +48,7 @@ spec:
           init-pyroscope:
             image:
               repository: pyroscope/pyroscope-dotnet
-              tag: 0.9.4-glibc
+              tag: 0.10.0-musl@sha256:a10fb562918a3f9f7056adf80b78f4267876328e6e47d5183420dfa03304072c
             command:
               - "sh"
               - "-c"
