@@ -36,5 +36,7 @@ spec:
   values:
     alloy:
       enabled: false
-    persistence:
-      existingClaim: *app
+    pyroscope:
+      persistence:
+        enabled: true
+        storageClassName: longhorn
