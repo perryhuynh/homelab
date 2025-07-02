@@ -6,7 +6,6 @@ resources:
   - ./namespace.yaml
   - ./autobrr/ks.yaml
   - ./cross-seed/ks.yaml
-  - ./flaresolverr/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
