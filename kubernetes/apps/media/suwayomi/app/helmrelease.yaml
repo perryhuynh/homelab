@@ -29,8 +29,6 @@ spec:
       suwayomi:
         annotations:
           reloader.stakater.com/auto: "true"
-        labels:
-          instrumentation.grafana.com/pyroscope: "java"
         containers:
           app:
             image:
