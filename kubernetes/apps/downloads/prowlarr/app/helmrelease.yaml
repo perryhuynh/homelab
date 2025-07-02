@@ -79,6 +79,7 @@ spec:
               LD_PRELOAD: "/pyroscope/Pyroscope.Linux.ApiWrapper.x64.so"
               PYROSCOPE_APPLICATION_NAME: *app
               PYROSCOPE_PROFILING_ENABLED: 1
+              PYROSCOPE_PROFILING_HEAP_ENABLED: 1
               PYROSCOPE_SERVER_ADDRESS: http://pyroscope.monitoring.svc.cluster.local:4040
             envFrom: *envFrom
             probes:
