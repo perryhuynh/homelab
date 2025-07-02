@@ -163,7 +163,8 @@ spec:
           gnetId: 23239
           revision: 1
           datasource:
-            - { name: DS_AFRANET_PROMETHEUS, value: Prometheus }
+            - name: DS_AFRANET_PROMETHEUS
+              value: Prometheus
         external-secrets:
           url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
           datasource: Prometheus
@@ -176,7 +177,9 @@ spec:
               value: Prometheus
         node-feature-discovery:
           url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
-          datasource: Prometheus
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
         longhorn:
           # renovate: depName="Longhorn"
           gnetId: 16888
@@ -363,7 +366,8 @@ spec:
     route:
       main:
         enabled: true
-        hostnames: ["{{ .Release.Name }}.perryhuynh.com"]
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
         parentRefs:
           - name: internal
             namespace: kube-system
