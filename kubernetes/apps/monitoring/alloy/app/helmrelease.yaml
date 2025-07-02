@@ -40,6 +40,14 @@ spec:
         create: false
         name: &name alloy-config
         key: config.alloy
+      securityContext:
+        capabilities:
+          add:
+            - PERFMON
+            - SYS_PTRACE
+            - SYS_RESOURCE
+            - SYS_ADMIN
+        privileged: true
     controller:
       podAnnotations:
         configmap.reloader.stakater.com/reload: *name
