@@ -20,7 +20,7 @@ spec:
               namespaces:
                 - "*"
               selector:
-                matchAnnotations:
+                matchLabels:
                   instrumentation.grafana.com/pyroscope: "true"
       mutate:
         patchStrategicMerge:
