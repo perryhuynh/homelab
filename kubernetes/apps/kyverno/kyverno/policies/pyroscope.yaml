@@ -43,19 +43,19 @@ spec:
                   - name: app
                     env:
                       - name: CORECLR_ENABLE_PROFILING
-                        value: 1
+                        value: "1"
                       - name: CORECLR_PROFILER_PATH
                         value: "/pyroscope/Pyroscope.Profiler.Native.so"
                       - name: CORECLR_PROFILER
                         value: "{BD1A650D-AC5D-4896-B64F-D6FA25D6B26A}"
                       - name: DOTNET_EnableDiagnostics_Debugger
-                        value: 0
+                        value: "0"
                       - name: DOTNET_EnableDiagnostics_IPC
-                        value: 0
+                        value: "0"
                       - name: DOTNET_EnableDiagnostics_Profiler
-                        value: 1
+                        value: "1"
                       - name: DOTNET_EnableDiagnostics
-                        value: 1
+                        value: "1"
                       - name: LD_PRELOAD
                         value: "/pyroscope/Pyroscope.Linux.ApiWrapper.x64.so"
                       - name: PYROSCOPE_APPLICATION_NAME
@@ -63,11 +63,11 @@ spec:
                           fieldRef:
                             fieldPath: metadata.name
                       - name: PYROSCOPE_PROFILING_ENABLED
-                        value: 1
+                        value: "1"
                       - name: PYROSCOPE_PROFILING_ALLOCATION_ENABLED
-                        value: 1
+                        value: "1"
                       - name: PYROSCOPE_PROFILING_HEAP_ENABLED
-                        value: 1
+                        value: "1"
                       - name: PYROSCOPE_SERVER_ADDRESS
                         value: http://pyroscope-headless.monitoring.svc.cluster.local:4040
                     volumeMounts: *volumeMounts
