@@ -49,6 +49,7 @@ spec:
             - SYS_ADMIN
         privileged: true
     controller:
+      hostPID: true
       podAnnotations:
         configmap.reloader.stakater.com/reload: *name
     configReloader:
