@@ -66,6 +66,13 @@ discovery.relabel "java_pods" {
 }
 
 pyroscope.java "java" {
+  profiling_config {
+    interval = "15s"
+    alloc = "512k"
+    cpu = true
+    lock = "10ms"
+    sample_rate = 100
+  }
   forward_to = [pyroscope.write.example.receiver]
   targets = discovery.relabel.java_pods.output
 }
