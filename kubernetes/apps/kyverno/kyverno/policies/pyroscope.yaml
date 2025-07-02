@@ -21,7 +21,7 @@ spec:
                 - "*"
               selector:
                 matchLabels:
-                  app.kubernetes.io/created-by: volsync
+                  instrumentation.grafana.com/pyroscope: "true"
       mutate:
         patchStrategicMerge:
           spec:
