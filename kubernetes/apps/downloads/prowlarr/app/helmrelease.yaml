@@ -29,6 +29,14 @@ spec:
       prowlarr:
         annotations:
           reloader.stakater.com/auto: "true"
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "ALL"
+            readOnlyRootFilesystem: true
         initContainers:
           init-db:
             image:
@@ -37,6 +45,15 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: prowlarr-secret
+          init-pyroscope:
+            image:
+              repository: pyroscope/pyroscope-dotnet
+              tag: 0.10.0-musl@sha256:a10fb562918a3f9f7056adf80b78f4267876328e6e47d5183420dfa03304072c
+            command:
+              - "sh"
+              - "-c"
+              - |
+                cp -rT /Pyroscope*.so /pyroscope
         containers:
           app:
             image:
@@ -51,6 +68,14 @@ spec:
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 80
               TZ: America/Los_Angeles
+              # Pyroscope
+              PYROSCOPE_APPLICATION_NAME: *app
+              PYROSCOPE_SERVER_ADDRESS: http://pyroscope.monitoring.svc.cluster.local:4040
+              PYROSCOPE_PROFILING_ENABLED: 1
+              CORECLR_ENABLE_PROFILING: 1
+              CORECLR_PROFILER: "{BD1A650D-AC5D-4896-B64F-D6FA25D6B26A}"
+              CORECLR_PROFILER_PATH: "/pyroscope/Pyroscope.Profiler.Native.so"
+              LD_PRELOAD: "/pyroscope/Pyroscope.Linux.ApiWrapper.x64.so"
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -71,26 +96,22 @@ spec:
                 memory: 512Mi
               requests:
                 cpu: 10m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - "ALL"
-              readOnlyRootFilesystem: true
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            seccompProfile:
-              type: RuntimeDefault
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
     persistence:
       tmpfs:
         type: emptyDir
         globalMounts:
           - path: /config
             subPath: config
+          - path: /pyroscope
+            subPath: pyroscope
           - path: /tmp
             subPath: tmp
     route:
