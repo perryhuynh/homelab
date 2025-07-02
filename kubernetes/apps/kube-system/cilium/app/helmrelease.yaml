@@ -36,9 +36,15 @@ spec:
   values:
     autoDirectNodeRoutes: true
     bpf:
+      datapathMode: netkit
       masquerade: true
+      preallocateMaps: true
     bgp:
       enabled: false
+    cgroup:
+      automount:
+        enabled: false
+      hostRoot: /sys/fs/cgroup
     cni:
       exclusive: false
     dashboards:
