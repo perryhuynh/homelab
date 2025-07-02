@@ -1,6 +1,6 @@
 logging {
   level = "debug"
-  format = "logfmt
+  format = "logfmt"
 }
 
 discovery.kubernetes "pyroscope_java_pods" {
