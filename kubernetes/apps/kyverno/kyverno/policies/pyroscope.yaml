@@ -39,6 +39,10 @@ spec:
                     volumeMounts: &volumeMounts
                       - name: pyroscope
                         mountPath: /pyroscope
+                        subPath: pyroscope
+                      - name: pyroscope
+                        mountPath: /var/log/pyroscope/
+                        subPath: logs
                 containers:
                   - name: app
                     env:
