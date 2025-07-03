@@ -42,6 +42,7 @@ spec:
         key: config.alloy
       securityContext:
         runAsUser: 0
+        runAsGroup: 0
         runAsNonRoot: false
         capabilities:
           add:
