@@ -3,31 +3,48 @@ logging {
   format = "logfmt"
 }
 
-discovery.kubernetes "pyroscope_kubernetes" {
-  role = "pod"
+discovery.kubernetes "local_pods" {
   selectors {
+    field = "spec.nodeName=" + env("HOSTNAME")
     role = "pod"
-    field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
-    label = "instrumentation.grafana.com/pyroscope=java"
   }
+  role = "pod"
 }
 
+// Discovers all kubernetes pods.
+// Relies on serviceAccountName=grafana-alloy in the pod spec for permissions.
+discovery.kubernetes "pods" {
+  role = "pod"
+}
+
+// Discovers all processes running on the node.
+// Relies on a security context with elevated permissions for the alloy container (running as root).
+// Relies on hostPID=true on the pod spec, to be able to see processes from other pods.
 discovery.process "all" {
-  join = discovery.kubernetes.pyroscope_kubernetes.targets
+  // Merges kubernetes and process data (using container_id), to attach kubernetes labels to discovered processes.
+  join = discovery.kubernetes.pods.targets
 }
 
-discovery.relabel "java_pods" {
+// Drops non-java processes and adjusts labels.
+discovery.relabel "java" {
   targets = discovery.process.all.targets
-  // Filter only java processes
+  // Drops non-java processes.
   rule {
     source_labels = ["__meta_process_exe"]
     action = "keep"
     regex = ".*/java$"
   }
+  // Sets up the service_name using the namespace and container names.
   rule {
-    action = "drop"
-    regex = "Succeeded|Failed|Completed"
-    source_labels = ["__meta_kubernetes_pod_phase"]
+    source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
+    target_label = "service_name"
+    separator = "/"
+  }
+  // Sets up kubernetes labels (labels with the __ prefix are ultimately dropped).
+  rule {
+    action = "replace"
+    source_labels = ["__meta_kubernetes_pod_node_name"]
+    target_label = "node"
   }
   rule {
     action = "replace"
@@ -41,31 +58,22 @@ discovery.relabel "java_pods" {
   }
   rule {
     action = "replace"
-    source_labels = ["__meta_kubernetes_pod_node_name"]
-    target_label = "node"
-  }
-  rule {
-    action = "replace"
     source_labels = ["__meta_kubernetes_pod_container_name"]
     target_label = "container"
   }
-  // Provide arbitrary service_name label, otherwise it will be inferred from discovery labels automatically
+  // Sets up the cluster label.
+  // Relies on a pod-level annotation with the "cluster_name" name.
+  // Alternatively it can be set up using external_labels in pyroscope.write.
   rule {
     action = "replace"
-    regex = "(.*)@(.*)"
-    replacement = "java/${1}/${2}"
-    separator = "@"
-    source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
-    target_label = "service_name"
-  }
-  // Filter only needed services
-  rule {
-    action = "keep"
-    regex = "(java/ns1/.*)|(java/ns2/container-.*0)"
-    source_labels = ["service_name"]
+    source_labels = ["__meta_kubernetes_pod_annotation_cluster_name"]
+    target_label = "cluster"
   }
 }
 
+// Attaches the Pyroscope profiler to the processes returned by the discovery.relabel component.
+// Relies on a security context with elevated permissions for the alloy container (running as root).
+// Relies on hostPID=true on the pod spec, to be able to access processes from other pods.
 pyroscope.java "java" {
   profiling_config {
     interval = "15s"
@@ -75,7 +83,7 @@ pyroscope.java "java" {
     sample_rate = 100
   }
   forward_to = [pyroscope.write.main.receiver]
-  targets = discovery.relabel.java_pods.output
+  targets = discovery.relabel.java.output
 }
 
 pyroscope.write "main" {
