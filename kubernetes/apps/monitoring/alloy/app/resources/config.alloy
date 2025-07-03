@@ -7,7 +7,7 @@ discovery.kubernetes "pyroscope_kubernetes" {
   role = "pod"
   selectors {
     role = "pod"
-    field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname
+    field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
     label = "instrumentation.grafana.com/pyroscope=java"
   }
 }
