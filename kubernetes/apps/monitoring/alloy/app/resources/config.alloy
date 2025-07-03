@@ -3,16 +3,17 @@ logging {
   format = "logfmt"
 }
 
-discovery.kubernetes "pods" {
+discovery.kubernetes "pyroscope_kubernetes" {
   role = "pod"
   selectors {
     role = "pod"
+    field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname
     label = "instrumentation.grafana.com/pyroscope=java"
   }
 }
 
 discovery.process "all" {
-  join = discovery.kubernetes.pods.targets
+  join = discovery.kubernetes.pyroscope_kubernetes.targets
 }
 
 discovery.relabel "java_pods" {
