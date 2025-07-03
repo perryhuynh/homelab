@@ -108,17 +108,6 @@ spec:
               "reannounce",
               "--process-seeding"
             ]
-      limiter:
-        containers:
-          app:
-            <<: *container
-            args: [
-              "limiter",
-              "--max-line-speed-mbps", "200",
-              "--max-percent", "0.8",
-              "--limit-percent", "0.4",
-              "--interval", "5"
-            ]
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
