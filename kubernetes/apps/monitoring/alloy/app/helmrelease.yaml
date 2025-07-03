@@ -49,6 +49,7 @@ spec:
             - SYS_PTRACE
             - SYS_RESOURCE
             - SYS_ADMIN
+        privileged: true
     controller:
       hostPID: true
       podAnnotations:
