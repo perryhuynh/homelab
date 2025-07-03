@@ -3,17 +3,13 @@ logging {
   format = "logfmt"
 }
 
-discovery.kubernetes "local_pods" {
+// Discovers all kubernetes pods.
+// Relies on serviceAccountName=grafana-alloy in the pod spec for permissions.
+discovery.kubernetes "pods" {
   selectors {
     field = "spec.nodeName=" + env("HOSTNAME")
     role = "pod"
   }
-  role = "pod"
-}
-
-// Discovers all kubernetes pods.
-// Relies on serviceAccountName=grafana-alloy in the pod spec for permissions.
-discovery.kubernetes "pods" {
   role = "pod"
 }
 
@@ -36,9 +32,9 @@ discovery.relabel "java" {
   }
   // Sets up the service_name using the namespace and container names.
   rule {
-    source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
+    action = "replace"
+    source_labels = ["__meta_kubernetes_pod_controller_name"]
     target_label = "service_name"
-    separator = "/"
   }
   // Sets up kubernetes labels (labels with the __ prefix are ultimately dropped).
   rule {
