@@ -42,6 +42,7 @@ spec:
       defaultReplicaCount: 3
       guaranteedEngineManagerCPU: 20
       guaranteedReplicaManagerCPU: 20
+      logLevel: Warn
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       orphanAutoDeletion: true
       restoreVolumeRecurringJobs: true
