@@ -45,6 +45,7 @@ spec:
       logLevel: Warn
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       orphanAutoDeletion: true
+      removeSnapshotsDuringFilesystemTrim: enabled
       restoreVolumeRecurringJobs: true
       storageMinimalAvailablePercentage: 10
       storageOverProvisioningPercentage: 200

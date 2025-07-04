@@ -10,15 +10,3 @@ spec:
     - default
   name: *task
   task: *task
----
-apiVersion: longhorn.io/v1beta2
-kind: RecurringJob
-metadata:
-  name: &task snapshot-cleanup
-spec:
-  concurrency: 1
-  cron: 40 0 * * *
-  groups:
-    - default
-  name: *task
-  task: *task
