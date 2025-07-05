@@ -11,7 +11,7 @@ patches:
   - patch: |-
       - op: add
         path: /metadata/labels
-        value: {"pod-security.kubernetes.io/enforce": "true"}
+        value: {"pod-security.kubernetes.io/enforce": "privileged"}
     target:
       kind: Namespace
       namespace: *namespace
