@@ -44,6 +44,7 @@ releases:
     chart: oci://ghcr.io/home-operations/charts-mirror/longhorn
     version: 1.9.0
     values: ['../kubernetes/apps/kube-system/longhorn/app/helm/values.yaml']
+    needs: ['kube-system/spegel']
 
   - name: snapshot-controller
     namespace: kube-system
