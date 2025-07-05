@@ -4,7 +4,6 @@ persistence:
 defaultSettings:
   backupstorePollInterval: 0
   concurrentAutomaticEngineUpgradePerNodeLimit: 3
-  createDefaultDiskLabeledNodes: true
   defaultDataLocality: best-effort
   defaultLonghornStaticStorageClass: longhorn
   defaultReplicaCount: 3
