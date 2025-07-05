@@ -10,4 +10,4 @@ resources:
   # - ./jellyseerr/ks.yaml
   - ./plex/ks.yaml
   - ./suwayomi/ks.yaml
-  # - ./tautulli/ks.yaml
+  - ./tautulli/ks.yaml
