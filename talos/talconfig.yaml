@@ -25,7 +25,7 @@ nodes:
       model: CT1000P5PSSD8
     machineSpec:
       secureboot: false
-    talosImageURL: &imageUrl factory.talos.dev/installer/9aecd1fecc916a37dd0fffaa6be113ad9ec4ff9fb6371a5dbb33af70ec2cb0de
+    talosImageURL: &imageUrl factory.talos.dev/installer/03f3ef78e57a83f2c1734c305be9decab3a06273ee9ff1f5ad2f9d686e43b568
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -236,4 +236,5 @@ controlPlane:
           - siderolabs/gasket-driver
           - siderolabs/i915
           - siderolabs/intel-ucode
+          - siderolabs/iscsi-tools
           - siderolabs/thunderbolt
