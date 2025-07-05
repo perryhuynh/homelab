@@ -52,7 +52,7 @@ jobs:
           args: >-
             get cluster
             --all-namespaces
-            --path /github/workspace/kubernetes/flux
+            --path /github/workspace/kubernetes/flux/cluster
             --enable-images
             --only-images
             --output json
@@ -106,14 +106,11 @@ jobs:
     env:
       MATRIX_IMAGE: ${{ matrix.image }}
     steps:
-      - name: Pull Image
-        run: docker pull "${MATRIX_IMAGE}"
-      # TODO: replace with arc-runner-set-homelab after switching to talos
-      # - name: Install talosctl
-      #   run: curl -fsSL https://talos.dev/install | sh
+      - name: Install talosctl
+        run: curl -fsSL https://talos.dev/install | sh
 
-      # - name: Pull Image
-      #   run: talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
+      - name: Pull Image
+        run: talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
 
   success:
     if: ${{ !cancelled() }}

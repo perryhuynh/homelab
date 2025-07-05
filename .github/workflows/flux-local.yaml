@@ -58,7 +58,7 @@ jobs:
             test
             --all-namespaces
             --enable-helm
-            --path /github/workspace/kubernetes/flux
+            --path /github/workspace/kubernetes/flux/cluster
             --verbose
 
   diff:
@@ -95,12 +95,12 @@ jobs:
             --log-level DEBUG
             diff ${{ matrix.resources }}
             --unified 6
-            --path-orig /github/workspace/default/${{ matrix.paths }}
-            --path /github/workspace/pull/${{ matrix.paths }}
+            --path-orig /github/workspace/default/kubernetes/flux/cluster
+            --path /github/workspace/pull/kubernetes/flux/cluster
             --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
             --limit-bytes 10000
             --all-namespaces
-            --sources "home-kubernetes"
+            --sources "flux-system"
             --output-file diff.patch
 
       - name: Generate Diff
