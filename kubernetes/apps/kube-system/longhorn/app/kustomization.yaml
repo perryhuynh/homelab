@@ -5,6 +5,12 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./httproute.yaml
-  # - ./prometheusrule.yaml
-  # - ./servicemonitor.yaml
+  - ./prometheusrule.yaml
+  - ./servicemonitor.yaml
   - ./storageclass.yaml
+configMapGenerator:
+  - name: longhorn-values
+    files:
+      - values.yaml=./helm/values.yaml
+configurations:
+  - ./helm/kustomizeconfig.yaml

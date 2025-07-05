@@ -38,6 +38,13 @@ releases:
     values: ['../kubernetes/apps/cert-manager/cert-manager/app/helm/values.yaml']
     needs: ['kube-system/spegel']
 
+  - name: longhorn
+    namespace: kube-system
+    atomic: true
+    chart: oci://ghcr.io/home-operations/charts-mirror/longhorn
+    version: 1.9.0
+    values: ['../kubernetes/apps/kube-system/longhorn/app/helm/values.yaml']
+
   - name: flux-operator
     namespace: flux-system
     atomic: true

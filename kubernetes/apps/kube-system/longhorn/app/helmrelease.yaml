@@ -33,22 +33,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  values:
-    persistence:
-      defaultDataLocality: best-effort
-    defaultSettings:
-      backupstorePollInterval: 0
-      concurrentAutomaticEngineUpgradePerNodeLimit: 3
-      createDefaultDiskLabeledNodes: true
-      defaultDataLocality: best-effort
-      defaultLonghornStaticStorageClass: longhorn
-      defaultReplicaCount: 3
-      guaranteedEngineManagerCPU: 20
-      guaranteedReplicaManagerCPU: 20
-      logLevel: Warn
-      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
-      orphanAutoDeletion: true
-      removeSnapshotsDuringFilesystemTrim: true
-      replicaAutoBalance: best-effort
-      storageMinimalAvailablePercentage: 1
-      storageReservedPercentageForDefaultDisk: 10
+  valuesFrom:
+    - kind: ConfigMap
+      name: longhorn-values
