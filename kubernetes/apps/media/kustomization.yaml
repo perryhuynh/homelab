@@ -9,5 +9,5 @@ resources:
   - ./kavita/ks.yaml
   # - ./jellyseerr/ks.yaml
   # - ./plex/ks.yaml
-  - ./suwayomi/ks.yaml
+  # ./suwayomi/ks.yaml
   # - ./tautulli/ks.yaml
