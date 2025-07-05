@@ -49,6 +49,6 @@ spec:
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       orphanAutoDeletion: true
       removeSnapshotsDuringFilesystemTrim: true
-      replicaAutoBalance: true
+      replicaAutoBalance: best-effort
       storageMinimalAvailablePercentage: 1
       storageReservedPercentageForDefaultDisk: 10
