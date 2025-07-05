@@ -10,6 +10,7 @@ resources:
   - ./coredns/ks.yaml
   - ./descheduler/ks.yaml
   - ./intel-device-plugin-operator/ks.yaml
+  - ./longhorn/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
   - ./snapshot-controller/ks.yaml

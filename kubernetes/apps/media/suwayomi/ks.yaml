@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: longhorn
-      namespace: longhorn-system
+      namespace: kube-system
     - name: volsync
       namespace: volsync-system
   path: ./kubernetes/apps/media/suwayomi/app

@@ -22,7 +22,7 @@ spec:
     - name: paperless-tika
       namespace: selfhosted
     - name: longhorn
-      namespace: longhorn-system
+      namespace: kube-system
     - name: volsync
       namespace: volsync-system
   path: ./kubernetes/apps/selfhosted/paperless/app

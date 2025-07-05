@@ -18,7 +18,7 @@ spec:
     - name: keda
       namespace: monitoring
     - name: longhorn
-      namespace: longhorn-system
+      namespace: kube-system
     - name: prowlarr
       namespace: downloads
     - name: qbittorrent

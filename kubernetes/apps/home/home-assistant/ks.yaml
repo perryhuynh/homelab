@@ -16,7 +16,7 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
     - name: longhorn
-      namespace: longhorn-system
+      namespace: kube-system
     - name: multus-networks
       namespace: networking
     - name: volsync

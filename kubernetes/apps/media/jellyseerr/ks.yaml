@@ -16,7 +16,7 @@ spec:
     - name: keda
       namespace: monitoring
     - name: longhorn
-      namespace: longhorn-system
+      namespace: kube-system
     - name: plex
       namespace: media
     - name: qbittorrent

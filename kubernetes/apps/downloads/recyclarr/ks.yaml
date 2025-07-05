@@ -14,7 +14,7 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
     - name: longhorn
-      namespace: longhorn-system
+      namespace: kube-system
     - name: radarr
       namespace: downloads
     - name: sonarr
