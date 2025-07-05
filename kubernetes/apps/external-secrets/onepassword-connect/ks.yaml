@@ -10,10 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   path: ./kubernetes/apps/external-secrets/onepassword-connect/app
   prune: true
   sourceRef:
