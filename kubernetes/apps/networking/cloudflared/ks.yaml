@@ -12,9 +12,15 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-dns-cloudflare
+      namespace: networking
     - name: external-secrets-stores
       namespace: external-secrets
   path: ./kubernetes/apps/networking/cloudflared/app
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cloudflared-secret
+        optional: false
   prune: true
   sourceRef:
     kind: GitRepository
