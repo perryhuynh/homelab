@@ -13,81 +13,26 @@ spec:
     tag: 1.17.5
   url: oci://ghcr.io/home-operations/charts-mirror/cilium
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: cilium
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: cilium
-  maxHistory: 2
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: cilium-values
   values:
-    autoDirectNodeRoutes: true
-    bpf:
-      masquerade: true
-    bgp:
-      enabled: false
-    cni:
-      exclusive: false
-    dashboards:
-      enabled: true
-    endpointRoutes:
-      enabled: true
-    envoy:
-      rollOutPods: true
-      prometheus:
-        serviceMonitor:
-          enabled: true
-    gatewayAPI:
-      enabled: true
-      enabledAlpn: true
-      xffNumTrustedHops: 1
-    hubble:
-      enabled: false
-    ipam:
-      mode: kubernetes
-    ipv4NativeRoutingCIDR: "${CLUSTER_CIDR}"
-    k8sServiceHost: "${KUBE_VIP_ADDR}"
-    k8sServicePort: 6443
-    kubeProxyReplacement: true
-    kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-    l2announcements:
-      enabled: true
-      # https://github.com/cilium/cilium/issues/26586
-      leaseDuration: 120s
-      leaseRenewDeadline: 60s
-      leaseRetryPeriod: 1s
-    loadBalancer:
-      algorithm: maglev
-      mode: dsr
-    localRedirectPolicy: true
     operator:
-      dashboards:
-        enabled: true
-      prometheus:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-      replicas: 2
-      rollOutPods: true
-    prometheus:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-        trustCRDsExist: true
-    rollOutCiliumPods: true
-    routingMode: native
-    securityContext:
-      privileged: true
+      tolerations: []
