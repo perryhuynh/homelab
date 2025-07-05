@@ -37,7 +37,6 @@ spec:
     defaultSettings:
       backupstorePollInterval: 0
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
-      defaultDataPath: /var/lib/rancher/k3s/longhorn
       defaultLonghornStaticStorageClass: longhorn
       defaultReplicaCount: 3
       guaranteedEngineManagerCPU: 20
