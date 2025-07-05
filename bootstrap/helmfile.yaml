@@ -45,6 +45,14 @@ releases:
     version: 1.9.0
     values: ['../kubernetes/apps/kube-system/longhorn/app/helm/values.yaml']
 
+  - name: snapshot-controller
+    namespace: kube-system
+    atomic: true
+    chart: oci://ghcr.io/piraeusdatastore/helm-charts/snapshot-controller
+    version: 4.1.0
+    values: ['../kubernetes/apps/kube-system/snapshot-controller/app/helm/values.yaml']
+    needs: ['kube-system/longhorn']
+
   - name: flux-operator
     namespace: flux-system
     atomic: true
