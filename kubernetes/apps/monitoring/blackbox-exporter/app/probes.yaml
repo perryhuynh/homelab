@@ -11,7 +11,7 @@ spec:
   targets:
     staticConfig:
       static:
-        - ${SECRET_NAS_IP}
+        - nas.home.arpa
         - ${SECRET_PIKVM_IP}
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
@@ -26,4 +26,4 @@ spec:
   targets:
     staticConfig:
       static:
-        - ${SECRET_NAS_IP}:2049
+        - nas.home.arpa:2049

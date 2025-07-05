@@ -123,7 +123,7 @@ spec:
       downloads:
         type: nfs
         path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:=nas.home.arpa}
+        server: nas.home.arpa
         advancedMounts:
           orphaned:
             app:

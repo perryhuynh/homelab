@@ -24,7 +24,7 @@ spec:
       value: NodeMemoryHighUtilization
       isRegex: false
     - name: instance
-      value: ${SECRET_NAS_IP:=nas.home.arpa}:9100
+      value: nas.home.arpa:9100
       isRegex: false
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.giantswarm.io/silence_v1alpha1.json
@@ -40,4 +40,3 @@ spec:
     - name: job
       value: pc
       isRegex: false
-

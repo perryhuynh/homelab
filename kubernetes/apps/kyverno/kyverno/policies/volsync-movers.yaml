@@ -52,7 +52,7 @@ spec:
                 volumes:
                   - name: repository
                     nfs:
-                      server: ${SECRET_NAS_IP:=nas.home.arpa}
+                      server: nas.home.arpa
                       path: /mnt/tank/volsync
     - name: mutate-volsync-dst-movers
       match:
@@ -80,5 +80,5 @@ spec:
                 volumes:
                   - name: repository
                     nfs:
-                      server: ${SECRET_NAS_IP:=nas.home.arpa}
+                      server: nas.home.arpa
                       path: /mnt/tank/volsync
