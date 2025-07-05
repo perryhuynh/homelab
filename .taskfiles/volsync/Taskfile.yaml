@@ -12,6 +12,29 @@ vars:
 
 tasks:
 
+  list:
+    desc: List snapshots for an app [NS=default] [APP=required]
+    preconditions:
+      - which kubectl minijinja-cli
+      - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
+      - test -f "{{.VOLSYNC_TASK_RESOURCES_DIR}}/list-snapshots.yaml.j2"
+    requires:
+      vars:
+        - APP
+    vars:
+      NS: >
+        {{.NS | default "default"}}
+      JOB: "list-snapshots-{{ .APP }}"
+    env:
+      NS: "{{.NS}}"
+      APP: "{{.APP}}"
+    cmds:
+      - minijinja-cli {{.VOLSYNC_TASK_RESOURCES_DIR}}/list-snapshots.yaml.j2 | kubectl apply --server-side --filename -
+      - until kubectl --namespace {{.NS}} get job/{{ .JOB }} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{ .JOB }} --for=condition=complete --timeout=5m
+      - stern --namespace {{.NS}} job/{{ .JOB }} --no-follow
+      - kubectl --namespace {{.NS}} delete job {{ .JOB }}
+
   state-*:
     desc: Suspend or resume Volsync
     cmds:
