@@ -96,7 +96,7 @@ spec:
       data:
         type: nfs
         path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:=temp}
+        server: ${SECRET_NAS_IP:=nas.home.arpa}
       tmpfs:
         type: emptyDir
         globalMounts:

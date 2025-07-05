@@ -92,7 +92,7 @@ spec:
       recs:
         type: nfs
         path: /mnt/tank/media
-        server: ${SECRET_NAS_IP:=temp}
+        server: ${SECRET_NAS_IP:=nas.home.arpa}
         globalMounts:
           - path: /recs
             subPath: scrypted
