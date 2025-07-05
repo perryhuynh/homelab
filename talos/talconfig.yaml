@@ -23,6 +23,8 @@ nodes:
     ipAddress: "192.168.1.21"
     installDiskSelector:
       model: CT1000P5PSSD8
+    machineSpec:
+      secureboot: false
     talosImageURL: &imageUrl factory.talos.dev/installer/9aecd1fecc916a37dd0fffaa6be113ad9ec4ff9fb6371a5dbb33af70ec2cb0de
     controlPlane: true
     networkInterfaces:
@@ -38,6 +40,8 @@ nodes:
     ipAddress: "192.168.1.22"
     installDiskSelector:
       model: CT1000P5PSSD8
+    machineSpec:
+      secureboot: false
     talosImageURL: *imageUrl
     controlPlane: true
     networkInterfaces:
@@ -52,6 +56,8 @@ nodes:
     ipAddress: "192.168.1.23"
     installDiskSelector:
       model: CT1000P5PSSD8
+    machineSpec:
+      secureboot: false
     talosImageURL: *imageUrl
     controlPlane: true
     networkInterfaces:
