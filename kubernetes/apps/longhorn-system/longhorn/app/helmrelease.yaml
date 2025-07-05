@@ -48,3 +48,4 @@ spec:
       restoreVolumeRecurringJobs: true
       storageMinimalAvailablePercentage: 10
       storageOverProvisioningPercentage: 200
+    enablePSP: true
