@@ -53,6 +53,11 @@ spec:
       failed: status.instances != status.readyInstances
       current: status.instances == status.readyInstances
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cloudnative-pg-secret
+        optional: false
   prune: true
   sourceRef:
     kind: GitRepository
