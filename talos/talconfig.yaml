@@ -22,7 +22,7 @@ nodes:
   - hostname: "choi-yena"
     ipAddress: "192.168.1.21"
     installDiskSelector:
-      model: CT1000P5PSSD8
+      model: Micron_7450_MTFDKBA960TFR
     machineSpec:
       secureboot: false
     talosImageURL: &imageUrl factory.talos.dev/installer/d1fe62df69a3d950c53dbbdc9abe90610cc1241fdfd11a42ef2123cabfaddcd2
@@ -39,7 +39,7 @@ nodes:
   - hostname: "jo-yuri"
     ipAddress: "192.168.1.22"
     installDiskSelector:
-      model: CT1000P5PSSD8
+      model: Micron_7450_MTFDKBA960TFR
     machineSpec:
       secureboot: false
     talosImageURL: *imageUrl
@@ -55,7 +55,7 @@ nodes:
   - hostname: "kim-chaewon"
     ipAddress: "192.168.1.23"
     installDiskSelector:
-      model: CT1000P5PSSD8
+      model: Micron_7450_MTFDKBA960TFR
     machineSpec:
       secureboot: false
     talosImageURL: *imageUrl
