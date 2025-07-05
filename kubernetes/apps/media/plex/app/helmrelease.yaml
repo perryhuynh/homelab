@@ -74,7 +74,6 @@ spec:
           type: RuntimeDefault
         supplementalGroups:
           - 44
-          - 105
     persistence:
       config:
         enabled: true
