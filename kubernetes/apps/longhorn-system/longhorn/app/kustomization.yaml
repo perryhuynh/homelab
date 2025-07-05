@@ -5,6 +5,6 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./httproute.yaml
-  - ./prometheusrule.yaml
-  - ./servicemonitor.yaml
+  # - ./prometheusrule.yaml
+  # - ./servicemonitor.yaml
   - ./storageclass.yaml
