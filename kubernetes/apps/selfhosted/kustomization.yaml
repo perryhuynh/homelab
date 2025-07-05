@@ -6,9 +6,9 @@ namespace: selfhosted
 components:
   - ../../components/common
 resources:
-  - ./actual/ks.yaml
+  # - ./actual/ks.yaml
   - ./atuin/ks.yaml
   - ./it-tools/ks.yaml
   - ./maddy/ks.yaml
-  - ./paperless/ks.yaml
-  - ./thelounge/ks.yaml
+  # - ./paperless/ks.yaml
+  # - ./thelounge/ks.yaml
