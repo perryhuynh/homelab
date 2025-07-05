@@ -36,6 +36,7 @@ nodes:
           ip: "192.168.1.20"
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
+      node.longhorn.io/create-default-disk: "true"
   - hostname: "jo-yuri"
     ipAddress: "192.168.1.22"
     installDiskSelector:
@@ -52,6 +53,7 @@ nodes:
         vip: *kubeVip
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
+      node.longhorn.io/create-default-disk: "true"
   - hostname: "kim-chaewon"
     ipAddress: "192.168.1.23"
     installDiskSelector:
@@ -68,6 +70,7 @@ nodes:
         vip: *kubeVip
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
+      node.longhorn.io/create-default-disk: "true"
 
 # Global patches
 patches:
