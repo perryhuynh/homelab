@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app qbittorrent
-  namespace: flux-system
+  namespace: &namespace downlaods
 spec:
-  targetNamespace: downloads
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -14,13 +14,17 @@ spec:
     - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: keda
+      namespace: monitoring
     - name: longhorn
+      namespace: longhorn-system
     - name: volsync
+      namespace: volsync-system
   path: ./kubernetes/apps/downloads/qbittorrent/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -36,19 +40,21 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app qbtools
-  namespace: flux-system
+  namespace: &namespace downlaods
 spec:
-  targetNamespace: downloads
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: qbittorrent
+      namespace: downloads
   path: ./kubernetes/apps/downloads/qbittorrent/tools
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m

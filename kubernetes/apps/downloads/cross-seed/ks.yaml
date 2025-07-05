@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app cross-seed
-  namespace: flux-system
+  namespace: &namespace downlaods
 spec:
-  targetNamespace: downloads
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -14,18 +14,27 @@ spec:
     - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: external-secrets-stores
+      namespace: external-secrets
     - name: keda
+      namespace: monitoring
     - name: longhorn
+      namespace: longhorn-system
     - name: prowlarr
+      namespace: downloads
     - name: qbittorrent
+      namespace: downloads
     - name: radarr
+      namespace: downloads
     - name: sonarr
+      namespace: downloads
     - name: volsync
+      namespace: volsync-system
   path: ./kubernetes/apps/downloads/cross-seed/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m
