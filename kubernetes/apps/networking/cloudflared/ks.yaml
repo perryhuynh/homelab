@@ -19,7 +19,7 @@ spec:
   postBuild:
     substituteFrom:
       - kind: Secret
-        name: cloudflared-secret
+        name: external-dns-cloudflare-secret
         optional: false
   prune: true
   sourceRef:
