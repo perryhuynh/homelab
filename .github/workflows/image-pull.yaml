@@ -95,9 +95,7 @@ jobs:
     if: ${{ needs.diff.outputs.images != '[]' }}
     needs: diff
     name: Pull Images
-    # TODO: replace with arc-runner-set-homelab after switching to talos
-    # runs-on: arc-runner-set-homelab
-    runs-on: ubuntu-latest
+    runs-on: arc-runner-set-homelab
     strategy:
       matrix:
         image: ${{ fromJSON(needs.diff.outputs.images) }}
