@@ -1,24 +1,26 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: '3'
+version: "3"
 
-set: [pipefail]
-shopt: [globstar]
+set:
+  - pipefail
+shopt:
+  - globstar
 
 vars:
-  BOOTSTRAP_DIR: '{{.ROOT_DIR}}/bootstrap'
-  KUBERNETES_DIR: '{{.ROOT_DIR}}/kubernetes'
+  BOOTSTRAP_DIR: "{{.ROOT_DIR}}/bootstrap"
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
   MINIJINJA_CONFIG_FILE: "{{.ROOT_DIR}}/.minijinja.toml"
-  PRIVATE_DIR: '{{.ROOT_DIR}}/.private'
-  SCRIPTS_DIR: '{{.ROOT_DIR}}/scripts'
-  TALOS_DIR: '{{.ROOT_DIR}}/talos'
-  TALOSCONFIG: '{{.ROOT_DIR}}/talos/clusterconfig/talosconfig'
+  PRIVATE_DIR: "{{.ROOT_DIR}}/.private"
+  SCRIPTS_DIR: "{{.ROOT_DIR}}/scripts"
+  TALOS_DIR: "{{.ROOT_DIR}}/talos"
+  TALOSCONFIG: "{{.ROOT_DIR}}/talos/clusterconfig/talosconfig"
 
 env:
-  KUBECONFIG: '{{.ROOT_DIR}}/kubeconfig'
-  SOPS_AGE_KEY_FILE: '{{.ROOT_DIR}}/age.key'
+  KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
   MINIJINJA_CONFIG_FILE: "{{.MINIJINJA_CONFIG_FILE}}"
-  TALOSCONFIG: '{{.TALOSCONFIG}}'
+  SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age.key"
+  TALOSCONFIG: "{{.TALOSCONFIG}}"
 
 includes:
   bootstrap: .taskfiles/bootstrap

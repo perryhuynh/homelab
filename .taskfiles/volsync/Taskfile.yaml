@@ -16,7 +16,7 @@ tasks:
     desc: List snapshots for an app [NS=default] [APP=required]
     preconditions:
       - which kubectl minijinja-cli
-      # - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
+      - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
       - test -f "{{.VOLSYNC_RESOURCES_DIR}}/list-snapshots.yaml.j2"
     requires:
       vars:
@@ -34,33 +34,6 @@ tasks:
       - kubectl --namespace {{.NS}} wait job/{{ .JOB }} --for=condition=complete --timeout=5m
       - stern --namespace {{.NS}} job/{{ .JOB }} --no-follow
       - kubectl --namespace {{.NS}} delete job {{ .JOB }}
-
-  state-*:
-    desc: Suspend or resume Volsync
-    cmds:
-      - flux --namespace volsync-system {{.STATE}} kustomization volsync
-      - flux --namespace volsync-system {{.STATE}} helmrelease volsync
-      - kubectl --namespace volsync-system scale deployment volsync --replicas {{if eq .STATE "suspend"}}0{{else}}1{{end}}
-    vars:
-      STATE: '{{index .MATCH 0}}'
-    preconditions:
-      - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
-      - which flux kubectl
-
-  snapshot:
-    desc: Snapshot an app [NS=default] [APP=required]
-    cmds:
-      - kubectl --namespace {{.NS}} patch replicationsources {{.APP}} --type merge -p '{"spec":{"trigger":{"manual":"{{now | unixEpoch}}"}}}'
-      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
-      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
-    vars:
-      NS: '{{.NS | default "default"}}'
-      JOB: volsync-src-{{.APP}}
-    requires:
-      vars: [APP]
-    preconditions:
-      - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
-      - which kubectl
 
   restore:
     desc: Restore an app [NS=default] [APP=required] [PREVIOUS=required]
@@ -103,6 +76,33 @@ tasks:
     preconditions:
       - test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.yaml.j2
       - which flux kubectl minijinja-cli
+
+  state-*:
+    desc: Suspend or resume Volsync
+    cmds:
+      - flux --namespace volsync-system {{.STATE}} kustomization volsync
+      - flux --namespace volsync-system {{.STATE}} helmrelease volsync
+      - kubectl --namespace volsync-system scale deployment volsync --replicas {{if eq .STATE "suspend"}}0{{else}}1{{end}}
+    vars:
+      STATE: '{{index .MATCH 0}}'
+    preconditions:
+      - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
+      - which flux kubectl
+
+  snapshot:
+    desc: Snapshot an app [NS=default] [APP=required]
+    cmds:
+      - kubectl --namespace {{.NS}} patch replicationsources {{.APP}} --type merge -p '{"spec":{"trigger":{"manual":"{{now | unixEpoch}}"}}}'
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
+    vars:
+      NS: '{{.NS | default "default"}}'
+      JOB: volsync-src-{{.APP}}
+    requires:
+      vars: [APP]
+    preconditions:
+      - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
+      - which kubectl
 
   unlock:
     desc: Unlock a restic source repo from local machine [NS=default] [APP=required]

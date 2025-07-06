@@ -4,16 +4,6 @@ version: '3'
 
 tasks:
 
-  generate-config:
-    desc: Generate Talos configuration
-    dir: '{{.TALOS_DIR}}'
-    cmd: talhelper genconfig
-    preconditions:
-      - test -f {{.TALOS_DIR}}/talconfig.yaml
-      - test -f {{.ROOT_DIR}}/.sops.yaml
-      - test -f {{.SOPS_AGE_KEY_FILE}}
-      - which talhelper
-
   apply-node:
     desc: Apply Talos config to a node [IP=required]
     dir: '{{.TALOS_DIR}}'
@@ -24,6 +14,68 @@ tasks:
       vars: [IP]
     preconditions:
       - talosctl --nodes {{.IP}} get machineconfig
+      - talosctl config info
+      - test -f {{.TALOSCONFIG}}
+      - which talhelper talosctl yq
+
+  generate-config:
+    desc: Generate Talos configuration
+    dir: '{{.TALOS_DIR}}'
+    cmd: talhelper genconfig
+    preconditions:
+      - test -f {{.TALOS_DIR}}/talconfig.yaml
+      - test -f {{.ROOT_DIR}}/.sops.yaml
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - which talhelper
+
+  reboot-node:
+    desc: Reboot Talos on a single node [IP=required] [MODE=powercycle]
+    cmd: talosctl --nodes {{.IP}} reboot --mode={{.MODE}}
+    vars:
+      MODE: '{{.MODE | default "powercycle"}}'
+    requires:
+      vars: [IP]
+    preconditions:
+      - talosctl --nodes {{.IP}} get machineconfig
+      - which talosctl
+
+  reset-cluster:
+    desc: Resets nodes back to maintenance mode
+    dir: '{{.TALOS_DIR}}'
+    prompt: This will destroy your cluster and reset the nodes back to maintenance mode... continue?
+    cmd: talhelper gencommand reset --extra-flags="--reboot {{- if eq .CLI_FORCE false }} --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL{{ end }} --graceful=false --wait=false" | bash
+    preconditions:
+      - which talhelper
+
+  reset-node:
+    desc: Reset Talos on a single node [IP=required]
+    prompt: Reset Talos node '{{.IP}}' ... continue?
+    cmd: talosctl reset --nodes {{.IP}} --graceful=false
+    requires:
+      vars: [IP]
+    preconditions:
+      - talosctl --nodes {{.IP}} get machineconfig
+      - which talosctl
+
+  shutdown-cluster:
+    desc: Shutdown Talos across the whole cluster
+    prompt: Shutdown the Talos cluster ... continue?
+    cmd: talosctl shutdown --nodes {{.NODES}} --force
+    vars:
+      NODES:
+        sh: talosctl config info --output json | jq --exit-status --join-output '[.nodes[]] | join(",")'
+    preconditions:
+      - talosctl --nodes {{.NODES}} get machineconfig
+      - which jq talosctl
+
+  upgrade-k8s:
+    desc: Upgrade Kubernetes
+    dir: '{{.TALOS_DIR}}'
+    cmd: talhelper gencommand upgrade-k8s --extra-flags "--to '{{.KUBERNETES_VERSION}}'" | bash
+    vars:
+      KUBERNETES_VERSION:
+        sh: yq '.kubernetesVersion' {{.TALOS_DIR}}/talenv.yaml
+    preconditions:
       - talosctl config info
       - test -f {{.TALOSCONFIG}}
       - which talhelper talosctl yq
@@ -44,23 +96,3 @@ tasks:
       - talosctl config info
       - test -f {{.TALOSCONFIG}}
       - which kubectl talhelper talosctl yq
-
-  upgrade-k8s:
-    desc: Upgrade Kubernetes
-    dir: '{{.TALOS_DIR}}'
-    cmd: talhelper gencommand upgrade-k8s --extra-flags "--to '{{.KUBERNETES_VERSION}}'" | bash
-    vars:
-      KUBERNETES_VERSION:
-        sh: yq '.kubernetesVersion' {{.TALOS_DIR}}/talenv.yaml
-    preconditions:
-      - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which talhelper talosctl yq
-
-  reset:
-    desc: Resets nodes back to maintenance mode
-    dir: '{{.TALOS_DIR}}'
-    prompt: This will destroy your cluster and reset the nodes back to maintenance mode... continue?
-    cmd: talhelper gencommand reset --extra-flags="--reboot {{- if eq .CLI_FORCE false }} --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL{{ end }} --graceful=false --wait=false" | bash
-    preconditions:
-      - which talhelper
