@@ -11,8 +11,10 @@ additionalApiServerCertSans: &sans
   - "192.168.1.20"
 additionalMachineCertSans: *sans
 
-clusterPodNets: ["10.42.0.0/16"]
-clusterSvcNets: ["10.43.0.0/16"]
+clusterPodNets:
+  - "10.42.0.0/16"
+clusterSvcNets:
+  - "10.43.0.0/16"
 
 # Disable built-in CNI to use Cilium
 cniConfig:
@@ -89,18 +91,17 @@ nodes:
       node.longhorn.io/create-default-disk: "true"
     patches:
       - |-
-          machine:
-            sysctls:
-              net.core.default_qdisc: fq             # 10Gb/s
-              net.ipv4.tcp_congestion_control: bbr   # 10Gb/s
-              net.ipv4.tcp_fastopen: 3               # Send and accept data in the opening SYN packet
-              net.ipv4.tcp_mtu_probing: 1            # 10Gb/s | Jumbo frames
-              net.ipv4.tcp_rmem: 4096 87380 33554432 # 10Gb/s
-              net.ipv4.tcp_wmem: 4096 65536 33554432 # 10Gb/s
-              net.ipv4.tcp_window_scaling: 1         # 10Gb/s
-              sunrpc.tcp_slot_table_entries: 128     # 10Gb/s | NFS
-              sunrpc.tcp_max_slot_table_entries: 128 # 10Gb/s | NFS
-
+        machine:
+          sysctls:
+            net.core.default_qdisc: fq             # 10Gb/s
+            net.ipv4.tcp_congestion_control: bbr   # 10Gb/s
+            net.ipv4.tcp_fastopen: 3               # Send and accept data in the opening SYN packet
+            net.ipv4.tcp_mtu_probing: 1            # 10Gb/s | Jumbo frames
+            net.ipv4.tcp_rmem: 4096 87380 33554432 # 10Gb/s
+            net.ipv4.tcp_wmem: 4096 65536 33554432 # 10Gb/s
+            net.ipv4.tcp_window_scaling: 1         # 10Gb/s
+            sunrpc.tcp_slot_table_entries: 128     # 10Gb/s | NFS
+            sunrpc.tcp_max_slot_table_entries: 128 # 10Gb/s | NFS
 
 # Global patches
 patches:
@@ -237,6 +238,10 @@ controlPlane:
             kind: KubeSchedulerConfiguration
             profiles:
               - schedulerName: default-scheduler
+                plugins:
+                score:
+                  disabled:
+                    - name: ImageLocality
                 pluginConfig:
                   - name: PodTopologySpread
                     args:
