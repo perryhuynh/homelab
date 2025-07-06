@@ -18,6 +18,7 @@ spec:
       runAsUser: {{ ENV.PUID }}
       runAsGroup: {{ ENV.PGID }}
       fsGroup: {{ ENV.PGID }}
-    enableFileDeletion: true
-    cleanupCachePVC: true
-    cleanupTempPVC: true
+    # TODO: uncomment after switching to rook-ceph
+    # enableFileDeletion: true
+    # cleanupCachePVC: true
+    # cleanupTempPVC: true
