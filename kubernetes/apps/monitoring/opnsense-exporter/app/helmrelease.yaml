@@ -81,7 +81,7 @@ spec:
                 $(OPNSENSE_EXPORTER_OPS_API_KEY):$(OPNSENSE_EXPORTER_OPS_API_SECRET)
               - "--data"
               - "{}"
-              - https://${SECRET_OPNSENSE_IP:=opnsense.home.arpa}/api/core/firmware/status
+              - https://opnsense.home.arpa/api/core/firmware/status
             envFrom: *envFrom
             resources: *resources
             securityContext: *securityContext
