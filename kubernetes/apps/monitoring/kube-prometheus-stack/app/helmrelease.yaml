@@ -62,76 +62,12 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
-    kubelet:
-      enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          # Remove duplicate labels provided by k3s
-          - action: keep
-            sourceLabels:
-              - "__name__"
-            regex: (apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authentication_token|cadvisor_version|container_blkio|container_cpu|container_fs|container_last|container_memory|container_network|container_oom|container_processes|container|csi_operations|disabled_metric|get_token|go|hidden_metric|kubelet_certificate|kubelet_cgroup|kubelet_container|kubelet_containers|kubelet_cpu|kubelet_device|kubelet_graceful|kubelet_http|kubelet_lifecycle|kubelet_managed|kubelet_node|kubelet_pleg|kubelet_pod|kubelet_run|kubelet_running|kubelet_runtime|kubelet_server|kubelet_started|kubelet_volume|kubernetes_build|kubernetes_feature|machine_cpu|machine_memory|machine_nvm|machine_scrape|node_namespace|plugin_manager|prober_probe|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scrape_duration|scrape_samples|scrape_series|storage_operation|volume_manager|volume_operation|workqueue)_(.+)
-          - action: replace
-            sourceLabels:
-              - "node"
-            targetLabel: instance
-          # Drop high cardinality labels
-          - action: labeldrop
-            regex: (uid)
-          - action: labeldrop
-            regex: (id|name)
-          - action: drop
-            sourceLabels:
-              - "__name__"
-            regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
-    kubeApiServer:
-      enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          # Remove duplicate labels provided by k3s
-          - action: keep
-            sourceLabels:
-              - "__name__"
-            regex: (aggregator_openapi|aggregator_unavailable|apiextensions_openapi|apiserver_admission|apiserver_audit|apiserver_cache|apiserver_cel|apiserver_client|apiserver_crd|apiserver_current|apiserver_envelope|apiserver_flowcontrol|apiserver_init|apiserver_kube|apiserver_longrunning|apiserver_request|apiserver_requested|apiserver_response|apiserver_selfrequest|apiserver_storage|apiserver_terminated|apiserver_tls|apiserver_watch|apiserver_webhooks|authenticated_user|authentication|disabled_metric|etcd_bookmark|etcd_lease|etcd_request|field_validation|get_token|go|grpc_client|hidden_metric|kube_apiserver|kubernetes_build|kubernetes_feature|node_authorizer|pod_security|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scrape_duration|scrape_samples|scrape_series|serviceaccount_legacy|serviceaccount_stale|serviceaccount_valid|watch_cache|workqueue)_(.+)
-          # Drop high cardinality labels
-          - action: drop
-            sourceLabels:
-              - "__name__"
-            regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
-          - action: drop
-            sourceLabels:
-              - "__name__"
-            regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
-    kubeControllerManager:
-      enabled: true
-      endpoints: &cp
-        - 192.168.1.11
-        - 192.168.1.12
-        - 192.168.1.13
-      serviceMonitor:
-        metricRelabelings:
-          # Remove duplicate labels provided by k3s
-          - action: keep
-            sourceLabels:
-              - "__name__"
-            regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|attachdetach_controller|authenticated_user|authentication|cronjob_controller|disabled_metric|endpoint_slice|ephemeral_volume|garbagecollector_controller|get_token|go|hidden_metric|job_controller|kubernetes_build|kubernetes_feature|leader_election|node_collector|node_ipam|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|pv_collector|registered_metric|replicaset_controller|rest_client|retroactive_storageclass|root_ca|running_managed|scrape_duration|scrape_samples|scrape_series|service_controller|storage_count|storage_operation|ttl_after|volume_operation|workqueue)_(.+)"
     kubeEtcd:
-      enabled: true
-      endpoints: *cp
-    kubeScheduler:
-      enabled: true
-      endpoints: *cp
-      serviceMonitor:
-        metricRelabelings:
-          # Remove duplicate labels provided by k3s
-          - action: keep
-            sourceLabels:
-              - "__name__"
-            regex: "(apiserver_audit|apiserver_client|apiserver_delegated|apiserver_envelope|apiserver_storage|apiserver_webhooks|authenticated_user|authentication|disabled_metric|go|hidden_metric|kubernetes_build|kubernetes_feature|leader_election|process_cpu|process_max|process_open|process_resident|process_start|process_virtual|registered_metric|rest_client|scheduler|scrape_duration|scrape_samples|scrape_series|workqueue)_(.+)"
+      service:
+        selector:
+          component: kube-apiserver
     kubeProxy:
       enabled: false
-    kubeStateMetrics:
-      enabled: true
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
@@ -205,7 +141,7 @@ spec:
             static_configs:
               - targets:
                   - nas.home.arpa:9100
-                  - ${SECRET_PIKVM_IP:=temp}:9100
+                  - pikvm.home.arpa:9100
           - job_name: smartctl-exporter
             metrics_path: /metrics
             static_configs:
@@ -215,12 +151,12 @@ spec:
             metrics_path: /api/export/prometheus/metrics
             static_configs:
               - targets:
-                  - ${SECRET_PIKVM_IP:=temp}
+                  - pikv.home.arpa
           - job_name: pc
             metrics_path: /metrics
             static_configs:
               - targets:
-                  - ${SECRET_DESKTOP_PC_IP:=temp}:9182
+                  - perry-desktop.home.arpa:9182
 
     prometheus-node-exporter:
       fullnameOverride: node-exporter
@@ -245,6 +181,83 @@ spec:
                 expr: count(time() - container_last_seen{image=~"(docker.io).*",container!=""} < 30) > 100
                 labels:
                   severity: critical
+      longhorn-rules:
+        groups:
+          - name: longhorn
+            namespace: kube-system.rules
+            rules:
+              - alert: LonghornVolumeActualSpaceUsedWarning
+                annotations:
+                  description: The actual space used by Longhorn volume {{$labels.volume}} on {{$labels.node}} is at {{$value}}% capacity for more than 5 minutes.
+                  summary: The actual used space of Longhorn volume is over 150% of the capacity.
+                expr: (longhorn_volume_actual_size_bytes / longhorn_volume_capacity_bytes) * 100 > 150
+                for: 5m
+                labels:
+                  issue: The actual used space of Longhorn volume {{$labels.volume}} on {{$labels.node}} is high.
+                  severity: warning
+              - alert: LonghornVolumeStatusCritical
+                annotations:
+                  description: Longhorn volume {{$labels.volume}} on {{$labels.node}} is Fault for more than 2 minutes.
+                  summary: Longhorn volume {{$labels.volume}} is Fault
+                expr: longhorn_volume_robustness == 3
+                for: 5m
+                labels:
+                  issue: Longhorn volume {{$labels.volume}} is Fault.
+                  severity: critical
+              - alert: LonghornVolumeStatusWarning
+                annotations:
+                  description: Longhorn volume {{$labels.volume}} on {{$labels.node}} is Degraded for more than 5 minutes.
+                  summary: Longhorn volume {{$labels.volume}} is Degraded
+                expr: longhorn_volume_robustness == 2
+                for: 5m
+                labels:
+                  issue: Longhorn volume {{$labels.volume}} is Degraded.
+                  severity: warning
+              - alert: LonghornNodeStorageWarning
+                annotations:
+                  description: The used storage of node {{$labels.node}} is at {{$value}}% capacity for more than 5 minutes.
+                  summary: The used storage of node is over 70% of the capacity.
+                expr: (longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes) * 100 > 70
+                for: 5m
+                labels:
+                  issue: The used storage of node {{$labels.node}} is high.
+                  severity: warning
+              - alert: LonghornDiskStorageWarning
+                annotations:
+                  description: The used storage of disk {{$labels.disk}} on node {{$labels.node}} is at {{$value}}% capacity for more than 5 minutes.
+                  summary: The used storage of disk is over 70% of the capacity.
+                expr: (longhorn_disk_usage_bytes / longhorn_disk_capacity_bytes) * 100 > 70
+                for: 5m
+                labels:
+                  issue: The used storage of disk {{$labels.disk}} on node {{$labels.node}} is high.
+                  severity: warning
+              - alert: LonghornNodeDown
+                annotations:
+                  description: There are {{$value}} Longhorn nodes which have been offline for more than 5 minutes.
+                  summary: Longhorn nodes is offline
+                expr: (avg(longhorn_node_count_total) or on() vector(0)) - (count(longhorn_node_status{condition="ready"} == 1) or on() vector(0)) > 0
+                for: 5m
+                labels:
+                  issue: There are {{$value}} Longhorn nodes are offline
+                  severity: critical
+              - alert: LonghornIntanceManagerCPUUsageWarning
+                annotations:
+                  description: Longhorn instance manager {{$labels.instance_manager}} on {{$labels.node}} has CPU Usage / CPU request is {{$value}}% for more than 5 minutes.
+                  summary: Longhorn instance manager {{$labels.instance_manager}} on {{$labels.node}} has CPU Usage / CPU request is over 300%.
+                expr: (longhorn_instance_manager_cpu_usage_millicpu/longhorn_instance_manager_cpu_requests_millicpu) * 100 > 300
+                for: 5m
+                labels:
+                  issue: Longhorn instance manager {{$labels.instance_manager}} on {{$labels.node}} consumes 3 times the CPU request.
+                  severity: warning
+              - alert: LonghornNodeCPUUsageWarning
+                annotations:
+                  description: Longhorn node {{$labels.node}} has CPU Usage / CPU capacity is {{$value}}% for more than 5 minutes.
+                  summary: Longhorn node {{$labels.node}} experiences high CPU pressure for more than 5m.
+                expr: (longhorn_node_cpu_usage_millicpu / longhorn_node_cpu_capacity_millicpu) * 100 > 90
+                for: 5m
+                labels:
+                  issue: Longhorn node {{$labels.node}} experiences high CPU pressure.
+                  severity: warning
       oom-rules:
         groups:
           - name: oom
