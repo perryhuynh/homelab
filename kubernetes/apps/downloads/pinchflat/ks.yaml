@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app pinchflat
-  namespace: flux-system
+  namespace: &namespace downloads
 spec:
-  targetNamespace: downloads
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -14,14 +14,19 @@ spec:
     - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: intel-device-plugin-gpu
+      namespace: kube-system
     - name: keda
+      namespace: monitoring
     - name: longhorn
+      namespace: kube-system
     - name: volsync
+      namespace: volsync-system
   path: ./kubernetes/apps/downloads/pinchflat/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m
