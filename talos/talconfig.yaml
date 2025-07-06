@@ -71,6 +71,25 @@ nodes:
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
       node.longhorn.io/create-default-disk: "true"
+  - hostname: "wizone"
+    ipAddress: "192.168.1.24"
+    installDiskSelector:
+      model: SAMSUNG MZ1LB960HAJQ-00007
+    machineSpec:
+      secureboot: false
+    talosImageURL: *imageUrl
+    controlPlane: false
+    networkInterfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: "58:47:ca:74:f0:45"
+            - hardwareAddr: "58:47:ca:74:f0:46"
+        dhcp: true
+        vip: *kubeVip
+    nodeLabels:
+      intel.feature.node.kubernetes.io/gpu: "true"
+      node.longhorn.io/create-default-disk: "true"
 
 # Global patches
 patches:
