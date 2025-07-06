@@ -80,16 +80,27 @@ nodes:
     talosImageURL: *imageUrl
     controlPlane: false
     networkInterfaces:
-      - interface: bond0
-        bond:
-          deviceSelectors:
-            - hardwareAddr: "58:47:ca:74:f0:45"
-            - hardwareAddr: "58:47:ca:74:f0:46"
+      - deviceSelector:
+          hardwareAddr: "58:47:ca:74:f0:45"
+          driver: i40e
         dhcp: true
-        vip: *kubeVip
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
       node.longhorn.io/create-default-disk: "true"
+    patches:
+      - |-
+          machine:
+            sysctls:
+              net.core.default_qdisc: fq             # 10Gb/s
+              net.ipv4.tcp_congestion_control: bbr   # 10Gb/s
+              net.ipv4.tcp_fastopen: 3               # Send and accept data in the opening SYN packet
+              net.ipv4.tcp_mtu_probing: 1            # 10Gb/s | Jumbo frames
+              net.ipv4.tcp_rmem: 4096 87380 33554432 # 10Gb/s
+              net.ipv4.tcp_wmem: 4096 65536 33554432 # 10Gb/s
+              net.ipv4.tcp_window_scaling: 1         # 10Gb/s
+              sunrpc.tcp_slot_table_entries: 128     # 10Gb/s | NFS
+              sunrpc.tcp_max_slot_table_entries: 128 # 10Gb/s | NFS
+
 
 # Global patches
 patches:
@@ -134,17 +145,6 @@ patches:
           enabled: true
           resolveMemberNames: true
           forwardKubeDNSToHost: false
-  # Enable K8s Talos API Access
-  - |-
-    machine:
-      features:
-        kubernetesTalosAPIAccess:
-          enabled: true
-          allowedRoles:
-            - os:admin
-          allowedKubernetesNamespaces:
-            - actions-runner-system
-            - system-upgrade
   # Configure kubelet
   - |-
     machine:
@@ -251,6 +251,17 @@ controlPlane:
     - |-
       - op: remove
         path: /cluster/apiServer/admissionControl
+    # Enable K8s Talos API Access
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - actions-runner-system
+              - system-upgrade
   schematic:
     customization:
       systemExtensions:
