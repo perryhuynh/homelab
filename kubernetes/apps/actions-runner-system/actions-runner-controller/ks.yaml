@@ -10,9 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: external-secrets-stores
-      namespace: external-secrets
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: *app
+      namespace: *namespace
   path: ./kubernetes/apps/actions-runner-system/actions-runner-controller/app
   prune: true
   sourceRef:
@@ -37,6 +39,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: actions-runner-controller
+      namespace: *namespace
+    - name: external-secrets-stores
+      namespace: external-secrets
+    - name: openebs
+      namespace: openebs
   path: ./kubernetes/apps/actions-runner-system/actions-runner-controller/runners
   prune: true
   sourceRef:
