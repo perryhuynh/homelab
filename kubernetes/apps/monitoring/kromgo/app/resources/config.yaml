@@ -3,7 +3,7 @@
 metrics:
   - name: flux_version
     query: label_replace(flux_instance_info, "revision", "$1", "revision", "v(.+)@sha256:.+")
-    label: flux_version
+    label: revision
     title: Flux
 
   - name: kubernetes_version
