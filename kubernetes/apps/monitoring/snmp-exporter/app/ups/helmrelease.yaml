@@ -50,7 +50,7 @@ spec:
         - name: ups-0
           auth: ["public_v1"]
           module: ["rfc1628_ups"]
-          target: ${SECRET_UPS_IP:=temp}
+          target: ups.home.arpa
       path: /snmp
       scrapeTimeout: 10s
       relabelings:

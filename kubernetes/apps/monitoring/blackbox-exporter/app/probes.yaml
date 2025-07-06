@@ -12,7 +12,7 @@ spec:
     staticConfig:
       static:
         - nas.home.arpa
-        - ${SECRET_PIKVM_IP}
+        - pikvm.home.arpa
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
 apiVersion: monitoring.coreos.com/v1
