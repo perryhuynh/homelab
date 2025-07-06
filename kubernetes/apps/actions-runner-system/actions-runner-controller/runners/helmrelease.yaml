@@ -17,7 +17,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: arc-home-ops
+  name: &app homelab-actions-runner
 spec:
   interval: 30m
   chartRef:
@@ -49,15 +49,39 @@ spec:
     runnerScaleSetName: arc-runner-set-homelab
     githubConfigUrl: https://github.com/perryhuynh/homelab
     minRunners: 1
-    maxRunners: 6
+    maxRunners: 3
     containerMode:
-      type: dind
+      type: kubernetes
+      kubernetesModeWorkVolumeClaim:
+        accessModes:
+          - "ReadWriteOnce"
+        storageClassName: openebs-hostpath
+        resources:
+          requests:
+            storage: 25Gi
+    controllerServiceAccount:
+      name: actions-runner-controller-gha-rs-controller
+      namespace: actions-runner-system
     template:
       spec:
         containers:
           - name: runner
             image: ghcr.io/home-operations/actions-runner:2.325.0@sha256:8345f634bbaaedbbdff1abb212649b1821baf295e5bcddf420f07847d7f35a87
-            command: ["/home/runner/run.sh"]
-    controllerServiceAccount:
-      name: actions-runner-controller-gha-rs-controller
-      namespace: actions-runner-system
+            command:
+              - "/home/runner/run.sh"
+            env:
+              - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
+                value: "false"
+              - name: NODE
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.hostIP
+            volumeMounts:
+              - mountPath: /var/run/secrets/talos.dev
+                name: talos
+                readOnly: true
+        serviceAccountName: *app
+        volumes:
+          - name: talos
+            secret:
+              secretName: *app
