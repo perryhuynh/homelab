@@ -95,7 +95,7 @@ jobs:
     if: ${{ needs.diff.outputs.images != '[]' }}
     needs: diff
     name: Pull Images
-    runs-on: arc-runner-set-homelab
+    runs-on: homelab-actions-runner
     strategy:
       matrix:
         image: ${{ fromJSON(needs.diff.outputs.images) }}
