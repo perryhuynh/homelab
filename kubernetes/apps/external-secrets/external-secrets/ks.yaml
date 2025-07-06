@@ -10,6 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: external-secrets
+      namespace: *namespace
   decryption:
     provider: sops
     secretRef:
@@ -36,11 +41,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: external-secrets
-      namespace: *namespace
   healthCheckExprs:
     - apiVersion: external-secrets.io/v1
       kind: ClusterSecretStore
@@ -48,7 +48,9 @@ spec:
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   dependsOn:
     - name: external-secrets
+      namespace: *namespace
     - name: onepassword-connect
+      namespace: *namespace
   path: ./kubernetes/apps/external-secrets/external-secrets/stores
   prune: true
   sourceRef:
