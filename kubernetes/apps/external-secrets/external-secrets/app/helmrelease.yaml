@@ -33,22 +33,6 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  values:
-    installCRDS: true
-    image:
-      repository: ghcr.io/external-secrets/external-secrets
-    webhook:
-      image:
-        repository: ghcr.io/external-secrets/external-secrets
-      serviceMonitor:
-        enabled: true
-        interval: 1m
-    certController:
-      image:
-        repository: ghcr.io/external-secrets/external-secrets
-      serviceMonitor:
-        enabled: true
-        interval: 1m
-    serviceMonitor:
-      enabled: true
-      interval: 1m
+  valuesFrom:
+    - kind: ConfigMap
+      name: external-secrets-values

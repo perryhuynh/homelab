@@ -38,6 +38,14 @@ releases:
     values: ['../kubernetes/apps/cert-manager/cert-manager/app/helm/values.yaml']
     needs: ['kube-system/spegel']
 
+  - name: external-secrets
+    namespace: external-secrets
+    atomic: true
+    chart: oci://ghcr.io/external-secrets/charts/external-secrets
+    version: 0.18.2
+    values: ['../kubernetes/apps/external-secrets/external-secrets/app/helm/values.yaml']
+    needs: ['kube-system/spegel']
+
   - name: longhorn
     namespace: kube-system
     atomic: true

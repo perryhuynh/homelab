@@ -11,8 +11,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-secrets-stores
-      namespace: external-secrets
     - name: longhorn
       namespace: kube-system
     - name: snapshot-controller
