@@ -38,7 +38,7 @@ _... managed with Flux, Renovate, and GitHub Actions_ 🤖
 | Device                        | Count | OS Disk Size | Ram   | Operating System | Purpose                  |
 |-------------------------------|-------|--------------|-------|------------------|--------------------------|
 | Intel NUC NUC12WSKi5          | 3     | 960GB M.2    | 64GB  | Talos            | Kubernetes Control Plane |
-| Minisforum MS-01 i9-13900H    | 3     | 960GB M.2    | 96GB  | Talos            | Kubernetes Worker        |
+| Minisforum MS-01 i9-13900H    | 1     | 960GB M.2    | 96GB  | Talos            | Kubernetes Worker        |
 | TrueNAS Mini XL+              | 1     | 250GB SATA   | 64GB  | TrueNAS SCALE    | NFS/SMB                  |
 | PiKVM (RasPi 4)               | 1     | 64GB (SD)    | 4GB   | PiKVM            | KVM                      |
 | TESmart 8 Port KVM Switch     | 1     | -            | -     | -                | Network KVM (for PiKVM)  |
