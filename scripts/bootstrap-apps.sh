@@ -58,7 +58,6 @@ function apply_sops_secrets() {
     log debug "Applying secrets"
 
     local -r secrets=(
-        "${ROOT_DIR}/bootstrap/github-deploy-key.sops.yaml"
         "${ROOT_DIR}/kubernetes/components/common/sops/cluster-secrets.sops.yaml"
         "${ROOT_DIR}/kubernetes/components/common/sops/sops-age.sops.yaml"
     )
@@ -110,6 +109,28 @@ function apply_crds() {
     done
 }
 
+# Resources to be applied before the helmfile charts are installed
+function apply_resources() {
+    log debug "Applying resources"
+
+    local -r resources_file="${ROOT_DIR}/bootstrap/resources.yaml.j2"
+
+    if ! output=$(render_template "${resources_file}") || [[ -z "${output}" ]]; then
+        exit 1
+    fi
+
+    if echo "${output}" | kubectl diff --filename - &>/dev/null; then
+        log info "Resources are up-to-date"
+        return
+    fi
+
+    if echo "${output}" | kubectl apply --server-side --filename - &>/dev/null; then
+        log info "Resources applied"
+    else
+        log error "Failed to apply resources"
+    fi
+}
+
 # Sync Helm releases
 function sync_helm_releases() {
     log debug "Syncing Helm releases"
@@ -136,6 +157,7 @@ function main() {
     apply_namespaces
     apply_sops_secrets
     apply_crds
+    apply_resources
     sync_helm_releases
 
     log info "Congrats! The cluster is bootstrapped and Flux is syncing the Git repository"
