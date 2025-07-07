@@ -47,7 +47,16 @@ totp:
   issuer: authelia.com
 
 webauthn:
-  disable: true
+  enable_passkey_login: true
+  attestation_conveyance_preference: "direct"
+  filtering:
+    prohibit_backup_eligibility: true
+  metadata:
+    enabled: true
+    validate_trust_anchor: true
+    validate_entry: true
+    validate_status: true
+    validate_entry_permit_zero_aaguid: false
 
 duo_api:
   disable: true
