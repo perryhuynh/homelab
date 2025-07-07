@@ -22,6 +22,8 @@ spec:
   values:
     controllers:
       maddy:
+        replicas: 2
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -32,7 +34,7 @@ spec:
             env:
               SMTP_RELAY_SMTP_PORT: &port 25
               SMTP_RELAY_METRICS_PORT: &metricsPort 8080
-              SMTP_RELAY_SERVER_PORT: 465
+              SMTP_RELAY_SERVER_PORT: 587
             envFrom:
               - secretRef:
                   name: maddy-secret
@@ -50,8 +52,6 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-        replicas: 2
-        strategy: RollingUpdate
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
