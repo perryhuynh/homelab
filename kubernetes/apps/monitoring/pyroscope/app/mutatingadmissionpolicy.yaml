@@ -20,7 +20,7 @@ spec:
         operations: ["CREATE", "UPDATE"]
         resources: ["deployments"]
   matchConditions:
-    - name: has-volsync-created-by-labels
+    - name: has-pyroscope-dotnet-alpine
       expression: >
         object.metadata.labels["instrumentation.grafana.com/pyroscope"] == "dotnet-alpine"
   failurePolicy: Fail
