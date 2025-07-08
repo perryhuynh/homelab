@@ -1,14 +1,12 @@
-# Trash
-.DS_Store
-Thumbs.db
-# k8s
-kubeconfig
-.decrypted~*.yaml
-.config.env
-*.agekey
-*.pub
+/.private/
+/.task/
+/.venv/
+*.crt
 *.key
-# Ansible
-.venv*
-# Taskfile
-.tasks
+.decrypted~*
+.DS_Store
+Brewfile.lock.json
+Thumbs.db
+kubeconfig
+onepassword.env
+talosconfig
