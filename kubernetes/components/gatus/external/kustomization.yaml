@@ -5,7 +5,7 @@ kind: Component
 configMapGenerator:
   - name: ${APP}-gatus-ep
     files:
-      - config.yaml=./config.yaml
+      - config.yaml=./resources/config.yaml
     options:
       labels:
         gatus.io/enabled: "true"
