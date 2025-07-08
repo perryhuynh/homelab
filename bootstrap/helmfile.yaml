@@ -99,7 +99,7 @@ releases:
     values:
       - "../kubernetes/apps/kube-system/longhorn/app/helm/values.yaml"
     needs:
-      - "kube-system/spegel"
+      - "external-secrets/external-secrets"
 
   - name: snapshot-controller
     namespace: kube-system
