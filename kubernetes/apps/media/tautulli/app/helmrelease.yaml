@@ -67,19 +67,6 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile:
               type: RuntimeDefault
-    ingress:
-      tailscale:
-        className: tailscale
-        hosts:
-          - host: *app
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *app
     persistence:
       config:
         enabled: true

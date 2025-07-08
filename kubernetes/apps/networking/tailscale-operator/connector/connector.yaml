@@ -14,5 +14,5 @@ kind: Connector
 metadata:
   name: &name exit-node
 spec:
-  hostname: *name
+  hostname: homelab-egress
   exitNode: true
