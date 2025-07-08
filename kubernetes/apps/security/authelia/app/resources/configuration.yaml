@@ -30,7 +30,7 @@ session:
     - name: perryhuynh_session
       domain: perryhuynh.com
       authelia_url: https://auth.perryhuynh.com
-      default_redirection_url: https://auth.perryhuynh.com
+      default_redirection_url: https://status.perryhuynh.com
   redis:
     database_index: 2
     host: dragonfly.database.svc.cluster.local
