@@ -40,22 +40,8 @@ spec:
         create: false
         name: &name alloy-config
         key: config.alloy
-      securityContext:
-        runAsUser: 0
-        runAsGroup: 0
-        runAsNonRoot: false
-        capabilities:
-          add:
-            - PERFMON
-            - SYS_PTRACE
-            - SYS_RESOURCE
-            - SYS_ADMIN
-        privileged: true
     controller:
-      hostPID: true
       podAnnotations:
         configmap.reloader.stakater.com/reload: *name
-    configReloader:
-      enabled: false
     serviceMonitor:
       enabled: true
