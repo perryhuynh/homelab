@@ -98,7 +98,7 @@ releases:
           - --server-side
           - --field-manager=kustomize-controller
           - --filename
-          - ../kubernetes/apps/external-secrets/external-secrets/stores/clustersecretstore.yaml
+          - ../kubernetes/apps/external-secrets/external-secrets/app/clustersecretstore.yaml
           - --wait=true
         showlogs: true
     needs:
