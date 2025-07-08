@@ -42,6 +42,19 @@ releases:
     version: v1.17.2
     values:
       - "../kubernetes/apps/cert-manager/cert-manager/app/helm/values.yaml"
+    hooks:
+      - events:
+          - "postsync"
+        command: kubectl
+        args:
+          - apply
+          - --namespace=cert-manager
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename
+          - ../kubernetes/apps/cert-manager/cert-manager/app/issuers.yaml
+          - --wait=true
+        showlogs: true
     needs:
       - "kube-system/spegel"
 

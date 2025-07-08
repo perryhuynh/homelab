@@ -28,3 +28,12 @@ metadata:
 stringData:
   1password-credentials.json: op://kubernetes/1password/credentials
   token: op://kubernetes/1password/token
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cert-manager-secret
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api_key: op://kubernetes/cloudflare/api_key
