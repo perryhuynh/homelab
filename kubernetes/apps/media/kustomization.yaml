@@ -7,6 +7,7 @@ components:
   - ../../components/common
 resources:
   - ./kavita/ks.yaml
+  - ./jellyfin/ks.yaml
   - ./jellyseerr/ks.yaml
   - ./plex/ks.yaml
   - ./suwayomi/ks.yaml
