@@ -44,7 +44,7 @@ spec:
               }
             },
             JSONPatch{
-              op: "add", path: "/spec/template/spec/initContainers/0/volumeMounts/-",
+              op: "add", path: "/spec/template/spec/initContainers/0/volumeMounts",
               value: []
             },
             JSONPatch{
