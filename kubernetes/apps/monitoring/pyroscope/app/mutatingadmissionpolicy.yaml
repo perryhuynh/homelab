@@ -60,7 +60,7 @@ spec:
               value: Object.spec.template.spec.containers.volumeMounts{
                 name: "pyroscope",
                 mountPath: "/pyroscope",
-                subPath: "logs"
+                subPath: "pyroscope"
               }
             },
             JSONPatch{
