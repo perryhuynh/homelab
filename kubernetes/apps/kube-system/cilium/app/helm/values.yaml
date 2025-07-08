@@ -24,6 +24,8 @@ envoy:
       enabled: true
 gatewayAPI:
   enabled: true
+  enableAlpn: true
+  xffNumTrustedHops: 1
 hubble:
   enabled: false
 ipam:
@@ -46,7 +48,7 @@ operator:
     enabled: true
     serviceMonitor:
       enabled: true
-  replicas: 1
+  replicas: 2
   rollOutPods: true
 prometheus:
   enabled: true
