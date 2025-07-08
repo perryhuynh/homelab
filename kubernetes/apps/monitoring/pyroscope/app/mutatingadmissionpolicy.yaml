@@ -70,7 +70,7 @@ spec:
             JSONPatch{
               op: "add", path: "/spec/template/spec/volumes/-",
               value: Object.spec.template.spec.volumes{
-                name: "repository",
+                name: "pyroscope",
                 emptyDir: Object.spec.template.spec.volumes.emptyDir{
                 }
               }
