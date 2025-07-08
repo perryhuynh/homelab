@@ -34,7 +34,7 @@ spec:
             env:
               OPNSENSE_EXPORTER_INSTANCE_LABEL: "gw"
               OPNSENSE_EXPORTER_DISABLE_OPENVPN: "true"
-              OPNSENSE_EXPORTER_OPS_API: "${SECRET_OPNSENSE_IP:=opnsense.home.arpa}"
+              OPNSENSE_EXPORTER_OPS_API: "192.168.1.1"
               OPNSENSE_EXPORTER_OPS_INSECURE: true
               OPNSENSE_EXPORTER_OPS_PROTOCOL: https
             envFrom: &envFrom
