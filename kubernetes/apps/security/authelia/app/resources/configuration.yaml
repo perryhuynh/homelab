@@ -49,8 +49,6 @@ totp:
 webauthn:
   enable_passkey_login: true
   attestation_conveyance_preference: "direct"
-  filtering:
-    prohibit_backup_eligibility: true
   metadata:
     enabled: true
     validate_trust_anchor: true
