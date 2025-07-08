@@ -2,7 +2,17 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: &name k8s-exit-node
+  name: app-connector
+spec:
+  appConnector:
+    routes:
+      - 192.168.1.0/24
+  hostname: homelab-ingress
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: &name exit-node
 spec:
   hostname: *name
   exitNode: true
