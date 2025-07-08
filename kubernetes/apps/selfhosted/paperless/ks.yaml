@@ -15,7 +15,7 @@ spec:
       namespace: database
     - name: dragonfly-cluster
       namespace: database
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
     - name: paperless-gotenberg
       namespace: selfhosted
