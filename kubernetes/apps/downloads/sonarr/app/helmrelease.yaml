@@ -24,8 +24,6 @@ spec:
       sonarr:
         annotations:
           reloader.stakater.com/auto: "true"
-        labels:
-          instrumentation.grafana.com/pyroscope: "dotnet-alpine"
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
           securityContext:

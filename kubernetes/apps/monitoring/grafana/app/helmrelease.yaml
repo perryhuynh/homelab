@@ -141,11 +141,6 @@ spec:
             url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
-          - name: Pyroscope
-            type: grafana-pyroscope-datasource
-            uid: pyroscope
-            access: proxy
-            url: http://pyroscope-headless.monitoring.svc.cluster.local:4040
     dashboards:
       default:
         cert-manager:

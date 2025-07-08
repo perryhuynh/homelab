@@ -61,8 +61,6 @@ spec:
               capabilities: {drop: ["ALL"]}
               readOnlyRootFileSystem: true
     defaultPodOptions:
-      labels:
-        instrumentation.grafana.com/pyroscope: "java"
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
