@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: external-dns-cloudflare
       namespace: networking
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
   path: ./kubernetes/apps/networking/cloudflared/app
   postBuild:
