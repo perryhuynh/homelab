@@ -44,6 +44,10 @@ spec:
               }
             },
             JSONPatch{
+              op: "add", path: "/spec/template/spec/initContainers0/volumeMounts/-",
+              value: []
+            },
+            JSONPatch{
               op: "add", path: "/spec/template/spec/initContainers/0/volumeMounts/-",
               value: Object.spec.template.spec.containers.volumeMounts{
                 name: "pyroscope",
