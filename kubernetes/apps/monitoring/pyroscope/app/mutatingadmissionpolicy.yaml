@@ -1,0 +1,78 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.0/mutatingadmissionpolicybinding-admissionregistration-v1alpha1.json
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: pyroscope-dotnet-alpine
+spec:
+  policyName: pyroscope-dotnet-alpine
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.0/mutatingadmissionpolicy-admissionregistration-v1alpha1.json
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: pyroscope-dotnet-alpine
+spec:
+  matchConstraints:
+    resourceRules:
+      - apiGroups: ["apps"]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["deployments"]
+  matchConditions:
+    - name: has-volsync-created-by-labels
+      expression: >
+        object.metadata.labels["instrumentation.grafana.com/pyroscope"] == "dotnet-alpine"
+  failurePolicy: Fail
+  reinvocationPolicy: IfNeeded
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: >
+          [
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/initContainers",
+              value: []
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/initContainers/-",
+              value: Object.spec.template.spec.initContainers{
+                name: "init-pyroscope",
+                image: "docker.io/pyroscope/pyroscope-dotnet:0.10.0-musl@sha256:a10fb562918a3f9f7056adf80b78f4267876328e6e47d5183420dfa03304072c",
+                imagePullPolicy: "IfNotPresent",
+                command: ["sh", "-c" "cp /Pyroscope*.so /pyroscope"]
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/initContainers/0/volumeMounts/-",
+              value: Object.spec.template.spec.containers.volumeMounts{
+                name: "pyroscope",
+                mountPath: "/pyroscope",
+                subPath: "pyroscope"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/volumeMounts/-",
+              value: Object.spec.template.spec.containers.volumeMounts{
+                name: "pyroscope",
+                mountPath: "/pyroscope",
+                subPath: "logs"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/volumeMounts/-",
+              value: Object.spec.template.spec.containers.volumeMounts{
+                name: "pyroscope",
+                mountPath: "/pyroscope",
+                subPath: "logs"
+              }
+            }
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/volumes/-",
+              value: Object.spec.template.spec.volumes{
+                name: "repository",
+                emptyDir: Object.spec.template.spec.volumes.emptyDir{
+                }
+              }
+            }
+          ]
