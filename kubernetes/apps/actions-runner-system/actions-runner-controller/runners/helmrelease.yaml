@@ -25,13 +25,11 @@ spec:
     name: gha-runner-scale-set
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   valuesFrom:
     - targetPath: githubConfigSecret.github_app_id
       kind: Secret

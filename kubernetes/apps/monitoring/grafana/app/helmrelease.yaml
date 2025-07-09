@@ -23,16 +23,13 @@ spec:
   chartRef:
     kind: OCIRepository
     name: grafana
-  maxHistory: 2
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     env:
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true

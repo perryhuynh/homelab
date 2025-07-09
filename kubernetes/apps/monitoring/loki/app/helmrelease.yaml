@@ -23,7 +23,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: loki
-  maxHistory: 2
   install:
     crds: Skip
     remediation:
@@ -34,8 +33,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     deploymentMode: SingleBinary
     loki:

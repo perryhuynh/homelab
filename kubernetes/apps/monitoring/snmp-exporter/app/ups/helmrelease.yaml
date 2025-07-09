@@ -25,18 +25,17 @@ spec:
     name: prometheus-snmp-exporter
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     fullnameOverride: *app
     image:
       repository: quay.io/prometheus/snmp-exporter
-    extraArgs: ["--config.file=/config/snmp.yaml"]
+    extraArgs:
+      - "--config.file=/config/snmp.yaml"
     extraConfigmapMounts:
       - name: &name rfc1628-ups-configmap
         mountPath: /config/snmp.yaml
@@ -48,10 +47,12 @@ spec:
       enabled: true
       params:
         - name: ups-0
-          auth: ["public_v1"]
-          module: ["rfc1628_ups"]
+          auth:
+            - "public_v1"
+          module:
+            - "rfc1628_ups"
           target: ups.home.arpa
       path: /snmp
       scrapeTimeout: 10s
       relabelings:
-        - { sourceLabels: ["__param_target"], targetLabel: instance }
+        - {sourceLabels: ["__param_target"], targetLabel: instance}

@@ -9,16 +9,13 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
-  maxHistory: 2
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       tagging:
@@ -31,16 +28,15 @@ spec:
           failedJobsHistory: 1
         initContainers:
           tagging: &container
-            args: [
-              "tagging",
-              "--added-on",
-              "--expired",
-              "--last-activity",
-              "--not-linked",
-              "--not-working",
-              "--sites",
-              "--unregistered"
-            ]
+            args:
+              - "tagging"
+              - "--added-on"
+              - "--expired"
+              - "--last-activity"
+              - "--not-linked"
+              - "--not-working"
+              - "--sites"
+              - "--unregistered"
             env:
               QBITTORRENT_HOST: qbittorrent.downloads.svc.cluster.local
               QBITTORRENT_PORT: 80
@@ -55,61 +51,66 @@ spec:
                 memory: 256Mi
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
         containers:
           unlinked:
-            <<: *container
-            args: [
-              "prune",
-              "--exclude-category", "manual",
-              "--exclude-tag", "added:1d",
-              "--include-tag", "expired",
-              "--include-tag", "not-linked",
-              "--with-data"
+            !!merge <<: *container
+            args:
+              - "prune"
+              - "--exclude-category"
+              - "manual"
+              - "--exclude-tag"
+              - "added:1d"
+              - "--include-tag"
+              - "expired"
+              - "--include-tag"
+              - "not-linked"
+              - "--with-data"
               # "--dry-run"
-            ]
           unregistered:
-            <<: *container
-            args: [
-              "prune",
-              "--exclude-category", "manual",
-              "--exclude-tag", "added:1d",
-              "--include-tag", "unregistered",
-              "--with-data"
+            !!merge <<: *container
+            args:
+              - "prune"
+              - "--exclude-category"
+              - "manual"
+              - "--exclude-tag"
+              - "added:1d"
+              - "--include-tag"
+              - "unregistered"
+              - "--with-data"
               # "--dry-run"
-            ]
         pod:
           restartPolicy: OnFailure
       orphaned:
         type: cronjob
         cronjob:
-          <<: *cronJobSpec
+          !!merge <<: *cronJobSpec
           schedule: "@daily"
         containers:
           app:
-            <<: *container
-            args: [
-              "orphaned",
-              "--exclude-pattern",  "*/incomplete/*",
-              "--exclude-pattern",  "*/manual/*"
+            !!merge <<: *container
+            args:
+              - "orphaned"
+              - "--exclude-pattern"
+              - "*/incomplete/*"
+              - "--exclude-pattern"
+              - "*/manual/*"
               # "--dry-run"
-            ]
       reannounce:
         containers:
           app:
-            <<: *container
-            args: [
-              "reannounce",
-              "--process-seeding"
-            ]
+            !!merge <<: *container
+            args:
+              - "reannounce"
+              - "--process-seeding"
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-        seccompProfile: { type: RuntimeDefault }
+        seccompProfile: {type: RuntimeDefault}
     persistence:
       secret-file:
         type: secret

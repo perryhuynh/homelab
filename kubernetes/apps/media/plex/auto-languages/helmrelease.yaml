@@ -9,16 +9,13 @@ spec:
   chartRef:
     kind: OCIRepository
     name: app-template
-  maxHistory: 2
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       plex-auto-languages:
@@ -40,7 +37,7 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false
@@ -48,7 +45,7 @@ spec:
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
-            seccompProfile: { type: RuntimeDefault }
+            seccompProfile: {type: RuntimeDefault}
     persistence:
       cache:
         type: emptyDir

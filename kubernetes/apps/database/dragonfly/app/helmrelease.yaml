@@ -11,7 +11,7 @@ spec:
     name: app-template
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
@@ -27,7 +27,8 @@ spec:
             image:
               repository: ghcr.io/dragonflydb/operator
               tag: v1.1.11@sha256:11cef45ec1079b9d97930fc99ecd08ba29d4eca55cdb45887cb0ac40ee4e4d24
-            command: ["/manager"]
+            command:
+              - "/manager"
             args:
               - --health-probe-bind-address=:8081
               - --metrics-bind-address=:8080
@@ -64,7 +65,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
         pod:
           securityContext:
             runAsUser: 65534
@@ -84,27 +85,76 @@ spec:
         dragonfly-operator:
           type: ClusterRole
           rules:
-            - apiGroups: ["coordination.k8s.io"]
-              resources: ["leases"]
-              verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-            - apiGroups: [""]
-              resources: ["events"]
-              verbs: ["create", "patch"]
-            - apiGroups: [""]
-              resources: ["pods", "services"]
-              verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
-            - apiGroups: ["apps"]
-              resources: ["statefulsets"]
-              verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
-            - apiGroups: ["dragonflydb.io"]
-              resources: ["dragonflies"]
-              verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
-            - apiGroups: ["dragonflydb.io"]
-              resources: ["dragonflies/finalizers"]
-              verbs: ["update"]
-            - apiGroups: ["dragonflydb.io"]
-              resources: ["dragonflies/status"]
-              verbs: ["get", "patch", "update"]
+            - apiGroups:
+                - "coordination.k8s.io"
+              resources:
+                - "leases"
+              verbs:
+                - "get"
+                - "list"
+                - "watch"
+                - "create"
+                - "update"
+                - "patch"
+                - "delete"
+            - apiGroups:
+                - ""
+              resources:
+                - "events"
+              verbs:
+                - "create"
+                - "patch"
+            - apiGroups:
+                - ""
+              resources:
+                - "pods"
+                - "services"
+              verbs:
+                - "create"
+                - "delete"
+                - "get"
+                - "list"
+                - "patch"
+                - "update"
+                - "watch"
+            - apiGroups:
+                - "apps"
+              resources:
+                - "statefulsets"
+              verbs:
+                - "create"
+                - "delete"
+                - "get"
+                - "list"
+                - "patch"
+                - "update"
+                - "watch"
+            - apiGroups:
+                - "dragonflydb.io"
+              resources:
+                - "dragonflies"
+              verbs:
+                - "create"
+                - "delete"
+                - "get"
+                - "list"
+                - "patch"
+                - "update"
+                - "watch"
+            - apiGroups:
+                - "dragonflydb.io"
+              resources:
+                - "dragonflies/finalizers"
+              verbs:
+                - "update"
+            - apiGroups:
+                - "dragonflydb.io"
+              resources:
+                - "dragonflies/status"
+              verbs:
+                - "get"
+                - "patch"
+                - "update"
       bindings:
         dragonfly-operator:
           type: ClusterRoleBinding
