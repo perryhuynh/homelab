@@ -30,8 +30,8 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  interval: 30m
-  retryInterval: 1m
+  interval: 1h
+  retryInterval: 2m
   timeout: 5m
   postBuild:
     substitute:
@@ -64,8 +64,8 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  interval: 30m
-  retryInterval: 1m
+  interval: 1h
+  retryInterval: 2m
   timeout: 5m
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -91,6 +91,6 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  interval: 30m
-  retryInterval: 1m
+  interval: 1h
+  retryInterval: 2m
   timeout: 5m
