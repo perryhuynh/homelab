@@ -71,17 +71,27 @@ spec:
         connections:
           requireMsgr2: true
       storage:
-        useAllNodes: true
+        useAllNodes: false
         useAllDevices: false
         config:
           osdsPerDevice: "1"
-        deviceFilter: ^/dev/disk/by-id/nvme-(Micron_7450_MTFDKBA960TFR_.*|SAMSUNG_MZQL21T9HCJR-00A07_.*)$
+        nodes:
+          - name: choi-yena
+            devices: &nucDevice
+              - name: /dev/disk/by-id/nvme-Micron_7450_MTFDKBA960TFR_.*
+          - name: jo-yuri
+            devices: *nucDevice
+          - name: kim-chaewon
+            devices: *nucDevice
+          - name: wizone
+            devices:
+              - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T303152
     cephBlockPools:
       - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
-            size: 3
+            size: 1
         storageClass:
           enabled: true
           name: ceph-block
