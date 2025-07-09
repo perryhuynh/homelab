@@ -23,7 +23,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: external-dns
-  maxHistory: 2
   install:
     crds: CreateReplace
     remediation:
@@ -33,8 +32,6 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     fullnameOverride: *app
     provider: cloudflare

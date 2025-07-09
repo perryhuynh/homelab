@@ -24,18 +24,15 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kube-prometheus-stack
-  maxHistory: 2
   install:
     crds: CreateReplace
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     crds:
       enabled: true
