@@ -6,7 +6,6 @@ metadata:
   name: &app external-secrets
   namespace: &namespace external-secrets
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -26,17 +25,14 @@ spec:
       kind: ClusterSecretStore
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
+  interval: 1h
   path: ./kubernetes/apps/external-secrets/external-secrets/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
+  wait: false

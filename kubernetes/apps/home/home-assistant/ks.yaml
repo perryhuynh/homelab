@@ -6,7 +6,6 @@ metadata:
   name: &app home-assistant
   namespace: &namespace home
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -23,17 +22,18 @@ spec:
       namespace: networking
     - name: volsync
       namespace: volsync-system
-  path: ./kubernetes/apps/home/home-assistant/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
+  path: ./kubernetes/apps/home/home-assistant/app
   postBuild:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

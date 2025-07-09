@@ -6,7 +6,6 @@ metadata:
   name: &app jellyseerr
   namespace: &namespace media
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -29,19 +28,20 @@ spec:
       namespace: downloads
     - name: volsync
       namespace: volsync-system
-  path: ./kubernetes/apps/media/jellyseerr/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
+  path: ./kubernetes/apps/media/jellyseerr/app
   postBuild:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: canyouadd
       GATUS_PATH: /api/v1/status
       VOLSYNC_CAPACITY: 1Gi
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

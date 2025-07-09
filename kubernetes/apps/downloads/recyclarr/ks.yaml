@@ -6,7 +6,6 @@ metadata:
   name: &app recyclarr
   namespace: &namespace downloads
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -23,18 +22,19 @@ spec:
       namespace: downloads
     - name: volsync
       namespace: volsync-system
-  path: ./kubernetes/apps/downloads/recyclarr/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
+  path: ./kubernetes/apps/downloads/recyclarr/app
   postBuild:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
       VOLSYNC_SCHEDULE: "0 0 * * *"
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

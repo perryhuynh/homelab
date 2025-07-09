@@ -6,7 +6,6 @@ metadata:
   name: &app authelia
   namespace: &namespace security
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -19,17 +18,18 @@ spec:
       namespace: database
     - name: glauth
       namespace: security
-  path: ./kubernetes/apps/security/authelia/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
+  path: ./kubernetes/apps/security/authelia/app
   postBuild:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: auth
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

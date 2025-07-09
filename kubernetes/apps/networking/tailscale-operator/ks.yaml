@@ -6,7 +6,6 @@ metadata:
   name: &app tailscale-operator
   namespace: &namespace networking
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -18,16 +17,17 @@ spec:
       kind: HelmRelease
       name: *app
       namespace: *namespace
+  interval: 1h
   path: ./kubernetes/apps/networking/tailscale-operator/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
+  wait: false
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -36,19 +36,19 @@ metadata:
   name: &app tailscale-connector
   namespace: &namespace networking
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: tailscale-operator
+  interval: 1h
   path: ./kubernetes/apps/networking/tailscale-operator/connector
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
+  wait: true

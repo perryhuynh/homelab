@@ -6,7 +6,6 @@ metadata:
   name: &app keda
   namespace: &namespace monitoring
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -15,13 +14,14 @@ spec:
       kind: HelmRelease
       name: *app
       namespace: *namespace
+  interval: 1h
   path: ./kubernetes/apps/monitoring/keda/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
+  wait: true

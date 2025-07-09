@@ -6,7 +6,6 @@ metadata:
   name: &app sonarr
   namespace: &namespace downloads
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -21,16 +20,17 @@ spec:
       namespace: monitoring
     - name: longhorn
       namespace: kube-system
+  interval: 1h
   path: ./kubernetes/apps/downloads/sonarr/app
+  postBuild:
+    substitute:
+      APP: *app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
-  postBuild:
-    substitute:
-      APP: *app
+  wait: true
