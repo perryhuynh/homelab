@@ -38,7 +38,6 @@ nodes:
           ip: "192.168.1.20"
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
-      node.longhorn.io/create-default-disk: "true"
   - hostname: "jo-yuri"
     ipAddress: "192.168.1.22"
     installDiskSelector:
@@ -55,7 +54,6 @@ nodes:
         vip: *kubeVip
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
-      node.longhorn.io/create-default-disk: "true"
   - hostname: "kim-chaewon"
     ipAddress: "192.168.1.23"
     installDiskSelector:
@@ -72,7 +70,6 @@ nodes:
         vip: *kubeVip
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
-      node.longhorn.io/create-default-disk: "true"
   - hostname: "wizone"
     ipAddress: "192.168.1.24"
     installDiskSelector:
@@ -88,7 +85,6 @@ nodes:
         dhcp: true
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
-      node.longhorn.io/create-default-disk: "true"
     patches:
       - |-
         machine:
@@ -186,18 +182,6 @@ patches:
           - destination: /var/mnt/extra
             type: bind
             source: /var/mnt/extra
-            options:
-              - rbind
-              - rshared
-              - rw
-  # Mount longhorn in kubelet
-  - |-
-    machine:
-      kubelet:
-        extraMounts:
-          - destination: /var/lib/longhorn
-            type: bind
-            source: /var/lib/longhorn
             options:
               - rbind
               - rshared
