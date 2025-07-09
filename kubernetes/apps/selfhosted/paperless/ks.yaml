@@ -22,8 +22,8 @@ spec:
       namespace: selfhosted
     - name: paperless-tika
       namespace: selfhosted
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
   interval: 1h

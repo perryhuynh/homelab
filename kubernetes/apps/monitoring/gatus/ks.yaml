@@ -12,8 +12,8 @@ spec:
   dependsOn:
     - name: kube-prometheus-stack
       namespace: monitoring
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/monitoring/gatus/app
   prune: true

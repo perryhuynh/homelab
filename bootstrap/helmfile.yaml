@@ -104,26 +104,6 @@ releases:
     needs:
       - "external-secrets/onepassword-connect"
 
-  - name: longhorn
-    namespace: kube-system
-    atomic: true
-    chart: oci://ghcr.io/home-operations/charts-mirror/longhorn
-    version: 1.9.0
-    values:
-      - "../kubernetes/apps/kube-system/longhorn/app/helm/values.yaml"
-    needs:
-      - "external-secrets/external-secrets"
-
-  - name: snapshot-controller
-    namespace: kube-system
-    atomic: true
-    chart: oci://ghcr.io/piraeusdatastore/helm-charts/snapshot-controller
-    version: 4.1.0
-    values:
-      - "../kubernetes/apps/kube-system/snapshot-controller/app/helm/values.yaml"
-    needs:
-      - "kube-system/longhorn"
-
   - name: flux-operator
     namespace: flux-system
     atomic: true
@@ -132,7 +112,7 @@ releases:
     values:
       - "../kubernetes/apps/flux-system/flux-operator/app/helm/values.yaml"
     needs:
-      - "kube-system/snapshot-controller"
+      - "external-secrets/external-secrets"
 
   - name: flux-instance
     namespace: flux-system

@@ -14,8 +14,8 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: radarr
       namespace: downloads
     - name: sonarr

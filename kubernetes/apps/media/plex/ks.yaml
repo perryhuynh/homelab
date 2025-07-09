@@ -18,8 +18,8 @@ spec:
       namespace: kube-system
     - name: keda
       namespace: monitoring
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
   interval: 1h

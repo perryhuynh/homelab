@@ -15,8 +15,8 @@ spec:
   dependsOn:
     - name: keda
       namespace: monitoring
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
   interval: 1h
@@ -25,8 +25,6 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
-      VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool
-      VOLSYNC_STORAGECLASS: ceph-block
   prune: true
   retryInterval: 2m
   sourceRef:
