@@ -35,14 +35,14 @@ _... managed with Flux, Renovate, and GitHub Actions_ 🤖
 
 ## Hardware
 
-| Device                        | Count | OS Disk Size | Ram   | Operating System | Purpose                  |
-|-------------------------------|-------|--------------|-------|------------------|--------------------------|
-| Intel NUC NUC12WSKi5          | 3     | 960GB M.2    | 64GB  | Talos            | Kubernetes Control Plane |
-| Minisforum MS-01 i9-13900H    | 1     | 960GB M.2    | 96GB  | Talos            | Kubernetes Worker        |
-| TrueNAS Mini XL+              | 1     | 250GB SATA   | 64GB  | TrueNAS SCALE    | NFS/SMB                  |
-| PiKVM (RasPi 4)               | 1     | 64GB (SD)    | 4GB   | PiKVM            | KVM                      |
-| TESmart 8 Port KVM Switch     | 1     | -            | -     | -                | Network KVM (for PiKVM)  |
-| APC SRT1500RMXLA              | 1     | -            | -     | -                | UPS                      |
+| Device                        | Count | OS Disk    | Data Disk    | Ram   | Operating System | Purpose                  |
+|-------------------------------|-------|------------|--------------|-------|------------------|--------------------------|
+| Intel NUC NUC12WSKi5          | 3     | 512GB M.2  | 960GB M.2    | 64GB  | Talos            | Kubernetes Control Plane |
+| Minisforum MS-01 i9-13900H    | 1     | 960GB M.2  | 1.92TB M.2   | 96GB  | Talos            | Kubernetes Worker        |
+| TrueNAS Mini XL+              | 1     | 250GB SATA | 8x18TB HDD   | 64GB  | TrueNAS SCALE    | NFS/SMB                  |
+| PiKVM (RasPi 4)               | 1     | 64GB (SD)  | -            | 4GB   | PiKVM            | KVM                      |
+| TESmart 8 Port KVM Switch     | 1     | -          | -            | -     | -                | Network KVM (for PiKVM)  |
+| APC SRT1500RMXLA              | 1     | -          | -            | -     | -                | UPS                      |
 ---
 
 ## Gratitude and Thanks
