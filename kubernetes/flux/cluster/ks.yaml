@@ -19,7 +19,7 @@ spec:
     name: flux-system
     namespace: flux-system
   timeout: 5m
-  wait: false
+  wait: true
   patches:
     - # Add Sops decryption to child Kustomizations
       patch: |-
