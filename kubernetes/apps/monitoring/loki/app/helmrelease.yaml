@@ -81,7 +81,7 @@ spec:
           cpu: 10m
       persistence:
         enabled: true
-        storageClass: longhorn
+        storageClass: ceph-block
         size: 50Gi
     gateway:
       replicas: 0
