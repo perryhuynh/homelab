@@ -6,17 +6,17 @@ metadata:
   name: &app onepassword-connect
   namespace: &namespace external-secrets
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  interval: 1h
   path: ./kubernetes/apps/external-secrets/onepassword-connect/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
+  wait: true

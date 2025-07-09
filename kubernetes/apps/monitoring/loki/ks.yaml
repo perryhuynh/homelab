@@ -6,20 +6,20 @@ metadata:
   name: &app loki
   namespace: &namespace monitoring
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: longhorn
       namespace: kube-system
+  interval: 1h
   path: ./kubernetes/apps/monitoring/loki/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
   wait: true
-  interval: 1h
-  retryInterval: 2m
-  timeout: 10m

@@ -6,20 +6,17 @@ metadata:
   name: &app mosquitto
   namespace: &namespace database
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  interval: 1h
   path: ./kubernetes/apps/database/mosquitto/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
-  postBuild:
-    substitute:
-      APP: *app
+  wait: true

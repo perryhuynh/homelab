@@ -6,7 +6,6 @@ metadata:
   name: &app cert-manager
   namespace: &namespace cert-manager
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -24,12 +23,13 @@ spec:
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
       current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   path: ./kubernetes/apps/cert-manager/cert-manager/app
+  interval: 1h
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
+  wait: false

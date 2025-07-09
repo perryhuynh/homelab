@@ -6,7 +6,6 @@ metadata:
   name: &app jellyfin
   namespace: &namespace media
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -22,17 +21,18 @@ spec:
       namespace: kube-system
     - name: volsync
       namespace: volsync-system
-  path: ./kubernetes/apps/media/jellyfin/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
+  path: ./kubernetes/apps/media/jellyfin/app
   postBuild:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 10Gi
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

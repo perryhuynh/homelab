@@ -6,24 +6,24 @@ metadata:
   name: &app kromgo
   namespace: &namespace monitoring
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: kube-prometheus-stack
       namespace: monitoring
-  path: ./kubernetes/apps/monitoring/kromgo/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
+  path: ./kubernetes/apps/monitoring/kromgo/app
   postBuild:
     substitute:
       APP: *app
       GATUS_STATUS: "404"
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true

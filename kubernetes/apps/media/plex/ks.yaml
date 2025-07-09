@@ -6,7 +6,6 @@ metadata:
   name: &app plex
   namespace: &namespace media
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -23,16 +22,9 @@ spec:
       namespace: kube-system
     - name: volsync
       namespace: volsync-system
+  interval: 1h
   path: ./kubernetes/apps/media/plex/app
   prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
-  interval: 1h
-  retryInterval: 2m
-  timeout: 5m
   postBuild:
     substitute:
       APP: *app
@@ -40,6 +32,15 @@ spec:
       VOLSYNC_CACHE_CAPACITY: 25Gi
       VOLSYNC_CAPACITY: 50Gi
       VOLSYNC_SCHEDULE: "10 * * * *"
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: true
+
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -48,7 +49,6 @@ metadata:
   name: &app plex-auto-languages
   namespace: &namespace media
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -57,16 +57,17 @@ spec:
       namespace: external-secrets
     - name: plex
       namespace: media
+  interval: 1h
   path: ./kubernetes/apps/media/plex/auto-languages
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
+  wait: true
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -75,7 +76,6 @@ metadata:
   name: &app image-cleanup
   namespace: &namespace media
 spec:
-  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -84,13 +84,14 @@ spec:
       namespace: external-secrets
     - name: plex
       namespace: media
+  interval: 1h
   path: ./kubernetes/apps/media/plex/image-cleanup
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  interval: 1h
-  retryInterval: 2m
+  targetNamespace: *namespace
   timeout: 5m
+  wait: true
