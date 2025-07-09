@@ -18,8 +18,8 @@ spec:
       namespace: external-secrets
     - name: keda
       namespace: monitoring
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/downloads/radarr/app
   postBuild:

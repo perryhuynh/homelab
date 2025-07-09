@@ -71,20 +71,17 @@ spec:
         connections:
           requireMsgr2: true
       storage:
-        useAllNodes: false
+        useAllNodes: true
         useAllDevices: false
         config:
           osdsPerDevice: "1"
-        nodes:
-          - name: wizone
-            devices:
-              - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T303152
+        deviceFilter: ^/dev/disk/by-id/nvme-(Micron_7450_MTFDKBA960TFR_.*|SAMSUNG_MZQL21T9HCJR-00A07_.*)$
     cephBlockPools:
       - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
-            size: 1
+            size: 3
         storageClass:
           enabled: true
           name: ceph-block

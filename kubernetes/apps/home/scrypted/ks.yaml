@@ -17,8 +17,8 @@ spec:
       namespace: kube-system
     - name: keda
       namespace: monitoring
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: multus-networks
       namespace: networking
   interval: 1h

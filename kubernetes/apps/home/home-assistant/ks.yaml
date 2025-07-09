@@ -16,8 +16,8 @@ spec:
       namespace: database
     - name: external-secrets
       namespace: external-secrets
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: multus-networks
       namespace: networking
     - name: volsync

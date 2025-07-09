@@ -16,8 +16,8 @@ spec:
   dependsOn:
     - name: keda
       namespace: monitoring
-    - name: longhorn
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: plex
       namespace: media
     - name: qbittorrent

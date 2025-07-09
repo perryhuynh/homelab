@@ -14,8 +14,6 @@ spec:
   dependsOn:
     - name: keda
       namespace: monitoring
-    - name: longhorn
-      namespace: kube-system
     - name: snapshot-controller
       namespace: kube-system
     - name: openebs

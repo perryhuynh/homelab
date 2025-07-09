@@ -4,8 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: kavita-cache
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes:
+    - "ReadWriteOnce"
   resources:
     requests:
       storage: 10Gi
-  storageClassName: longhorn
+  storageClassName: ceph-block
