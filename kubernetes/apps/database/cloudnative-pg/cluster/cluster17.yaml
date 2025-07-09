@@ -44,7 +44,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://cloudnative-pg/
       endpointURL: https://${bucket_host}
-      serverName: &currentCluster postgres17-v7
+      serverName: &currentCluster postgres17-v8
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
