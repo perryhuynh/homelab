@@ -76,13 +76,14 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
+          # NUCS
           - name: choi-yena
-            devices: &nucDevice
-              - name: /dev/disk/by-id/nvme-Micron_7450_MTFDKBA960TFR_.*
+            deviceFilter: &nucDeviceFilter /dev/disk/by-id/nvme-Micron_7450_MTFDKBA960TFR_.*
           - name: jo-yuri
-            devices: *nucDevice
+            deviceFilter: *nucDeviceFilter
           - name: kim-chaewon
-            devices: *nucDevice
+            deviceFilter: *nucDeviceFilter
+          # MS-01
           - name: wizone
             devices:
               - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T303152
