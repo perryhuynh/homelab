@@ -14,6 +14,8 @@ spec:
   dependsOn:
     - name: keda
       namespace: monitoring
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: snapshot-controller
       namespace: kube-system
     - name: openebs
