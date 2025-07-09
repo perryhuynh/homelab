@@ -25,6 +25,8 @@ spec:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool
+      VOLSYNC_STORAGECLASS: ceph-block
   prune: true
   retryInterval: 2m
   sourceRef:
