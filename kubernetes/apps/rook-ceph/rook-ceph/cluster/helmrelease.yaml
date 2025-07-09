@@ -78,11 +78,11 @@ spec:
         nodes:
           # NUCS
           - name: choi-yena
-            deviceFilter: &nucDeviceFilter /dev/disk/by-id/nvme-Micron_7450_MTFDKBA960TFR_.*
+            devicePathFilter: &nucDeviceFilter /dev/disk/by-id/nvme-Micron_7450_MTFDKBA960TFR_.*
           - name: jo-yuri
-            deviceFilter: *nucDeviceFilter
+            devicePathFilter: *nucDeviceFilter
           - name: kim-chaewon
-            deviceFilter: *nucDeviceFilter
+            devicePathFilter: *nucDeviceFilter
           # MS-01
           - name: wizone
             devices:
