@@ -22,6 +22,8 @@ cgroup:
 # devices: eno+ eth+
 dashboards:
   enabled: true
+  annotations:
+    grafana_folder: Kubernetes
 enableIPv4BIGTCP: true
 endpointRoutes:
   enabled: true
