@@ -31,7 +31,6 @@ spec:
       GATUS_PATH: /identity
       VOLSYNC_CACHE_CAPACITY: 25Gi
       VOLSYNC_CAPACITY: 50Gi
-      VOLSYNC_SCHEDULE: "10 * * * *"
   retryInterval: 2m
   sourceRef:
     kind: GitRepository
