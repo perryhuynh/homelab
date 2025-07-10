@@ -19,6 +19,9 @@ spec:
   values:
     controllers:
       jellyfin:
+        pod:
+          labels:
+            instrumentation.grafana.com/pyroscope:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
