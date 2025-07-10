@@ -21,7 +21,7 @@ spec:
       jellyfin:
         pod:
           labels:
-            instrumentation.grafana.com/pyroscope:
+            instrumentation.grafana.com/pyroscope: dotnet-alpine
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
