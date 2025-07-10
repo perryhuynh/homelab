@@ -23,7 +23,7 @@ cgroup:
 dashboards:
   enabled: true
   annotations:
-    grafana_folder: Kubernetes
+    grafana_folder: &grafanaFolder Kubernetes
 enableIPv4BIGTCP: true
 endpointRoutes:
   enabled: true
@@ -54,6 +54,8 @@ localRedirectPolicy: true
 operator:
   dashboards:
     enabled: true
+    annotations:
+      grafana_folder: *grafanaFolder
   prometheus:
     enabled: true
     serviceMonitor:
