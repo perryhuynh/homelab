@@ -23,7 +23,7 @@ cgroup:
 dashboards:
   enabled: true
   annotations:
-    grafana_folder: &grafanaFolder Kubernetes
+    grafana_folder: &grafanaFolder Cilium
 enableIPv4BIGTCP: true
 endpointRoutes:
   enabled: true
