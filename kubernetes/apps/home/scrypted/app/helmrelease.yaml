@@ -74,7 +74,7 @@ spec:
           type: RuntimeDefault
         supplementalGroups:
           - 44
-          - 105
+          - 109
     persistence:
       config:
         existingClaim: scrypted
