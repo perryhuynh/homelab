@@ -1,0 +1,146 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.0/mutatingadmissionpolicybinding-admissionregistration-v1alpha1.json
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: pyroscope-dotnet-alpine
+spec:
+  policyName: pyroscope-dotnet-alpine
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.0/mutatingadmissionpolicy-admissionregistration-v1alpha1.json
+apiVersion: admissionregistration.k8s.io/v1alpha1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: pyroscope-dotnet-alpine
+spec:
+  matchConstraints:
+    resourceRules:
+      - apiGroups: ["apps"]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["deployments"]
+  matchConditions:
+    - name: has-pyroscope-dotnet-alpine
+      expression: >
+        object.metadata.labels["instrumentation.grafana.com/pyroscope"] == "dotnet-alpine"
+  failurePolicy: Fail
+  reinvocationPolicy: IfNeeded
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: >
+          [
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/volumeMounts/-",
+              value: Object.spec.template.spec.containers.volumeMounts{
+                name: "pyroscope",
+                mountPath: "/pyroscope"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/volumes/-",
+              value: Object.spec.template.spec.volumes{
+                name: "pyroscope",
+                image: Object.spec.template.spec.volumes.image{
+                  reference: "docker.io/pyroscope/pyroscope-dotnet:0.10.0-musl@sha256:a10fb562918a3f9f7056adf80b78f4267876328e6e47d5183420dfa03304072c",
+                  pullPolicy: "IfNotPresent"
+                }
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "CORECLR_ENABLE_PROFILING",
+                value: "1"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "CORECLR_PROFILER_PATH",
+                value: "/pyroscope/Pyroscope.Profiler.Native.so"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "CORECLR_PROFILER",
+                value: "{BD1A650D-AC5D-4896-B64F-D6FA25D6B26A}"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "DOTNET_EnableDiagnostics_Debugger",
+                value: "0"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "DOTNET_EnableDiagnostics_IPC",
+                value: "0"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "DOTNET_EnableDiagnostics_Profiler",
+                value: "1"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "DOTNET_EnableDiagnostics",
+                value: "1"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "LD_PRELOAD",
+                value: "/pyroscope/Pyroscope.Linux.ApiWrapper.x64.so"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "PYROSCOPE_APPLICATION_NAME",
+                valueFrom: Object.spec.template.spec.containers.env.valueFrom{
+                  fieldRef: Object.spec.template.spec.containers.env.valueFrom.fieldRef{
+                    apiVersion: "v1",
+                    fieldPath: "metadata.labels['app.kubernetes.io/name']"
+                  }
+                }
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "PYROSCOPE_PROFILING_ENABLED",
+                value: "1"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "PYROSCOPE_PROFILING_ALLOCATION_ENABLED",
+                value: "1"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "PYROSCOPE_PROFILING_HEAP_ENABLED",
+                value: "1"
+              }
+            },
+            JSONPatch{
+              op: "add", path: "/spec/template/spec/containers/0/env/-",
+              value: Object.spec.template.spec.containers.env{
+                name: "PYROSCOPE_SERVER_ADDRESS",
+                value: "http://pyroscope-headless.monitoring.svc.cluster.local:4040"
+              }
+            }
+          ]
