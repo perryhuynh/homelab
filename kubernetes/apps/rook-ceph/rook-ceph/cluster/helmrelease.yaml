@@ -66,12 +66,13 @@ spec:
             enabled: true
           - name: rook
             enabled: true
-      osd:
-        requests:
-          cpu: 500m
-          memory: 6Gi
-        limits:
-          memory: 6Gi
+      resources:
+        osd:
+          requests:
+            cpu: 500m
+            memory: 6Gi
+          limits:
+            memory: 6Gi
       network:
         provider: host
         connections:
