@@ -151,7 +151,7 @@ spec:
     dashboards:
       default:
         authelia:
-          url: https://github.com/authelia/authelia/blob/master/examples/grafana-dashboards/simple.json
+          url: https://raw.githubusercontent.com/authelia/authelia/refs/heads/master/examples/grafana-dashboards/simple.json
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
