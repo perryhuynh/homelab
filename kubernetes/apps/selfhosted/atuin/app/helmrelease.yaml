@@ -19,6 +19,8 @@ spec:
   values:
     controllers:
       atuin:
+        replicas: 2
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -69,15 +71,12 @@ spec:
               requests:
                 cpu: 10m
             securityContext: *securityContext
-        replicas: 2
-        strategy: RollingUpdate
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
-        seccompProfile: {type: RuntimeDefault}
+        runAsUser: 1000
+        runAsGroup: 1000
     persistence:
       config:
         enabled: true
@@ -90,13 +89,8 @@ spec:
           - name: internal
             namespace: kube-system
             sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     service:
       app:
-        controller: atuin
         ports:
           http:
             primary: true
@@ -105,7 +99,6 @@ spec:
             port: *metricsPort
     serviceMonitor:
       app:
-        serviceName: atuin
         endpoints:
           - port: metrics
             scheme: http
