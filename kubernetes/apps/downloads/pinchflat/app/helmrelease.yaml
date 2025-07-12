@@ -70,7 +70,6 @@ spec:
           - 44
     persistence:
       config:
-        enabled: true
         existingClaim: pinchflat
       downloads:
         type: nfs
@@ -98,7 +97,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port

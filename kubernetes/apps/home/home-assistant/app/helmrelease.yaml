@@ -99,7 +99,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         existingClaim: home-assistant
       cache:
         existingClaim: home-assistant-cache
@@ -126,7 +125,6 @@ spec:
                 port: &port 8123
     service:
       app:
-        controller: home-assistant
         ports:
           http:
             primary: true

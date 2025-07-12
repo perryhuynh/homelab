@@ -64,7 +64,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         type: emptyDir
       config-file:
         type: configMap
@@ -83,13 +82,11 @@ spec:
             sectionName: https
     service:
       app:
-        controller: karma
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: karma
         endpoints:
           - port: http
             scheme: http

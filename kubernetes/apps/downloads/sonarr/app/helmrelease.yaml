@@ -87,7 +87,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         existingClaim: sonarr
       data:
         type: nfs
@@ -108,7 +107,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: sonarr
         ports:
           http:
             port: *port

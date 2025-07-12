@@ -81,7 +81,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         type: configMap
         name: authelia-config
         globalMounts:
@@ -116,7 +115,6 @@ spec:
                       value: 1; mode=block
     service:
       app:
-        controller: *app
         ports:
           http:
             primary: true
@@ -125,7 +123,6 @@ spec:
             port: 8080
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: metrics
             scheme: http

@@ -73,7 +73,6 @@ spec:
             seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
-        enabled: true
         type: emptyDir
     route:
       app:
@@ -85,7 +84,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: autobrr
         ports:
           http:
             port: *port

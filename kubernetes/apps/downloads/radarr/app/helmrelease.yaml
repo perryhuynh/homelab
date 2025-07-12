@@ -86,7 +86,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         existingClaim: radarr
       data:
         type: nfs
@@ -107,7 +106,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: radarr
         ports:
           http:
             port: *port

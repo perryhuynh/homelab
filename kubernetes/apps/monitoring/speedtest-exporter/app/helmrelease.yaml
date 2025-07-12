@@ -51,19 +51,16 @@ spec:
             runAsGroup: 1000
     persistence:
       config:
-        enabled: true
         type: emptyDir
         globalMounts:
           - path: /.config
     service:
       app:
-        controller: speedtest-exporter
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: speedtest-exporter
         endpoints:
           - port: http
             scheme: http

@@ -73,7 +73,6 @@ spec:
           - 44
     persistence:
       config:
-        enabled: true
         existingClaim: plex
       cache:
         existingClaim: plex-cache

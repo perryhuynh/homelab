@@ -62,7 +62,6 @@ spec:
         seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
-        enabled: true
         existingClaim: kavita
         globalMounts:
           - path: /kavita/config
@@ -92,7 +91,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: kavita
         ports:
           http:
             port: *port

@@ -71,7 +71,6 @@ spec:
           - 44
     persistence:
       config:
-        enabled: true
         existingClaim: jellyfin
       config-cache:
         existingClaim: jellyfin-cache
@@ -105,7 +104,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port

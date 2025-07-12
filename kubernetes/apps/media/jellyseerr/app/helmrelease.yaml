@@ -68,7 +68,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         existingClaim: jellyseerr
         globalMounts:
           - path: /app/config
@@ -95,7 +94,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: jellyseerr
         ports:
           http:
             port: *port

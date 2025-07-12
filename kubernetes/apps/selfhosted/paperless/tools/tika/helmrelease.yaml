@@ -51,7 +51,6 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: tika
         ports:
           http:
             port: 9998

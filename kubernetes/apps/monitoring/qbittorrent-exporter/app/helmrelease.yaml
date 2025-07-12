@@ -54,13 +54,11 @@ spec:
             seccompProfile: {type: RuntimeDefault}
     service:
       app:
-        controller: qbittorrent-exporter
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: qbittorrent-exporter
         endpoints:
           - port: http
             scheme: http

@@ -126,7 +126,6 @@ spec:
             - identifier: gatus
     service:
       app:
-        controller: gatus
         ports:
           http:
             port: *port
@@ -134,7 +133,6 @@ spec:
       gatus: {}
     serviceMonitor:
       app:
-        serviceName: gatus
         endpoints:
           - port: http
             scheme: http

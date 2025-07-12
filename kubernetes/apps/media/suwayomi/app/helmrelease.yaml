@@ -68,7 +68,6 @@ spec:
         seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
-        enabled: true
         existingClaim: *app
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk
@@ -97,7 +96,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port

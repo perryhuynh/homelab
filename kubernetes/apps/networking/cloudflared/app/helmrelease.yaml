@@ -74,7 +74,6 @@ spec:
         runAsGroup: 1000
     persistence:
       config:
-        enabled: true
         type: configMap
         name: cloudflared-configmap
         globalMounts:
@@ -83,13 +82,11 @@ spec:
             readOnly: true
     service:
       app:
-        controller: cloudflared
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: cloudflared
         endpoints:
           - port: http
             scheme: http

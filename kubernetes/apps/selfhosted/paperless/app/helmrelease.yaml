@@ -75,7 +75,6 @@ spec:
       automountServiceAccountToken: false
     persistence:
       config:
-        enabled: true
         existingClaim: paperless
         globalMounts:
           - path: /usr/src/paperless/data
@@ -92,7 +91,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: paperless
         ports:
           http:
             port: *port
