@@ -73,7 +73,6 @@ spec:
             seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
-        enabled: true
         type: emptyDir
     route:
       app:

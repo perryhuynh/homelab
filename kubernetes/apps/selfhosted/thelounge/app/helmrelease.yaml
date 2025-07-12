@@ -52,7 +52,6 @@ spec:
         seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
-        enabled: true
         existingClaim: thelounge
     route:
       app:

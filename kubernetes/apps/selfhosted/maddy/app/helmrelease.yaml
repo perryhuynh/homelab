@@ -57,7 +57,6 @@ spec:
         seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
-        enabled: true
         type: configMap
         name: maddy-config
         globalMounts:

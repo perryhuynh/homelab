@@ -86,7 +86,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         existingClaim: radarr
       data:
         type: nfs

@@ -87,7 +87,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         existingClaim: sonarr
       data:
         type: nfs

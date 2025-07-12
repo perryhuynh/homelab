@@ -51,7 +51,6 @@ spec:
             runAsGroup: 1000
     persistence:
       config:
-        enabled: true
         type: emptyDir
         globalMounts:
           - path: /.config

@@ -64,7 +64,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         type: emptyDir
       config-file:
         type: configMap

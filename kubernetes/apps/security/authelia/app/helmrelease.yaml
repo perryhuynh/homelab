@@ -81,7 +81,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         type: configMap
         name: authelia-config
         globalMounts:

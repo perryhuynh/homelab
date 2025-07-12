@@ -99,7 +99,6 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        enabled: true
         existingClaim: home-assistant
       cache:
         existingClaim: home-assistant-cache
