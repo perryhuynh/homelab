@@ -21,14 +21,22 @@ spec:
       autobrr:
         annotations:
           reloader.stakater.com/auto: "true"
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          envFrom:
+            - secretRef:
+                name: autobrr
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "ALL"
+            readOnlyRootFilesystem: true
         initContainers:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
               tag: 17.5.0@sha256:e0c87ce7df39d06b93f27cf2cc6a056611f13faaa88cc07ab4dc8bf7a85d0b11
-            envFrom: &envFrom
-              - secretRef:
-                  name: autobrr
         containers:
           app:
             image:
@@ -40,7 +48,6 @@ spec:
               AUTOBRR__LOG_LEVEL: INFO
               AUTOBRR__PORT: &port 80
               AUTOBRR__DATABASE_TYPE: postgres
-            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
@@ -60,17 +67,14 @@ spec:
                 memory: 256Mi
               requests:
                 cpu: 10m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
-              readOnlyRootFilesystem: true
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            seccompProfile: {type: RuntimeDefault}
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
     persistence:
       config:
         type: emptyDir
