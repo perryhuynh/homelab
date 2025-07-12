@@ -21,11 +21,11 @@ spec:
     - name: plex
       namespace: media
     - name: qbittorrent
-      namespace: downloads
+      namespace: media
     - name: radarr
-      namespace: downloads
+      namespace: media
     - name: sonarr
-      namespace: downloads
+      namespace: media
     - name: volsync
       namespace: volsync-system
   interval: 1h
