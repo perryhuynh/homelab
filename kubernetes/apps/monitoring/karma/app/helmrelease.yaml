@@ -82,13 +82,11 @@ spec:
             sectionName: https
     service:
       app:
-        controller: karma
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: karma
         endpoints:
           - port: http
             scheme: http

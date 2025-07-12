@@ -85,7 +85,6 @@ spec:
             readOnly: true
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -93,7 +92,6 @@ spec:
             port: 389
     serviceMonitor:
       app:
-        serviceName: *app
         endpoints:
           - port: metrics
             scheme: http

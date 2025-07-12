@@ -67,7 +67,6 @@ spec:
         type: emptyDir
     service:
       app:
-        controller: maddy
         annotations:
           io.cilium/lb-ipam-ips: 192.168.1.202
         ports:
@@ -79,7 +78,6 @@ spec:
         type: LoadBalancer
     serviceMonitor:
       app:
-        serviceName: maddy
         endpoints:
           - port: http
             scheme: http

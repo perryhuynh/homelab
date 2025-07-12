@@ -91,7 +91,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: kavita
         ports:
           http:
             port: *port

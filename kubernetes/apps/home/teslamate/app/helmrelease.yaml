@@ -84,7 +84,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: teslamate
         ports:
           http:
             port: *port

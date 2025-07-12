@@ -84,7 +84,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: autobrr
         ports:
           http:
             port: *port

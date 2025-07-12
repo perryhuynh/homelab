@@ -70,7 +70,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: it-tools
         ports:
           http:
             port: *port

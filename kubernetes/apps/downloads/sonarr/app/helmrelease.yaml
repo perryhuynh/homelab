@@ -107,7 +107,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: sonarr
         ports:
           http:
             port: *port

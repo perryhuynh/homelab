@@ -106,7 +106,6 @@ spec:
             sectionName: https
     service:
       app:
-        controller: radarr
         ports:
           http:
             port: *port
