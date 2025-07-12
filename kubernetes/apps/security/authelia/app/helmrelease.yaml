@@ -23,14 +23,22 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          envFrom:
+            - secretRef:
+                name: authelia-secret
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "ALL"
+            readOnlyRootFilesystem: true
         initContainers:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
               tag: 17.5.0@sha256:e0c87ce7df39d06b93f27cf2cc6a056611f13faaa88cc07ab4dc8bf7a85d0b11
-            envFrom: &envFrom
-              - secretRef:
-                  name: authelia-secret
         containers:
           app:
             image:
@@ -44,7 +52,6 @@ spec:
               AUTHELIA_THEME: dark
               X_AUTHELIA_CONFIG: /config/configuration.yaml
               X_AUTHELIA_CONFIG_FILTERS: expand-env
-            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
@@ -65,20 +72,12 @@ spec:
                 cpu: 100m
               requests:
                 cpu: 10m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - "ALL"
-              readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-        seccompProfile:
-          type: RuntimeDefault
     persistence:
       config:
         type: configMap

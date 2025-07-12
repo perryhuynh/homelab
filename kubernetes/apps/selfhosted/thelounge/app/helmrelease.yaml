@@ -39,17 +39,18 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: [ALL]}
+              capabilities:
+                drop:
+                  - ALL
               readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
-        fsGroup: 65534
-        fsGroupChangePolicy: OnRootMismatch
         runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
-        seccompProfile: {type: RuntimeDefault}
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
         existingClaim: thelounge

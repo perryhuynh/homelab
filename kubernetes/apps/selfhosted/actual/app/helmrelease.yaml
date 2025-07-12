@@ -59,12 +59,11 @@ spec:
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
-        fsGroup: 2000
-        fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: 2000
         runAsNonRoot: true
-        runAsUser: 2000
-        seccompProfile: {type: RuntimeDefault}
+        runAsGroup: 1000
+        runAsUser: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
         existingClaim: *app
