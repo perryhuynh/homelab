@@ -72,7 +72,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app image-cleanup
+  name: &app plex-image-cleanup
   namespace: &namespace media
 spec:
   commonMetadata:
