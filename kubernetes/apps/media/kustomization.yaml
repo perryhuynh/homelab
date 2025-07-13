@@ -6,10 +6,17 @@ namespace: media
 components:
   - ../../components/common
 resources:
-  - ./kavita/ks.yaml
+  - ./autobrr/ks.yaml
+  - ./cross-seed/ks.yaml
   - ./jellyfin/ks.yaml
   - ./jellyseerr/ks.yaml
+  - ./kavita/ks.yaml
   - ./pinchflat/ks.yaml
   - ./plex/ks.yaml
+  - ./prowlarr/ks.yaml
+  - ./qbittorrent/ks.yaml
+  - ./radarr/ks.yaml
+  - ./recyclarr/ks.yaml
+  - ./sonarr/ks.yaml
   - ./suwayomi/ks.yaml
   - ./tautulli/ks.yaml
