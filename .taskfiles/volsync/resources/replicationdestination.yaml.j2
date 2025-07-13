@@ -18,6 +18,7 @@ spec:
       runAsUser: {{ ENV.PUID }}
       runAsGroup: {{ ENV.PGID }}
       fsGroup: {{ ENV.PGID }}
+      fsGroupChangePolicy: OnRootMismatch
     enableFileDeletion: true
     cleanupCachePVC: true
     cleanupTempPVC: true
