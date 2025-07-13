@@ -20,10 +20,6 @@ spec:
       namespace: security
   interval: 1h
   path: ./kubernetes/apps/security/authelia/app
-  postBuild:
-    substitute:
-      APP: *app
-      GATUS_SUBDOMAIN: auth
   prune: true
   retryInterval: 2m
   sourceRef:
