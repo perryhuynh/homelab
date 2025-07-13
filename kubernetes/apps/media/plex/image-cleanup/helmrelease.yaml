@@ -42,7 +42,7 @@ spec:
                   name: plex-image-cleanup-secret
             resources:
               limits:
-                memory: 256Mi
+                memory: 1Gi
               requests:
                 cpu: 10m
             securityContext:
