@@ -34,6 +34,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/infrastructure
   dependsOn:
     - name: cloudnative-pg
     - name: openebs
@@ -55,6 +57,10 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   postBuild:
+    substitute:
+      GATUS_NAME: "postgres"
+      GATUS_ADDRESS: "postgres17-rw.database.svc.cluster.local"
+      GATUS_PORT: "5432"
     substituteFrom:
       - kind: Secret
         name: cloudnative-pg-secret
