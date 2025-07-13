@@ -293,9 +293,9 @@ spec:
           revision: 26
           datasource: Prometheus
         kubernetes-volumes:
-          # renovate: depName="K8s / Storage / Volumes / Cluster"
-          gnetId: 11454
-          revision: 14
+          # renovate: depName="Kubernetes Persistent Volumes"
+          gnetId: 17092
+          revision: 7
           datasource: Prometheus
       teslamate:
         battery-health:
