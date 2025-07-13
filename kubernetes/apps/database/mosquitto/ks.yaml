@@ -9,8 +9,15 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/infrastructure
   interval: 1h
   path: ./kubernetes/apps/database/mosquitto/app
+  postBuild:
+    substitute:
+      GATUS_NAME: "queue"
+      GATUS_ADDRESS: "mosquitto-headless.database.svc.cluster.local"
+      GATUS_PORT: "1883"
   prune: true
   retryInterval: 2m
   sourceRef:

@@ -31,10 +31,17 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/infrastructure
   dependsOn:
     - name: dragonfly
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/cluster
+  postBuild:
+    substitute:
+      GATUS_NAME: "cache"
+      GATUS_ADDRESS: "dragonfly.database.svc.cluster.local"
+      GATUS_PORT: "6379"
   prune: true
   retryInterval: 2m
   sourceRef:
