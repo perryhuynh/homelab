@@ -43,8 +43,9 @@ tasks:
       - kubectl --namespace {{.NS}} wait pod --for=delete --selector="app.kubernetes.io/name={{.APP}}" --timeout=5m
       # Restore
       - minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.yaml.j2 | kubectl apply --server-side --filename -
-      - until kubectl --namespace {{.NS}} get job/volsync-dst-{{.APP}}-manual &>/dev/null; do sleep 5; done
-      - kubectl --namespace {{.NS}} wait job/volsync-dst-{{.APP}}-manual --for=condition=complete --timeout=120m
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
+      - stern --namespace {{.NS}} job/{{.JOB}} --no-follow
       - kubectl --namespace {{.NS}} delete replicationdestination {{.APP}}-manual
       # Resume
       - flux --namespace {{.NS}} resume kustomization {{.APP}}
@@ -55,6 +56,7 @@ tasks:
       NS: "{{.NS | default \"default\"}}"
       CONTROLLER:
         sh: kubectl --namespace {{.NS}} get deployment {{.APP}} &>/dev/null && echo deployment || echo statefulset
+      JOB: "volsync-dst-{{.APP}}-manual"
     env:
       NS: "{{.NS}}"
       APP: "{{.APP}}"
@@ -82,6 +84,7 @@ tasks:
     cmds:
       - kubectl --namespace {{.NS}} patch replicationsources {{.APP}} --type merge -p '{"spec":{"trigger":{"manual":"{{now | unixEpoch}}"}}}'
       - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - stern --namespace {{.NS}} job/{{.JOB}} --no-follow
       - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
     vars:
       NS: "{{.NS | default \"default\"}}"
