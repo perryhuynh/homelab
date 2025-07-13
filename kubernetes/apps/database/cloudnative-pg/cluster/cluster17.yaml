@@ -21,9 +21,9 @@ spec:
   resources:
     limits:
       hugepages-2Mi: 2Gi
-      memory: 4Gi
+      memory: 2Gi
     requests:
-      cpu: 500m
+      cpu: 100m
   monitoring:
     enablePodMonitor: true
   backup:
