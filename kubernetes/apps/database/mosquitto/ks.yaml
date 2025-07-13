@@ -16,7 +16,7 @@ spec:
   postBuild:
     substitute:
       GATUS_NAME: "queue"
-      GATUS_ADDRESS: "mosquitto-headless.database.svc.cluster.local"
+      GATUS_ADDRESS: "mosquitto.database.svc.cluster.local"
       GATUS_PORT: "1883"
   prune: true
   retryInterval: 2m
