@@ -2,7 +2,7 @@
 endpoints:
   - name: "${GATUS_NAME:-${APP}}"
     group: infrastructure
-    url: ${GATUS_METHOD:-tcp}://${GATUS_ADDRESS${GATUS_PORT:-""}}
+    url: "${GATUS_METHOD:-tcp}://${GATUS_ADDRESS}:{GATUS_PORT}"
     interval: 1m
     ui:
       hide-conditions: true
