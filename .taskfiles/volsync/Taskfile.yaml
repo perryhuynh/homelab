@@ -15,7 +15,7 @@ tasks:
   list:
     desc: List snapshots for an app [NS=default] [APP=required]
     cmds:
-      - minijinja-cli --env {{.VOLSYNC_RESOURCES_DIR}}/list-snapshots.yaml.j2 | kubectl apply -f -
+      - minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/list-snapshots.yaml.j2 | kubectl apply -f -
       - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for condition=complete --timeout=1m
       - stern --namespace {{.NS}} job/{{.JOB}} --no-follow
       - kubectl --namespace {{.NS}} delete job {{.JOB}}
@@ -25,6 +25,7 @@ tasks:
     env:
       NS: "{{.NS}}"
       APP: "{{.APP}}"
+      JOB: "{{.JOB}}"
     requires:
       vars:
         - APP
@@ -112,15 +113,17 @@ tasks:
     desc: Unlock a restic source repo from local machine [NS=default] [APP=required]
     cmds:
       - minijinja-cli {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2 | kubectl apply --server-side --filename -
-      - until kubectl --namespace {{.NS}} get job/volsync-unlock-{{.APP}} &>/dev/null; do sleep 5; done
-      - kubectl --namespace {{.NS}} wait job/volsync-unlock-{{.APP}} --for condition=complete --timeout=5m
-      - stern --namespace {{.NS}} job/volsync-unlock-{{.APP}} --no-follow
-      - kubectl --namespace {{.NS}} delete job volsync-unlock-{{.APP}}
+      - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for condition=complete --timeout=5m
+      - stern --namespace {{.NS}} job/{{.JOB}} --no-follow
+      - kubectl --namespace {{.NS}} delete job {{.JOB}}
     vars:
       NS: "{{.NS | default \"default\"}}"
+      JOB: volsync-unlock-{{.APP}}
     env:
       NS: "{{.NS}}"
       APP: "{{.APP}}"
+      JOB: "{{.JOB}}"
     requires:
       vars:
         - APP
