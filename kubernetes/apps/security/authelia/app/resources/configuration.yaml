@@ -83,7 +83,7 @@ identity_providers:
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://autobrr.perryhuynh.com/api/auth/oidc/callback"]
         userinfo_signed_response_alg: none
-      - client_name: Grafana
+      - client_name: grafana
         client_id: ${GRAFANA_OAUTH_CLIENT_ID}
         client_secret: "${GRAFANA_OAUTH_CLIENT_SECRET}"
         public: false
@@ -92,7 +92,7 @@ identity_providers:
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://grafana.perryhuynh.com/login/generic_oauth"]
         userinfo_signed_response_alg: none
-      - client_name: Paperless
+      - client_name: paperless
         client_id: "${PAPERLESS_OAUTH_CLIENT_ID}"
         client_secret: "${PAPERLESS_OAUTH_CLIENT_SECRET}"
         public: false
