@@ -8,7 +8,7 @@ version: '3'
 #   3. Each application only has one PVC that is being replicated
 
 vars:
-  VOLSYNC_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/volsync/resources'
+  VOLSYNC_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/volsync/resources"
 
 tasks:
 
@@ -20,13 +20,14 @@ tasks:
       - stern --namespace {{.NS}} job/{{.JOB}} --no-follow
       - kubectl --namespace {{.NS}} delete job {{.JOB}}
     vars:
-      NS: '{{.NS | default "default"}}'
-      JOB: 'list-snapshots-{{.APP}}'
+      NS: "{{.NS | default \"default\"}}"
+      JOB: "list-snapshots-{{.APP}}"
     env:
-      NS: '{{.NS}}'
-      APP: '{{.APP}}'
+      NS: "{{.NS}}"
+      APP: "{{.APP}}"
     requires:
-      vars: [APP]
+      vars:
+        - APP
     preconditions:
       - which kubectl minijinja-cli
       - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
@@ -51,13 +52,13 @@ tasks:
       - flux --namespace {{.NS}} reconcile helmrelease {{.APP}} --force
       - kubectl --namespace {{.NS}} wait pod --for=condition=ready --selector="app.kubernetes.io/name={{.APP}}" --timeout=5m
     vars:
-      NS: '{{.NS | default "default"}}'
+      NS: "{{.NS | default \"default\"}}"
       CONTROLLER:
         sh: kubectl --namespace {{.NS}} get deployment {{.APP}} &>/dev/null && echo deployment || echo statefulset
     env:
-      NS: '{{.NS}}'
-      APP: '{{.APP}}'
-      PREVIOUS: '{{.PREVIOUS}}'
+      NS: "{{.NS}}"
+      APP: "{{.APP}}"
+      PREVIOUS: "{{.PREVIOUS}}"
       CLAIM:
         sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath='{.spec.sourcePVC}'
       ACCESS_MODES:
@@ -69,22 +70,12 @@ tasks:
       PGID:
         sh: kubectl --namespace {{.NS}} get replicationsources/{{.APP}} --output=jsonpath='{.spec.restic.moverSecurityContext.runAsGroup}'
     requires:
-      vars: [APP, PREVIOUS]
+      vars:
+        - APP
+        - PREVIOUS
     preconditions:
       - test -f {{.VOLSYNC_RESOURCES_DIR}}/replicationdestination.yaml.j2
       - which flux kubectl minijinja-cli
-
-  state-*:
-    desc: Suspend or resume Volsync
-    cmds:
-      - flux --namespace volsync-system {{.STATE}} kustomization volsync
-      - flux --namespace volsync-system {{.STATE}} helmrelease volsync
-      - kubectl --namespace volsync-system scale deployment volsync --replicas {{if eq .STATE "suspend"}}0{{else}}1{{end}}
-    vars:
-      STATE: '{{index .MATCH 0}}'
-    preconditions:
-      - '[[ "{{.STATE}}" == "suspend" || "{{.STATE}}" == "resume" ]]'
-      - which flux kubectl
 
   snapshot:
     desc: Snapshot an app [NS=default] [APP=required]
@@ -93,13 +84,26 @@ tasks:
       - until kubectl --namespace {{.NS}} get job/{{.JOB}} &>/dev/null; do sleep 5; done
       - kubectl --namespace {{.NS}} wait job/{{.JOB}} --for=condition=complete --timeout=120m
     vars:
-      NS: '{{.NS | default "default"}}'
+      NS: "{{.NS | default \"default\"}}"
       JOB: volsync-src-{{.APP}}
     requires:
-      vars: [APP]
+      vars:
+        - APP
     preconditions:
       - kubectl --namespace {{.NS}} get replicationsources {{.APP}}
       - which kubectl
+
+  state-*:
+    desc: Suspend or resume Volsync
+    cmds:
+      - flux --namespace volsync-system {{.STATE}} kustomization volsync
+      - flux --namespace volsync-system {{.STATE}} helmrelease volsync
+      - kubectl --namespace volsync-system scale deployment volsync --replicas {{if eq .STATE "suspend"}}0{{else}}1{{end}}
+    vars:
+      STATE: "{{index .MATCH 0}}"
+    preconditions:
+      - "[[ \"{{.STATE}}\" == \"suspend\" || \"{{.STATE}}\" == \"resume\" ]]"
+      - which flux kubectl
 
   unlock:
     desc: Unlock a restic source repo from local machine [NS=default] [APP=required]
@@ -110,12 +114,13 @@ tasks:
       - stern --namespace {{.NS}} job/volsync-unlock-{{.APP}} --no-follow
       - kubectl --namespace {{.NS}} delete job volsync-unlock-{{.APP}}
     vars:
-      NS: '{{.NS | default "default"}}'
+      NS: "{{.NS | default \"default\"}}"
     env:
-      NS: '{{.NS}}'
-      APP: '{{.APP}}'
+      NS: "{{.NS}}"
+      APP: "{{.APP}}"
     requires:
-      vars: [APP]
+      vars:
+        - APP
     preconditions:
       - test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2
       - which kubectl minijinja-cli stern
