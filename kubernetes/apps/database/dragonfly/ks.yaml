@@ -35,20 +35,6 @@ spec:
     - ../../../../components/gatus/infrastructure
   dependsOn:
     - name: dragonfly
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: *app
-      namespace: *namespace
-    - apiVersion: dragonflydb.io/v1alpha1
-      kind: Dragonfly
-      name: dragonfly
-      namespace: *namespace
-  healthCheckExprs:
-    - apiVersion: dragonflydb.io/v1alpha1
-      kind: Dragonfly
-      failed: status.phase != 'ready'
-      current: status.phase == 'ready'
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/cluster
   postBuild:
@@ -64,4 +50,4 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false
+  wait: true
