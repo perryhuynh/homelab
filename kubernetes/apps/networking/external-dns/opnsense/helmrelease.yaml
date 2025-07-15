@@ -40,6 +40,15 @@ spec:
         image:
           repository: ghcr.io/jobs62/opnsense_unbound_external-dns_webhook
           tag: v0.4.5@sha256:22d3bd25bacaa0a8445a746d6541a8994bcb54e6047f5a079574adc792f88034
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - "ALL"
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
     env:
       - name: OPNSENSE_BASE
         value: "opnsense.home.arpa"
