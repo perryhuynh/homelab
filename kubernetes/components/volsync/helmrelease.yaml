@@ -41,7 +41,7 @@ spec:
         type: cronjob
         cronjob:
           schedule: "* * 31 2 *"
-          timeZone: America/Los_Angeles
+          timeZone: &timeZone America/Los_Angeles
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 1
@@ -50,6 +50,8 @@ spec:
           list:
             args:
               - "snapshots"
+            env:
+              TZ: *timeZone
         containers:
           app:
             args:

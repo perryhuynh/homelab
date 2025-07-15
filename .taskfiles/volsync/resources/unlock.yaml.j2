@@ -12,18 +12,38 @@ spec:
       automountServiceAccountToken: false
       restartPolicy: OnFailure
       containers:
-        - name: nfs
+        - name: unlock
           image: docker.io/restic/restic:latest
           args: ["unlock", "--remove-all"]
           envFrom:
             - secretRef:
                 name: {{ ENV.APP }}-volsync-secret
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 10m
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
           volumeMounts:
             - name: repository
               mountPath: /repository
+            - mountPath: /.cache
+              name: tmpfs
+              subPath: cache
           resources: {}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
       volumes:
         - name: repository
           nfs:
             server: nas.home.arpa
             path: /mnt/tank/volsync
+        - name: tmpfs
+          emptyDir: {}
