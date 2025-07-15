@@ -26,8 +26,28 @@ spec:
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 1
+        defaultContainerOptionsStrategy: &defaultContainerOptionsStrategy merge
+        defaultContainerOptions: &defaultContainerOptions
+          image:
+            repository: ghcr.io/buroa/qbtools
+            tag: v0.21.1@sha256:fd13085f7534719b7b30828684661b7f5611bbc4156831123775cfcd9b8f2eb5
+          env:
+            QBITTORRENT_HOST: qbittorrent.media.svc.cluster.local
+            QBITTORRENT_PORT: 80
+            TZ: *timeZone
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 10m
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "ALL"
+            readOnlyRootFilesystem: true
         initContainers:
-          tagging: &container
+          tagging:
             args:
               - "tagging"
               - "--added-on"
@@ -37,25 +57,8 @@ spec:
               - "--not-working"
               - "--sites"
               - "--unregistered"
-            env:
-              QBITTORRENT_HOST: qbittorrent.media.svc.cluster.local
-              QBITTORRENT_PORT: 80
-              TZ: *timeZone
-            image:
-              repository: ghcr.io/buroa/qbtools
-              tag: v0.21.1@sha256:fd13085f7534719b7b30828684661b7f5611bbc4156831123775cfcd9b8f2eb5
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 256Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
-              readOnlyRootFilesystem: true
         containers:
           unlinked:
-            <<: *container
             args:
               - "prune"
               - "--exclude-category"
@@ -69,7 +72,6 @@ spec:
               - "--with-data"
               # "--dry-run"
           unregistered:
-            <<: *container
             args:
               - "prune"
               - "--exclude-category"
@@ -83,13 +85,14 @@ spec:
         pod:
           restartPolicy: OnFailure
       orphaned:
+        defaultContainerOptionsStrategy: *defaultContainerOptionsStrategy
+        defaultContainerOptions: *defaultContainerOptions
         type: cronjob
         cronjob:
           <<: *cronJobSpec
           schedule: "@daily"
         containers:
           app:
-            <<: *container
             args:
               - "orphaned"
               - "--exclude-pattern"
@@ -98,9 +101,10 @@ spec:
               - "*/manual/*"
               # "--dry-run"
       reannounce:
+        defaultContainerOptionsStrategy: *defaultContainerOptionsStrategy
+        defaultContainerOptions: *defaultContainerOptions
         containers:
           app:
-            <<: *container
             args:
               - "reannounce"
               - "--process-seeding"
@@ -110,7 +114,6 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-        seccompProfile: {type: RuntimeDefault}
     persistence:
       secret-file:
         type: secret
