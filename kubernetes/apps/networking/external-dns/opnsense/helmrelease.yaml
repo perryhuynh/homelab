@@ -55,6 +55,8 @@ spec:
               secretKeyRef:
                 name: external-dns-opnsense-secret
                 key: *name
+          - name: OPNSENSE_DOMAIN_FILTERS
+            value: "[\".perryhuynh.com\"]"
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -64,33 +66,18 @@ spec:
           runAsNonRoot: true
           runAsUser: 1000
           runAsGroup: 1000
-    env:
-      - name: OPNSENSE_BASE
-        value: "https://opnsense.home.arpa"
-      - name: OPNSENSE_ALLOW_INVALID_CERTS
-        value: "true"
-      - name: &name OPNSENSE_KEY
-        valueFrom:
-          secretKeyRef:
-            name: external-dns-opnsense-secret
-            key: *name
-      - name: &name OPNSENSE_SECRET
-        valueFrom:
-          secretKeyRef:
-            name: external-dns-opnsense-secret
-            key: *name
-    livenessProbe:
-      httpGet:
-        path: /healthz
-        port: http-wh-metrics
-      initialDelaySeconds: 10
-      timeoutSeconds: 5
-    readinessProbe:
-      httpGet:
-        path: /readyz
-        port: http-wh-metrics
-      initialDelaySeconds: 10
-      timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http-wh-metrics
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: http-wh-metrics
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
     extraArgs:
       - --gateway-name=internal
       - --webhook-provider-url=http://localhost:8800
