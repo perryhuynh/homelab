@@ -38,6 +38,23 @@ spec:
             envFrom:
               - secretRef:
                   name: "${APP}-volsync-secret"
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
     persistence:
       repository:
         type: nfs
