@@ -24,8 +24,6 @@ spec:
           image:
             repository: docker.io/restic/restic
             tag: 0.18.0@sha256:4cf4a61ef9786f4de53e9de8c8f5c040f33830eb0a10bf3d614410ee2fcb6120
-          env:
-            TZ: America/Los_Angeles
           envFrom:
             - secretRef:
                 name: "${APP}-volsync-secret"
@@ -52,6 +50,8 @@ spec:
           list:
             args:
               - "snapshots"
+            env:
+              TZ: America/Los_Angeles
         containers:
           app:
             args:
