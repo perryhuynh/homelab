@@ -56,11 +56,10 @@ spec:
               startup:
                 enabled: false
             resources:
-              requests:
-                cpu: 25m
-                memory: 128Mi
               limits:
                 memory: 128Mi
+              requests:
+                cpu: 10m
             securityContext:
               privileged: true
     persistence:
