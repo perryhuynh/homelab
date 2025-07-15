@@ -43,12 +43,6 @@ spec:
                 memory: 256Mi
               requests:
                 cpu: 10m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - "ALL"
-              readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
@@ -60,8 +54,3 @@ spec:
         type: nfs
         path: /mnt/tank/volsync
         server: nas.home.arpa
-      tmpfs:
-        type: emptyDir
-        globalMounts:
-          - path: /.cache
-            subPath: cache
