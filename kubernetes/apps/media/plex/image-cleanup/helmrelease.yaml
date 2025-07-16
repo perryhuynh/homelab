@@ -26,6 +26,7 @@ spec:
           concurrencyPolicy: Forbid
           failedJobsHistory: 1
           successfulJobsHistory: 0
+          timeZone: "America/Los_Angeles"
         containers:
           app:
             image:

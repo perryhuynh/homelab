@@ -22,10 +22,10 @@ spec:
         type: cronjob
         cronjob: &cronJobSpec
           schedule: "@hourly"
-          timeZone: &timeZone America/Los_Angeles
           concurrencyPolicy: Forbid
-          successfulJobsHistory: 0
           failedJobsHistory: 1
+          successfulJobsHistory: 0
+          timeZone: &timeZone America/Los_Angeles
         defaultContainerOptionsStrategy: &defaultContainerOptionsStrategy merge
         defaultContainerOptions: &defaultContainerOptions
           image:

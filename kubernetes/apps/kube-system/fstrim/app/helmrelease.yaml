@@ -26,6 +26,7 @@ spec:
           backoffLimit: 0
           failedJobsHistory: 1
           successfulJobsHistory: 0
+          timeZone: "America/Los_Angeles"
         pod:
           hostNetwork: true
           hostPID: true

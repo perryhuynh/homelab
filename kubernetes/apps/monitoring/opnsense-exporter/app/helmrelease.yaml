@@ -57,8 +57,8 @@ spec:
         type: cronjob
         cronjob:
           schedule: "@daily"
-          successfulJobsHistory: 0
           failedJobsHistory: 1
+          successfulJobsHistory: 0
           timeZone: "America/Los_Angeles"
         containers:
           app:
