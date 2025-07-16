@@ -43,7 +43,7 @@ spec:
           schedule: "* * 31 2 *"
           timeZone: &timeZone America/Los_Angeles
           concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
+          successfulJobsHistory: 0
           failedJobsHistory: 1
           suspend: true
         initContainers:
