@@ -24,8 +24,9 @@ spec:
         type: cronjob
         cronjob:
           schedule: "@daily"
-          successfulJobsHistory: 1
+          successfulJobsHistory: 0
           failedJobsHistory: 1
+          timeZone: &timeZone "America/Los_Angeles"
         containers:
           app:
             args:
@@ -38,7 +39,7 @@ spec:
               # https://github.com/Radarr/Radarr/issues/7030#issuecomment-1039689518
               # https://github.com/dotnet/runtime/issues/9336
               COMPlus_EnableDiagnostics: "0"
-              TZ: America/Los_Angeles
+              TZ: *timeZone
             envFrom:
               - secretRef:
                   name: recyclarr-secret
@@ -49,17 +50,18 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: OnRootMismatch
-            seccompProfile: {type: RuntimeDefault}
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
         existingClaim: recyclarr
