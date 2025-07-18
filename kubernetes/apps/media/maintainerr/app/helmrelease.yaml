@@ -35,7 +35,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/app/status
+                    path: /api/settings/version
                     port: *port
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -73,7 +73,7 @@ spec:
       cache:
         existingClaim: maintainerr-cache
         globalMounts:
-          - path: /opt/app/ui/.next/cache
+          - path: /opt/app
       tmpfs:
         type: emptyDir
         globalMounts:
