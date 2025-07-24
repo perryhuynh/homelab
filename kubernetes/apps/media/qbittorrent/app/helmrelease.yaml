@@ -66,8 +66,6 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
-            seccompProfile:
-              type: RuntimeDefault
     route:
       app:
         hostnames:
@@ -99,13 +97,16 @@ spec:
             subPath: tmp
     service:
       app:
+        forceRename: *app
+        primary: true
+        ports:
+          http:
+            port: *port
+      bittorrent:
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.1.250
         ports:
-          http:
-            primary: true
-            port: *port
           bittorrent:
             enabled: true
             port: *bittorrentPort
