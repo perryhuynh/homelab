@@ -100,14 +100,6 @@ spec:
               - "--exclude-pattern"
               - "*/manual/*"
               # "--dry-run"
-      reannounce:
-        defaultContainerOptionsStrategy: *defaultContainerOptionsStrategy
-        defaultContainerOptions: *defaultContainerOptions
-        containers:
-          app:
-            args:
-              - "reannounce"
-              - "--process-seeding"
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
