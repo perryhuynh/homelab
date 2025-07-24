@@ -88,13 +88,6 @@ spec:
         globalMounts:
           - path: /downloads
             subPath: downloads/torrents
-      qbrr:
-        type: custom
-        volumeSpec:
-          image:
-            reference: ghcr.io/buroa/qbrr:0.0.28@sha256:4c86e047a3da5b18a1b5af840d38c11a820d2e07a4155f63865ea3225a222553
-        globalMounts:
-          - path: /qbrr
       tmpfs:
         type: emptyDir
         globalMounts:
