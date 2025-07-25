@@ -43,6 +43,9 @@ spec:
               UP_UNIFI_DEFAULT_URL: https://unifi.networking.svc.cluster.local:8443
               UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
               UP_INFLUXDB_DISABLE: true
+            envFrom:
+              - secretRef:
+                  name: unpoller-secret
             resources:
               limits:
                 memory: 128Mi
