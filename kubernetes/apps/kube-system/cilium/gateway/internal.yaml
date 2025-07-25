@@ -34,7 +34,7 @@ spec:
           - kind: Secret
             name: perryhuynh-com-production-tls
     - name: unifi
-      protocol: HTTPS
+      protocol: TLS
       port: 443
       hostname: unifi.perryhuynh.com
       tls:
