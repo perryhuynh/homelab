@@ -5,7 +5,7 @@ kind: Gateway
 metadata:
   name: internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
+    external-dns.alpha.kubernetes.io/target: "internal.perryhuynh.com"
 spec:
   gatewayClassName: cilium
   addresses:
@@ -13,23 +13,29 @@ spec:
       value: "192.168.1.200"
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: "internal.${SECRET_DOMAIN}"
+      external-dns.alpha.kubernetes.io/hostname: "internal.perryhuynh.com"
   listeners:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: "*.${SECRET_DOMAIN}"
+      hostname: "*.perryhuynh.com"
       allowedRoutes:
         namespaces:
           from: Same
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: "*.${SECRET_DOMAIN}"
+      hostname: "*.perryhuynh.com"
       allowedRoutes:
         namespaces:
           from: All
       tls:
         certificateRefs:
           - kind: Secret
-            name: ${SECRET_DOMAIN/./-}-production-tls
+            name: perryhuynh-com-production-tls
+    - name: unifi
+      protocol: HTTPS
+      port: 443
+      hostname: unifi.perryhuynh.com
+      tls:
+        mode: Passthrough
