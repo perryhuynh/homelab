@@ -25,8 +25,7 @@ spec:
               repository: ghcr.io/jacobalberty/unifi-docker
               tag: v9.3@sha256:d08af7bf1b8d2fd343770236333bf37fc26d9b51bb70dd79cc07e70857c73da1
             env:
-              JVM_INIT_HEAP_SIZE:
-              JVM_MAX_HEAP_SIZE: 1Gi
+              JVM_MAX_HEAP_SIZE: 1G
               RUNAS_UID0: false
               UNIFI_UID: 999
               UNIFI_GID: 999
