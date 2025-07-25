@@ -77,6 +77,11 @@ spec:
           - path: /unifi/data/keystore
             subPath: keystore.jks
             readOnly: false
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
     route:
       app:
         hostnames:
