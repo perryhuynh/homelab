@@ -39,3 +39,9 @@ spec:
       hostname: unifi.perryhuynh.com
       tls:
         mode: Passthrough
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: networking
