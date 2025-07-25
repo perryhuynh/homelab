@@ -87,7 +87,7 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.perryhuynh.com"
         parentRefs:
-          - name: external
+          - name: internal
             namespace: kube-system
             sectionName: unifi
         rules:
