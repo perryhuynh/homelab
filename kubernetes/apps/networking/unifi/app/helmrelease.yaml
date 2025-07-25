@@ -89,7 +89,7 @@ spec:
         parentRefs:
           - name: external
             namespace: kube-system
-            sectionName: https
+            sectionName: unifi
         rules:
           - backendRefs:
               - identifier: app
