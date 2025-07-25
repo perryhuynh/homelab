@@ -165,6 +165,7 @@ spec:
             metrics_path: /metrics
             static_configs:
               - targets:
+                  - opnsense.home.arpa:9100
                   - nas.home.arpa:9100
                   - pikvm.home.arpa:9100
           - job_name: smartctl-exporter
