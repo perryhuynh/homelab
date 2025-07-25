@@ -83,6 +83,7 @@ spec:
             subPath: tmp
     route:
       app:
+        kind: TLSRoute
         hostnames:
           - "{{ .Release.Name }}.perryhuynh.com"
         parentRefs:
