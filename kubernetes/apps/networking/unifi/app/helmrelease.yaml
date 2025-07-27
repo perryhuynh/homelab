@@ -114,7 +114,6 @@ spec:
             port: 8880  # http portal
             protocol: HTTP
           portal-https:
-            enabled: false
             port: 8843
             protocol: HTTPS
           stun:
