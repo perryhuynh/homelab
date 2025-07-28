@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: home-assistant
+  name: &app home-assistant
 spec:
   interval: 30m
   chartRef:
@@ -78,7 +78,8 @@ spec:
             "name": "home",
             "namespace": "networking",
             "interface": "eth1",
-            "ips": ["192.168.1.31/24"]
+            "ips": ["192.168.1.31/24"],
+            "mac": "02:7f:5c:50:6c:fe"
           }]
       affinity:
         nodeAffinity:
@@ -126,9 +127,22 @@ spec:
                 port: &port 8123
     service:
       app:
+        primary: true
+        forceRename: *app
+        controller: *app
         ports:
           http:
             primary: true
             port: *port
           code:
             port: 8080
+      expose:
+        controller: *app
+        type: LoadBalancer
+        annotations:
+          "io.cilium/lb-ipam-ips": "192.168.1.31"
+        ports:
+          homekit:
+            portRange:
+              start: 21061
+              end: 21069
