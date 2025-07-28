@@ -13,19 +13,14 @@ spec:
           "type": "macvlan",
           "master": "enp86s0",
           "mode": "bridge",
-          "capabilities": {
-            "ips": true
-          },
           "ipam": {
-            "type": "host-local",
+            "type": "static",
             "subnet": "192.168.1.0/24",
-            "rangeStart": "192.168.1.220",
-            "rangeEnd": "192.168.1.230",
-            "routes": [
-              { "dst": "192.168.1.0/24" }
-            ],
             "gateway": "192.168.1.1"
           }
+        },
+        {
+          "type": "sbr"
         }
       ]
     }
