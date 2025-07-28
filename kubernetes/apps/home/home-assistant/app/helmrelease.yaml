@@ -118,7 +118,7 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.perryhuynh.com"
         parentRefs:
-          - name: internal
+          - name: external
             namespace: kube-system
             sectionName: https
         rules:
@@ -140,7 +140,7 @@ spec:
         controller: *app
         type: LoadBalancer
         annotations:
-          "io.cilium/lb-ipam-ips": "192.168.1.31"
+          "io.cilium/lb-ipam-ips": "192.168.1.3"
         ports:
           homekit:
             portRange:
