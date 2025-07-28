@@ -128,6 +128,7 @@ spec:
     service:
       app:
         primary: true
+        forceRename: *app
         controller: *app
         ports:
           http:
@@ -136,7 +137,6 @@ spec:
           code:
             port: 8080
       expose:
-        primary: false
         controller: *app
         type: LoadBalancer
         annotations:
