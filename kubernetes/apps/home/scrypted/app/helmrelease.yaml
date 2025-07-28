@@ -131,7 +131,9 @@ spec:
           "io.cilium/lb-ipam-ips": "192.168.1.32"
         ports:
           homekit:
-            port: 48315
+            portRange:
+              start: 21071
+              end: 21079
           rebroadcast:
             portRange:
               start: 34131
