@@ -135,6 +135,7 @@ spec:
         image:
           registry: docker.io
           repository: prompp/prompp
+          # renovate: datasource=docker depName=docker.io/prompp/prompp
           tag: 2.53.2-0.3.3
         securityContext:
           runAsNonRoot: true
