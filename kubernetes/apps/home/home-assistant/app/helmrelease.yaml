@@ -78,7 +78,7 @@ spec:
             "name": "home",
             "namespace": "networking",
             "interface": "eth1",
-            "ips": ["192.168.1.32/24"]
+            "ips": ["192.168.1.31/24"]
           }]
       affinity:
         nodeAffinity:
