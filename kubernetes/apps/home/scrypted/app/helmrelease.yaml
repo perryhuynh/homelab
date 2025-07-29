@@ -124,6 +124,10 @@ spec:
           http:
             port: *port
             primary: true
+          rebroadcast:
+            portRange:
+              start: 34131
+              end: 34139
       expose:
         controller: *app
         type: LoadBalancer
@@ -134,7 +138,3 @@ spec:
             portRange:
               start: 21071
               end: 21079
-          rebroadcast:
-            portRange:
-              start: 34131
-              end: 34139
