@@ -62,7 +62,6 @@ spec:
           [{
             "name": "home",
             "namespace": "networking",
-            "interface": "eth1",
             "ips": ["192.168.1.33/24"],
             "mac": "02:7f:5c:50:6c:fe"
           }]
@@ -89,7 +88,7 @@ spec:
           - name: net.ipv6.conf.net1.accept_ra_rt_info_max_plen
             value: "64"
     persistence:
-      config:
+      data:
         existingClaim: *app
       tmpfs:
         type: emptyDir
