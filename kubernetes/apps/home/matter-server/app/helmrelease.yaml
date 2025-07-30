@@ -82,6 +82,12 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+        # required for matter/thread
+        sysctls:
+          - name: net.ipv6.conf.net1.accept_ra
+            value: "1"
+          - name: net.ipv6.conf.net1.accept_ra_rt_info_max_plen
+            value: "64"
     persistence:
       config:
         existingClaim: *app
