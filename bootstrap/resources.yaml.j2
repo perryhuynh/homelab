@@ -37,14 +37,3 @@ metadata:
 type: Opaque
 stringData:
   api_key: op://kubernetes/cloudflare/api_key
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: perryhuynh-com-unifi-tls
-  namespace: networking
-type: kubernetes.io/tls
-data:
-  keystore.jks: op://kubernetes/perryhuynh-com-unifi-tls/keystore.jks
-  tls.crt: op://kubernetes/perryhuynh-com-unifi-tls/tls.crt
-  tls.key: op://kubernetes/perryhuynh-com-unifi-tls/tls.key
