@@ -35,6 +35,16 @@ spec:
     monitoring:
       enabled: true
       createPrometheusRules: true
+    route:
+      dashboard:
+        host:
+          name: rook.perryhuynh.com
+          path: /
+          pathType: PathPrefix
+        parentRefs:
+        - name: internal
+          namespace: kube-system
+          sectionName: https
     toolbox:
       enabled: true
     cephClusterSpec:
