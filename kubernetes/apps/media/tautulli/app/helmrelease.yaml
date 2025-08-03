@@ -82,10 +82,8 @@ spec:
             subPath: tmp
     route:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: &hostname "{{ .Release.Name }}.perryhuynh.com"
         hostnames:
-          - *hostname
+          - "{{ .Release.Name }}.perryhuynh.com"
         parentRefs:
           - name: internal
             namespace: kube-system
