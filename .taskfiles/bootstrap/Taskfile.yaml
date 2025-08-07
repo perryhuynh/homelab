@@ -23,9 +23,11 @@ tasks:
     desc: Bootstrap apps into the Talos cluster
     cmd: bash {{.SCRIPTS_DIR}}/bootstrap-apps.sh
     preconditions:
-      - msg: Unsupported bash version, run `brew install bash` to upgrade
-        sh: '{{if eq OS "darwin"}}test -f /opt/homebrew/bin/bash || test -f /usr/local/bin/bash{{end}}'
+      - op user get --me
+      - test -f {{.BOOTSTRAP_DIR}}/helmfile.yaml
+      - test -f {{.BOOTSTRAP_DIR}}/resources.yaml.j2
       - test -f {{.KUBECONFIG}}
       - test -f {{.ROOT_DIR}}/.sops.yaml
       - test -f {{.SCRIPTS_DIR}}/bootstrap-apps.sh
       - test -f {{.SOPS_AGE_KEY_FILE}}
+      - which helmfile kubectl minijinja-cli op talosctl
