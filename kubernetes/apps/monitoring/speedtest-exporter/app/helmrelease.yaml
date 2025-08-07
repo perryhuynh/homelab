@@ -33,13 +33,15 @@ spec:
                 enabled: true
             resources:
               limits:
-                memory: 128Mi
+                memory: 256Mi
               requests:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
         pod:
           dnsConfig:
             options:
