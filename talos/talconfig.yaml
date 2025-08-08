@@ -5,10 +5,10 @@ clusterName: kubernetes
 talosVersion: "${talosVersion}"
 kubernetesVersion: "${kubernetesVersion}"
 
-endpoint: https://192.168.10.20:6443
+endpoint: https://192.168.1.20:6443
 additionalApiServerCertSans: &sans
   - "127.0.0.1"
-  - "192.168.10.20"
+  - "192.168.1.20"
 additionalMachineCertSans: *sans
 
 clusterPodNets:
@@ -22,7 +22,7 @@ cniConfig:
 
 nodes:
   - hostname: "choi-yena"
-    ipAddress: "192.168.10.21"
+    ipAddress: "192.168.1.21"
     installDiskSelector:
       model: TS512GMTS430S
     machineSpec:
@@ -35,11 +35,11 @@ nodes:
           driver: igc
         dhcp: true
         vip: &kubeVip
-          ip: "192.168.10.20"
+          ip: "192.168.1.20"
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
   - hostname: "jo-yuri"
-    ipAddress: "192.168.10.22"
+    ipAddress: "192.168.1.22"
     installDiskSelector:
       model: TS512GMTS430S
     machineSpec:
@@ -55,7 +55,7 @@ nodes:
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
   - hostname: "kim-chaewon"
-    ipAddress: "192.168.10.23"
+    ipAddress: "192.168.1.23"
     installDiskSelector:
       model: TS512GMTS430S
     machineSpec:
@@ -71,7 +71,7 @@ nodes:
     nodeLabels:
       intel.feature.node.kubernetes.io/gpu: "true"
   - hostname: "wizone"
-    ipAddress: "192.168.10.24"
+    ipAddress: "192.168.1.24"
     installDiskSelector:
       model: SAMSUNG MZ1LB960HAJQ-00007
     machineSpec:
