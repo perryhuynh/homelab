@@ -29,6 +29,15 @@
       },
     },
     {
+      description: "Cloudflared Group",
+      groupName: "Cloudflared",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/cloudflared/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
       description: "Cert-Manager Group",
       groupName: "Cert-Manager",
       matchDatasources: ["docker"],
@@ -56,10 +65,10 @@
       },
     },
     {
-      description: "Dragonfly Group",
-      groupName: "Dragonfly",
+      description: "Dragonfly Operator Group",
+      groupName: "Dragonfly Operator",
       matchDatasources: ["docker", "github-releases"],
-      matchPackageNames: ["/dragonfly/"],
+      matchPackageNames: ["/dragonfly-operator/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
