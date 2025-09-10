@@ -19,6 +19,8 @@ spec:
   values:
     controllers:
       plex-image-cleanup:
+        annotations:
+          reloader.stakater.com/auto: "true"
         type: cronjob
         cronjob:
           schedule: "@weekly"
