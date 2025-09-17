@@ -59,7 +59,7 @@ spec:
   postBuild:
     substitute:
       GATUS_NAME: "postgres"
-      GATUS_ADDRESS: "postgres17-rw.database.svc.cluster.local"
+      GATUS_ADDRESS: "postgres17-pgbouncer-rw.database.svc.cluster.local"
       GATUS_PORT: "5432"
     substituteFrom:
       - kind: Secret
