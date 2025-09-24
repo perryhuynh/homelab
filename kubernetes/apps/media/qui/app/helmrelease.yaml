@@ -74,6 +74,7 @@ spec:
       app:
         hostnames:
           - "{{ .Release.Name }}.perryhuynh.com"
+          - "qbittorrent.perryhuynh.com"
         parentRefs:
           - name: internal
             namespace: kube-system
