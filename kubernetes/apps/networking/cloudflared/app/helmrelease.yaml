@@ -79,6 +79,9 @@ spec:
                 originRequest:
                   originServerName: external.perryhuynh.com
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
+              - hostname: plex.perryhuynh.com
+                path: /:/eventsource/notifications
+                service: http_status:200
               - service: http_status:404
     defaultPodOptions:
       securityContext:
