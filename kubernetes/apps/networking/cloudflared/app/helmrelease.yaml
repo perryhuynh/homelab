@@ -67,7 +67,7 @@ spec:
                 drop:
                   - ALL
     configMaps:
-      config:
+      cloudflared-config:
         data:
           config.yaml: |
             ingress:
@@ -88,7 +88,7 @@ spec:
     persistence:
       config:
         type: configMap
-        name: cloudflared-configmap
+        name: cloudflared-config
         globalMounts:
           - path: /etc/cloudflared/config.yaml
             subPath: config.yaml
