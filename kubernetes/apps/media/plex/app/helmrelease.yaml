@@ -115,9 +115,7 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - group: gateway.envoyproxy.io
-                kind: Backend
-                name: "{{ .Release.Name }}"
+              - identifier: app
                 port: *port
             filters:
               - type: RequestHeaderModifier
@@ -132,9 +130,7 @@ spec:
               request: 0s
               backendRequest: 0s
           - backendRefs:
-              - group: gateway.envoyproxy.io
-                kind: Backend
-                name: "{{ .Release.Name }}"
+              - identifier: app
                 port: *port
             timeouts:
               request: 0s
