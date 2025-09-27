@@ -47,7 +47,8 @@ totp:
   issuer: authelia.com
 
 webauthn:
-  disable: true
+  disable: false
+  enable_passkey_login: true
 
 duo_api:
   disable: true
