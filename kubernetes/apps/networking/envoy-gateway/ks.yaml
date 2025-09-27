@@ -36,7 +36,7 @@ spec:
   dependsOn:
     - name: certificates-import
       namespace: networking
-    - name: envot-gateway
+    - name: envoy-gateway
       namespace: networking
   interval: 1h
   path: ./kubernetes/apps/networking/envoy-gateway/config
