@@ -76,8 +76,8 @@ spec:
           - "{{ .Release.Name }}.perryhuynh.com"
           - "qbittorrent.perryhuynh.com"
         parentRefs:
-          - name: internal
-            namespace: kube-system
+          - name: envoy-internal
+            namespace: networking
             sectionName: https
     service:
       app:
