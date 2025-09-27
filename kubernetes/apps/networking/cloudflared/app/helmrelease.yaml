@@ -66,7 +66,20 @@ spec:
               capabilities:
                 drop:
                   - ALL
-
+    configMaps:
+      config:
+        data:
+          config.yaml: |
+            ingress:
+              - hostname: perryhuynh.com
+                originRequest:
+                  originServerName: perryhuynh.com
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
+              - hostname: "*.perryhuynh.com"
+                originRequest:
+                  originServerName: external.perryhuynh.com
+                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
+              - service: http_status:404
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -75,7 +88,7 @@ spec:
     persistence:
       config:
         type: configMap
-        name: cloudflared-configmap
+        identifier: config
         globalMounts:
           - path: /etc/cloudflared/config.yaml
             subPath: config.yaml
