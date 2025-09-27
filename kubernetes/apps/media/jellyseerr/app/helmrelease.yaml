@@ -87,8 +87,8 @@ spec:
         hostnames:
           - "canyouadd.perryhuynh.com"
         parentRefs:
-          - name: external
-            namespace: kube-system
+          - name: envoy-external
+            namespace: networking
             sectionName: https
     service:
       app:
