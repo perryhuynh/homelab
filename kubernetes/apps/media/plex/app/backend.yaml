@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/gateway.envoyproxy.io/backend_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: Backend
+metadata:
+  name: plex
+spec:
+  endpoints:
+    - fqdn:
+        hostname: plex.media.svc.cluster.local
+        port: 32400
+  tls:
+    insecureSkipVerify: true
