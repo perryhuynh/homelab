@@ -51,6 +51,9 @@ spec:
             args:
               - "clean"
               - "qb"
+            resources:
+              limits:
+                memory: 512Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
