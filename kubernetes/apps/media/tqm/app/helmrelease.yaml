@@ -26,25 +26,31 @@ spec:
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 1
-        containers:
+        defaultContainerOptions:
+          image:
+            repository: ghcr.io/home-operations/tqm
+            tag: 1.17.0@sha256:05b62239063ad1e884f2254532e3dc9b60cff08870112dca244af328d761be0d
+          resources:
+            limits:
+              memory: 64Mi
+            requests:
+              cpu: 10m
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "ALL"
+            readOnlyRootFilesystem: true
+        initContainers:
           retag:
-            image:
-              repository: ghcr.io/home-operations/tqm
-              tag: 1.17.0@sha256:05b62239063ad1e884f2254532e3dc9b60cff08870112dca244af328d761be0d
             args:
               - "retag"
               - "qb"
-            resources:
-              limits:
-                memory: 64Mi
-              requests:
-                cpu: 10m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - "ALL"
-              readOnlyRootFilesystem: true
+        containers:
+          clean:
+            args:
+              - "clean"
+              - "qb"
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -69,3 +75,4 @@ spec:
         globalMounts:
           - path: /downloads
             subPath: downloads/torrents
+            readOnly: true
