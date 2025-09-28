@@ -87,26 +87,17 @@ function apply_sops_secrets() {
 function apply_crds() {
     log debug "Applying CRDs"
 
-    local -r crds=(
-        # renovate: datasource=github-releases depName=kubernetes-sigs/external-dns
-        https://raw.githubusercontent.com/kubernetes-sigs/external-dns/refs/tags/v0.19.0/config/crd/standard/dnsendpoints.externaldns.k8s.io.yaml
-        # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-        https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/experimental-install.yaml
-        # renovate: datasource=github-releases depName=prometheus-operator/prometheus-operator
-        https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.85.0/stripped-down-crds.yaml
-    )
+    local -r helmfile_file="${ROOT_DIR}/bootstrap/helmfile.d/00-crds.yaml"
 
-    for crd in "${crds[@]}"; do
-        if kubectl diff --filename "${crd}" &>/dev/null; then
-            log info "CRDs are up-to-date" "crd=${crd}"
-            continue
-        fi
-        if kubectl apply --server-side --filename "${crd}" &>/dev/null; then
-            log info "CRDs applied" "crd=${crd}"
-        else
-            log error "Failed to apply CRDs" "crd=${crd}"
-        fi
-    done
+    if [[ ! -f "${helmfile_file}" ]]; then
+        log error "File does not exist" "file=${helmfile_file}"
+    fi
+
+    if ! helmfile -f "${helmfile_file}" template -q | kubectl apply --server-side --field-manager flux-client-side-apply -f -; then
+        log error "Failed to apply CRDs"
+    fi
+
+    log info "CRDs applied"
 }
 
 # Resources to be applied before the helmfile charts are installed
@@ -135,7 +126,7 @@ function apply_resources() {
 function sync_helm_releases() {
     log debug "Syncing Helm releases"
 
-    local -r helmfile_file="${ROOT_DIR}/bootstrap/helmfile.yaml"
+    local -r helmfile_file="${ROOT_DIR}/bootstrap/helmfile.d/01-apps.yaml"
 
     if [[ ! -f "${helmfile_file}" ]]; then
         log error "File does not exist" "file=${helmfile_file}"
