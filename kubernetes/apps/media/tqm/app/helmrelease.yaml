@@ -24,7 +24,7 @@ spec:
           schedule: "@hourly"
           timeZone: America/Los_Angeles
           concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
+          successfulJobsHistory: 0
           failedJobsHistory: 1
         defaultContainerOptions:
           image:
