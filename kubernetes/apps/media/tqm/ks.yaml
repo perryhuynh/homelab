@@ -3,28 +3,20 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app qbittorrent
+  name: &app tqm
   namespace: &namespace media
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/keda/nfs-scaler
-    - ../../../../components/volsync
   dependsOn:
-    - name: keda
-      namespace: monitoring
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: volsync
-      namespace: volsync-system
+    - name: qbittorrent
+      namespace: media
   interval: 1h
-  path: ./kubernetes/apps/media/qbittorrent/app
+  path: ./kubernetes/apps/media/tqm/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 5Gi
   prune: true
   retryInterval: 2m
   sourceRef:
