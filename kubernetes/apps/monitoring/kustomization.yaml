@@ -6,8 +6,8 @@ namespace: monitoring
 components:
   - ../../components/common
 resources:
-  - ./alloy/ks.yaml
   - ./blackbox-exporter/ks.yaml
+  - ./fluent-bit/ks.yaml
   - ./gatus/ks.yaml
   - ./grafana/ks.yaml
   - ./karma/ks.yaml
