@@ -39,8 +39,9 @@ spec:
               startup:
                 enabled: true
             resources:
+              claims:
+                - name: gpu
               limits:
-                gpu.intel.com/i915: 1
                 memory: 8Gi
               requests:
                 cpu: 10m
@@ -52,6 +53,9 @@ spec:
               readOnlyRootFilesystem: true
     defaultPodOptions:
       automountServiceAccountToken: false
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: "{{ .Release.Name }}-gpu"
       securityContext:
         runAsNonRoot: true
         runAsGroup: 1000
