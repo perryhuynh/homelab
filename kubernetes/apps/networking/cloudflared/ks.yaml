@@ -10,6 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: external-dns-cloudflare
+      namespace: networking
     - name: external-secrets
       namespace: external-secrets
   interval: 1h
