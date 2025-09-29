@@ -55,7 +55,7 @@ spec:
       automountServiceAccountToken: false
       resourceClaims:
         - name: gpu
-          resourceClaimTemplateName: "{{ .Release.Name }}-gpu"
+          resourceClaimTemplateName: pinchflat-gpu
       securityContext:
         runAsNonRoot: true
         runAsGroup: 1000

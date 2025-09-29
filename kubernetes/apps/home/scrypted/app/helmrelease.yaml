@@ -62,7 +62,7 @@ spec:
                       - wizone
       resourceClaims:
         - name: gpu
-          resourceClaimTemplateName: "{{ .Release.Name }}-gpu"
+          resourceClaimTemplateName: scrypted-gpu
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
