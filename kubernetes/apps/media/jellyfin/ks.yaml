@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/defaults
+    - ../../../../components/gpu
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/volsync
   dependsOn:
