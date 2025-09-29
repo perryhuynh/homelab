@@ -10,6 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
+    - ../../../../components/defaults
     - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg-cluster
@@ -55,6 +56,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/defaults
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/tools/gotenberg
   prune: true
@@ -77,6 +80,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/defaults
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/tools/tika
   prune: true

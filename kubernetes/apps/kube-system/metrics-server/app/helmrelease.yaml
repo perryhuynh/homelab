@@ -24,13 +24,6 @@ spec:
         kind: HelmRepository
         name: metrics-server
         namespace: kube-system
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     args:
       - --kubelet-insecure-tls
