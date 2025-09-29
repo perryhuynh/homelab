@@ -27,8 +27,8 @@ spec:
               repository: ghcr.io/actualbudget/actual
               tag: 25.9.0@sha256:a96e38821a56843a5473204cbd3773ffee816c49c23e0a9187fb80498bd3e154
             env:
-              ACTUAL_OPENID_DISCOVERY_URL: "https://auth.${SECRET_DOMAIN}"
-              ACTUAL_OPENID_SERVER_HOSTNAME: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
+              ACTUAL_OPENID_DISCOVERY_URL: "https://auth.perryhuynh.com"
+              ACTUAL_OPENID_SERVER_HOSTNAME: "https://{{ .Release.Name }}.perryhuynh.com"
               ACTUAL_PORT: &port 80
             envFrom:
               - secretRef:
