@@ -165,8 +165,8 @@ patches:
       kubelet:
         defaultRuntimeSeccompProfileEnabled: true
         extraConfig:
-          allowedUnsafeSysctls:
-            - "net.ipv6.conf.net1.*" # Allow IPv6 syscalls, required for matter/thread
+          featureGates:
+            ImageVolume: true
           maxPods: 150
           serializeImagePulls: false
         nodeIP:
