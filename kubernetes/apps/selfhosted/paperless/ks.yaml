@@ -57,9 +57,9 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../../components/defaults
+    - ../../../../components/defaults
   interval: 1h
-  path: ./kubernetes/apps/selfhosted/paperless/tools/gotenberg
+  path: ./kubernetes/apps/selfhosted/paperless/gotenberg
   prune: true
   retryInterval: 2m
   sourceRef:
@@ -81,9 +81,9 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../../components/defaults
+    - ../../../../components/defaults
   interval: 1h
-  path: ./kubernetes/apps/selfhosted/paperless/tools/tika
+  path: ./kubernetes/apps/selfhosted/paperless/tika
   prune: true
   retryInterval: 2m
   sourceRef:

@@ -38,6 +38,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/defaults
   dependsOn:
     - name: actions-runner-controller
       namespace: *namespace
