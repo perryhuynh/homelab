@@ -126,7 +126,7 @@ patches:
   - |-
     machine:
       kubelet:
-        # renovate: datasource=docker depName=siderolabs/kubelet
+        # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
         image: ghcr.io/siderolabs/kubelet:v1.34.0
   # Configure containerd
   - |-
