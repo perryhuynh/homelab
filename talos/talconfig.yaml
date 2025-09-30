@@ -126,8 +126,7 @@ patches:
   - |-
     machine:
       kubelet:
-        # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-        image: ghcr.io/siderolabs/kubelet:v1.34.0
+        image: ghcr.io/siderolabs/kubelet:${kubernetesVersion}
   # Configure containerd
   - |-
     machine:
@@ -224,16 +223,14 @@ controlPlane:
       cluster:
         allowSchedulingOnControlPlanes: true
         apiServer:
-          # renovate: datasource=docker depName=registry.k8s.io/kube-apiserver
-          image: registry.k8s.io/kube-apiserver:v1.34.0
+          image: registry.k8s.io/kube-apiserver:${kubeserverVersion}"
           extraArgs:
             # https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/
             enable-aggregator-routing: true
             runtime-config: admissionregistration.k8s.io/v1beta1=true
             feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
         controllerManager:
-          # renovate: datasource=docker depName=registry.k8s.io/kube-controller-manager
-          image: registry.k8s.io/kube-controller-manager:v1.34.0
+          image: registry.k8s.io/kube-controller-manager:${kubecontrollermanagerVersion}
           extraArgs:
             bind-address: 0.0.0.0
         coreDNS:
@@ -244,12 +241,10 @@ controlPlane:
           advertisedSubnets:
             - 192.168.1.0/24
         proxy:
-          # renovate: datasource=docker depName=registry.k8s.io/kube-proxy
-          image: registry.k8s.io/kube-proxy:v1.34.0
+          image: registry.k8s.io/kube-proxy:${kubeproxyVersion}
           disabled: true
         scheduler:
-          # renovate: datasource=docker depName=registry.k8s.io/kube-scheduler
-          image: registry.k8s.io/kube-scheduler:v1.34.0
+          image: registry.k8s.io/kube-scheduler:${kubeschedulerVersion}
           config:
             apiVersion: kubescheduler.config.k8s.io/v1
             kind: KubeSchedulerConfiguration
