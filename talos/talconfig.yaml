@@ -27,7 +27,7 @@ nodes:
       model: TS512GMTS430S
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/9aecd1fecc916a37dd0fffaa6be113ad9ec4ff9fb6371a5dbb33af70ec2cb0de
+    talosImageURL: factory.talos.dev/installer/af0f65d00d74c07ae1ddb7c73813831219d051dcca3725eb00b0cc91bc767ec2
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -44,7 +44,7 @@ nodes:
       model: TS512GMTS430S
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/9aecd1fecc916a37dd0fffaa6be113ad9ec4ff9fb6371a5dbb33af70ec2cb0de
+    talosImageURL: factory.talos.dev/installer/af0f65d00d74c07ae1ddb7c73813831219d051dcca3725eb00b0cc91bc767ec2
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -60,7 +60,7 @@ nodes:
       model: TS512GMTS430S
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/9aecd1fecc916a37dd0fffaa6be113ad9ec4ff9fb6371a5dbb33af70ec2cb0de
+    talosImageURL: factory.talos.dev/installer/af0f65d00d74c07ae1ddb7c73813831219d051dcca3725eb00b0cc91bc767ec2
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
@@ -76,7 +76,7 @@ nodes:
       model: SAMSUNG MZ1LB960HAJQ-00007
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/9aecd1fecc916a37dd0fffaa6be113ad9ec4ff9fb6371a5dbb33af70ec2cb0de
+    talosImageURL: factory.talos.dev/installer/af0f65d00d74c07ae1ddb7c73813831219d051dcca3725eb00b0cc91bc767ec2
     controlPlane: false
     networkInterfaces:
       - deviceSelector:
@@ -126,7 +126,7 @@ patches:
   - |-
     machine:
       kubelet:
-        image: ghcr.io/siderolabs/kubelet:v1.34.1
+        image: ghcr.io/siderolabs/kubelet:v1.34.0
   # Configure containerd
   - |-
     machine:
@@ -223,14 +223,14 @@ controlPlane:
       cluster:
         allowSchedulingOnControlPlanes: true
         apiServer:
-          image: registry.k8s.io/kube-apiserver:v1.34.1
+          image: registry.k8s.io/kube-apiserver:v1.34.0
           extraArgs:
             # https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/
             enable-aggregator-routing: true
             runtime-config: admissionregistration.k8s.io/v1beta1=true
             feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
         controllerManager:
-          image: registry.k8s.io/kube-controller-manager:v1.34.1
+          image: registry.k8s.io/kube-controller-manager:v1.34.0
           extraArgs:
             bind-address: 0.0.0.0
         coreDNS:
@@ -241,10 +241,10 @@ controlPlane:
           advertisedSubnets:
             - 192.168.1.0/24
         proxy:
-          image: registry.k8s.io/kube-proxy:v1.34.1
+          image: registry.k8s.io/kube-proxy:v1.34.0
           disabled: true
         scheduler:
-          image: registry.k8s.io/kube-scheduler:v1.34.1
+          image: registry.k8s.io/kube-scheduler:v1.34.0
           config:
             apiVersion: kubescheduler.config.k8s.io/v1
             kind: KubeSchedulerConfiguration
@@ -283,7 +283,6 @@ controlPlane:
     customization:
       systemExtensions:
         officialExtensions:
-          - siderolabs/gasket-driver
           - siderolabs/i915
           - siderolabs/intel-ucode
-          - siderolabs/thunderbolt
+          - siderolabs/nfsrahead
