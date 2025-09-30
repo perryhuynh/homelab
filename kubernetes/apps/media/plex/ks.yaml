@@ -10,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/defaults
     - ../../../../components/gatus/external
     - ../../../../components/keda/nfs-scaler
     - ../../../../components/volsync
@@ -51,8 +50,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/defaults
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
@@ -80,8 +77,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/defaults
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
