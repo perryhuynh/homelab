@@ -29,8 +29,9 @@ spec:
               - "exec"
               - "scrypted-serve"
             resources:
+              claims:
+                - name: gpu
               limits:
-                gpu.intel.com/i915: 1
                 memory: 8Gi
               requests:
                 cpu: 100m
@@ -59,6 +60,9 @@ spec:
                     operator: NotIn
                     values:
                       - wizone
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: scrypted-gpu
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
