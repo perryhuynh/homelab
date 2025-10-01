@@ -69,9 +69,9 @@ spec:
               whenUnsatisfiable: DoNotSchedule
               labelSelector:
                 matchLabels:
-                  app.kubernetes.io/name: *app
+                  app.kubernetes.io/name: "{{ .Release.Name }}"
         serviceAccount:
-          identifier: *app
+          identifier: "{{ .Release.Name }}"
     rbac:
       roles:
         dragonfly-operator:
