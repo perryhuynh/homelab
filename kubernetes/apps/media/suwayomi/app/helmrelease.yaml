@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app suwayomi
+  name: suwayomi
 spec:
   interval: 30m
   chartRef:
@@ -61,7 +61,7 @@ spec:
         seccompProfile: {type: RuntimeDefault}
     persistence:
       config:
-        existingClaim: *app
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk
       downloads:

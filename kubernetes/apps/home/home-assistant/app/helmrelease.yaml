@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app home-assistant
+  name: home-assistant
 spec:
   interval: 30m
   chartRef:
@@ -85,9 +85,9 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        existingClaim: home-assistant
+        existingClaim: "{{ .Release.Name }}"
       cache:
-        existingClaim: home-assistant-cache
+        existingClaim: "{{ .Release.Name }}-cache"
         globalMounts:
           - path: /config/.venv
       tmpfs:
@@ -112,8 +112,8 @@ spec:
     service:
       app:
         primary: true
-        forceRename: *app
-        controller: *app
+        forceRename: "{{ .Release.Name }}"
+        controller: "{{ .Release.Name }}"
         ports:
           http:
             primary: true
@@ -121,7 +121,7 @@ spec:
           code:
             port: 8080
       expose:
-        controller: *app
+        controller: "{{ .Release.Name }}"
         type: LoadBalancer
         annotations:
           "io.cilium/lb-ipam-ips": "192.168.1.31"

@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app dragonfly-operator
+  name: dragonfly-operator
 spec:
   interval: 30m
   chartRef:
@@ -151,9 +151,9 @@ spec:
         dragonfly-operator:
           type: ClusterRoleBinding
           roleRef:
-            identifier: *app
+            identifier: "{{ .Release.Name }}"
           subjects:
-            - identifier: *app
+            - identifier: "{{ .Release.Name }}"
     service:
       app:
         ports:

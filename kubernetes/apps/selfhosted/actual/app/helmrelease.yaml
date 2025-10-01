@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app actual
+  name: actual
 spec:
   interval: 30m
   chartRef:
@@ -25,7 +25,7 @@ spec:
               ACTUAL_PORT: &port 80
             envFrom:
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}"
             probes:
               liveness: &probes
                 enabled: true
@@ -59,7 +59,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
-        existingClaim: *app
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
           - path: /data
     route:

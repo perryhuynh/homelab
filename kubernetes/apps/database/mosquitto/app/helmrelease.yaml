@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app mosquitto
+  name: mosquitto
 spec:
   interval: 30m
   chartRef:
@@ -87,7 +87,7 @@ spec:
           io.cilium/lb-ipam-ips: 192.168.1.206
         sessionAffinity: ClientIP
         type: LoadBalancer
-        controller: *app
+        controller: "{{ .Release.Name }}"
         ports:
           mqtt:
             port: 1883
