@@ -81,7 +81,7 @@
       description: "Talos Group",
       groupName: "talos",
       matchDatasources: ["docker", "github-tags"],
-      matchPackageNames: ["/installer/", "talos"],
+      matchPackageNames: ["/installer/", "/talos/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
