@@ -12,5 +12,5 @@ spec:
   values:
     replicaCount: 2
     monitoring:
-    serviceMonitor:
-      enabled: true
+      serviceMonitor:
+        enabled: true
