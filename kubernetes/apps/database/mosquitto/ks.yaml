@@ -19,11 +19,9 @@ spec:
       GATUS_ADDRESS: "mosquitto.database.svc.cluster.local"
       GATUS_PORT: "1883"
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true
