@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: &app homelab-actions-runner
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: gha-runner-scale-set

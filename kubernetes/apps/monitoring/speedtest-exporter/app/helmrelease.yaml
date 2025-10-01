@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: speedtest-exporter
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: speedtest-exporter

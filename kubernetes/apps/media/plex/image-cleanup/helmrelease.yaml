@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: plex-image-cleanup
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: plex-image-cleanup
