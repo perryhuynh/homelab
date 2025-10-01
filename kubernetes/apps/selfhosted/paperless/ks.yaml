@@ -35,13 +35,11 @@ spec:
       VOLSYNC_UID: "1000"
       VOLSYNC_GID: "1000"
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true
 
 ---
@@ -58,13 +56,11 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/gotenberg
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -80,11 +76,9 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/tika
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true

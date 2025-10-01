@@ -37,11 +37,9 @@ spec:
       GATUS_PATH: /api/v1/status
       VOLSYNC_CAPACITY: 1Gi
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true

@@ -17,13 +17,11 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/monitoring/silence-operator/app
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: false
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -41,11 +39,9 @@ spec:
     - name: silence-operator
   interval: 1h
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true

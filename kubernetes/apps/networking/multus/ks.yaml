@@ -15,13 +15,11 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/networking/multus/app
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -39,11 +37,9 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/networking/multus/networks
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true

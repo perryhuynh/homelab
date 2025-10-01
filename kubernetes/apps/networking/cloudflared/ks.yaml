@@ -22,11 +22,9 @@ spec:
         name: external-dns-cloudflare-secret
         optional: false
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
   wait: true
