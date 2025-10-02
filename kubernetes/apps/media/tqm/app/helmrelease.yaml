@@ -46,7 +46,7 @@ spec:
               - "qb"
             resources:
               limits:
-                memory: 512Mi
+                memory: 2Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
