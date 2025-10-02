@@ -25,7 +25,7 @@ spec:
             tag: 1.17.0@sha256:05b62239063ad1e884f2254532e3dc9b60cff08870112dca244af328d761be0d
           resources:
             limits:
-              memory: 64Mi
+              memory: 1Gi
             requests:
               cpu: 10m
           securityContext:
@@ -44,9 +44,6 @@ spec:
             args:
               - "clean"
               - "qb"
-            resources:
-              limits:
-                memory: 2Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
