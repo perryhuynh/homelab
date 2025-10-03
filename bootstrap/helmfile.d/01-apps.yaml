@@ -103,7 +103,7 @@ releases:
     namespace: external-secrets
     atomic: true
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
-    version: 0.20.1
+    version: 0.20.2
     values:
       - ./templates/values.yaml.gotmpl
     hooks:
