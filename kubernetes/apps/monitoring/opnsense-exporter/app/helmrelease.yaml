@@ -57,7 +57,7 @@ spec:
           app:
             image:
               repository: docker.io/alpine/curl
-              tag: 8.14.1@sha256:168563f2fe4b3f5d60fc3071af68ac9a6db40cfe07110ef0e942e91d80754200
+              tag: 8.14.1@sha256:2f0ecea48fe8e7131314d6655f99d001f798cf566d57de0075c387a88487acc2
             args:
               - "--fail"
               - "--silent"
