@@ -89,6 +89,8 @@ spec:
             sectionName: https
     service:
       app:
+        annotations:
+          tailscale.com/hostname: "{{ .Release.Name }}"
         type: LoadBalancer
         loadBalancerClass: tailscale
         ports:
