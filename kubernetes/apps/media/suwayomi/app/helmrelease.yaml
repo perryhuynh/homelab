@@ -89,6 +89,8 @@ spec:
             sectionName: https
     service:
       app:
+        type: LoadBalancer
+        loadBalancerClass: tailscale
         ports:
           http:
             port: *port
