@@ -37,4 +37,5 @@ spec:
               key: api_key
         selector:
           dnsZones:
+            - "perry.cafe"
             - "perryhuynh.com"
