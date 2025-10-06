@@ -5,6 +5,9 @@ metadata:
   name: cloudflared
 spec:
   endpoints:
+    - dnsName: "external.perry.cafe"
+      recordType: CNAME
+      targets: ["${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"]
     - dnsName: "external.perryhuynh.com"
       recordType: CNAME
       targets: ["${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"]
