@@ -75,17 +75,6 @@ spec:
               - hostname: plex.perryhuynh.com
                 path: /:/eventsource/notifications
                 service: http_status:200
-              - hostname: perry.cafe
-                originRequest:
-                  originServerName: perry.cafe
-                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
-              - hostname: "*.perry.cafe"
-                originRequest:
-                  originServerName: external.perry.cafe
-                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
-              - hostname: plex.perry.cafe
-                path: /:/eventsource/notifications
-                service: http_status:200
               - service: http_status:404
     defaultPodOptions:
       securityContext:

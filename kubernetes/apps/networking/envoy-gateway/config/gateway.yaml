@@ -5,7 +5,7 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.perry.cafe,external.perryhuynh.com
+    external-dns.alpha.kubernetes.io/target: &hostname external.perryhuynh.com
 spec:
   gatewayClassName: envoy
   infrastructure:
@@ -38,7 +38,7 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname internal.perry.cafe,internal.perryhuynh.com
+    external-dns.alpha.kubernetes.io/target: &hostname internal.perryhuynh.com
 spec:
   gatewayClassName: envoy
   infrastructure:
