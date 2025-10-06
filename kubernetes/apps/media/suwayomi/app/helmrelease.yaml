@@ -88,8 +88,8 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: "{{ .Release.Name }}"
-                  port: http
+                  name: "{{ .Release.Name }}"
+                  port: *port
         tls:
           - hosts:
               - "{{ .Release.Name }}"
