@@ -79,6 +79,20 @@ spec:
                 subPath: logs
               - path: /tmp
                 subPath: tmp
+    ingress:
+      app:
+        className: tailscale
+        hosts:
+          - host: "{{ .Release.Name }}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: "{{ .Release.Name }}"
+                  port: *port
+        tls:
+          - hosts:
+              - "{{ .Release.Name }}"
     route:
       app:
         hostnames:
@@ -89,10 +103,6 @@ spec:
             sectionName: https
     service:
       app:
-        annotations:
-          tailscale.com/hostname: "{{ .Release.Name }}"
-        type: LoadBalancer
-        loadBalancerClass: tailscale
         ports:
           http:
             port: *port
