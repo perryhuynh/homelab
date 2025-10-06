@@ -17,6 +17,7 @@ spec:
               key: api_key
         selector:
           dnsZones:
+            - "perry.cafe"
             - "perryhuynh.com"
 ---
 apiVersion: cert-manager.io/v1

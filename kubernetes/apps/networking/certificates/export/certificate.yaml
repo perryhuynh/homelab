@@ -18,11 +18,11 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: perry-cafe-staging
+  name: perry-cafe-production
 spec:
-  secretName: perry-cafe-staging-tls
+  secretName: perry-cafe-production-tls
   issuerRef:
-    name: letsencrypt-staging
+    name: letsencrypt-production
     kind: ClusterIssuer
   commonName: perry.cafe
   dnsNames:
