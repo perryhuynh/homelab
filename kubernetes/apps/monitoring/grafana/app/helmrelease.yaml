@@ -163,6 +163,13 @@ spec:
         external-secrets:
           url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
           datasource: Prometheus
+        minecraft:
+          # renovate: depname="Minecraft Fabric"
+          gnetId: 14492
+          revision: 4
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
         opnsense:
           # renovate: depName="OPNSense"
           gnetId: 21113
