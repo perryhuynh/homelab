@@ -71,6 +71,7 @@ spec:
         projects:
           - distanthorizons:beta
           - essential-commands
+          - fabricexporter
           - ferrite-core
           - lithium
   valuesFrom:
