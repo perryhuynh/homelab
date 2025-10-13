@@ -74,6 +74,7 @@ spec:
           - fabricexporter
           - ferrite-core
           - lithium
+        downloadDependencies: required
   valuesFrom:
     - kind: Secret
       name: *secret
