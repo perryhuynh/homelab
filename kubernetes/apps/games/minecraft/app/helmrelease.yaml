@@ -49,7 +49,7 @@ spec:
       difficulty: normal
       pvp: false
       motd: Hello
-      worldSaveName: "The Forgotten Realm"
+      worldSaveName: "Perry's Cafe"
       viewDistance: 26
       forceReDownload: true
       memory: ""
