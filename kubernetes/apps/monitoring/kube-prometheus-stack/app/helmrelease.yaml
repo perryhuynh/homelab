@@ -143,7 +143,7 @@ spec:
             metrics_path: /metrics
             static_configs:
               - targets:
-                  - minecraft.games.svc.cluster.local:25585
+                  - minecraft-metrics.games.svc.cluster.local:25585
           - job_name: node-exporter
             metrics_path: /metrics
             static_configs:
