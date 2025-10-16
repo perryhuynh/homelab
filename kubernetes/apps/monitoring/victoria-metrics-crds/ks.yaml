@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/apps/monitoring/victoria-metrics-alert/crds
+  path: ./kubernetes/apps/monitoring/victoria-metrics-crds/app
   prune: true
   sourceRef:
     kind: GitRepository
