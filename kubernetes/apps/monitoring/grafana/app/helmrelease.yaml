@@ -274,7 +274,9 @@ spec:
           # renovate: depName="Ceph Usage"
           gnetId: 23246
           revision: 1
-          datasource: Prometheus
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
       kubernetes:
         kubernetes-api-server:
           # renovate: depName="Kubernetes / System / API Server"
