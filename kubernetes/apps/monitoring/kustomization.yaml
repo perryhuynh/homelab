@@ -22,5 +22,5 @@ resources:
   - ./snmp-exporter/ks.yaml
   - ./speedtest-exporter/ks.yaml
   - ./unpoller/ks.yaml
-  - ./victoria-alerts/ks.yaml
+  - ./victoria-metrics-alert/ks.yaml
   - ./victoria-logs/ks.yaml
