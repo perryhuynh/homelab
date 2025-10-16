@@ -38,8 +38,3 @@ releases:
     namespace: monitoring
     chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
     version: 78.3.0
-
-  - name: victoria-metrics-operator-crds
-    namespace: monitoring
-    chart: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-operator-crds
-    version: 0.5.1
