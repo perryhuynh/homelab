@@ -12,5 +12,5 @@ spec:
   values:
     server:
       notifiers:
-        - alertmanager:
-            url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
+        alertmanager:
+          url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
