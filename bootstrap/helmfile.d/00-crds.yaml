@@ -15,7 +15,7 @@ helmDefaults:
 
 releases:
   - name: cloudflare-dns
-    namespace: network
+    namespace: networking
     chart: oci://ghcr.io/home-operations/charts-mirror/external-dns
     version: 1.19.0
 
@@ -25,16 +25,21 @@ releases:
     version: 0.20.3
 
   - name: envoy-gateway
-    namespace: network
+    namespace: networking
     chart: oci://docker.io/envoyproxy/gateway-helm
     version: 1.5.3
 
   - name: keda
-    namespace: observability
+    namespace: monitoring
     chart: oci://ghcr.io/home-operations/charts-mirror/keda
     version: 2.18.0
 
   - name: kube-prometheus-stack
-    namespace: observability
+    namespace: monitoring
     chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
     version: 78.3.0
+
+  - name: victoria-metrics-operator-crds
+    namespace: monitoring
+    chart: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-operator-crds
+    version: 0.5.1
