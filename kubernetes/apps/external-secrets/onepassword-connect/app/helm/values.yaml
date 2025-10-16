@@ -1,0 +1,101 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/app-template-4.1.2/charts/other/app-template/values.schema.json
+controllers:
+  onepassword-connect:
+    strategy: RollingUpdate
+    annotations:
+      reloader.stakater.com/auto: "true"
+    containers:
+      app:
+        image:
+          repository: docker.io/1password/connect-api
+          tag: 1.8.0@sha256:1695b2fdc6897e49fdfd80e64bdb78f4c64f7691a8d46957c0372e47f776430e
+        env:
+          OP_BUS_PEERS: localhost:11221
+          OP_BUS_PORT: 11220
+          OP_HTTP_PORT: &apiPort 80
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /heartbeat
+                port: *apiPort
+              initialDelaySeconds: 15
+              periodSeconds: 30
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: *apiPort
+              initialDelaySeconds: 15
+      sync:
+        image:
+          repository: docker.io/1password/connect-sync
+          tag: 1.8.0@sha256:2d32eaa6c371d2a975fa3983203b5cb37b80f145c5a5bdccba4dc00e63b4e4d0
+        env:
+          OP_BUS_PEERS: localhost:11220
+          OP_BUS_PORT: 11221
+          OP_HTTP_PORT: &syncPort 8081
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /heartbeat
+                port: *syncPort
+              initialDelaySeconds: 15
+              periodSeconds: 30
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: *syncPort
+              initialDelaySeconds: 15
+    defaultContainerOptionsStrategy: merge
+    defaultContainerOptions:
+      env:
+        OP_SESSION:
+          valueFrom:
+            secretKeyRef:
+              name: onepassword-connect-secret
+              key: 1password-credentials.json
+        XDG_DATA_HOME: /config
+      resources:
+        limits:
+          memory: 64M
+        requests:
+          cpu: 10m
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop:
+            - "ALL"
+defaultPodOptions:
+  securityContext:
+    runAsUser: 999
+    runAsGroup: 999
+    runAsNonRoot: true
+    fsGroup: 999
+    fsGroupChangePolicy: OnRootMismatch
+    seccompProfile:
+      type: RuntimeDefault
+persistence:
+  config:
+    enabled: true
+    type: emptyDir
+service:
+  app:
+    controller: onepassword-connect
+    ports:
+      http:
+        port: *apiPort
