@@ -127,6 +127,11 @@ spec:
             url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
+          - name: VictoriaLogs
+            type: victoriametrics-logs-datasource
+            access: proxy
+            url: http://victoria-logs-server.monitoring.svc.cluster.local:9428
+
     dashboards:
       default:
         authelia:
@@ -368,6 +373,7 @@ spec:
       - grafana-worldmap-panel
       - natel-discrete-panel
       - pr0ps-trackmap-panel
+      - victoriametrics-logs-datasource
       - vonage-status-panel
     resources:
       limits:
