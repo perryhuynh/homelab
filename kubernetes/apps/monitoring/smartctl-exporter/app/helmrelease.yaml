@@ -11,10 +11,6 @@ spec:
     name: prometheus-smartctl-exporter
   values:
     fullnameOverride: *app
-    config:
-      devices:
-        - /dev/sda
-        - /dev/nvme0n1
     resources:
       limits:
         memory: 64Mi
