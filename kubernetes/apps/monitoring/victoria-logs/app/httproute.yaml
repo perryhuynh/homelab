@@ -9,7 +9,7 @@ spec:
     - logs.perryhuynh.com
   parentRefs:
     - name: envoy-internal
-      namespace: network
+      namespace: networking
       sectionName: https
   rules:
     - backendRefs:
