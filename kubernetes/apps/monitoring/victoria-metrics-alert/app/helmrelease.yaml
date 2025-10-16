@@ -11,6 +11,8 @@ spec:
   interval: 1h
   values:
     server:
-      notifiers:
+      datasource:
+        url: http://victoria-logs-server.monitoring.svc.cluster.local:9428
+      notifier:
         alertmanager:
           url: http://alertmanager-operated.monitoring.svc.cluster.local:9093
