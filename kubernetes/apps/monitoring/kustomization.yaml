@@ -23,4 +23,5 @@ resources:
   - ./speedtest-exporter/ks.yaml
   - ./unpoller/ks.yaml
   - ./victoria-metrics-alert/ks.yaml
+  - ./victoria-metrics-crds/ks.yaml
   - ./victoria-logs/ks.yaml
