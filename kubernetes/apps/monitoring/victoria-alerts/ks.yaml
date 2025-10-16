@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app victoria-alerts
+  name: &app victoria-metrics-alert
   namespace: &namespace monitoring
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/apps/monitoring/victoria-alerts/app
+  path: ./kubernetes/apps/monitoring/victoria-metrics-alert/app
   prune: true
   sourceRef:
     kind: GitRepository
