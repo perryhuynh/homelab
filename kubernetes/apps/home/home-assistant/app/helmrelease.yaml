@@ -36,7 +36,7 @@ spec:
                 drop:
                   - "ALL"
               readOnlyRootFilesystem: true
-          code:
+          code-server:
             image:
               repository: ghcr.io/coder/code-server
               tag: 4.104.3@sha256:8a4f9ec985bcb022de1ae70fab74e3a2c3199b2bc44665df6da203c3ada1643a
