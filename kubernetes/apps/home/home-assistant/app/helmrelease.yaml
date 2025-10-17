@@ -108,20 +108,28 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: &port 8123
+                port: 8123
+      code:
+        hostnames:
+          - "{{ .Release.Name }}-code.perryhuynh.com"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: code-server
+                port: 12321
     service:
       app:
-        primary: true
-        forceRename: *app
-        controller: *app
         ports:
           http:
-            primary: true
-            port: *port
-          code:
-            port: 8080
+            port: 8123
+      code-server:
+        ports:
+          code-server:
+            port: 12321
       expose:
-        controller: *app
         type: LoadBalancer
         annotations:
           "io.cilium/lb-ipam-ips": "192.168.1.31"
