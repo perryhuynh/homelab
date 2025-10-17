@@ -115,8 +115,6 @@ spec:
                 port: *port
     service:
       app:
-        primary: true
-        forceRename: *app
         ports:
           http:
             port: *port
@@ -125,13 +123,3 @@ spec:
             portRange:
               start: 34131
               end: 34139
-      expose:
-        controller: *app
-        type: LoadBalancer
-        annotations:
-          "io.cilium/lb-ipam-ips": "192.168.1.32"
-        ports:
-          homekit:
-            portRange:
-              start: 21071
-              end: 21079
