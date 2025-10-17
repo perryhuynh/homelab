@@ -37,7 +37,7 @@ nodes:
         vip: &kubeVip
           ip: "192.168.1.20"
     nodeLabels:
-      intel.feature.node.kubernetes.io/gpu: "true"
+      node.kubernetes.io/gpu: "true"
   - hostname: "jo-yuri"
     ipAddress: "192.168.1.22"
     installDiskSelector:
@@ -53,7 +53,7 @@ nodes:
         dhcp: true
         vip: *kubeVip
     nodeLabels:
-      intel.feature.node.kubernetes.io/gpu: "true"
+      node.kubernetes.io/gpu: "true"
   - hostname: "kim-chaewon"
     ipAddress: "192.168.1.23"
     installDiskSelector:
@@ -69,7 +69,7 @@ nodes:
         dhcp: true
         vip: *kubeVip
     nodeLabels:
-      intel.feature.node.kubernetes.io/gpu: "true"
+      node.kubernetes.io/gpu: "true"
   - hostname: "wizone"
     ipAddress: "192.168.1.24"
     installDiskSelector:
@@ -84,7 +84,7 @@ nodes:
           driver: i40e
         dhcp: true
     nodeLabels:
-      intel.feature.node.kubernetes.io/gpu: "true"
+      node.kubernetes.io/gpu: "true"
     patches:
       - |-
         machine:
@@ -137,6 +137,7 @@ patches:
             [plugins."io.containerd.cri.v1.images"]
               discard_unpacked_layers = false
             [plugins."io.containerd.cri.v1.runtime"]
+              cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
               device_ownership_from_security_context = true
   # Configure NFS mount options
   - |-
@@ -172,6 +173,7 @@ patches:
         extraConfig:
           featureGates:
             ImageVolume: true
+            ResourceHealthStatus: true
           maxPods: 150
           serializeImagePulls: false
         nodeIP:
@@ -223,12 +225,12 @@ controlPlane:
       cluster:
         allowSchedulingOnControlPlanes: true
         apiServer:
-          image: registry.k8s.io/kube-apiserver:${kubeapiserver}"
+          image: registry.k8s.io/kube-apiserver:${kubeapiserver}
           extraArgs:
             # https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/
             enable-aggregator-routing: true
             runtime-config: admissionregistration.k8s.io/v1beta1=true
-            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
+            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true,ResourceHealthStatus=true
         controllerManager:
           image: registry.k8s.io/kube-controller-manager:${kubecontrollermanagerVersion}
           extraArgs:

@@ -41,8 +41,9 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             resources:
+              claims:
+                - name: gpu
               limits:
-                gpu.intel.com/i915: 1
                 memory: 16Gi
               requests:
                 cpu: 250m
@@ -53,7 +54,9 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
-      automountServiceAccountToken: false
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: plex-gpu
       securityContext:
         runAsNonRoot: true
         runAsGroup: 1000
