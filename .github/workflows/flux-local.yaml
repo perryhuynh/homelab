@@ -1,10 +1,11 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Flux Local"
+name: Flux Local
 
 on:
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
     paths: ["kubernetes/**"]
 
 concurrency:
@@ -15,44 +16,41 @@ permissions:
   contents: read
 
 jobs:
-  changed-files:
-    name: Changed Files
+  filter:
+    name: Flux Local - Filter
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
+      changed-files: ${{ steps.changed-files.outputs.changed_files }}
     steps:
-      - name: Checkout Default Branch
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
       - name: Get Changed Files
         id: changed-files
-        uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47.0.0
+        uses: bjw-s-labs/action-changed-files@1a5aeab1bfa64d0c4e786f501d5a3f1fad4a24da # v0.4.1
         with:
-          files: kubernetes/**
-          dir_names: true
-          dir_names_max_depth: 1
-          json: true
-          escape_json: false
-
-      - name: List All Changed Files
-        run: echo "${{ steps.changed-files.outputs.all_changed_and_modified_files }}"
+          patterns: kubernetes/**/*
 
   test:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
-    needs: ["changed-files"]
-    name: Test
+    needs: filter
+    name: Flux Local - Test
     runs-on: ubuntu-latest
     steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Run flux-local test
         uses: docker://ghcr.io/allenporter/flux-local:v7.10.1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           args: >-
             test
@@ -62,41 +60,52 @@ jobs:
             --verbose
 
   diff:
-    name: Diff
+    if: ${{ needs.filter.outputs.changed-files != '[]' }}
+    needs: filter
+    name: Flux Local - Diff
     runs-on: ubuntu-latest
-    needs: ["changed-files"]
     permissions:
       contents: read
       pull-requests: write
     strategy:
       matrix:
-        paths: ${{ fromJSON(needs.changed-files.outputs.matrix) }}
-        resources: ["helmrelease", "kustomization"]
-      max-parallel: 4
+        resource:
+          - helmrelease
+          - kustomization
       fail-fast: false
     steps:
-      - name: Checkout Default Branch
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Generate Token
+        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        id: app-token
         with:
-          ref: "${{ github.event.repository.default_branch }}"
-          path: default
-          persist-credentials: false
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Checkout Pull Request Branch
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           path: pull
           persist-credentials: false
+          token: ${{ steps.app-token.outputs.token }}
 
-      - name: Diff Resources
+      - name: Checkout Default Branch
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          path: default
+          persist-credentials: false
+          ref: ${{ github.event.repository.default_branch }}
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Run flux-local diff
         uses: docker://ghcr.io/allenporter/flux-local:v7.10.1
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           args: >-
-            --log-level DEBUG
-            diff ${{ matrix.resources }}
+            diff ${{ matrix.resource }}
             --unified 6
-            --path-orig /github/workspace/default/kubernetes/flux/cluster
             --path /github/workspace/pull/kubernetes/flux/cluster
+            --path-orig /github/workspace/default/kubernetes/flux/cluster
             --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
             --limit-bytes 10000
             --all-namespaces
@@ -105,40 +114,34 @@ jobs:
 
       - name: Generate Diff
         id: diff
-        run: |
-          cat diff.patch
-          echo "diff<<EOF" >> $GITHUB_OUTPUT
+        run: |-
+          echo 'diff<<EOF' >> $GITHUB_OUTPUT
           cat diff.patch >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
       - if: ${{ steps.diff.outputs.diff != '' }}
-        name: Generate Token
-        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
-        id: app-token
-        with:
-          app-id: "${{ secrets.BOT_APP_ID }}"
-          private-key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
-
-      - if: ${{ steps.diff.outputs.diff != '' }}
-        name: Add comment
+        name: Add Comment
         uses: marocchino/sticky-pull-request-comment@773744901bac0e8cbb5a0dc842800d45e9b2b405 # v2.9.4
         with:
-          GITHUB_TOKEN: "${{ steps.app-token.outputs.token }}"
-          header: "${{ github.event.pull_request.number }}/${{ matrix.paths }}/${{ matrix.resources }}"
-          message: |
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          header: ${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resource }}
+          message: |-
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
 
-  # Summarize matrix https://github.community/t/status-check-for-a-matrix-jobs/127354/7
   success:
-    if: ${{ always() }}
+    if: ${{ !cancelled() }}
     needs:
       - test
       - diff
-    name: Success
+    name: Flux Local - Success
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
-        name: Check matrix status
+      - name: Any jobs failed?
+        if: ${{ contains(needs.*.result, 'failure') }}
         run: exit 1
+
+      - name: All jobs passed or skipped?
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: echo "All jobs passed or skipped" && echo "${{ toJSON(needs.*.result) }}"
