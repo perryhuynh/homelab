@@ -43,13 +43,17 @@ spec:
             env:
               TZ: *TZ
             args:
-              - "/config"
               - --auth
-              - "none"
+              - none
+              - --disable-telemetry
+              - --disable-update-check
               - --user-data-dir
-              - "/config/.vscode"
+              - /data/user-data
               - --extensions-dir
-              - "/config/.vscode"
+              - /data/extensions
+              - --port
+              - "12321"
+              - /config
             resources:
               limits:
                 memory: 1Gi
