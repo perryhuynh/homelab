@@ -38,8 +38,3 @@ releases:
     namespace: observability
     chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
     version: 78.3.2
-
-  - name: prometheus-operator-crds
-    namespace: observability
-    chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
-    version: 24.0.1
