@@ -86,7 +86,7 @@ spec:
           - name: heartbeat
             webhook_configs:
               - url_secret:
-                  name: &secret alertmanager
+                  name: &secret victoriametrics-alertmanager
                   key: ALERTMANAGER_HEARTBEAT_URL
           - name: "null"
           - name: pushover
