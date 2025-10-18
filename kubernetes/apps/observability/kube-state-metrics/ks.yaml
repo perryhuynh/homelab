@@ -3,25 +3,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app kromgo
+  name: &app kube-state-metrics
   namespace: &namespace observability
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: observability
   interval: 1h
-  path: ./kubernetes/apps/observability/kromgo/app
-  postBuild:
-    substitute:
-      APP: *app
-      GATUS_STATUS: "404"
+  path: ./kubernetes/apps/observability/kube-state-metrics/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  wait: true
+  wait: false

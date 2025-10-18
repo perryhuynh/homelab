@@ -86,7 +86,7 @@ spec:
     serviceMonitor:
       app:
         endpoints:
-          - port: http
+          - port: metrics
             scheme: http
             path: /metrics
             interval: 1m
