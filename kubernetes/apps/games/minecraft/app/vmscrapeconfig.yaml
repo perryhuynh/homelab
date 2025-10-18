@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/operator.victoriametrics.com/vmscrapeconfig_v1beta1.json
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMScrapeConfig
 metadata:
@@ -7,4 +8,4 @@ spec:
   staticConfigs:
     - targets:
         - minecraft-metrics.games.svc.cluster.local:25585
-  metricsPath: /metrics
+  path: /metrics
