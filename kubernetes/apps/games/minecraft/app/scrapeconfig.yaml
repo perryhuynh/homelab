@@ -10,4 +10,3 @@ spec:
   staticConfigs:
     - targets:
         - minecraft-metrics.games.svc.cluster.local:25585
----
