@@ -71,7 +71,7 @@ spec:
     kubeScheduler:
       enabled: false
     kube-state-metrics:
-      fullnameOverride: kube-state-metrics
+      enabled: false
     prometheusOperator:
       resources:
         limits:
