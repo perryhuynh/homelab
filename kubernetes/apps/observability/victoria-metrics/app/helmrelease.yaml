@@ -155,6 +155,7 @@ spec:
       enabled: false
 
     prometheus-node-exporter:
+      enabled: false
       vmScrape:
         spec:
           endpoints:
