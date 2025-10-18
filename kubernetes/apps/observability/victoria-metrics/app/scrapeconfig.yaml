@@ -12,6 +12,10 @@ spec:
         - opnsense.home.arpa:9100
         - nas.home.arpa:9100
         - pikvm.home.arpa:9100
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: node-exporter
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
@@ -24,6 +28,10 @@ spec:
   staticConfigs:
     - targets:
         - nas.home.arpa:9633
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: smartctl-exporter
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
@@ -36,6 +44,10 @@ spec:
   staticConfigs:
     - targets:
         - pikvm.home.arpa
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: pikvm
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
@@ -48,3 +60,7 @@ spec:
   staticConfigs:
     - targets:
         - perry-desktop.home.arpa:9182
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: pc
