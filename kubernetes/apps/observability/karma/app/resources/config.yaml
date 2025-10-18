@@ -10,4 +10,4 @@ alertmanager:
         filters:
           alertmanager:
             - alertname=Watchdog
-            - prometheus=monitoring/kube-prometheus-stack
+            - prometheus=observability/kube-prometheus-stack
