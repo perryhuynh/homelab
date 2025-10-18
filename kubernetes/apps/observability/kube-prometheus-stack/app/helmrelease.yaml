@@ -109,11 +109,12 @@ spec:
               namespace: networking
               sectionName: https
       prometheusSpec:
+        externalUrl: https://prometheus.perryhuynh.com
+        version: v2.55.1 # override 'unsupported Prometheus version' error
         image:
           registry: docker.io
           repository: prompp/prompp
-          # renovate: datasource=docker depName=docker.io/prompp/prompp
-          tag: 2.53.2-0.3.3
+          tag: 0.6.0
         securityContext:
           runAsNonRoot: true
           runAsUser: 64535
@@ -129,15 +130,15 @@ spec:
             memory: 2Gi
           requests:
             cpu: 100m
-        retention: 14d
-        retentionSize: 50GB
+        retention: 180d
+        retentionSize: 100GB
         storageSpec:
           volumeClaimTemplate:
             spec:
               storageClassName: ceph-block
               resources:
                 requests:
-                  storage: 50Gi
+                  storage: 100Gi
         additionalScrapeConfigs:
           - job_name: fabric
             metrics_path: /metrics
