@@ -36,7 +36,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://cloudnative-pg/
       endpointURL: https://${bucket_host}
-      serverName: &currentCluster postgres17-v10
+      serverName: &currentCluster postgres17
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -48,7 +48,7 @@ spec:
   # # cluster when recovering from an existing cnpg cluster
   bootstrap:
     recovery:
-      source: &previousCluster postgres17-v9
+      source: &previousCluster postgres17-v10
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:
