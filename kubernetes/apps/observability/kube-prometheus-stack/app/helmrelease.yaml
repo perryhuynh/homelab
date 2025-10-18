@@ -130,7 +130,7 @@ spec:
             memory: 2Gi
           requests:
             cpu: 100m
-        retention: 180d
+        retention: 90d
         retentionSize: 100GB
         storageSpec:
           volumeClaimTemplate:
