@@ -125,11 +125,6 @@ spec:
                 requests:
                   storage: 50Gi
         additionalScrapeConfigs:
-          - job_name: fabric
-            metrics_path: /metrics
-            static_configs:
-              - targets:
-                  - minecraft-metrics.games.svc.cluster.local:25585
           - job_name: node-exporter
             metrics_path: /metrics
             static_configs:
