@@ -60,6 +60,11 @@ spec:
         replicaCount: 1
         extraArgs:
           maxLabelsPerTimeseries: "50"
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 2Gi
         storage:
           accessModes:
             - ReadWriteOnce
@@ -71,6 +76,11 @@ spec:
       spec:
         externalURL: https://alertmanager.perryhuynh.com
       useManagedConfig: true
+      resources:
+        requests:
+          cpu: 10m
+        limits:
+          memory: 128Mi
       config:
         route:
           group_by: ["alertname", "job"]
@@ -158,6 +168,11 @@ spec:
               values: ["never-used-value"]
         extraArgs:
           external.url: https://victoriametrics.perryhuynh.com
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            memory: 128Mi
 
     vmagent:
       spec:
