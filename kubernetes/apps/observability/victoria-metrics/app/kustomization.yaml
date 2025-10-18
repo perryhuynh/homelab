@@ -7,4 +7,4 @@ resources:
   - ./helmrelease.yaml
   - ./httproute.yaml
   - ./ocirepository.yaml
-  - ./scapeconfig.yaml
+  - ./scrapeconfig.yaml
