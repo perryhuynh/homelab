@@ -40,6 +40,10 @@ spec:
       operator:
         enable_converter_ownership: true # Required to allow VM to remove VM rules it imports if a prometheus rule is deleted
 
+    defaultDashboards:
+      labels:
+        grafana_dashboard: "true"
+
     defaultRules:
       rules:
         groups:
