@@ -100,6 +100,7 @@ spec:
           requests:
             cpu: 10m
     prometheus:
+      fullnameOverride: prometheus
       route:
         main:
           enabled: true
