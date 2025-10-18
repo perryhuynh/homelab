@@ -28,7 +28,6 @@ spec:
                 path: /spec/groups/0/rules/1/expr
                 value: "count(up == 0) without(instance,pod,node) OR on() vector(0)"
   values:
-    fullnameOverride: victoria-metrics
     victoria-metrics-operator:
       env:
         - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
