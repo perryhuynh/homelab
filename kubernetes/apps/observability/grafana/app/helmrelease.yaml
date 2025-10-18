@@ -123,7 +123,7 @@ spec:
             access: proxy
             url: http://victoria-logs-server.observability.svc.cluster.local:9428
           - name: VictoriaMetrics
-            type: Prometheus
+            type: prometheus
             uid: victoriametrics
             access: proxy
             url: http://vmsingle-victoria-metrics.observability.svc.cluster.local:8428
