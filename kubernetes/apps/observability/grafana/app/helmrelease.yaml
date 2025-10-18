@@ -123,7 +123,8 @@ spec:
             access: proxy
             url: http://victoria-logs-server.observability.svc.cluster.local:9428
           - name: VictoriaMetrics
-            type: victoriametrics-metrics-datasource
+            type: Prometheus
+            uid: victoriametrics
             access: proxy
             url: http://vmsingle-victoria-metrics.observability.svc.cluster.local:8428
 
@@ -376,7 +377,6 @@ spec:
       - natel-discrete-panel
       - pr0ps-trackmap-panel
       - victoriametrics-logs-datasource
-      - victoriametrics-metrics-datasource
       - vonage-status-panel
     resources:
       limits:
