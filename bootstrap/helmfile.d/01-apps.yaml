@@ -99,28 +99,6 @@ releases:
     needs:
       - "cert-manager/cert-manager"
 
-  - name: external-secrets
-    namespace: external-secrets
-    atomic: true
-    chart: oci://ghcr.io/external-secrets/charts/external-secrets
-    version: 0.20.3
-    values:
-      - ./templates/values.yaml.gotmpl
-    hooks:
-      - events:
-          - "postsync"
-        command: kubectl
-        args:
-          - apply
-          - --namespace=external-secrets
-          - --server-side
-          - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/external-secrets/external-secrets/app/clustersecretstore.yaml
-          - --wait=true
-        showlogs: true
-    needs:
-      - "external-secrets/onepassword-connect"
-
   - name: flux-operator
     namespace: flux-system
     atomic: true
@@ -129,7 +107,7 @@ releases:
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - "external-secrets/external-secrets"
+      - "external-secrets/onepassword-connect"
 
   - name: flux-instance
     namespace: flux-system
