@@ -181,7 +181,7 @@ spec:
           requests:
             cpu: 10m
           limits:
-            memory: 512Mi
+            memory: 1Gi
 
     grafana:
       enabled: false
