@@ -13,7 +13,7 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - name: vmalertmanager-stack
+        - name: vmsingle-victoria-metrics
           port: 8428
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/gateway.networking.k8s.io/httproute_v1.json
@@ -29,6 +29,6 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - name: vmalertmanager-stack
+        - name: vmalertmanager-victoria-metrics
           namespace: observability
           port: 9093
