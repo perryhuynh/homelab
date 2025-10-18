@@ -3,32 +3,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app qui
-  namespace: &namespace media
+  name: &app kromgo
+  namespace: &namespace observability
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/keda/nfs-scaler
-    - ../../../../components/volsync
   dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
-    - name: keda
+    - name: kube-prometheus-stack
       namespace: observability
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-    - name: qbittorrent
-      namespace: media
-    - name: volsync
-      namespace: volsync-system
   interval: 1h
-  path: ./kubernetes/apps/media/qui/app
+  path: ./kubernetes/apps/observability/kromgo/app
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 2Gi
+      GATUS_STATUS: "404"
   prune: true
   sourceRef:
     kind: GitRepository

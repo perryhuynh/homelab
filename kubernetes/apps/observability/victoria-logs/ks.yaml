@@ -3,36 +3,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app qui
-  namespace: &namespace media
+  name: &app victoria-logs
+  namespace: &namespace observability
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/keda/nfs-scaler
-    - ../../../../components/volsync
   dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
-    - name: keda
-      namespace: observability
     - name: rook-ceph-cluster
       namespace: rook-ceph
-    - name: qbittorrent
-      namespace: media
-    - name: volsync
-      namespace: volsync-system
   interval: 1h
-  path: ./kubernetes/apps/media/qui/app
-  postBuild:
-    substitute:
-      APP: *app
-      VOLSYNC_CAPACITY: 2Gi
+  path: ./kubernetes/apps/observability/victoria-logs/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  wait: true
+  wait: false
