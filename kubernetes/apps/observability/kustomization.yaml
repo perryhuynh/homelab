@@ -15,7 +15,6 @@ resources:
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./opnsense-exporter/ks.yaml
-  - ./prometheus-operator-crds/ks.yaml
   - ./qbittorrent-exporter/ks.yaml
   - ./silence-operator/ks.yaml
   - ./smartctl-exporter/ks.yaml
