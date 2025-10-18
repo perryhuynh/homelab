@@ -221,9 +221,6 @@ spec:
     kubeProxy:
       enabled: false
 
-    kube-state-metrics:
-      enabled: false
-
     additionalVictoriaMetricsMap:
       dockerhub-rules:
         create: true
