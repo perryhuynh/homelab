@@ -29,6 +29,7 @@ spec:
                 value: "count(up == 0) without(instance,pod,node) OR on() vector(0)"
   values:
     victoria-metrics-operator:
+      fullnameOverride: victoria-metrics-operator
       env:
         - name: VM_VMALERTDEFAULT_CONFIGRELOADERCPU
           value: 0
@@ -186,7 +187,11 @@ spec:
     grafana:
       enabled: false
 
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+
     prometheus-node-exporter:
+      fullnameOverride: prometheus-node-exporter
       vmScrape:
         spec:
           endpoints:
