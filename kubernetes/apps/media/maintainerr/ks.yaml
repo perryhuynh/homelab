@@ -14,7 +14,7 @@ spec:
     - ../../../../components/volsync
   dependsOn:
     - name: keda
-      namespace: monitoring
+      namespace: observability
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: volsync

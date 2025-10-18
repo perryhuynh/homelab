@@ -16,7 +16,7 @@ spec:
     - name: external-secrets
       namespace: external-secrets
     - name: keda
-      namespace: monitoring
+      namespace: observability
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: qbittorrent

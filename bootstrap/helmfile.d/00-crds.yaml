@@ -30,11 +30,11 @@ releases:
     version: 1.5.3
 
   - name: keda
-    namespace: monitoring
+    namespace: observability
     chart: oci://ghcr.io/home-operations/charts-mirror/keda
     version: 2.18.0
 
   - name: kube-prometheus-stack
-    namespace: monitoring
+    namespace: observability
     chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
     version: 78.3.1

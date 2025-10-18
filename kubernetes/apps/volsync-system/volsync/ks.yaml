@@ -13,7 +13,7 @@ spec:
     - ../../../../components/keda/nfs-scaler
   dependsOn:
     - name: keda
-      namespace: monitoring
+      namespace: observability
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: snapshot-controller
