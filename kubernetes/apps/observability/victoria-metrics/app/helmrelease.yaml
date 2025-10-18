@@ -46,11 +46,8 @@ spec:
     defaultRules:
       rules:
         groups:
-          etcd:
-            create: false
-          kubernetesSystemControllerManager:
-            create: false
-          kubernetesSystemScheduler:
+          # Added to not consider 304 redirects as errors/warnings
+          kubeApiserverSlos:
             create: false
 
     vmsingle:
