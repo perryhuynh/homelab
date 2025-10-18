@@ -100,7 +100,6 @@ spec:
           requests:
             cpu: 10m
     prometheus:
-      fullnameOverride: prometheus
       route:
         main:
           enabled: true
@@ -111,6 +110,7 @@ spec:
               namespace: networking
               sectionName: https
       prometheusSpec:
+        fullnameOverride: prometheus
         image:
           registry: docker.io
           repository: prompp/prompp
