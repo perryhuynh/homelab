@@ -87,7 +87,6 @@ spec:
                 - __meta_kubernetes_pod_node_name
               targetLabel: kubernetes_node
     prometheusOperator:
-      fullnameOverride: prometheus-operator
       resources:
         limits:
           memory: 128Mi
@@ -110,7 +109,6 @@ spec:
               namespace: networking
               sectionName: https
       prometheusSpec:
-        fullnameOverride: prometheus
         image:
           registry: docker.io
           repository: prompp/prompp
