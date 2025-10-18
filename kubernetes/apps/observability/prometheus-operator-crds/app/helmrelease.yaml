@@ -8,7 +8,7 @@ spec:
   interval: 30m
   chartRef:
     kind: OCIRepository
-    name: prometheus-operator-crds-chart
+    name: prometheus-operator-crds
   install:
     remediation:
       retries: -1
