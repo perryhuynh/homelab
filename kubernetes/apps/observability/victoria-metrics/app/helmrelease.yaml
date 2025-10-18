@@ -244,6 +244,7 @@ spec:
                 labels:
                   severity: critical
       zfs-rules:
+        create: true
         groups:
           - name: zfs
             rules:
