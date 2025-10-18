@@ -1,0 +1,10 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMScrapeConfig
+metadata:
+  name: fabric
+spec:
+  staticConfigs:
+    - targets:
+        - minecraft-metrics.games.svc.cluster.local:25585
+  metricsPath: /metrics
