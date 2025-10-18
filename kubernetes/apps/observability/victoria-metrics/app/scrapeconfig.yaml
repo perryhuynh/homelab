@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter
+spec:
+  jobName: node-exporter
+  metricsPath: /metrics
+  staticConfigs:
+    - targets:
+        - opnsense.home.arpa:9100
+        - nas.home.arpa:9100
+        - pikvm.home.arpa:9100
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: smartctl-exporter
+spec:
+  jobName: smartctl-exporter
+  metricsPath: /metrics
+  staticConfigs:
+    - targets:
+        - nas.home.arpa:9633
