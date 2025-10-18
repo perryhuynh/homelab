@@ -52,7 +52,6 @@ spec:
             create: false
 
     vmsingle:
-      fullnameOverride: vmsingle
       spec:
         # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/single-server-victoriametrics/#retention)
         retentionPeriod: "1y"
@@ -72,7 +71,6 @@ spec:
               storage: 100Gi
 
     alertmanager:
-      fullnameOverride: alertmanager
       spec:
         externalURL: https://alertmanager.perryhuynh.com
       useManagedConfig: true
@@ -153,7 +151,6 @@ spec:
                 url_title: View in Alertmanager
 
     vmalert:
-      fullnameOverride: vmalert
       spec:
         # Skip vmalerts for vmlog rules
         selectAllByDefault: false
@@ -176,7 +173,6 @@ spec:
             memory: 128Mi
 
     vmagent:
-      fullnameOverride: vmagent
       spec:
         extraArgs:
           promscrape.maxScrapeSize: 50MiB
