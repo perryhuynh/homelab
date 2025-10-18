@@ -11,3 +11,7 @@ spec:
   interval: 1h
   values:
     fullnameOverride: victoria-metrics
+    victoria-metrics-operator:
+      createCRD: true
+    grafana:
+      enabled: false
