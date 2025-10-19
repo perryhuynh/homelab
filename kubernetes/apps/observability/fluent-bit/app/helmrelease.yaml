@@ -55,6 +55,7 @@ spec:
         [FILTER]
           name nest
           match kubernetes.*
+          wildcard pod_name
           operation lift
           nested_under k_labels
           add_prefix k_labels_
@@ -86,8 +87,8 @@ spec:
           structured_metadata container=$k_container_name, pod=$k_pod_name, host=$k_host
           log_payload_response false
         [OUTPUT]
-          Name http
-          Match kubernetes.*
+          name http
+          match kubernetes.*
           host victoria-logs-server.observability.svc.cluster.local
           port 9428
           uri /insert/jsonline?_stream_fields=stream,k_namespace_name,k_pod_name,app&_msg_field=log&_time_field=date
