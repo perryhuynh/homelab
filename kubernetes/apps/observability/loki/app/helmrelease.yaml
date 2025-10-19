@@ -84,5 +84,10 @@ spec:
         sha: 39cca7abcad8f1621b9462d95f7d0e60301b92fcb0ff4de0ad4561859011cddf
       rules:
         searchNamespace: ALL
+    monitoring:
+      dashboards:
+        enabled: true
+        annotations:
+          grafana_folder: observability
     serviceMonitor:
       enabled: true
