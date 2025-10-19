@@ -18,9 +18,21 @@ spec:
         forceConflicts: true
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - alertmanager.perryhuynh.com
+          parentRefs:
+            - name: envoy-internal
+              namespace: networking
+              sectionName: https
       alertmanagerSpec:
+        externalUrl: https://alertmanager.perryhuynh.com
         alertmanagerConfiguration:
           name: alertmanager
+          global:
+            resolveTimeout: 5m
         resources:
           limits:
             memory: 256Mi
