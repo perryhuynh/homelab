@@ -85,7 +85,7 @@ spec:
           line_format json
           labels job=fluent-bit, namespace=$k_namespace_name, app=$app
           structured_metadata container=$k_container_name, pod=$k_pod_name, host=$k_host
-          log_payload_response false
+          log_response_payload false
         [OUTPUT]
           name http
           match kubernetes.*
@@ -95,7 +95,7 @@ spec:
           format json_lines
           json_date_format iso8601
           compress gzip
-          log_payload_response false
+          log_response_payload false
     dashboards:
       enabled: true
       annotations:
