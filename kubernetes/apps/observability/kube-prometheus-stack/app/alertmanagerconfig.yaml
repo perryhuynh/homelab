@@ -48,7 +48,7 @@ spec:
           matchType: =
 
   receivers:
-    - name: "null"
+    - name: blackhole
     - name: heartbeat
       webhookConfigs:
         - urlSecret:
