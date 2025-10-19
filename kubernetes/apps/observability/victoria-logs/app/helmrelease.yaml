@@ -10,9 +10,9 @@ spec:
     name: victoria-logs
   interval: 1h
   values:
-    fullnameOverride: victoria-logs
-    retentionPeriod: 30d
+    fullnameOverride: victoriametrics-logs-datasource
     server:
+      retentionPeriod: 30d
       persistentVolume:
         enabled: true
         storageClassName: ceph-block
