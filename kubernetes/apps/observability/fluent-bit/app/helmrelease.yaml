@@ -48,7 +48,6 @@ spec:
         [FILTER]
           name nest
           match kubernetes.*
-          wildcard pod_name
           operation lift
           nested_under kubernetes
           add_prefix k_
@@ -85,6 +84,7 @@ spec:
           line_format json
           labels job=fluent-bit, namespace=$k_namespace_name, app=$app
           structured_metadata container=$k_container_name, pod=$k_pod_name, host=$k_host
+          log_payload_response false
         [OUTPUT]
           Name http
           Match kubernetes.*
@@ -94,9 +94,11 @@ spec:
           format json_lines
           json_date_format iso8601
           compress gzip
+          log_payload_response false
     dashboards:
       enabled: true
       annotations:
         grafana_folder: observability
     serviceMonitor:
       enabled: true
+    logLevel: warn
