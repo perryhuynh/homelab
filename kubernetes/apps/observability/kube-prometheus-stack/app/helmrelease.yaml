@@ -19,8 +19,8 @@ spec:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       alertmanagerSpec:
-        useExistingSecret: true
-        configSecret: alertmanager-secret
+        alertmanagerConfiguration:
+          name: alertmanager
         resources:
           limits:
             memory: 256Mi
