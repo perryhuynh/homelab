@@ -3,6 +3,20 @@
 apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
+  name: ceph-pg-imbalance
+spec:
+  matchers:
+    - name: alertname
+      value: CephPGImbalance
+      matchType: "="
+    - name: hostname
+      value: wizone
+      matchType: "="
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha2
+kind: Silence
+metadata:
   name: ceph-node-network-packet-drops
 spec:
   matchers:
