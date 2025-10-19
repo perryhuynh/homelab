@@ -9,21 +9,27 @@ spec:
     receiver: pushover
     repeatInterval: 12h
     routes:
+      - receiver: blackhole
+        matchers:
+          - name: alertname
+            value: InfoInhibitor
+            matchType: =
       - receiver: heartbeat
-        group_wait: 0s
-        group_interval: 5m
-        repeat_interval: 5m
+        groupWait: 0s
+        groupInterval: 5m
+        repeatInterval: 5m
         matchers:
-          - alertname =~ "Watchdog"
-      - receiver: "null"
-        matchers:
-          - alertname =~ "InfoInhibitor"
+          - name: alertname
+            value: Watchdog
+            matchType: =
       - receiver: pushover
-        continue: true
         matchers:
-          - severity = "critical"
+          - name: severity
+            value: critical
+            matchType: =
     groupBy:
       - alertname
+      - cluster
       - job
     groupInterval: 5m
     groupWait: 1m
