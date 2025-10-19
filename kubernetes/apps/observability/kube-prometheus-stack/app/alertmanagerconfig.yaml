@@ -47,7 +47,7 @@ spec:
       webhookConfigs:
         - urlSecret:
             name: &secret alertmanager
-            key: ALERTMANAGER_HEARTBEAT_URL
+            key: HEARTBEAT_URL
     - name: pushover
       pushoverConfigs:
         - html: true
