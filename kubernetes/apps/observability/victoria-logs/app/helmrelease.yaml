@@ -10,7 +10,7 @@ spec:
     name: victoria-logs
   interval: 1h
   values:
-    fullnameOverride: victoriametrics-logs-datasource
+    fullnameOverride: victoria-logs
     server:
       retentionPeriod: 30d
       persistentVolume:
