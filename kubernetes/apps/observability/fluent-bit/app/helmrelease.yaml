@@ -77,15 +77,6 @@ spec:
 
       outputs: |-
         [OUTPUT]
-          name loki
-          match kubernetes.*
-          host loki-headless.observability.svc.cluster.local
-          port 3100
-          uri /loki/api/v1/push
-          line_format json
-          labels job=fluent-bit, namespace=$k_namespace_name, app=$app
-          structured_metadata container=$k_container_name, pod=$k_pod_name, host=$k_host
-        [OUTPUT]
           name http
           match kubernetes.*
           host victoria-logs-server.observability.svc.cluster.local
