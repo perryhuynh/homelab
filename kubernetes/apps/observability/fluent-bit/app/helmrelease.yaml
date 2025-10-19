@@ -44,6 +44,7 @@ spec:
           k8s-logging.exclude on
           namespace_labels off
           annotations off
+          buffer_size 256KB
 
         [FILTER]
           name nest
@@ -55,7 +56,6 @@ spec:
         [FILTER]
           name nest
           match kubernetes.*
-          wildcard pod_name
           operation lift
           nested_under k_labels
           add_prefix k_labels_
