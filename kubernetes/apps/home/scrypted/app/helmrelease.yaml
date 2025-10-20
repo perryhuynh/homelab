@@ -48,7 +48,7 @@ spec:
             "name": "iot",
             "namespace": "networking",
             "interface": "eth1",
-            "ips": ["192.168.30.32/24"],
+            "ips": ["192.168.50.32/24"],
             "mac": "02:f5:a6:0c:dd:0f"
           }]
       affinity:
