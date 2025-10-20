@@ -34,7 +34,7 @@ spec:
     dashboards:
       enabled: true
       annotations:
-        grafana_folder: &grafanaFolder Cilium
+        grafana_folder: &grafanaFolder kube-system
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true
