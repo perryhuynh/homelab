@@ -213,4 +213,4 @@ spec:
                 name: not-used
                 namespace: not-used
                 annotations:
-                  grafana_folder: Kubernetes
+                  grafana_folder: observability
