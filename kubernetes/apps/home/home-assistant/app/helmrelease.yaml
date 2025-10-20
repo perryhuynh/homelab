@@ -63,10 +63,10 @@ spec:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
-            "name": "iot",
+            "name": "home",
             "namespace": "networking",
             "interface": "eth1",
-            "ips": ["192.168.30.31/24"],
+            "ips": ["192.168.1.31/24"],
             "mac": "02:7f:5c:50:6c:fe"
           }]
       affinity:
@@ -133,3 +133,12 @@ spec:
         ports:
           code-server:
             port: 12321
+      expose:
+        type: LoadBalancer
+        annotations:
+          "io.cilium/lb-ipam-ips": "192.168.1.31"
+        ports:
+          homekit:
+            portRange:
+              start: 21061
+              end: 21069
