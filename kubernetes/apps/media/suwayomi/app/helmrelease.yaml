@@ -65,9 +65,12 @@ spec:
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk
       downloads:
-        existingClaim: suwayomi-downloads
+        type: nfs
+        path: /mnt/tank/media
+        server: nas.home.arpa
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk/downloads
+            subPath: downloads/suwayomi
       tmpfs:
         type: emptyDir
         advancedMounts:
