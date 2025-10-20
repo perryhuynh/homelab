@@ -36,6 +36,10 @@ nodes:
         dhcp: true
         vip: &kubeVip
           ip: "192.168.1.20"
+        vlans:
+          - # IOT
+            vlanId: 30
+            dhcp: false
     nodeLabels:
       node.kubernetes.io/gpu: "true"
   - hostname: "jo-yuri"
@@ -52,6 +56,10 @@ nodes:
           driver: igc
         dhcp: true
         vip: *kubeVip
+        vlans:
+          - # IOT
+            vlanId: 30
+            dhcp: false
     nodeLabels:
       node.kubernetes.io/gpu: "true"
   - hostname: "kim-chaewon"
@@ -68,6 +76,10 @@ nodes:
           driver: igc
         dhcp: true
         vip: *kubeVip
+        vlans:
+          - # IOT
+            vlanId: 30
+            dhcp: false
     nodeLabels:
       node.kubernetes.io/gpu: "true"
   - hostname: "wizone"
@@ -83,6 +95,10 @@ nodes:
           hardwareAddr: "58:47:ca:74:f0:45"
           driver: i40e
         dhcp: true
+        vlans:
+          - # IOT
+            vlanId: 30
+            dhcp: false
     nodeLabels:
       node.kubernetes.io/gpu: "true"
     patches:
