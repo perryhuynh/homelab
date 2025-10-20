@@ -105,12 +105,10 @@ jobs:
       MATRIX_IMAGE: ${{ matrix.image }}
     steps:
       - name: Install talosctl
-        run: |
-          curl https://mise.run | sh
-          mise install talosctl
+        run: curl -fsSL https://talos.dev/install | sh
 
       - name: Pull Image
-        run: mise x -- talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
+        run: talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
 
   success:
     if: ${{ !cancelled() }}
