@@ -12,7 +12,7 @@ spec:
   values:
     fullnameOverride: victoria-logs
     server:
-      retentionPeriod: 30d
+      retentionPeriod: 90d
       persistentVolume:
         enabled: true
         storageClassName: ceph-block
@@ -27,13 +27,6 @@ spec:
           - name: envoy-internal
             namespace: networking
             sectionName: https
-        filters:
-          - type: RequestRedirect
-            requestRedirect:
-              path:
-                type: ReplaceFullPath
-                replaceFullPath: /select/vmui/
-              statusCode: 302
     dashboards:
       enabled: true
       annotations:
