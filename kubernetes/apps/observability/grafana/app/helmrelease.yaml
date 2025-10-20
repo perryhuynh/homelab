@@ -267,6 +267,9 @@ spec:
           revision: 9
           datasource: Prometheus
       observability:
+        keda:
+          url: https://raw.githubusercontent.com/kedacore/keda/refs/heads/main/config/grafana/keda-dashboard.json
+          datasource: Prometheus
         kubernetes-api-server:
           # renovate: depName="Kubernetes / System / API Server"
           gnetId: 15761
