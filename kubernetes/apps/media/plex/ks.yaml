@@ -68,7 +68,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app plex-image-cleanup
+  name: &app imagemaid
   namespace: &namespace media
 spec:
   commonMetadata:
@@ -80,7 +80,7 @@ spec:
     - name: plex
       namespace: media
   interval: 1h
-  path: ./kubernetes/apps/media/plex/image-cleanup
+  path: ./kubernetes/apps/media/plex/imagemaid
   prune: true
   sourceRef:
     kind: GitRepository
