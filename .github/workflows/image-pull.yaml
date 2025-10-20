@@ -105,10 +105,12 @@ jobs:
       MATRIX_IMAGE: ${{ matrix.image }}
     steps:
       - name: Install talosctl
-        run: curl -fsSL https://raw.githubusercontent.com/siderolabs/talos/b412ffdbc29d77a81aed88be62f21bc2999afcde/website/static/install | sh
+        run: |
+          curl https://mise.run | sh
+          mise install talosctl
 
       - name: Pull Image
-        run: talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
+        run: mise x -- talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
 
   success:
     if: ${{ !cancelled() }}
