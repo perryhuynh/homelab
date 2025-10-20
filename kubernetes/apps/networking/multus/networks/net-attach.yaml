@@ -17,7 +17,7 @@ spec:
           "ipam": {
             "type": "static",
             "dst": "0.0.0.0/0",
-            "gateway": "192.168.50.1"
+            "gateway": "192.168.30.1"
           }
         },
         {
