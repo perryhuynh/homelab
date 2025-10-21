@@ -17,8 +17,11 @@ spec:
         enabled: true
         storageClassName: ceph-block
         size: 50Gi
-      serviceMonitor:
-        enabled: true
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          cpu: 10m
       route:
         enabled: true
         hostnames:
@@ -27,6 +30,8 @@ spec:
           - name: envoy-internal
             namespace: networking
             sectionName: https
+      serviceMonitor:
+        enabled: true
     dashboards:
       enabled: true
       annotations:
