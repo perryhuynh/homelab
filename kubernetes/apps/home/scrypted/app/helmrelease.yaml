@@ -124,8 +124,8 @@ spec:
         ports:
           homekit:
             portRange:
-              start: 21079
-              end: 21071
+              start: 21071
+              end: 21079
           rebroadcast:
             portRange:
               start: 34131
