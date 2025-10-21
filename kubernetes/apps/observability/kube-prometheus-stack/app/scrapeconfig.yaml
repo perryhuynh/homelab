@@ -1,0 +1,69 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: node-exporter
+spec:
+  staticConfigs:
+    - targets:
+        - opnsense.home.arpa:9100
+        - nas.home.arpa:9100
+        - pikvm.home.arpa:9100
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: node-exporter
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: smartctl-exporter
+spec:
+  staticConfigs:
+    - targets:
+        - nas.home.arpa:9633
+  metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: smartctl-exporter
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: pikvm
+spec:
+  staticConfigs:
+    - targets:
+        - pikvm.home.arpa
+  metricsPath: /api/export/prometheus/metrics
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: pikvm
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: pc
+spec:
+  staticConfigs:
+    - targets:
+        - perry-desktop.home.arpa:9182
+  metricsPath: /metrics
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: fabric
+spec:
+  staticConfigs:
+    - targets:
+        - minecraft-metrics.games.svc.cluster.local:25585
+  metricsPath: /metrics
