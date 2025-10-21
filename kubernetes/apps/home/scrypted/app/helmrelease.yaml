@@ -119,6 +119,7 @@ spec:
           http:
             port: *port
       expose:
+        type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.1.32
         ports:
