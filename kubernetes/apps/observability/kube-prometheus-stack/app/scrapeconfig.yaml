@@ -56,6 +56,10 @@ spec:
     - targets:
         - perry-desktop.home.arpa:9182
   metricsPath: /metrics
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: pc
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
