@@ -20,12 +20,12 @@
       ignoreTests: false,
     },
     {
-      description: "Auto-merge suwayomi",
+      description: "Auto-merge trusted apps",
       matchDatasources: ["docker"],
       automerge: true,
       automergeType: "pr",
       matchUpdateTypes: ["digest", "patch"],
-      matchPackageNames: ["/suwayomi-server/"],
+      matchPackageNames: ["/suwayomi-server/", "/prowlarr/", "/radarr/", "/sonarr/"],
       ignoreTests: false,
     },
     {
