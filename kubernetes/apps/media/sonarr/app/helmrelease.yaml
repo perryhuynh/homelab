@@ -83,6 +83,12 @@ spec:
         type: nfs
         path: /mnt/tank/media
         server: nas.home.arpa
+      scripts:
+        type: configMap
+        name: sonarr-configmap
+        defaultMode: 0775
+        globalMounts:
+          - readOnly: true
       tmpfs:
         type: emptyDir
         globalMounts:
