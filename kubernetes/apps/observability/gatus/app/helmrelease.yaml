@@ -16,11 +16,6 @@ spec:
           reloader.stakater.com/auto: "true"
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
-          resources:
-            limits:
-              memory: 128Mi
-            requests:
-              cpu: 10m
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -39,6 +34,11 @@ spec:
               NAMESPACE: ALL
               RESOURCE: both
               UNIQUE_FILENAMES: true
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 10m
             restartPolicy: Always
         containers:
           app:
@@ -49,6 +49,11 @@ spec:
               GATUS_CONFIG_PATH: *configDir
               WEB_PORT: &port 80
               TZ: America/Los_Angeles
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 10m
             probes:
               liveness: &probes
                 enabled: true
