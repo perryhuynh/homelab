@@ -433,6 +433,11 @@ spec:
         registry: ghcr.io
         repository: home-operations/k8s-sidecar
         tag: 2.0.3@sha256:7978b5a757b1cb4f1b0d1c61cf135030b9353a9841457d81c8106eb1cdfe3b4b
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 10m
       dashboards:
         enabled: true
         searchNamespace: ALL
