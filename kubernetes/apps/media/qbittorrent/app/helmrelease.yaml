@@ -52,6 +52,16 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
         pod:
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - wizone
+                  weight: 1
           automountServiceAccountToken: false
           securityContext:
             runAsNonRoot: true
