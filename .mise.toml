@@ -6,7 +6,7 @@ TALOSCONFIG = "{{config_root}}/talos/clusterconfig/talosconfig"
 [tools]
 "aqua:budimanjojo/talhelper" = "3.0.38"
 "aqua:cilium/cilium-cli" = "0.18.8"
-"aqua:cli/cli" = "2.82.1"
+"aqua:cli/cli" = "2.83.0"
 "aqua:cloudflare/cloudflared" = "2025.10.1"
 "aqua:derailed/k9s" = "0.50.16"
 "aqua:FiloSottile/age" = "1.2.1"
