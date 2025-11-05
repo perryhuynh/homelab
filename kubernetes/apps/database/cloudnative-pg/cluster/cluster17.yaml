@@ -33,4 +33,4 @@ spec:
       isWALArchiver: true
       parameters:
         barmanObjectName: r2
-        serverName: postgres17
+        serverName: pg17
