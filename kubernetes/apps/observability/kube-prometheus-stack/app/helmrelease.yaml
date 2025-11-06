@@ -11,11 +11,6 @@ spec:
     kind: OCIRepository
     name: kube-prometheus-stack
   values:
-    crds:
-      enabled: true
-      upgradeJob:
-        enabled: true
-        forceConflicts: true
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       route:
@@ -28,11 +23,9 @@ spec:
               namespace: networking
               sectionName: https
       alertmanagerSpec:
-        externalUrl: https://alertmanager.perryhuynh.com
         alertmanagerConfiguration:
           name: alertmanager
-          global:
-            resolveTimeout: 5m
+        externalUrl: https://alertmanager.perryhuynh.com
         resources:
           limits:
             memory: 256Mi
@@ -48,36 +41,10 @@ spec:
     grafana:
       enabled: false
       forceDeployDashboards: true
-    kubeApiServer:
-      enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          # Drop high cardinality labels
-          - action: drop
-            sourceLabels:
-              - "__name__"
-            regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
-          - action: drop
-            sourceLabels:
-              - "__name__"
-            regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
-    kubeControllerManager:
-      enabled: false
     kubeEtcd:
-      enabled: false
-    kubelet:
-      enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          # Drop high cardinality labels
-          - action: labeldrop
-            regex: (uid)
-          - action: labeldrop
-            regex: (id|name)
-          - action: drop
-            sourceLabels:
-              - "__name__"
-            regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
+      service:
+        selector:
+          component: kube-apiserver # etcd runs on control plane nodes
     kubeProxy:
       enabled: false
     kubeScheduler:
