@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+
+  maintenance:
+    desc: Set all CloudNativePG clusters into maintenance mode
+    cmd: kubectl cnpg maintenance set --all-namespaces --reusePVC
+    preconditions:
+      - kubectl cnpg version
+      - which kubectl

@@ -24,6 +24,7 @@ env:
 
 includes:
   bootstrap: .taskfiles/bootstrap
+  cnpg: .taskfiles/cnpg
   kubernetes: .taskfiles/kubernetes
   talos: .taskfiles/talos
   volsync: .taskfiles/volsync/Taskfile.yaml
