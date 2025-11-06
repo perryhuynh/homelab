@@ -71,6 +71,6 @@ spec:
             description: Job {{ $labels.job }} has not completed in {{ humanizeDuration $value }}.
           # 36h
           expr: |-
-            time() - max without (instance,pod) (cnpg_collector_last_available_backup_timestamp) > 129600
+            time() - max without (instance,pod) (barman_cloud_cloudnative_pg_io_last_available_backup_timestamp) > 129600
           labels:
             severity: warning
