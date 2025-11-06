@@ -22,8 +22,7 @@ spec:
       shared_buffers: 512MB
   resources:
     limits:
-      hugepages-2Mi: 2Gi
-      memory: 2Gi
+      memory: 4Gi
     requests:
       cpu: 100m
   monitoring:
