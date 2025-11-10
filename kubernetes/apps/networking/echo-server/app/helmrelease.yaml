@@ -55,8 +55,6 @@ spec:
         runAsNonRoot: true
         runAsGroup: 1000
         runAsUser: 1000
-        seccompProfile:
-          type: RuntimeDefault
     route:
       app:
         hostnames:
