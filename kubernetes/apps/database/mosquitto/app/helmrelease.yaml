@@ -73,8 +73,6 @@ spec:
             runAsGroup: 2000
             runAsUser: 2000
             fsGroup: 2000
-            seccompProfile:
-              type: RuntimeDefault
     persistence:
       config:
         type: configMap
