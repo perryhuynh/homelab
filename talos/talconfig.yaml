@@ -173,7 +173,6 @@ patches:
         extraConfig:
           featureGates:
             ImageVolume: true
-            ResourceHealthStatus: true
           maxPods: 150
           serializeImagePulls: false
         nodeIP:
@@ -230,7 +229,7 @@ controlPlane:
             # https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/
             enable-aggregator-routing: true
             runtime-config: admissionregistration.k8s.io/v1beta1=true
-            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true,ResourceHealthStatus=true
+            feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
         controllerManager:
           image: registry.k8s.io/kube-controller-manager:${kubecontrollermanagerVersion}
           extraArgs:
