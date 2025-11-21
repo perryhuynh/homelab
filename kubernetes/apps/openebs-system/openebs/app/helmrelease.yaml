@@ -11,6 +11,8 @@ spec:
     name: openebs
   values:
     localpv-provisioner:
+      analytics:
+        enabled: false
       localpv:
         image: &image
           registry: quay.io/
