@@ -4,7 +4,7 @@ SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
 TALOSCONFIG = "{{config_root}}/talos/clusterconfig/talosconfig"
 
 [tools]
-"aqua:budimanjojo/talhelper" = "3.0.39"
+"aqua:budimanjojo/talhelper" = "3.0.41"
 "aqua:cilium/cilium-cli" = "0.18.8"
 "aqua:cli/cli" = "2.83.1"
 "aqua:cloudflare/cloudflared" = "2025.11.1"
