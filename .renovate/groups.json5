@@ -42,10 +42,10 @@
       minimumGroupSize: 2,
     },
     {
-      description: "Dragonfly Operator Group",
-      groupName: "Dragonfly Operator",
+      description: "Dragonfly Group",
+      groupName: "Dragonfly",
       matchDatasources: ["docker", "github-releases"],
-      matchPackageNames: ["/dragonfly-operator/"],
+      matchPackageNames: ["dragonfly-crd", "/dragonfly-operator/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
