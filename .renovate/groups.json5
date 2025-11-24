@@ -45,7 +45,7 @@
       description: "Dragonfly Group",
       groupName: "Dragonfly",
       matchDatasources: ["docker", "github-tags"],
-      matchPackageNames: ["dragonfly-crd", "/dragonfly-operator/"],
+      matchPackageNames: ["/dragonfly-crd/", "/dragonfly-operator/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
