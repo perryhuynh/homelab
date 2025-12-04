@@ -96,14 +96,14 @@ spec:
           requests:
             cpu: 100m
         retention: 90d
-        retentionSize: 95Gi
+        retentionSize: 100Gi
         storageSpec:
           volumeClaimTemplate:
             spec:
               storageClassName: ceph-block
               resources:
                 requests:
-                  storage: 100Gi
+                  storage: 125Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
   postRenderers:
