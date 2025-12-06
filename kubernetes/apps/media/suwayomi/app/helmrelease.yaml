@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/suwayomi/suwayomi-server
-              tag: v2.1.2019@sha256:76ca1fb0b2afc1110ed1fba555b3315f82c25ddfd9fe8cc4a89aa72cda55a79f
+              tag: v2.1.2031@sha256:0fad003e6ae52d23be202613bd73da43783418b0db92a4e0aa10bce2e7d2f3bf
             env:
               BACKUP_INTERVAL: 0
               BIND_PORT: &port 80
