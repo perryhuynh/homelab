@@ -1,13 +1,13 @@
 ---
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.34.2
+kubernetesVersion: v1.34.3
 # renovate: datasource=docker depName=registry.k8s.io/kube-apiserver
-kubeapiserver: v1.34.2
+kubeapiserver: v1.34.3
 # renovate: datasource=docker depName=registry.k8s.io/kube-controller-manager
-kubecontrollermanagerVersion: v1.34.2
+kubecontrollermanagerVersion: v1.34.3
 # renovate: datasource=docker depName=registry.k8s.io/kube-proxy
-kubeproxyVersion: v1.34.2
+kubeproxyVersion: v1.34.3
 # renovate: datasource=docker depName=registry.k8s.io/kube-scheduler
-kubeschedulerVersion: v1.34.2
+kubeschedulerVersion: v1.34.3
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.11.5
