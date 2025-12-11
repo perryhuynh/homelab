@@ -96,7 +96,7 @@ spec:
           requests:
             cpu: 100m
         retention: 90d
-        retentionSize: 100G
+        retentionSize: 100GB
         storageSpec:
           volumeClaimTemplate:
             spec:
