@@ -10,4 +10,4 @@ kubeproxyVersion: v1.34.3
 # renovate: datasource=docker depName=registry.k8s.io/kube-scheduler
 kubeschedulerVersion: v1.34.3
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.11.5
+talosVersion: v1.11.6
