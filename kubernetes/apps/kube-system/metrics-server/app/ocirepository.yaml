@@ -1,10 +1,14 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/source.toolkit.fluxcd.io/helmrepository_v1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/source.toolkit.fluxcd.io/ocirepository_v1.json
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+kind: OCIRepository
 metadata:
   name: metrics-server
-  namespace: kube-system # Required for Renovate lookups
 spec:
   interval: 15m
-  url: https://kubernetes-sigs.github.io/metrics-server
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 3.13.0
+  url: oci://ghcr.io/home-operations/charts-mirror/metrics-server
