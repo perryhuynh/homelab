@@ -7,7 +7,7 @@ authentication_backend:
     start_tls: false
     base_dn: dc=home,dc=arpa
     additional_users_dn: ou=people,ou=users
-    users_filter: (&(&#124;({username_attribute}={input})({mail_attribute}={input}))(objectClass=posixAccount)(!(accountStatus=inactive)))
+    users_filter: (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=posixAccount)(!(accountStatus=inactive)))
     additional_groups_dn: ou=users
     groups_filter: (&(uniqueMember={dn})(objectClass=posixGroup))
     user: cn=search,ou=svcaccts,ou=users,dc=home,dc=arpa
