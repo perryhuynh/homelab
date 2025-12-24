@@ -3,7 +3,6 @@ authentication_backend:
   ldap:
     address: ldap://glauth.security.svc.cluster.local:389
     implementation: glauth
-    permit_feature_detection_failure: true
     timeout: 5s
     start_tls: false
     base_dn: dc=home,dc=arpa
