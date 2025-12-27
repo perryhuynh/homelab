@@ -21,7 +21,11 @@ spec:
               tag: 2.16.0@sha256:2a092f86a51f5718111097b0fced33eaa876b5904a543b7504f92357a4f75635
             env:
               TZ: America/Los_Angeles
+              TAUTULLI_HTTP_BASE_URL: "https://{{ .Release.Name }}.perryhuynh.com"
               TAUTULLI_HTTP_PORT: &port 80
+            envFrom:
+              - secretRef:
+                  name: tautulli
             probes:
               liveness: &probes
                 enabled: true
