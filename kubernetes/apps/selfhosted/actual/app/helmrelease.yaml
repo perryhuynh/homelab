@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/actualbudget/actual
-              tag: 26.1.0@sha256:2ff310ce221c796f60e7565484d6c4ee278e95c2cbca76d6a206640703997a56
+              tag: 26.1.0@sha256:e82b7302b0db7f8fa063159e8bddc07443bb83761798dc9ba84fe1b3df62d74f
             env:
               ACTUAL_OPENID_DISCOVERY_URL: "https://auth.perryhuynh.com"
               ACTUAL_OPENID_SERVER_HOSTNAME: "https://{{ .Release.Name }}.perryhuynh.com"
