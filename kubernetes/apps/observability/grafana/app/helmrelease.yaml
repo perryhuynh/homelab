@@ -192,13 +192,6 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
-        windows-exporter:
-          # renovate: depName="Windows Exporter Dashboard 2024"
-          gnetId: 20763
-          revision: 2
-          datasource:
-            - name: DS_PROMETHEUS
-              value: Prometheus
         volsync:
           # renovate: depName="VolSync Dashboard"
           gnetId: 21356
