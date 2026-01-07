@@ -313,13 +313,6 @@ spec:
           gnetId: 17092
           revision: 7
           datasource: Prometheus
-        systemd-exporter:
-          # renovate: depName="Systemd exporter"
-          gnetId: 22872
-          revision: 1
-          datasource:
-            - name: DS_PROMETHEUS
-              value: Prometheus
       rook-ceph:
         ceph-cluster:
           # renovate: depName="Ceph Cluster"
