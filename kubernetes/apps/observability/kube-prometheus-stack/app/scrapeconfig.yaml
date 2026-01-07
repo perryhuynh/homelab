@@ -37,21 +37,6 @@ spec:
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
-  name: systemd-exporter
-spec:
-  staticConfigs:
-    - targets:
-        - perry-desktop-linux.home.arpa:9558
-  metricsPath: /metrics
-  relabelings:
-    - action: replace
-      targetLabel: job
-      replacement: systemd-exporter
----
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.coreos.com/scrapeconfig_v1alpha1.json
-apiVersion: monitoring.coreos.com/v1alpha1
-kind: ScrapeConfig
-metadata:
   name: pikvm
 spec:
   staticConfigs:
