@@ -31,7 +31,6 @@ spec:
       enabled: true
     extraEnv:
       TZ: "America/Los_Angeles"
-      ENABLE_ROLLING_LOGS: true
       UID: 1000
       GID: 1000
       MEMORY: ""
