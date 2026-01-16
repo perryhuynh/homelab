@@ -91,7 +91,6 @@ spec:
         globalMounts:
           - path: /downloads
             subPath: downloads/torrents
-            readOnly: true
       tmpfs:
         type: emptyDir
         globalMounts:
