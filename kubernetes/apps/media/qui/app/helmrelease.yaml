@@ -63,6 +63,13 @@ spec:
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
+      downloads:
+        type: nfs
+        path: /mnt/tank/media
+        server: nas.home.arpa
+        globalMounts:
+          - path: /downloads
+            subPath: downloads/torrents
     route:
       app:
         hostnames:
