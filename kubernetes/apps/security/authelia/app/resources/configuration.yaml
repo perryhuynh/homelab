@@ -102,3 +102,12 @@ identity_providers:
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://paperless.perryhuynh.com/accounts/oidc/authelia/login/callback/"]
         userinfo_signed_response_alg: none
+      - client_name: qui
+        client_id: "${QUI_OAUTH_CLIENT_ID}"
+        client_secret: "${QUI_OAUTH_CLIENT_SECRET}"
+        public: false
+        authorization_policy: two_factor
+        pre_configured_consent_duration: 1y
+        scopes: ["openid", "profile", "groups", "email"]
+        redirect_uris: ["https://qui.perryhuynh.com/api/auth/oidc/callback"]
+        userinfo_signed_response_alg: none
