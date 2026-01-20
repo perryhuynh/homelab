@@ -5,14 +5,20 @@ kind: Certificate
 metadata:
   name: "perryhuynh-com-production"
 spec:
-  secretName: "perryhuynh-com-production-tls"
-  issuerRef:
-    name: letsencrypt-production
-    kind: ClusterIssuer
-  commonName: perryhuynh.com
   dnsNames:
     - perryhuynh.com
     - "*.perryhuynh.com"
+  duration: 160h
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    rotationPolicy: Always
+  secretName: "perryhuynh-com-production-tls"
+  usages:
+      - digital signature
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
@@ -20,11 +26,15 @@ kind: Certificate
 metadata:
   name: perry-cafe-production
 spec:
-  secretName: perry-cafe-production-tls
-  issuerRef:
-    name: letsencrypt-production
-    kind: ClusterIssuer
-  commonName: perry.cafe
   dnsNames:
     - perry.cafe
     - "*.perry.cafe"
+  duration: 160h
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+    rotationPolicy: Always
+  secretName: perry-cafe-production-tls
