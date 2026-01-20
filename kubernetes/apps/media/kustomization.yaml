@@ -21,4 +21,3 @@ resources:
   - ./sonarr/ks.yaml
   - ./suwayomi/ks.yaml
   - ./tautulli/ks.yaml
-  - ./tqm/ks.yaml
