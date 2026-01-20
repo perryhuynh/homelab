@@ -75,7 +75,6 @@ spec:
         globalMounts:
           - path: /downloads
             subPath: downloads/torrents
-            readOnly: true
     route:
       app:
         hostnames:
