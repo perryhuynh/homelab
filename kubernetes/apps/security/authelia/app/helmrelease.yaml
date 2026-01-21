@@ -65,6 +65,44 @@ spec:
                 cpu: 1
               requests:
                 cpu: 10m
+          anubis:
+            image:
+              repository: ghcr.io/techarohq/anubis
+              tag: v1.24.0@sha256:4bdf6ddd1a8dc8bfe7a33d823a1cb72157885ca4fd3ee749654b21cba732e439
+            env:
+              ED25519_PRIVATE_KEY_HEX:
+                valueFrom:
+                  secretKeyRef:
+                    name: authelia-secret
+                    key: ED25519_PRIVATE_KEY_HEX
+              TZ: "America/Los_Angeles"
+              BIND: ":8923"
+              DIFFICULTY: "3"
+              SERVE_ROBOTS_TXT: "true"
+              TARGET: "http://localhost:80"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &anubisPort 8923
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+            ports:
+              - name: anubis
+                containerPort: *anubisPort
+            resources:
+              limits:
+                cpu: 500m
+                memory: 256Mi
+              requests:
+                cpu: 10m
     defaultPodOptions:
       automountServiceAccountToken: false
       securityContext:
@@ -92,7 +130,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: *port
+                port: *anubisPort
             filters:
               - type: RequestHeaderModifier
                 requestHeaderModifier:
@@ -109,15 +147,13 @@ spec:
       app:
         ports:
           http:
-            primary: true
             port: *port
+          anubis:
+            port: *anubisPort
           metrics:
             port: 8080
     serviceMonitor:
       app:
+        serviceName: *app
         endpoints:
           - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
