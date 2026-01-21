@@ -5,12 +5,18 @@ kind: BackendTrafficPolicy
 metadata:
   name: envoy
 spec:
-  compression:
-    - type: Brotli
-    - type: Gzip
+  compressor:
     - type: Zstd
-  connection:
-    bufferLimit: 8Mi
+      zstd: {}
+    - type: Brotli
+      brotli: {}
+    - type: Gzip
+      gzip: {}
+  retry:
+    numRetries: 2
+    retryOn:
+      triggers:
+        - reset
   targetSelectors:
     - group: gateway.networking.k8s.io
       kind: Gateway

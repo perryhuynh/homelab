@@ -23,11 +23,7 @@ spec:
               tag: 2026.1.1@sha256:5bb6a0870686742d00e171f36c892ba91e5994631bc363d808b9ba822262dad6
             env:
               NO_AUTOUPDATE: "true"
-              TUNNEL_MANAGEMENT_DIAGNOSTICS: false
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_ORIGIN_ENABLE_HTTP2: true
-              TUNNEL_POST_QUANTUM: true
-              TUNNEL_TRANSPORT_PROTOCOL: quic
             envFrom:
               - secretRef:
                   name: cloudflared-secret
@@ -64,17 +60,13 @@ spec:
         data:
           config.yaml: |
             ingress:
-              - hostname: perryhuynh.com
-                originRequest:
-                  originServerName: perryhuynh.com
-                service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - hostname: "*.perryhuynh.com"
                 originRequest:
+                  http2Origin: true
+                  keepAliveTimeout: 3600s
                   originServerName: external.perryhuynh.com
+                  tcpKeepAlive: 7200s
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
-              - hostname: plex.perryhuynh.com
-                path: /:/eventsource/notifications
-                service: http_status:200
               - service: http_status:404
     defaultPodOptions:
       securityContext:
