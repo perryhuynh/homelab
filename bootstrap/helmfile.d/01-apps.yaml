@@ -103,7 +103,7 @@ releases:
     namespace: flux-system
     atomic: true
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-    version: 0.39.0
+    version: 0.40.0
     values:
       - ./templates/values.yaml.gotmpl
     needs:
@@ -113,7 +113,7 @@ releases:
     namespace: flux-system
     atomic: true
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
-    version: 0.39.0
+    version: 0.40.0
     values:
       - ./templates/values.yaml.gotmpl
     needs:
