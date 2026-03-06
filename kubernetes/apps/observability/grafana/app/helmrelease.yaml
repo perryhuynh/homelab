@@ -187,11 +187,6 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
-        qbittorrent:
-          url: https://raw.githubusercontent.com/esanchezm/prometheus-qbittorrent-exporter/master/grafana/dashboard.json
-          datasource:
-            - name: DS_PROMETHEUS
-              value: Prometheus
         volsync:
           # renovate: depName="VolSync Dashboard"
           gnetId: 21356
