@@ -43,7 +43,7 @@ spec:
     minecraftServer:
       eula: true
       # renovate: datasource=custom.minecraft-release
-      version: 26.1
+      version: "26.1"
       type: FABRIC
       difficulty: normal
       pvp: false
