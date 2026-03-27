@@ -18,7 +18,7 @@ spec:
               app.kubernetes.io/name: prometheus
   podSelector:
     matchLabels:
-      app: dragonfly-cluster
+      app: dragonfly
       app.kubernetes.io/name: dragonfly
       app.kubernetes.io/part-of: dragonfly
   policyTypes:
