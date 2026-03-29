@@ -21,7 +21,13 @@ spec:
               repository: ghcr.io/home-operations/it-tools
               tag: 2024.10.22@sha256:7f26ae8d7a4a58b8d70b685cba5cbaa54d7df876d9f8bae702207f45b06d9b7c
             probes:
-              liveness: &probes
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
                 enabled: true
                 custom: true
                 spec:
@@ -29,11 +35,13 @@ spec:
                     path: /
                     port: &port 8080
                   periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               startup:
                 enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               limits:
                 memory: 256Mi

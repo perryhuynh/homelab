@@ -28,19 +28,27 @@ spec:
               UPDATE_EXCLUDE_UNREAD: false
               UPDATE_MANGA_INFO: true
             probes:
-              liveness: &probes
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /manifest.json
+                    path: /api/v1/settings/about
                     port: *port
                   periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               startup:
                 enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               limits:
                 memory: 4Gi
