@@ -6,14 +6,11 @@ metadata:
   name: envoy
 spec:
   clientIPDetection:
-      xForwardedFor:
-        trustedCIDRs:
-          - 10.42.0.0/16
-  connection:
-    bufferLimit: 8Mi
-    maxAcceptPerSocketEvent: 0
+    xForwardedFor:
+      trustedCIDRs:
+        - 10.42.0.0/16
   http2:
-      onInvalidMessage: TerminateStream
+    onInvalidMessage: TerminateStream
   http3: {}
   targetSelectors:
     - group: gateway.networking.k8s.io
