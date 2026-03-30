@@ -98,6 +98,34 @@ releases:
         showlogs: true
     needs:
       - "cert-manager/cert-manager"
+  
+  - name: external-secrets
+    namespace: external-secrets
+    chart: oci://ghcr.io/external-secrets/charts/external-secrets
+    version: 2.2.0
+    values:
+      - ./templates/values.yaml.gotmpl
+    hooks:
+      - # Wait for ExternalSecrets CRDs to be available
+        command: bash
+        args:
+          - -c
+          - until kubectl get crd clustersecretstores.external-secrets.io &>/dev/null; do sleep 5; done
+        events:
+          - postsync
+        showlogs: true
+      - # Apply ExternalSecret Resources
+        command: kubectl
+        args:
+          - apply
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename=../../kubernetes/apps/external-secrets/external-secrets/app/clustersecretstore.yaml
+        events:
+          - postsync
+        showlogs: true
+    needs:
+      -  "external-secrets/onepassword-connect"
 
   - name: flux-operator
     namespace: flux-system
@@ -107,7 +135,7 @@ releases:
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - "external-secrets/onepassword-connect"
+      - "external-secrets/external-secrets"
 
   - name: flux-instance
     namespace: flux-system
