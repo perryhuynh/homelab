@@ -32,8 +32,9 @@ spec:
                   httpGet:
                     path: /heartbeat
                     port: *apiPort
-                  initialDelaySeconds: 15
-                  periodSeconds: 30
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
                   failureThreshold: 3
               readiness:
                 enabled: true
@@ -42,7 +43,12 @@ spec:
                   httpGet:
                     path: /health
                     port: *apiPort
-                  initialDelaySeconds: 15
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              startup:
+                enabled: true
           sync:
             image:
               repository: docker.io/1password/connect-sync
