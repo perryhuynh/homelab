@@ -8,7 +8,6 @@ components:
 resources:
   - ./autobrr/ks.yaml
   - ./jellyfin/ks.yaml
-  - ./jellyseerr/ks.yaml
   - ./kavita/ks.yaml
   - ./maintainerr/ks.yaml
   - ./pinchflat/ks.yaml
@@ -18,6 +17,7 @@ resources:
   - ./qui/ks.yaml
   - ./radarr/ks.yaml
   - ./recyclarr/ks.yaml
+  - ./seerr/ks.yaml
   - ./sonarr/ks.yaml
   - ./suwayomi/ks.yaml
   - ./tautulli/ks.yaml
