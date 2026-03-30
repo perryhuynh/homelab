@@ -24,6 +24,12 @@ spec:
       runAsGroup: ${VOLSYNC_PGID:-1000}
       fsGroup: ${VOLSYNC_PGID:-1000}
       fsGroupChangePolicy: "OnRootMismatch"
+    moverVolumes:
+      - mountPath: "repository"
+        volumeSource:
+          nfs:
+            path: "/mnt/tank/volsync"
+            server: "nas.home.arpa"
     enableFileDeletion: true
     cleanupCachePVC: true
     cleanupTempPVC: true
