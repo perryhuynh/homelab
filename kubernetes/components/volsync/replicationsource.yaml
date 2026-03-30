@@ -31,7 +31,6 @@ spec:
           nfs:
             path: "/mnt/tank/volsync"
             server: "nas.home.arpa"
-
     retain:
       hourly: ${VOLSYNC_RETAIN_HOURLY:-24}
       daily: ${VOLSYNC_RETAIN_DAILY:-7}
