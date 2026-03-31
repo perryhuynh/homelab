@@ -28,7 +28,10 @@ spec:
             probes:
               liveness:
                 enabled: true
+                custom: true
                 spec:
+                  tcpSocket:
+                    port: &port 9880
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 5
@@ -38,13 +41,16 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: &port 9880
+                    port: *port
                   periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 5
               startup:
                 enabled: true
+                custom: true
                 spec:
+                  tcpSocket:
+                    port: &port 9880
                   failureThreshold: 30
                   periodSeconds: 10
             resources:
@@ -67,8 +73,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /config/cache
-    service:
-      app:
-        ports:
-          http:
-            port: *port
