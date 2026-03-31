@@ -50,7 +50,7 @@ spec:
                 custom: true
                 spec:
                   tcpSocket:
-                    port: &port 9880
+                    port: *port
                   failureThreshold: 30
                   periodSeconds: 10
             resources:
