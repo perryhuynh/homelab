@@ -22,8 +22,20 @@ spec:
             probes:
               liveness:
                 enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               readiness:
                 enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api
+                    port: &port 80
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               startup:
                 enabled: true
                 spec:
@@ -82,17 +94,13 @@ spec:
           - name: envoy-internal
             namespace: networking
             sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: 80
     service:
       app:
         forceRename: "{{ .Release.Name }}"
         primary: true
         ports:
           http:
-            port: 80
+            port: *port
       streams:
         type: LoadBalancer
         annotations:
