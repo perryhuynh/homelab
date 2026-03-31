@@ -22,7 +22,6 @@ spec:
             probes:
               liveness:
                 enabled: true
-                custom: true
                 spec:
                   periodSeconds: 30
                   timeoutSeconds: 5
@@ -39,7 +38,6 @@ spec:
                   failureThreshold: 5
               startup:
                 enabled: true
-                custom: true
                 spec:
                   failureThreshold: 30
                   periodSeconds: 10
