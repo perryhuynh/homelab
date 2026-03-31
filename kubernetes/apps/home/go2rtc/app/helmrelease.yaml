@@ -22,10 +22,24 @@ spec:
             probes:
               liveness:
                 enabled: true
+                custom: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               readiness:
                 enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api
+                    port: &port 80
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               startup:
                 enabled: true
+                custom: true
                 spec:
                   failureThreshold: 30
                   periodSeconds: 10
@@ -92,7 +106,8 @@ spec:
         primary: true
         ports:
           http:
-            port: 80
+            primary: true
+            port: *port
       streams:
         type: LoadBalancer
         annotations:
