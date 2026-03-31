@@ -99,6 +99,7 @@ spec:
     service:
       app:
         forceRename: "{{ .Release.Name }}"
+        primary: true
         ports:
           http:
             primary: true
