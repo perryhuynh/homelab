@@ -8,7 +8,7 @@ radarr:
     quality_definition:
       type: movie
     quality_profiles:
-      - trash_id: d1d67249d3890e49bc12e275d989a7e9  # HD Bluray + WEB
+      - trash_id: d1d67249d3890e49bc12e275d989a7e9 # HD Bluray + WEB
         reset_unmatched_scores:
           enabled: true
     custom_formats:
@@ -29,7 +29,7 @@ radarr:
           - f537cf427b64c38c8e36298f657e4828 # Scene
           - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
         assign_scores_to:
-          - name: d1d67249d3890e49bc12e275d989a7e9  # HD Bluray + WEB
+          - trash_id: d1d67249d3890e49bc12e275d989a7e9 # HD Bluray + WEB
 
 sonarr:
   sonarr:
