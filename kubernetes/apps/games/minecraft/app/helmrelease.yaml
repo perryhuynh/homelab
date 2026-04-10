@@ -76,8 +76,9 @@ spec:
             port: 25585
       modrinth:
         projects:
+          # - essential-commands
           - fabricexporter
-          - ferrite-core
+          # - ferrite-core
           - lithium
         downloadDependencies: required
   valuesFrom:
