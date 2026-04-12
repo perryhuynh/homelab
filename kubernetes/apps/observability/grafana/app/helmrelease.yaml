@@ -173,6 +173,13 @@ spec:
           gnetId: 1860
           revision: 45
           datasource: Prometheus
+        nvidia-gpu-metrics:
+          # renovate: depName="Nvidia GPU Metrics"
+          gnetId: 14574
+          revision: 11
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
         smartctl-exporter:
           # renovate: depName="SMARTctl Exporter Dashboard"
           gnetId: 22604
