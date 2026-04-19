@@ -19,8 +19,8 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/glauth/glauth
-              tag: v2.5.0@sha256:7c67e00d7e491a42b23972c9dc0863e517b3c2401d73ff79a8f15254b77be902
+              repository: ghcr.io/glauth/glauth
+              tag: v2.5.0@ sha256:3f7057fa7a8265913880444e40c3d61bb47a3b3d0f3304075618640abf2798a7
             command:
               - "/app/glauth"
               - "-c"
