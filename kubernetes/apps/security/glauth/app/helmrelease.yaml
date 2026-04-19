@@ -20,7 +20,7 @@ spec:
           app:
             image:
               repository: ghcr.io/glauth/glauth
-              tag: v2.5.0@ sha256:3f7057fa7a8265913880444e40c3d61bb47a3b3d0f3304075618640abf2798a7
+              tag: v2.5.0@sha256:3f7057fa7a8265913880444e40c3d61bb47a3b3d0f3304075618640abf2798a7
             command:
               - "/app/glauth"
               - "-c"
