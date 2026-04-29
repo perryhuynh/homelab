@@ -230,6 +230,9 @@ controlPlane:
             enable-aggregator-routing: true
             runtime-config: admissionregistration.k8s.io/v1beta1=true
             feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
+          admissionControl:
+            - name: PodSecurity
+              $$patch: delete
         controllerManager:
           image: registry.k8s.io/kube-controller-manager:${kubecontrollermanagerVersion}
           extraArgs:
@@ -265,10 +268,6 @@ controlPlane:
                           whenUnsatisfiable: ScheduleAnyway
           extraArgs:
             bind-address: 0.0.0.0
-    # Disable default API server admission plugins
-    - |-
-      - op: remove
-        path: /cluster/apiServer/admissionControl
     # Enable K8s Talos API Access
     - |-
       machine:
