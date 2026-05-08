@@ -10,8 +10,8 @@ spec:
     name: victoria-logs
   interval: 1h
   values:
-    fullnameOverride: victoria-logs
     server:
+      fullnameOverride: victoria-logs
       retentionPeriod: 90d
       persistentVolume:
         enabled: true
