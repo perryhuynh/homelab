@@ -38,6 +38,8 @@ spec:
               privileged: true
         serviceAccount:
           identifier: multus
+    defaultPodOptions:
+      automountServiceAccountToken: true
     persistence:
       etc-cni-net-d:
         type: hostPath
@@ -84,5 +86,3 @@ spec:
             identifier: multus
           subjects:
             - identifier: multus
-    serviceAccount:
-      multus: {}
