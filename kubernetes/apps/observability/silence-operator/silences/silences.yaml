@@ -51,20 +51,6 @@ spec:
 apiVersion: monitoring.giantswarm.io/v1alpha1
 kind: Silence
 metadata:
-  name: prometheus-adapter-hpa-maxed-out
-spec:
-  matchers:
-    - name: alertname
-      value: KubeHpaMaxedOut
-      isRegex: false
-    - name: horizontalpodautoscaler
-      value: prometheus-adapter-hpa-.*
-      isRegex: true
----
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/monitoring.giantswarm.io/silence_v1alpha1.json
-apiVersion: monitoring.giantswarm.io/v1alpha1
-kind: Silence
-metadata:
   name: nas-memory-high-utilization
 spec:
   matchers:
