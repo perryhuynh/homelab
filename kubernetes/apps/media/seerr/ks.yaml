@@ -14,7 +14,7 @@ spec:
     - ../../../../components/volsync
     - ../../../../components/zeroscaler
   dependsOn:
-    - name: keda
+    - name: prometheus-adapter
       namespace: observability
     - name: rook-ceph-cluster
       namespace: rook-ceph

@@ -15,7 +15,7 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: keda
+    - name: prometheus-adapter
       namespace: observability
     - name: rook-ceph-cluster
       namespace: rook-ceph
