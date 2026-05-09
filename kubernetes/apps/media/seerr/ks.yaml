@@ -11,8 +11,8 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/external
-    - ../../../../components/keda/nfs-scaler
     - ../../../../components/volsync
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: keda
       namespace: observability

@@ -11,8 +11,8 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gpu
-    - ../../../../components/keda/nfs-scaler
     - ../../../../components/volsync
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: intel-gpu-resource-driver
       namespace: kube-system

@@ -10,8 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/keda/nfs-scaler
     - ../../../../components/volsync
+    - ../../../../components/zeroscaler
   dependsOn:
     - name: keda
       namespace: observability
