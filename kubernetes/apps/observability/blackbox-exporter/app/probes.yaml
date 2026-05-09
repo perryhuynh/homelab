@@ -20,7 +20,11 @@ kind: Probe
 metadata:
   name: nfs
 spec:
-  jobName: nfs_probe
+  jobName: &jobName nfs_probe
+  metricRelabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *jobName
   module: tcp_connect
   prober:
     url: blackbox-exporter.observability.svc.cluster.local:9115
