@@ -270,8 +270,8 @@ spec:
             - name: DS_PROMETHEUS
               value: Prometheus
       observability:
-        keda:
-          url: https://raw.githubusercontent.com/kedacore/keda/refs/heads/main/config/grafana/keda-dashboard.json
+        prometheus-adapter:
+          url: https://raw.githubusercontent.com/prometheus-adaptercore/prometheus-adapter/refs/heads/main/config/grafana/prometheus-adapter-dashboard.json
           datasource: Prometheus
         kubernetes-api-server:
           # renovate: depName="Kubernetes / System / API Server"

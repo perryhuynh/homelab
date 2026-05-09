@@ -16,7 +16,7 @@ spec:
   dependsOn:
     - name: intel-gpu-resource-driver
       namespace: kube-system
-    - name: keda
+    - name: prometheus-adapter
       namespace: observability
     - name: rook-ceph-cluster
       namespace: rook-ceph
