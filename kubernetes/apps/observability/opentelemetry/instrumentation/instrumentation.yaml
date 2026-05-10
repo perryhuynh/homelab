@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/instrumentation_v1alpha1.json
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: default
+spec:
+  exporter:
+    endpoint: http://otel-collector-headless.observability.svc.cluster.local:4318
+  propagators:
+    - tracecontext
+    - baggage
+  resource:
+    addK8sUIDAttributes: true
+  sampler:
+    type: parentbased_traceidratio
+    argument: "1"
+  env:
+    - name: OTEL_TRACES_SAMPLER
+      value: "parentbased_always_on"
+    - name: OTEL_METRICS_EXPORTER
+      value: "none"
+    - name: OTEL_LOGS_EXPORTER
+      value: "none"
