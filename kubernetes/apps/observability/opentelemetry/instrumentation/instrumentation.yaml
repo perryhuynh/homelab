@@ -22,3 +22,7 @@ spec:
       value: "none"
     - name: OTEL_LOGS_EXPORTER
       value: "none"
+  dotnet:
+    env:
+      - name: DOTNET_EnableDiagnostics
+        value: "1"

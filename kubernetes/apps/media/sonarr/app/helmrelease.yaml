@@ -42,11 +42,9 @@ spec:
               SONARR__APP__THEME: dark
               SONARR__AUTH__METHOD: External
               SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
-              SONARR__LOG__CONSOLEFORMAT: Clef
               SONARR__LOG__DBENABLED: "false"
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 80
-              SONARR__CONSOLE__LOG__FORMAT: "clef"
               TZ: America/Los_Angeles
             envFrom: *envFrom
             resources:
@@ -77,6 +75,8 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
     defaultPodOptions:
+      annotations:
+        instrumentation.opentelemetry.io/inject-dotnet: observability/default
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
