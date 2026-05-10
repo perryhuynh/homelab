@@ -10,14 +10,13 @@ spec:
   propagators:
     - tracecontext
     - baggage
+    - b3
   resource:
     addK8sUIDAttributes: true
   sampler:
     type: parentbased_traceidratio
     argument: "1"
   env:
-    - name: OTEL_TRACES_SAMPLER
-      value: "parentbased_always_on"
     - name: OTEL_METRICS_EXPORTER
       value: "none"
     - name: OTEL_LOGS_EXPORTER
