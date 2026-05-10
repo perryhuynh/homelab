@@ -56,15 +56,14 @@ spec:
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
+              runAsUser: 65534
+              runAsGroup: 65534
+              runAsNonRoot: true
     defaultPodOptions:
       annotations:
         instrumentation.opentelemetry.io/inject-go: observability/default
         instrumentation.opentelemetry.io/otel-go-auto-target-exe: /app/glauth
       automountServiceAccountToken: false
-      securityContext:
-        runAsUser: 65534
-        runAsGroup: 65534
-        runAsNonRoot: true
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname

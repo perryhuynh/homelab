@@ -73,15 +73,14 @@ spec:
                 drop:
                   - "ALL"
               readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
     defaultPodOptions:
       annotations:
         instrumentation.opentelemetry.io/inject-go: observability/default
         instrumentation.opentelemetry.io/otel-go-auto-target-exe: /app/authelia
       automountServiceAccountToken: false
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
     persistence:
       config:
         type: configMap
