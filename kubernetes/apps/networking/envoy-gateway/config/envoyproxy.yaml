@@ -29,3 +29,12 @@ spec:
       prometheus:
         compression:
           type: Zstd
+    tracing:
+      # sample 100% of requests
+      samplingRate: 100
+      provider:
+        backendRefs:
+        - name: otel-collector
+          namespace: observability
+          port: 4317
+        type: OpenTelemetry

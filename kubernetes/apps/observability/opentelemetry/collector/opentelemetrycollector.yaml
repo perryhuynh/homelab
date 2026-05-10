@@ -89,15 +89,16 @@ spec:
       logdedup:
         interval: 60s
         log_count_attribute: dedup_count
-        timezone: 'America/Los_Angeles'
+        timezone: "America/Los_Angeles"
       memory_limiter:
         check_interval: 1s
         limit_percentage: 75
         spike_limit_percentage: 15
     exporters:
       debug: {}
-      otlphttp:
+      otlp_http:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        traces_endpoint: http://tempo.observability.svc.cluster.local:4318/v1/traces
     service:
       pipelines:
         logs:
@@ -110,7 +111,7 @@ spec:
             - logdedup
             - batch
           exporters:
-            - otlphttp
+            - otlp_http
         traces:
           receivers:
             - otlp
@@ -118,4 +119,4 @@ spec:
             - memory_limiter
             - batch # The batch processor should be defined in the pipeline after the memory_limiter as well as any sampling processors.
           exporters:
-            - debug
+            - otlp_http

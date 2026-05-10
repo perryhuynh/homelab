@@ -21,12 +21,6 @@ spec:
           envFrom:
             - secretRef:
                 name: authelia-secret
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - "ALL"
-            readOnlyRootFilesystem: true
         initContainers:
           init-db:
             image:
@@ -73,7 +67,16 @@ spec:
                 cpu: 1
               requests:
                 cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
     defaultPodOptions:
+      annotations:
+        instrumentation.opentelemetry.io/inject-go: observability/default
+        instrumentation.opentelemetry.io/otel-go-auto-target-exe: /app/authelia
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true

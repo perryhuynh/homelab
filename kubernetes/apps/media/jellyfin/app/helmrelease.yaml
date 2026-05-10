@@ -57,6 +57,8 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      annotations:
+        instrumentation.opentelemetry.io/inject-dotnet: observability/default
       automountServiceAccountToken: false
       resourceClaims:
         - name: gpu
