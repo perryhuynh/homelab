@@ -27,6 +27,18 @@ spec:
       mountPath: /var/lib/docker/containers
       readOnly: true
   config:
+    connectors:
+      servicegraph:
+        latency_histogram_buckets: [100ms, 250ms, 1s, 5s, 10s]
+        dimensions:
+          - db.system
+          - messaging.system
+        virtual_node_peer_attributes:
+          - db.name
+          - db.system
+          - messaging.system
+          - peer.service
+        virtual_node_extra_label: true
     receivers:
       filelog:
         include:
@@ -98,6 +110,7 @@ spec:
       debug: {}
       otlp_http:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        endpoint: http://prometheus-operated.observability.svc.cluster.local:9090/api/v1/otlp
         traces_endpoint: http://tempo.observability.svc.cluster.local:4318/v1/traces
     service:
       pipelines:
@@ -112,6 +125,14 @@ spec:
             - batch
           exporters:
             - otlp_http
+        metrics/servicegraph:
+          receivers:
+            - servicegraph
+          processors:
+            - memory_limiter
+            - batch
+          exporters:
+            - otlp_http
         traces:
           receivers:
             - otlp
@@ -120,3 +141,4 @@ spec:
             - batch # The batch processor should be defined in the pipeline after the memory_limiter as well as any sampling processors.
           exporters:
             - otlp_http
+            - servicegraph
