@@ -136,8 +136,23 @@ spec:
             url: http://alertmanager-operated.observability.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
+          - name: Tempo
+            type: tempo
+            uid: tempo
+            access: proxy
+            url: http://tempo.observability.svc.cluster.local:3200
+            jsonData:
+              serviceMap:
+                datasourceUid: 'prometheus'
+              tracesToLogsV2:
+                datasourceUid: 'victorialogs'
+                spanStartTimeShift: '-1h'
+                spanStartEndShift: '1h'
+                customQuery: true
+                query: 'trace_id:="${__trace.traceId}" AND k8s.deployment.name:="${__span.tags["service.name"]}"'
           - name: VictoriaLogs
             type: victoriametrics-logs-datasource
+            uid: victorialogs
             access: proxy
             url: http://victoria-logs.observability.svc.cluster.local:9428
 
