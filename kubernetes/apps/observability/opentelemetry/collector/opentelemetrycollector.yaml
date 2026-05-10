@@ -97,10 +97,20 @@ spec:
     service:
       pipelines:
         logs:
-          receivers: [filelog, otlp]
-          processors: [batch, k8s_attributes, memory_limiter]
-          exporters: [otlphttp]
+          receivers:
+            - filelog
+            - otlp
+          processors:
+            - k8s_attributes
+            - memory_limiter
+            - batch # The batch processor should be defined in the pipeline after the memory_limiter as well as any sampling processors.
+          exporters:
+            - otlphttp
         traces:
-          receivers: [otlp]
-          processors: [memory_limiter]
-          exporters: [debug]
+          receivers:
+            - otlp
+          processors:
+            - memory_limiter
+            - batch # The batch processor should be defined in the pipeline after the memory_limiter as well as any sampling processors.
+          exporters:
+            - debug
