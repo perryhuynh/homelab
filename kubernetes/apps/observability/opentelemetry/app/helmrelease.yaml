@@ -17,7 +17,7 @@ spec:
         autoInstrumentationImage:
           dotnet:
             repository: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-dotnet
-            tag: "1.15.0@sha256:32c4ae3e516227a7cdd668601178125a4894bbd3f3da604b4e67a933410a5568
+            tag: "1.15.0@sha256:32c4ae3e516227a7cdd668601178125a4894bbd3f3da604b4e67a933410a5568"
           go:
             repository: ghcr.io/open-telemetry/opentelemetry-go-instrumentation/autoinstrumentation-go
             tag: "v0.24.0@sha256:664715c04cb854ffdbb920ea1289a86b0717f39e46b18e6584caa9e1f2e4d83f"
