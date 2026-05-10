@@ -86,6 +86,10 @@ spec:
           - sources:
               # This rule will use the IP from the incoming connection from which the resource is received, and find the matching pod, based on the 'pod.status.podIP' of the observed pods
               - from: connection
+      logdedup:
+        interval: 60s
+        log_count_attribute: dedup_count
+        timezone: 'America/Los_Angeles'
       memory_limiter:
         check_interval: 1s
         limit_percentage: 75
@@ -101,9 +105,10 @@ spec:
             - filelog
             - otlp
           processors:
-            - k8s_attributes
             - memory_limiter
-            - batch # The batch processor should be defined in the pipeline after the memory_limiter as well as any sampling processors.
+            - k8s_attributes
+            - logdedup
+            - batch
           exporters:
             - otlphttp
         traces:
