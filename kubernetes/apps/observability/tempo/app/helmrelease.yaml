@@ -10,19 +10,6 @@ spec:
     name: tempo
   interval: 1h
   values:
-    metricsGenerator:
-      enabled: true
-      remoteWriteUrl: http://prometheus-operated.observability.svc.cluster.local:9090/api/v1/write
-    structuredConfig:
-      metrics_generator:
-        processor:
-          service_graphs:
-            histogram_buckets: [0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4, 12.8]
-          span_metrics: {}
-      overrides:
-        defaults:
-          metrics_generator:
-            processors: [service-graphs, span-metrics]
     persistence:
       enabled: true
       storageClassName: ceph-block
