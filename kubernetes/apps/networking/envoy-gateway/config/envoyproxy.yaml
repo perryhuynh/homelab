@@ -38,14 +38,7 @@ spec:
             namespace: observability
             port: 4317
         type: OpenTelemetry
-      customTags:
-        client.ip:
-          type: RequestHeader
-          requestHeader:
-            name: CF-Connecting-IP
-            defaultValue: ""
-        client.country:
-          type: RequestHeader
-          requestHeader:
-            name: CF-IPCountry
-            defaultValue: ""
+      tags:
+        "client.address": "%REQUEST_HEADER(CF-Connecting-IP)%"
+        "cloudflare.country_code": "%REQUEST_HEADER(CF-IPCountry)%"
+        "cloudflare.ray_id": "%REQUEST_HEADER(CF-Ray)%"
