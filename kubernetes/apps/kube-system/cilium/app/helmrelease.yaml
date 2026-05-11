@@ -18,6 +18,8 @@ spec:
       datapathMode: netkit
       masquerade: true
       preallocateMaps: true
+      tc:
+        priority: 2
     bpfClockProbe: true
     bgpControlPlane:
       enabled: true
