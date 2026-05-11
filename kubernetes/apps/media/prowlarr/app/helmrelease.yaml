@@ -74,7 +74,8 @@ spec:
                 cpu: 10m
     defaultPodOptions:
       annotations:
-        instrumentation.opentelemetry.io/inject-dotnet: observability/default
+        instrumentation.opentelemetry.io/inject-dotnet: "observability/default"
+        instrumentation.opentelemetry.io/otel-dotnet-auto-runtime: "linux-musl-x64"
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true

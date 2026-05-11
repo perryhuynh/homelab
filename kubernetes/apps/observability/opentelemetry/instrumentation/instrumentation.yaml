@@ -19,9 +19,19 @@ spec:
   env:
     - name: OTEL_METRICS_EXPORTER
       value: "none"
-    - name: OTEL_LOGS_EXPORTER
-      value: "none"
   dotnet:
     env:
       - name: DOTNET_EnableDiagnostics
         value: "1"
+      - name: DOTNET_EnableDiagnostics_Profiler
+        value: "1"
+  java:
+    env:
+      - name: OTEL_JAVAAGENT_DEBUG
+        value: "true"
+  python:
+    env:
+      - name: OTEL_PYTHON_LOG_CORRELATION
+        value: "true"
+      - name: OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED
+        value: "true"
