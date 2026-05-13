@@ -121,7 +121,6 @@ spec:
             - logdedup
             - batch
           exporters:
-            - debug
             - otlp
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
