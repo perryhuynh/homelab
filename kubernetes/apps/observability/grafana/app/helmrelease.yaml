@@ -155,7 +155,6 @@ spec:
             uid: victorialogs
             access: proxy
             url: http://victoria-logs.observability.svc.cluster.local:9428
-
     dashboards:
       default:
         authelia:
@@ -315,6 +314,11 @@ spec:
           # renovate: depName="Kubernetes Persistent Volumes"
           gnetId: 17092
           revision: 7
+          datasource: Prometheus
+        victoria-metrics-single:
+          # renovate: depName="VictoriaMetrics - single-node"
+          gnetId: 10229
+          revision: 51
           datasource: Prometheus
       rook-ceph:
         ceph-cluster:
