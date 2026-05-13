@@ -74,6 +74,7 @@ spec:
               namespace: networking
               sectionName: https
       prometheusSpec:
+        replicas: 2
         enableOTLPReceiver: true
         externalUrl: https://prometheus.perryhuynh.com
         podMonitorSelectorNilUsesHelmValues: false
@@ -88,6 +89,9 @@ spec:
             cpu: 100m
         remoteWrite:
           - url: "http://victoria-metrics.observability.svc.cluster.local:8428/api/v1/push"
+            writeRelabelConfigs:
+              - regex: "prometheus_replica"
+                action: labeldrop
         retention: 1d
         storageSpec:
           volumeClaimTemplate:
@@ -95,7 +99,7 @@ spec:
               storageClassName: ceph-block
               resources:
                 requests:
-                  storage: 25Gi
+                  storage: 10Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
   postRenderers:
