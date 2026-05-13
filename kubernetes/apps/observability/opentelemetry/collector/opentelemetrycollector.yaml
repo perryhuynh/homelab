@@ -32,8 +32,8 @@ spec:
         include:
           - /var/log/pods/*/*/*.log
         exclude:
-          # Exclude logs from all containers named otel-collector
-          - /var/log/pods/*/otel-collector/*.log
+          # Exclude logs from all containers named otc-container
+          - /var/log/pods/*/otc-container/*.log
         start_at: end
         include_file_path: true
         include_file_name: false
