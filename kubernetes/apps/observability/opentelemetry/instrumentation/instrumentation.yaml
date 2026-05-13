@@ -6,7 +6,7 @@ metadata:
   name: default
 spec:
   exporter:
-    endpoint: http://otel-collector-headless.observability.svc.cluster.local:4318
+    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
   propagators:
     - tracecontext
     - baggage
