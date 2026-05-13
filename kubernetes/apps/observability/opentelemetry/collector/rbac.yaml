@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: otel-collector
+  name: filelog-collector
 rules:
   - apiGroups: [""]
     resources: ["pods", "namespaces", "nodes"]
@@ -20,12 +20,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: otel-collector
+  name: filelog-collector
 subjects:
   - kind: ServiceAccount
-    name: otel-collector
+    name: filelog-collector
     namespace: observability
 roleRef:
   kind: ClusterRole
-  name: otel-collector
+  name: filelog-collector
   apiGroup: rbac.authorization.k8s.io
