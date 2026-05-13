@@ -86,14 +86,16 @@ spec:
             memory: 3Gi
           requests:
             cpu: 100m
-        retention: 90d
+        remoteWrite:
+          - url: "http://victoria-metrics.observability.svc.cluster.local:8428/api/v1/push"
+        retention: 1d
         storageSpec:
           volumeClaimTemplate:
             spec:
               storageClassName: ceph-block
               resources:
                 requests:
-                  storage: 150Gi
+                  storage: 25Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
   postRenderers:
