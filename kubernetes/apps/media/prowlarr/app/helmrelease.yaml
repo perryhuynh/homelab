@@ -75,7 +75,7 @@ spec:
     defaultPodOptions:
       annotations:
         instrumentation.opentelemetry.io/inject-dotnet: "observability/default"
-        instrumentation.opentelemetry.io/otel-dotnet-auto-runtime: "linux-musl-x64"w
+        instrumentation.opentelemetry.io/otel-dotnet-auto-runtime: "linux-musl-x64"
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
