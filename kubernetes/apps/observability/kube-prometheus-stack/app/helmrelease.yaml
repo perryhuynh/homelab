@@ -88,8 +88,8 @@ spec:
           requests:
             cpu: 100m
         remoteWrite:
-          - url: "http://gateway-collector-headless.observability.svc.cluster.local:9090"
-            protobuf_message: io.prometheus.write.v2.Request
+          - url: "http://gateway-collector-headless.observability.svc.cluster.local:9090/api/v1/write"
+            messageVersion: "V2.0"
             writeRelabelConfigs:
               - regex: "prometheus_replica"
                 action: labeldrop
