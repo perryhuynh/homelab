@@ -3,7 +3,7 @@
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
-  name: otel
+  name: filelog
 spec:
   mode: daemonset
   serviceAccount: otel-collector
@@ -27,19 +27,6 @@ spec:
       mountPath: /var/lib/docker/containers
       readOnly: true
   config:
-    connectors:
-      servicegraph:
-        latency_histogram_buckets: [100ms, 250ms, 1s, 5s, 10s]
-        dimensions:
-          - db.system
-          - db.system.name
-          - messaging.system
-        virtual_node_peer_attributes:
-          - db.system
-          - db.system.name
-          - messaging.system
-          - peer.service
-        virtual_node_extra_label: true
     receivers:
       filelog:
         include:
@@ -56,12 +43,6 @@ spec:
             id: container-parser
           - type: json_parser
             on_error: send_quiet
-      otlp:
-        protocols:
-          grpc:
-            endpoint: 0.0.0.0:4317
-          http:
-            endpoint: 0.0.0.0:4318
     processors:
       batch: {}
       filter/exclude-auto-instrumented:
@@ -124,13 +105,13 @@ spec:
         spike_limit_percentage: 15
     exporters:
       debug: {}
-      otlp_http:
-        logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
-        metrics_endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
-        traces_endpoint: http://tempo.observability.svc.cluster.local:4318/v1/traces
+      otlp:
+        endpoint: gateway-collector-headless.observability.svc.cluster.local:4317
+        tls:
+          insecure: true
     service:
       pipelines:
-        logs/filelog:
+        logs:
           receivers:
             - filelog
           processors:
@@ -140,8 +121,89 @@ spec:
             - logdedup
             - batch
           exporters:
-            - otlp_http
-        logs/otlp:
+            - debug
+            - otlp
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: gateway
+spec:
+  mode: statefulset
+  replicas: 2
+  volumeMounts:
+    - mountPath: /var/lib/otelcol/storage
+      name: storage
+  volumeClaimTemplates:
+    - metadata:
+        name: storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: ceph-block
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+    readOnlyRootFilesystem: true
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsGroup: 1000
+    runAsUser: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+  config:
+    connectors:
+      servicegraph:
+        latency_histogram_buckets: [100ms, 250ms, 1s, 5s, 10s]
+        dimensions:
+          - db.system
+          - db.system.name
+          - messaging.system
+        virtual_node_peer_attributes:
+          - db.system
+          - db.system.name
+          - messaging.system
+          - peer.service
+        virtual_node_extra_label: true
+    extensions:
+      file_storage:
+        directory: /var/lib/otelcol/storage
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+    processors:
+      batch: {}
+      logdedup:
+        interval: 60s
+        log_count_attribute: dedup_count
+        timezone: "America/Los_Angeles"
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+    exporters:
+      debug: {}
+      otlp_http:
+        logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        metrics_endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+        traces_endpoint: http://tempo.observability.svc.cluster.local:4318/v1/traces
+        sending_queue:
+          storage: file_storage
+    service:
+      extensions:
+        - file_storage
+      pipelines:
+        logs:
           receivers:
             - otlp
           processors:
@@ -150,8 +212,9 @@ spec:
             - batch
           exporters:
             - otlp_http
-        metrics/servicegraph:
+        metrics:
           receivers:
+            - otlp
             - servicegraph
           processors:
             - memory_limiter
