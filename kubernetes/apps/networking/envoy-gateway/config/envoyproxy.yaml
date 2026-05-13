@@ -34,7 +34,7 @@ spec:
       samplingRate: 100
       provider:
         backendRefs:
-          - name: otel-collector
+          - name: gateway-collector-headless
             namespace: observability
             port: 4317
         type: OpenTelemetry
