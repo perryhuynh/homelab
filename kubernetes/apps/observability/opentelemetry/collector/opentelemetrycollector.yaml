@@ -126,7 +126,7 @@ spec:
       debug: {}
       otlp_http:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
-        endpoint: http://prometheus-operated.observability.svc.cluster.local:9090/api/v1/otlp
+        metrics_endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
         traces_endpoint: http://tempo.observability.svc.cluster.local:4318/v1/traces
     service:
       pipelines:
