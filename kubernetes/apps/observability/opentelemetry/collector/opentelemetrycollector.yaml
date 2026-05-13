@@ -6,7 +6,7 @@ metadata:
   name: filelog
 spec:
   mode: daemonset
-  serviceAccount: otel-collector
+  serviceAccount: filelog-collector
   env:
     - name: KUBE_NODE_NAME
       valueFrom:
@@ -105,10 +105,15 @@ spec:
         spike_limit_percentage: 15
     exporters:
       debug: {}
-      otlp:
-        endpoint: gateway-collector-headless.observability.svc.cluster.local:4317
-        tls:
-          insecure: true
+      loadbalancing:
+        routing_key: resource # routes by resource attributes, keeping logs from the same source on the same replica
+        protocol:
+          otlp:
+            tls:
+              insecure: true
+        resolver:
+          dns:
+            hostname: gateway-collector-headless.observability.svc.cluster.local
     service:
       pipelines:
         logs:
@@ -121,7 +126,7 @@ spec:
             - logdedup
             - batch
           exporters:
-            - otlp
+            - loadbalancing
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
