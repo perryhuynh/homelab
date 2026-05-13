@@ -17,6 +17,8 @@ spec:
     type: parentbased_traceidratio
     argument: "1"
   env:
+    - name: OTEL_EXPORTER_OTLP_PROTOCOL
+      value: "http/protobuf"
     - name: OTEL_METRICS_EXPORTER
       value: "none"
   dotnet:

@@ -127,7 +127,7 @@ spec:
             type: prometheus
             uid: prometheus
             access: proxy
-            url: http://prometheus-operated.observability.svc.cluster.local:9090
+            url: http://victoria-metrics.observability.svc.cluster.local:8428
             isDefault: true
           - name: Alertmanager
             type: alertmanager
@@ -143,11 +143,11 @@ spec:
             url: http://tempo.observability.svc.cluster.local:3200
             jsonData:
               serviceMap:
-                datasourceUid: 'prometheus'
+                datasourceUid: "prometheus"
               tracesToLogsV2:
-                datasourceUid: 'victorialogs'
-                spanStartTimeShift: '-1h'
-                spanStartEndShift: '1h'
+                datasourceUid: "victorialogs"
+                spanStartTimeShift: "-1h"
+                spanStartEndShift: "1h"
                 customQuery: true
                 query: 'trace_id:="${__trace.traceId}" AND k8s.deployment.name:="${__span.tags["service.name"]}"'
           - name: VictoriaLogs
