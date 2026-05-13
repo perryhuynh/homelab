@@ -315,6 +315,11 @@ spec:
           gnetId: 17092
           revision: 7
           datasource: Prometheus
+        opentelemetry-collector:
+          # renovate: depName="OpenTelemetry Collector"
+          gnetId: 15983
+          revision: 29
+          datasource: Prometheus
         victoria-metrics-single:
           # renovate: depName="VictoriaMetrics - single-node"
           gnetId: 10229
