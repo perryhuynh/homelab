@@ -127,6 +127,14 @@ spec:
             - batch
           exporters:
             - loadbalancing
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
@@ -199,7 +207,7 @@ spec:
       debug: {}
       otlp_http:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
-        metrics_endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+        metrics_endpoint: &metrics_endpoint http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
         traces_endpoint: http://tempo.observability.svc.cluster.local:4318/v1/traces
         sending_queue:
           storage: file_storage
@@ -234,3 +242,11 @@ spec:
           exporters:
             - otlp_http
             - servicegraph
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: *metrics_endpoint
