@@ -193,6 +193,8 @@ spec:
             endpoint: 0.0.0.0:4317
           http:
             endpoint: 0.0.0.0:4318
+      prometheus_remote_write:
+        endpoint: 0.0.0.0:9090
     processors:
       batch: {}
       logdedup:
@@ -226,6 +228,7 @@ spec:
             - otlp_http
         metrics:
           receivers:
+            - prometheus_remote_write
             - otlp
             - servicegraph
           processors:
