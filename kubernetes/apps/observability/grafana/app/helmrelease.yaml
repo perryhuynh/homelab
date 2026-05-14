@@ -320,11 +320,6 @@ spec:
           gnetId: 15983
           revision: 29
           datasource: Prometheus
-        victoria-metrics-operator:
-          # renovate: depName="VictoriaMetrics - operator"
-          gnetId: 17869
-          revision: 8
-          datasource: Prometheus
         victoria-metrics-single:
           # renovate: depName="VictoriaMetrics - single-node"
           gnetId: 10229
