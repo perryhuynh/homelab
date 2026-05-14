@@ -11,6 +11,8 @@ spec:
   interval: 1h
   values:
     server:
+      extraArgs:
+        dedup.minScrapeInterval: 60s
       fullnameOverride: victoria-metrics
       retentionPeriod: 400d
       persistentVolume:
