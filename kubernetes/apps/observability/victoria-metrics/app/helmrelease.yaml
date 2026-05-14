@@ -23,5 +23,13 @@ spec:
           memory: 2Gi
         requests:
           cpu: 10m
+      route:
+        enabled: true
+        hostnames:
+          - victoria-metrics.perryhuynh.com
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
       serviceMonitor:
         enabled: true
