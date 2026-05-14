@@ -93,6 +93,9 @@ spec:
             writeRelabelConfigs:
               - regex: "prometheus_replica"
                 action: labeldrop
+              - regex: "^(.+:)?(apiserver|etcd|prober_probe).*_bucket.*"
+                action: drop
+                sourceLabels: ["__name__"]
         retention: 1d
         storageSpec:
           volumeClaimTemplate:
