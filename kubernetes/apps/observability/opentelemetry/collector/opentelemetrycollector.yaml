@@ -197,6 +197,12 @@ spec:
         endpoint: 0.0.0.0:9090
     processors:
       batch: {}
+      filter:
+        error_mode: ignore
+        trace_conditions:
+          - span.attributes["http.route"] == "/api/v1/status"
+          - span.attributes["http.route"] == "/health"
+          - span.attributes["url.path"] == "/ping"
       logdedup:
         interval: 60s
         log_count_attribute: dedup_count
@@ -205,6 +211,22 @@ spec:
         check_interval: 1s
         limit_percentage: 75
         spike_limit_percentage: 15
+      tail_sampling:
+        decision_wait: 10s
+        num_traces: 100
+        policies:
+          - name: errors
+            type: status_code
+            status_code:
+              status_codes: [ERROR]
+          - name: slow_traces
+            type: latency
+            latnecy:
+              threshold_ms: 1000
+          - name: probabilistic
+            type: probabilistic
+            probabilistic:
+              sampling_percentage: 10
     exporters:
       debug: {}
       otlp_http:
@@ -241,6 +263,8 @@ spec:
             - otlp
           processors:
             - memory_limiter
+            - filter
+            - tail_sampling
             - batch # The batch processor should be defined in the pipeline after the memory_limiter as well as any sampling processors.
           exporters:
             - otlp_http
