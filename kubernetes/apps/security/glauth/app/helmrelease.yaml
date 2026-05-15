@@ -60,9 +60,6 @@ spec:
               runAsGroup: 65534
               runAsNonRoot: true
     defaultPodOptions:
-      annotations:
-        instrumentation.opentelemetry.io/inject-go: observability/default
-        instrumentation.opentelemetry.io/otel-go-auto-target-exe: /app/glauth
       automountServiceAccountToken: false
       topologySpreadConstraints:
         - maxSkew: 1

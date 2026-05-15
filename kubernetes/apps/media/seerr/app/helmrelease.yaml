@@ -60,8 +60,6 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
-      annotations:
-        instrumentation.opentelemetry.io/inject-nodejs: observability/default
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true

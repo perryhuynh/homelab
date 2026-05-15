@@ -60,9 +60,6 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
-      annotations:
-        instrumentation.opentelemetry.io/inject-python: observability/default
-        instrumentation.opentelemetry.io/otel-python-platform: musl
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
