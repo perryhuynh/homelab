@@ -187,6 +187,9 @@ spec:
       file_storage:
         directory: /var/lib/otelcol/storage
     receivers:
+      k8s_events:
+        auth_type: serviceAccount
+        storage: file_storage
       otlp:
         protocols:
           grpc:
@@ -241,6 +244,7 @@ spec:
       pipelines:
         logs:
           receivers:
+            - k8s_events
             - otlp
           processors:
             - memory_limiter
