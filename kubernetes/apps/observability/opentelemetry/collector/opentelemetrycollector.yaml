@@ -143,7 +143,9 @@ metadata:
   name: gateway
 spec:
   mode: statefulset
-  replicas: 2
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+    whenScaled: Delete
   volumeMounts:
     - mountPath: /var/lib/otelcol/storage
       name: storage
