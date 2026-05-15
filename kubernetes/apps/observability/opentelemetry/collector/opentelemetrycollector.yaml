@@ -45,13 +45,6 @@ spec:
             on_error: send_quiet
     processors:
       batch: {}
-      filter/exclude-auto-instrumented:
-        logs:
-          exclude:
-            match_type: regexp
-            resource_attributes:
-              - key: otel.instrumented
-                value: ".*"
       k8s_attributes:
         auth_type: "serviceAccount"
         passthrough: false
@@ -73,10 +66,6 @@ spec:
             - service.name
             - service.version
             - service.instance.id
-          annotations:
-            - tag_name: otel.autoinstrumented
-              key_regex: instrumentation\.opentelemetry\.io/inject-.*
-              from: pod
           labels:
             # This label extraction rule takes the value 'app.kubernetes.io/component' label and maps it to the 'app.label.component' attribute which will be added to the associated resources
             - tag_name: app.label.component
@@ -122,7 +111,6 @@ spec:
           processors:
             - memory_limiter
             - k8s_attributes
-            - filter/exclude-auto-instrumented
             - logdedup
             - batch
           exporters:
@@ -143,9 +131,7 @@ metadata:
   name: gateway
 spec:
   mode: statefulset
-  persistentVolumeClaimRetentionPolicy:
-    whenDeleted: Delete
-    whenScaled: Delete
+  replicas: 2
   volumeMounts:
     - mountPath: /var/lib/otelcol/storage
       name: storage
@@ -172,19 +158,6 @@ spec:
     fsGroup: 1000
     fsGroupChangePolicy: OnRootMismatch
   config:
-    connectors:
-      servicegraph:
-        latency_histogram_buckets: [100ms, 250ms, 1s, 5s, 10s]
-        dimensions:
-          - db.system
-          - db.system.name
-          - messaging.system
-        virtual_node_peer_attributes:
-          - db.system
-          - db.system.name
-          - messaging.system
-          - peer.service
-        virtual_node_extra_label: true
     extensions:
       file_storage:
         directory: /var/lib/otelcol/storage
@@ -202,12 +175,6 @@ spec:
         endpoint: 0.0.0.0:9090
     processors:
       batch: {}
-      filter:
-        error_mode: ignore
-        trace_conditions:
-          - span.attributes["http.route"] == "/api/v1/status"
-          - span.attributes["http.route"] == "/health"
-          - span.attributes["url.path"] == "/ping"
       logdedup:
         interval: 60s
         log_count_attribute: dedup_count
@@ -216,28 +183,11 @@ spec:
         check_interval: 1s
         limit_percentage: 75
         spike_limit_percentage: 15
-      tail_sampling:
-        decision_wait: 10s
-        num_traces: 100
-        policies:
-          - name: errors
-            type: status_code
-            status_code:
-              status_codes: [ERROR]
-          - name: slow_traces
-            type: latency
-            latnecy:
-              threshold_ms: 1000
-          - name: probabilistic
-            type: probabilistic
-            probabilistic:
-              sampling_percentage: 10
     exporters:
       debug: {}
       otlp_http:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
         metrics_endpoint: &metrics_endpoint http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
-        traces_endpoint: http://tempo.observability.svc.cluster.local:4318/v1/traces
         sending_queue:
           storage: file_storage
     service:
@@ -258,23 +208,11 @@ spec:
           receivers:
             - prometheus_remote_write
             - otlp
-            - servicegraph
           processors:
             - memory_limiter
             - batch
           exporters:
             - otlp_http
-        traces:
-          receivers:
-            - otlp
-          processors:
-            - memory_limiter
-            - filter
-            - tail_sampling
-            - batch # The batch processor should be defined in the pipeline after the memory_limiter as well as any sampling processors.
-          exporters:
-            - otlp_http
-            - servicegraph
       telemetry:
         metrics:
           readers:
