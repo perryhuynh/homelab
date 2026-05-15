@@ -29,3 +29,25 @@ roleRef:
   kind: ClusterRole
   name: filelog-collector
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gateway-collector
+rules:
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gateway-collector
+subjects:
+  - kind: ServiceAccount
+    name: gateway-collector
+    namespace: observability
+roleRef:
+  kind: ClusterRole
+  name: gateway-collector
+  apiGroup: rbac.authorization.k8s.io
