@@ -12,6 +12,8 @@ spec:
   values:
     crds:
       enabled: false
+      cleanup:
+        enabled: true
     operator:
       enable_converter_ownership: true
     serviceMonitor:
