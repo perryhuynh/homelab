@@ -10,6 +10,8 @@ spec:
     name: victoria-metrics-operator
   interval: 1h
   values:
+    crds:
+      enabled: false
     operator:
       enable_converter_ownership: true
     serviceMonitor:
