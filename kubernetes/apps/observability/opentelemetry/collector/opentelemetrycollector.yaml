@@ -3,6 +3,54 @@
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
+  name: events
+spec:
+  config:
+    receivers:
+      k8s_events:
+        auth_type: serviceAccount
+    processors:
+      batch: {}
+      groupbyattrs:
+        keys:
+          - k8s.event.reason
+          - k8s.object.name
+          - k8s.namespace.name
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+    exporters:
+      debug:
+        verbosity: detailed
+      otlp_grpc:
+        endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4317
+        tls:
+          insecure: true
+    service:
+      pipelines:
+        logs:
+          receivers:
+            - k8s_events
+          processors:
+            - memory_limiter
+            - groupbyattrs
+            - batch
+          exporters:
+            - otlp_grpc
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
   name: filelog
 spec:
   mode: daemonset
@@ -16,15 +64,9 @@ spec:
     - name: varlogpods
       hostPath:
         path: /var/log/pods
-    - name: varlibdockercontainers
-      hostPath:
-        path: /var/lib/docker/containers
   volumeMounts:
     - name: varlogpods
       mountPath: /var/log/pods
-      readOnly: true
-    - name: varlibdockercontainers
-      mountPath: /var/lib/docker/containers
       readOnly: true
   config:
     receivers:
@@ -94,15 +136,10 @@ spec:
         spike_limit_percentage: 15
     exporters:
       debug: {}
-      loadbalancing:
-        routing_key: resource # routes by resource attributes, keeping logs from the same source on the same replica
-        protocol:
-          otlp:
-            tls:
-              insecure: true
-        resolver:
-          dns:
-            hostname: gateway-collector-headless.observability.svc.cluster.local
+      otlp_grpc:
+        endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4317
+        tls:
+          insecure: true
     service:
       pipelines:
         logs:
@@ -114,7 +151,7 @@ spec:
             - logdedup
             - batch
           exporters:
-            - loadbalancing
+            - otlp_grpc
       telemetry:
         metrics:
           readers:
@@ -162,9 +199,6 @@ spec:
       file_storage:
         directory: /var/lib/otelcol/storage
     receivers:
-      k8s_events:
-        auth_type: serviceAccount
-        storage: file_storage
       otlp:
         protocols:
           grpc:
@@ -196,7 +230,6 @@ spec:
       pipelines:
         logs:
           receivers:
-            - k8s_events
             - otlp
           processors:
             - memory_limiter
