@@ -221,3 +221,50 @@ spec:
                   otlp:
                     protocol: http/protobuf
                     endpoint: *metrics_endpoint
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: unifi-syslog
+spec:
+  config:
+    receivers:
+      syslog:
+        udp:
+          listen_address: "0.0.0.0:514"
+        protocol: rfc3164
+        location: "America/Los_Angeles"
+        attributes:
+          service.name: unifi
+    processors:
+      batch: {}
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+    exporters:
+      debug:
+        verbosity: detailed
+      otlp_grpc:
+        endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4317
+        tls:
+          insecure: true
+    service:
+      pipelines:
+        logs:
+          receivers:
+            - syslog
+          processors:
+            - memory_limiter
+            - batch
+          exporters:
+            - otlp_grpc
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
