@@ -137,7 +137,7 @@ spec:
             jsonData:
               implementation: prometheus
           - name: VictoriaMetrics
-            type: prometheus
+            type: victoriametrics-metrics-datasource
             uid: victoriametrics
             access: proxy
             url: http://victoria-metrics.observability.svc.cluster.local:8428
@@ -407,6 +407,7 @@ spec:
       - natel-discrete-panel
       - pr0ps-trackmap-panel
       - victoriametrics-logs-datasource
+      - victoriametrics-metrics-datasource
       - vonage-status-panel
     resources:
       limits:
