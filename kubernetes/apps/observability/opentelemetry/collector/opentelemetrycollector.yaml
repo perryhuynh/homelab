@@ -215,7 +215,7 @@ spec:
       debug: {}
       otlp_http:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
-        metrics_endpoint: &metrics_endpoint http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+        metrics_endpoint: &metrics_endpoint http://prometheus-operated.observability.svc.cluster.local:9090/api/v1/otlp/v1/metrics
         sending_queue:
           storage: file_storage
     service:
