@@ -88,8 +88,7 @@ spec:
           requests:
             cpu: 100m
         remoteWrite:
-          - url: "http://gateway-collector-headless.observability.svc.cluster.local:9090/api/v1/write"
-            messageVersion: "V2.0"
+          - url: "http://victoria-metrics.observability.svc.cluster.local:8428/api/v1/write"
             writeRelabelConfigs:
               - regex: "prometheus_replica"
                 action: labeldrop
