@@ -10,7 +10,12 @@ spec:
     kind: OCIRepository
     name: tailscale-operator
   values:
-    operatorConfig:
-      logging: "debug"
     apiServerProxyConfig:
       mode: "true"
+    operatorConfig:
+      logging: "debug"
+      image:
+        repository: ghcr.io/tailscale/k8s-operator
+    proxyConfig:
+      image:
+        repository: ghcr.io/tailscale/tailscale  
