@@ -147,6 +147,12 @@ spec:
             url: http://victoria-logs.observability.svc.cluster.local:9428
     dashboards:
       default:
+        apc-ups:
+          getId: 13524
+          revision: 1
+          datasource:
+            - name: DS_PROMETHEUS
+              value: VictoriaMetrics
         authelia:
           url: https://raw.githubusercontent.com/authelia/authelia/refs/heads/master/examples/grafana-dashboards/simple.json
           datasource:
