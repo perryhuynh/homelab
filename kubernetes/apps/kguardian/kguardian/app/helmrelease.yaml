@@ -3,12 +3,12 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: openebs
+  name: kguardian
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: openebs
+    name: kguardian
   values:
     controller:
       excludedNamespaces:
