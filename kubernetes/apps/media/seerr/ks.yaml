@@ -10,6 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
+    - ../../../../components/anubis
     - ../../../../components/gatus/external
     - ../../../../components/volsync
     - ../../../../components/zeroscaler
@@ -33,6 +34,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      ANUBIS_TARGET: http://seerr.media.svc.cluster.local
       GATUS_SUBDOMAIN: canyouadd
       GATUS_PATH: /api/v1/status
       VOLSYNC_CAPACITY: 1Gi
