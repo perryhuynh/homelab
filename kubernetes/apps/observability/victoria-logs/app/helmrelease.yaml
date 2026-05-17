@@ -10,10 +10,10 @@ spec:
     name: victoria-logs
   interval: 1h
   values:
+    global:
+      image:
+        registry: mirror.gcr.io
     server:
-      global:
-        image:
-          registry: mirror.gcr.io
       fullnameOverride: victoria-logs
       retentionPeriod: 90d
       persistentVolume:
