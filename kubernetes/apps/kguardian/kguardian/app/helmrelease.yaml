@@ -14,4 +14,6 @@ spec:
       excludedNamespaces:
         - kguardian
     database:
-      enabled: fause
+      enabled: false
+      external:
+        host: postgres17-rw.database.svc.cluster.local
