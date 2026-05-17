@@ -70,7 +70,7 @@ spec:
             resources:
               limits:
                 cpu: 1
-                memory: '${ANUBIS_MEM_LIMIT:="256Mi"}'
+                memory: '${ANUBIS_MEM_LIMIT:="512Mi"}'
               requests:
                 cpu: 10m
             securityContext:
