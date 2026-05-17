@@ -56,7 +56,7 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/alpine/curl
+              repository: mirror.gcr.io/alpine/curl
               tag: 8.19.0@sha256:16ed43d4038dd824e3b935d16d6763cac68aca3e7c5b4248f38409a85a13547c
             args:
               - "--fail"

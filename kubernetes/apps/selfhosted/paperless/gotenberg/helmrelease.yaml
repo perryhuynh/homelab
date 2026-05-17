@@ -19,7 +19,7 @@ spec:
               - "--chromium-disable-javascript=true"
               - "--chromium-allow-list=file:///tmp/.*"
             image:
-              repository: docker.io/gotenberg/gotenberg
+              repository: mirror.gcr.io/gotenberg/gotenberg
               tag: 8.32.0@sha256:a40c5a46b79d812ce2f5e139278163142a054050bfd1e5f162da36d3d11c7138
             env:
               API_PORT: &port 80
