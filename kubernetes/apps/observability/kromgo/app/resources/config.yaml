@@ -18,7 +18,7 @@ metrics:
 
   - name: cluster_power_usage
     query: round((upsAdvOutputCurrent * upsAdvOutputVoltage), 0.1)
-    suffix: "w"
+    suffix: "W"
     colors:
       - color: "green"
         min: 0
