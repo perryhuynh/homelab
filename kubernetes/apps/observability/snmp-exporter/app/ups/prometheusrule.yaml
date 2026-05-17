@@ -15,3 +15,11 @@ spec:
           for: 1m
           labels:
             severity: critical
+        - alert: UPSReplaceBattery
+          expr: upsAdvBattery_needsreplacing > 0
+          annotations:
+            summary: >-
+              ZPM {{ $labels.instance }} battery needs to be replaced
+          for: 5m
+          labels:
+            severity: critical
