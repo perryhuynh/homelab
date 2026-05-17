@@ -11,12 +11,7 @@ spec:
         - alert: UPSOnBattery
           annotations:
             summary: ZPM {{$labels.instance}} is running on batteries and has less than 60 minutes of battery left
-          expr: |
-            (
-              upsEstimatedMinutesRemaining <= 60
-            and
-              upsSecondsOnBattery > 0
-            )
+          expr: upsBasicBatteryTimeOnBattery_seconds > 60
           for: 1m
           labels:
             severity: critical
