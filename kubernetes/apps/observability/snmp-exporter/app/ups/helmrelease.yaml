@@ -18,11 +18,11 @@ spec:
       params:
         - name: apcups
           auth:
-            - "public_v2"
+            - "public_v1"
           module:
             - "apcups"
           target: ups.home.arpa
       path: /snmp
-      scrapeTimeout: 10s
+      scrapeTimeout: 15s
       relabelings:
         - {sourceLabels: ["__param_target"], targetLabel: instance}
