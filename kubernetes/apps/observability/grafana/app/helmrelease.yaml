@@ -11,7 +11,7 @@ spec:
     name: grafana
   values:
     image: &registry
-      registry: &registry mirror.gcr.io
+      registry: mirror.gcr.io
     downloadDashboardsImage: *registry
     admin:
       existingSecret: &secret grafana-secret
