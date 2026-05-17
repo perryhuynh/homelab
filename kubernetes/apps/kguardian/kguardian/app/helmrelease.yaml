@@ -10,6 +10,12 @@ spec:
     kind: OCIRepository
     name: kguardian
   values:
+    broker:
+      resources:
+        limits:
+          memory: 2Gi
+        requests:
+          cpu: 10m
     controller:
       excludedNamespaces:
         - kguardian
