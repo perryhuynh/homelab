@@ -93,6 +93,10 @@ spec:
           - name: envoy-external
             namespace: networking
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: seerr-anubis
+                port: 8080
     service:
       app:
         ports:
