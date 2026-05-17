@@ -165,25 +165,6 @@ spec:
         external-secrets:
           url: https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json
           datasource: VictoriaMetrics
-        node-exporter-full:
-          # renovate: depName="Node Exporter Full"
-          gnetId: 1860
-          revision: 45
-          datasource: VictoriaMetrics
-        nvidia-gpu-metrics:
-          # renovate: depName="Nvidia GPU Metrics"
-          gnetId: 14574
-          revision: 11
-          datasource:
-            - name: DS_PROMETHEUS
-              value: VictoriaMetrics
-        smartctl-exporter:
-          # renovate: depName="SMARTctl Exporter Dashboard"
-          gnetId: 22604
-          revision: 2
-          datasource:
-            - name: DS_PROMETHEUS
-              value: VictoriaMetrics
         speedtest-exporter:
           # renovate: depName="Speedtest-Exporter Dashboard"
           gnetId: 13665
@@ -200,11 +181,6 @@ spec:
               value: VictoriaMetrics
             - name: VAR_REPLICATIONDESTNAME
               value: .*-dst
-        zfs:
-          # renovate: dashboardName="ZFS"
-          gnetId: 7845
-          revision: 4
-          datasource: VictoriaMetrics
       kube-system:
         spegel:
           # renovate: depName="Spegel"
@@ -305,15 +281,39 @@ spec:
           gnetId: 17092
           revision: 7
           datasource: VictoriaMetrics
+        node-exporter-full:
+          # renovate: depName="Node Exporter Full"
+          gnetId: 1860
+          revision: 45
+          datasource: VictoriaMetrics
+        nvidia-gpu-metrics:
+          # renovate: depName="Nvidia GPU Metrics"
+          gnetId: 14574
+          revision: 11
+          datasource:
+            - name: DS_PROMETHEUS
+              value: VictoriaMetrics
         opentelemetry-collector:
           # renovate: depName="OpenTelemetry Collector"
           gnetId: 15983
           revision: 29
           datasource: VictoriaMetrics
+        smartctl-exporter:
+          # renovate: depName="SMARTctl Exporter Dashboard"
+          gnetId: 22604
+          revision: 2
+          datasource:
+            - name: DS_PROMETHEUS
+              value: VictoriaMetrics
         victoria-metrics-single:
           # renovate: depName="VictoriaMetrics - single-node"
           gnetId: 10229
           revision: 51
+          datasource: VictoriaMetrics
+        zfs:
+          # renovate: dashboardName="ZFS"
+          gnetId: 7845
+          revision: 4
           datasource: VictoriaMetrics
       rook-ceph:
         ceph-cluster:
