@@ -10,6 +10,9 @@ spec:
     name: victoria-metrics
   interval: 1h
   values:
+    global:
+      image:
+        registry: mirror.gcr.io
     server:
       extraArgs:
         dedup.minScrapeInterval: 60s
