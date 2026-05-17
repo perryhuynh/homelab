@@ -10,6 +10,9 @@ spec:
     kind: OCIRepository
     name: grafana
   values:
+    image: &registry
+      registry: &registry mirror.gcr.io
+    downloadDashboardsImage: *registry
     admin:
       existingSecret: &secret grafana-secret
     env:
