@@ -17,7 +17,7 @@ metrics:
     title: Talos
 
   - name: cluster_power_usage
-    query: round((upsOutputCurrent * upsOutputVoltage) * 0.1, 0.1)
+    query: round((upsAdvOutputCurrent * upsAdvOutputVoltage), 0.1)
     suffix: "w"
     colors:
       - color: "green"
