@@ -31,6 +31,12 @@ spec:
           module:
             - "rfc1628_ups"
           target: ups.home.arpa
+        - name: apcups
+          auth:
+            - "public_v2"
+          module:
+            - "apcups"
+          target: ups.home.arpa
       path: /snmp
       scrapeTimeout: 10s
       relabelings:
