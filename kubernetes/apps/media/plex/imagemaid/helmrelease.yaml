@@ -25,7 +25,7 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/kometateam/imagemaid
+              repository: mirror.gcr.io/kometateam/imagemaid
               tag: v1.2.0@sha256:94cf9ed79a264238c64cdcbf241822fc3569225cc103de542a6390bfaf393034
             env:
               PLEX_URL: http://plex.media.svc.cluster.local:32400
