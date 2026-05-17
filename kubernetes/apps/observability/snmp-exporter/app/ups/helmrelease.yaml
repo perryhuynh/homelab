@@ -23,6 +23,6 @@ spec:
             - "apcups"
           target: ups.home.arpa
       path: /snmp
-      scrapeTimeout: 15s
+      scrapeTimeout: 30s
       relabelings:
         - {sourceLabels: ["__param_target"], targetLabel: instance}
