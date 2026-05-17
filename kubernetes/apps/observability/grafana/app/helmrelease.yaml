@@ -148,7 +148,8 @@ spec:
     dashboards:
       default:
         apc-ups:
-          getId: 13524
+          # renovate: depName="APC UPS (SNMP)"
+          gnetId: 13524
           revision: 1
           datasource:
             - name: DS_PROMETHEUS
