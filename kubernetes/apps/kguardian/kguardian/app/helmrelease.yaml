@@ -14,6 +14,5 @@ spec:
       excludedNamespaces:
         - kguardian
     database:
-      enabled: false
-      external:
-        host: postgres17-rw.database.svc.cluster.local
+      persistence:
+        storageClassName: ceph-block
