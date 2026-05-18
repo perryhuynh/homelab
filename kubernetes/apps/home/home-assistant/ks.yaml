@@ -26,7 +26,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      ANUBIS_TARGET: http://home-assistant.home.svc.cluster.local:8123
+      ANUBIS_TARGET: http://home-assistant-app.home.svc.cluster.local:8123
       VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
