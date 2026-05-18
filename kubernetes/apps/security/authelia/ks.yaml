@@ -9,6 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/anubis
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
@@ -20,6 +22,10 @@ spec:
       namespace: security
   interval: 1h
   path: ./kubernetes/apps/security/authelia/app
+  postBuild:
+    substitute:
+      APP: *app
+      ANUBIS_TARGET: http://authelia.security.svc.cluster.local
   prune: true
   sourceRef:
     kind: GitRepository
