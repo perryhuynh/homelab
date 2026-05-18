@@ -3,10 +3,10 @@
 apiVersion: dragonflydb.io/v1alpha1
 kind: Dragonfly
 metadata:
-  name: dragonfly
+  name: "${APP}-dragonfly"
 spec:
   image: ghcr.io/dragonflydb/dragonfly:v1.38.1@sha256:baf70ba7ad182a992b988497cfa31a488978c8fab7712079784c2401f447e402
-  replicas: 4 # set to the number of nodes in the cluster
+  replicas: 2 #
   env:
     - name: MAX_MEMORY
       valueFrom:
@@ -22,4 +22,11 @@ spec:
       cpu: 10m
     limits:
       memory: 512Mi
-
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: "kubernetes.io/hostname"
+      whenUnsatisfiable: "DoNotSchedule"
+      nodeTaintsPolicy: Honor
+      labelSelector:
+        matchLabels:
+          app: "${APP}-dragonfly"
