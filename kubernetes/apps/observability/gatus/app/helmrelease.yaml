@@ -112,6 +112,10 @@ spec:
           - name: envoy-external
             namespace: networking
             sectionName: https
+        rules:
+          - backendRefs:
+              - name: gatus-anubis
+                port: 8080
     rbac:
       roles:
         gatus:
