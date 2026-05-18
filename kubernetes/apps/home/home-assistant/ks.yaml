@@ -10,6 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
+    - ../../../../components/anubis
     - ../../../../components/volsync
   dependsOn:
     - name: external-secrets
@@ -25,6 +26,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      ANUBIS_TARGET: http://home-assistant.home.svc.cluster.local:8123
       VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
