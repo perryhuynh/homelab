@@ -96,8 +96,8 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - identifier: app
-                port: *port
+              - name: authelia-anubis
+                port: 8080
             filters:
               - type: RequestHeaderModifier
                 requestHeaderModifier:
