@@ -15,7 +15,7 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: dragonfly-cluster
+    - name: dragonfly
       namespace: database
     - name: external-secrets
       namespace: external-secrets
@@ -27,6 +27,11 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
+  healthCheckExprs:
+    - apiVersion: dragonflydb.io/v1alpha1
+      kind: Dragonfly
+      failed: status.phase != 'Ready'
+      current: status.phase == 'Ready'
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/app
   postBuild:
