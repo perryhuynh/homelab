@@ -2,6 +2,18 @@
 # yaml-language-server: $schema=https://json.schemastore.org/component.json
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
+patches:
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      version: v1
+      kind: Kustomization
+    op: add
+    path: /spec/healthCheckExprs
+    value:
+      - apiVersion: dragonflydb.io/v1alpha1
+        kind: Dragonfly
+        failed: status.phase != 'Ready'
+        current: status.phase == 'Ready'
 resources:
   - ./dragonfly.yaml
   - ./networkpolicy.yaml
