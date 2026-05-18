@@ -9,11 +9,17 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/anubis
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/observability/gatus/app
+  postBuild:
+    substitute:
+      APP: *app
+      ANUBIS_TARGET: http://gatus.observability.svc.cluster.local
   prune: true
   sourceRef:
     kind: GitRepository
