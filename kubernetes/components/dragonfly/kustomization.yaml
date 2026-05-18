@@ -7,13 +7,7 @@ patches:
       group: kustomize.toolkit.fluxcd.io
       version: v1
       kind: Kustomization
-    op: add
-    path: /spec/healthCheckExprs
-    value:
-      - apiVersion: dragonflydb.io/v1alpha1
-        kind: Dragonfly
-        failed: status.phase != 'Ready'
-        current: status.phase == 'Ready'
+    path: patch.yaml
 resources:
   - ./dragonfly.yaml
   - ./networkpolicy.yaml
