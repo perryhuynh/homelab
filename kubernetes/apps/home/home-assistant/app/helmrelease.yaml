@@ -109,8 +109,8 @@ spec:
             sectionName: https
         rules:
           - backendRefs:
-              - identifier: app
-                port: 8123
+              - name: home-assistant-anubis
+                port: 8080
       code:
         hostnames:
           - "{{ .Release.Name }}-code.perryhuynh.com"
