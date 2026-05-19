@@ -62,18 +62,6 @@ releases:
     version: v1.20.2
     values:
       - ./templates/values.yaml.gotmpl
-    hooks:
-      - events:
-          - "postsync"
-        command: kubectl
-        args:
-          - apply
-          - --namespace=cert-manager
-          - --server-side
-          - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/cert-manager/cert-manager/app/issuers.yaml
-          - --wait=true
-        showlogs: true
     needs:
       - "kube-system/spegel"
 
@@ -98,7 +86,7 @@ releases:
         showlogs: true
     needs:
       - "cert-manager/cert-manager"
-  
+
   - name: external-secrets
     namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
@@ -124,8 +112,19 @@ releases:
         events:
           - postsync
         showlogs: true
+      - command: kubectl
+        args:
+          - apply
+          - --namespace=cert-manager
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename=../../kubernetes/apps/cert-manager/cert-manager/app/issuers.yaml
+          - --wait=true
+        showlogs: true
+        events:
+          - postsync
     needs:
-      -  "external-secrets/onepassword-connect"
+      - "external-secrets/onepassword-connect"
 
   - name: flux-operator
     namespace: flux-system

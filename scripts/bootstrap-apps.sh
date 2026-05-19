@@ -63,11 +63,12 @@ function apply_crds() {
         log error "File does not exist" "file=${helmfile_file}"
     fi
 
-    if ! helmfile -f "${helmfile_file}" template -q | kubectl apply --server-side --field-manager flux-client-side-apply -f -; then
+    if ! helmfile -f "${helmfile_file}" template -q | yq ea -e 'select(.kind == "CustomResourceDefinition")' | kubectl apply --server-side --force-conflicts -f -; then
         log error "Failed to apply CRDs"
     fi
 
     log info "CRDs applied"
+    sleep 5
 }
 
 # Resources to be applied before the helmfile charts are installed
