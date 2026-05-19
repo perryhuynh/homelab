@@ -81,7 +81,7 @@ spec:
       GATUS_PORT: "5432"
     substituteFrom:
       - kind: Secret
-        name: cloudnative-pg-secret
+        name: cloudnative-pg-backup
         optional: false
   prune: true
   sourceRef:
