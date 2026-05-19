@@ -13,7 +13,7 @@ spec:
     crds:
       create: true
     monitoring:
-      podMonitorEnabled: false
+      podMonitorEnabled: true
       grafanaDashboard:
         create: true
         annotations:

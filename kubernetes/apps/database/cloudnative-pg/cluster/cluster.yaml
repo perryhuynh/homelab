@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres17
+  name: postgres
   annotations:
     cnpg.io/skipEmptyWalArchiveCheck: "enabled"
 spec:
@@ -31,7 +31,7 @@ spec:
       isWALArchiver: true
       parameters: &parameters
         barmanObjectName: r2
-        serverName: postgres17
+        serverName: postgres
   bootstrap:
     recovery:
       source: source
@@ -39,4 +39,6 @@ spec:
     - name: source
       plugin:
         name: barman-cloud.cloudnative-pg.io
-        parameters: *parameters
+        parameters:
+          barmanObjectName: r2
+          serverName: postgres17
