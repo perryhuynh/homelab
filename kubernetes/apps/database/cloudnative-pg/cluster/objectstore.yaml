@@ -11,10 +11,10 @@ spec:
     endpointURL: https://${bucket_host}
     s3Credentials:
       accessKeyId:
-        name: cloudnative-pg-secret
+        name: cloudnative-pg-backup
         key: AWS_ACCESS_KEY_ID
       secretAccessKey:
-        name: cloudnative-pg-secret
+        name: cloudnative-pg-backup
         key: AWS_SECRET_ACCESS_KEY
     wal:
       compression: bzip2

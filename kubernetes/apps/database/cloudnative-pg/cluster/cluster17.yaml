@@ -14,7 +14,7 @@ spec:
     size: 20Gi
     storageClass: openebs-hostpath
   superuserSecret:
-    name: cloudnative-pg-secret
+    name: cloudnative-pg
   postgresql:
     parameters:
       max_connections: "600"
