@@ -55,28 +55,6 @@ releases:
     needs:
       - "kube-system/coredns"
 
-  - name: cert-manager
-    namespace: cert-manager
-    atomic: true
-    chart: oci://quay.io/jetstack/charts/cert-manager
-    version: v1.20.2
-    values:
-      - ./templates/values.yaml.gotmpl
-    hooks:
-      - events:
-          - "postsync"
-        command: kubectl
-        args:
-          - apply
-          - --namespace=cert-manager
-          - --server-side
-          - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/cert-manager/cert-manager/app/issuers.yaml
-          - --wait=true
-        showlogs: true
-    needs:
-      - "kube-system/spegel"
-
   - name: onepassword-connect
     namespace: external-secrets
     atomic: true
@@ -97,8 +75,8 @@ releases:
           - --wait=true
         showlogs: true
     needs:
-      - "cert-manager/cert-manager"
-  
+      - "kube-system/spegel"
+
   - name: external-secrets
     namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
@@ -125,7 +103,29 @@ releases:
           - postsync
         showlogs: true
     needs:
-      -  "external-secrets/onepassword-connect"
+      - "external-secrets/onepassword-connect"
+
+  - name: cert-manager
+    namespace: cert-manager
+    atomic: true
+    chart: oci://quay.io/jetstack/charts/cert-manager
+    version: v1.20.2
+    values:
+      - ./templates/values.yaml.gotmpl
+    hooks:
+      - events:
+          - "postsync"
+        command: kubectl
+        args:
+          - apply
+          - --namespace=cert-manager
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename=../../kubernetes/apps/cert-manager/cert-manager/app/issuers.yaml
+          - --wait=true
+        showlogs: true
+    needs:
+      - "external-secrets/external-secrets"
 
   - name: flux-operator
     namespace: flux-system
@@ -135,7 +135,7 @@ releases:
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - "external-secrets/external-secrets"
+      - "cert-manager/cert-manager"
 
   - name: flux-instance
     namespace: flux-system
