@@ -37,7 +37,7 @@ spec:
   bootstrap:
     recovery:
       recoveryTarget:
-        targetTLI: "1"
+        targetTLI: "latest"
       source: source
   externalClusters:
     - name: source
