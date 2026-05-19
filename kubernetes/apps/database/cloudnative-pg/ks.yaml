@@ -65,7 +65,7 @@ spec:
       namespace: *namespace
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
-      name: postgres17
+      name: postgres
       namespace: *namespace
   healthCheckExprs:
     - apiVersion: postgresql.cnpg.io/v1
