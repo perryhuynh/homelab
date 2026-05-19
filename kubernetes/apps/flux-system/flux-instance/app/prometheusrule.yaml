@@ -31,7 +31,7 @@ spec:
 
         - alert: HelmReleaseReconciliationFailure
           expr: |-
-            gotk_resource_info{customresource_kind="HelmRelease", ready!="True"} == 1
+            flux_resource_info{kind="HelmRelease", ready!="True"} == 1
           for: 5m
           annotations:
             summary: >-
@@ -41,7 +41,7 @@ spec:
 
         - alert: KustomizationReconciliationFailure
           expr: |-
-            gotk_resource_info{customresource_kind="Kustomization", ready!="True"} == 1
+            flux_resource_info{kind="Kustomization", ready!="True"} == 1
           for: 5m
           annotations:
             summary: >-
