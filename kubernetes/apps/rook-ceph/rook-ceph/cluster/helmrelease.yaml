@@ -64,10 +64,10 @@ spec:
             memory: 2Gi
         osd:
           limits:
-            memory: 6Gi
+            memory: 8Gi
           requests:
             cpu: 500m
-            memory: 6Gi
+            memory: 8Gi
       network:
         provider: host
         connections:
