@@ -8,7 +8,7 @@ metadata:
     cnpg.io/skipEmptyWalArchiveCheck: "enabled"
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-system-trixie@sha256:sha256:b0949a3f70641d5c56a05e18df8d69a16fba66af479d0ac6b74ede71f6d4e84f
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-system-trixie@sha256:b0949a3f70641d5c56a05e18df8d69a16fba66af479d0ac6b74ede71f6d4e84f
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
