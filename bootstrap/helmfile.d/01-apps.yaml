@@ -102,8 +102,7 @@ releases:
         events:
           - postsync
         showlogs: true
-      - # Apply ExternalSecret Resources
-        command: kubectl
+      - command: kubectl
         args:
           - apply
           - --server-side
@@ -115,10 +114,10 @@ releases:
       - command: kubectl
         args:
           - apply
-          - --namespace=cert-manager
+          - --namespace=networking
           - --server-side
           - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/cert-manager/cert-manager/app/issuers.yaml
+          - --filename=../../kubernetes/apps/networking/certificates/import/externalsecret.yaml
           - --wait=true
         showlogs: true
         events:
