@@ -10,19 +10,10 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: 1password-connect-vault
+  name: 1password-connect-token
 stringData:
   OP_CONNECT_TOKEN: |-
     op://kubernetes/1password/token
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: onepassword-connect-secret
-  namespace: external-secrets
-stringData:
-  1password-credentials.json: op://kubernetes/1password/credentials
-  token: op://kubernetes/1password/token
 ---
 apiVersion: v1
 kind: Secret
