@@ -55,6 +55,16 @@ releases:
     needs:
       - "kube-system/coredns"
 
+  - name: cert-manager
+    namespace: cert-manager
+    atomic: true
+    chart: oci://quay.io/jetstack/charts/cert-manager
+    version: v1.20.2
+    values:
+      - ./templates/values.yaml.gotmpl
+    needs:
+      - "kube-system/spegel"
+
   - name: onepassword-connect
     namespace: external-secrets
     atomic: true
@@ -75,7 +85,7 @@ releases:
           - --wait=true
         showlogs: true
     needs:
-      - "kube-system/spegel"
+      - "cert-manager/cert-manager"
 
   - name: external-secrets
     namespace: external-secrets
@@ -102,20 +112,7 @@ releases:
         events:
           - postsync
         showlogs: true
-    needs:
-      - "external-secrets/onepassword-connect"
-
-  - name: cert-manager
-    namespace: cert-manager
-    atomic: true
-    chart: oci://quay.io/jetstack/charts/cert-manager
-    version: v1.20.2
-    values:
-      - ./templates/values.yaml.gotmpl
-    hooks:
-      - events:
-          - "postsync"
-        command: kubectl
+      - command: kubectl
         args:
           - apply
           - --namespace=cert-manager
@@ -124,8 +121,10 @@ releases:
           - --filename=../../kubernetes/apps/cert-manager/cert-manager/app/issuers.yaml
           - --wait=true
         showlogs: true
+        events:
+          - postsync
     needs:
-      - "external-secrets/external-secrets"
+      - "external-secrets/onepassword-connect"
 
   - name: flux-operator
     namespace: flux-system
@@ -135,7 +134,7 @@ releases:
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - "cert-manager/cert-manager"
+      - "external-secrets/external-secrets"
 
   - name: flux-instance
     namespace: flux-system
