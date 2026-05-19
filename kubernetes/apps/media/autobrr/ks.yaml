@@ -10,6 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: authelia
+      namespace: security
     - name: cloudnative-pg-cluster
       namespace: database
     - name: external-secrets

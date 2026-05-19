@@ -13,6 +13,8 @@ spec:
     - ../../../../components/volsync
     - ../../../../components/zeroscaler
   dependsOn:
+    - name: authelia
+      namespace: security
     - name: external-secrets
       namespace: external-secrets
     - name: prometheus-adapter
