@@ -132,12 +132,6 @@ spec:
             url: http://alertmanager-operated.observability.svc.cluster.local:9093
             jsonData:
               implementation: prometheus
-          - name: Loki
-            type: loki
-            access: proxy
-            url: http://loki-headless.observability.svc.cluster.local:3100
-            jsonData:
-              maxLines: 250
           - name: Prometheus
             type: prometheus
             access: proxy
