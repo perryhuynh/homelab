@@ -219,7 +219,7 @@ spec:
         sending_queue:
           storage: file_storage
       otlp_http/loki:
-        logs_endpoint: http://loki-headless.observability.svc.cluster.local:3100/otlp
+        logs_endpoint: http://loki-headless.observability.svc.cluster.local:3100/otlp/v1/logs
         sending_queue:
           storage: file_storage
     service:
