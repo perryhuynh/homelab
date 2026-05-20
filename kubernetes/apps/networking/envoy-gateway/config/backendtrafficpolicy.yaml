@@ -23,4 +23,5 @@ spec:
   tcpKeepalive: {}
   timeout:
     http:
+      connectionIdleTimeout: 30s
       requestTimeout: 0s
