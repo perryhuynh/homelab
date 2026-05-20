@@ -1,7 +1,4 @@
----
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
-apiVersion: opentelemetry.io/v1beta1
-kind: OpenTelemetryCollector
+
 metadata:
   name: events
 spec:
@@ -43,11 +40,7 @@ spec:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
----
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
-apiVersion: opentelemetry.io/v1beta1
-kind: OpenTelemetryCollector
+                    
 metadata:
   name: filelog
 spec:
@@ -79,11 +72,7 @@ spec:
         include_file_name: false
         operators:
           # parse container logs
-          - type: container
-            id: container-parser
-          - type: json_parser
-            on_error: send_quiet
-    processors:
+          
       batch: {}
       k8s_attributes:
         auth_type: "serviceAccount"
@@ -155,11 +144,7 @@ spec:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
----
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
-apiVersion: opentelemetry.io/v1beta1
-kind: OpenTelemetryCollector
+                    
 metadata:
   name: gateway
 spec:
@@ -246,11 +231,7 @@ spec:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    endpoint: *metrics_endpoint
----
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
-apiVersion: opentelemetry.io/v1beta1
-kind: OpenTelemetryCollector
+                    
 metadata:
   name: unifi-syslog
 spec:
