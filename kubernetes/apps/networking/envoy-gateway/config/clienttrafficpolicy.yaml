@@ -3,6 +3,21 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
+  name: cloudflare-ip-detection
+spec:
+  clientIPDetection:
+    customHeader:
+      name: CF-Connecting-IP
+      failClosed: true
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: external
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
   name: envoy
 spec:
   clientIPDetection:
