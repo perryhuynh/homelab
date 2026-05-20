@@ -218,6 +218,10 @@ spec:
         metrics_endpoint: &metrics_endpoint http://prometheus-operated.observability.svc.cluster.local:9090/api/v1/otlp/v1/metrics
         sending_queue:
           storage: file_storage
+      otlp_http/loki:
+        logs_endpoint: http://loki-headless.observability.svc.cluster.local:3100/otlp
+        sending_queue:
+          storage: file_storage
     service:
       extensions:
         - file_storage
@@ -231,6 +235,7 @@ spec:
             - batch
           exporters:
             - otlp_http
+            - otlp_http/loki
         metrics:
           receivers:
             - otlp

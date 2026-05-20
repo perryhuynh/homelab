@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: loki
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: loki
+  interval: 1h
+  values:
+    deploymentMode: SingleBinary
+    loki:
+      image:
+        registry: mirror.gcr.io
+      auth_enabled: false
+      analytics:
+        reporting_enabled: false
+      server:
+        log_level: info
+      commonConfig:
+        replication_factor: 1
+      compactor:
+        working_directory: /var/loki/compactor/retention
+        delete_request_store: filesystem
+        retention_enabled: true
+      ingester:
+        chunk_encoding: snappy
+      storage:
+        type: filesystem
+      schemaConfig:
+        configs:
+          - from: "2024-04-01" # quote
+            store: tsdb
+            object_store: filesystem
+            schema: v13
+            index:
+              prefix: loki_index_
+              period: 24h
+      limits_config:
+        allow_structured_metadata: true # needed for opentelemetry
+        retention_period: 1d
+      structuredConfig:
+        ruler:
+          enable_api: true
+          enable_alertmanager_v2: true
+          alertmanager_url: http://alertmanager-operated.observability.svc.cluster.local:9093
+          storage:
+            type: local
+            local:
+              directory: /rules
+          rule_path: /rules/fake
+    singleBinary:
+      replicas: 1
+      persistence:
+        enabled: true
+        size: 10Gi
+        storageClass: ceph-block
+    gateway:
+      replicas: 0
+      image:
+        registry: mirror.gcr.io
+    backend:
+      replicas: 0
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
+    lokiCanary:
+      enabled: false
+    test:
+      enabled: false
+    sidecar:
+      image:
+        registry: ghcr.io
+        repository: home-operations/k8s-sidecar
+        tag: 2.7.3
+        sha: 391ccddbc6b29b1b07fea530950eba68e941304ea9252084e07cf12f1687a81d
+      enableUniqueFilenames: true
+      rules:
+        searchNamespace: ALL
+        folder: /rules/fake
+    monitoring:
+      dashboards:
+        enabled: true
+    servicemonitor:
+      enabled: true
