@@ -12,6 +12,8 @@ spec:
   values:
     deploymentMode: SingleBinary
     loki:
+      image:
+        registry: mirror.gcr.io
       auth_enabled: false
       analytics:
         reporting_enabled: false
@@ -57,6 +59,8 @@ spec:
         storageClass: ceph-block
     gateway:
       replicas: 0
+      image:
+        registry: mirror.gcr.io
     backend:
       replicas: 0
     read:
@@ -74,7 +78,7 @@ spec:
     sidecar:
       image:
         repository: ghcr.io/home-operations/k8s-sidecar
-        tag: 1.30.10@sha256:dd3b1f0c4e6b4512b2deb50c58acf65fd0f0927120a59a95eec854d32a6c9ce3
+        tag: 2.7.3@sha256:391ccddbc6b29b1b07fea530950eba68e941304ea9252084e07cf12f1687a81d
       enableUniqueFilenames: true
       rules:
         searchNamespace: ALL
