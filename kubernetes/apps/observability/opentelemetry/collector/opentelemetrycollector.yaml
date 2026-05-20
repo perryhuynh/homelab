@@ -1,4 +1,7 @@
-
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
 metadata:
   name: events
 spec:
@@ -40,7 +43,10 @@ spec:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
 metadata:
   name: filelog
 spec:
@@ -72,7 +78,7 @@ spec:
         include_file_name: false
         operators:
           # parse container logs
-          
+
       batch: {}
       k8s_attributes:
         auth_type: "serviceAccount"
@@ -144,7 +150,10 @@ spec:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
 metadata:
   name: gateway
 spec:
@@ -231,7 +240,10 @@ spec:
                 exporter:
                   otlp:
                     protocol: http/protobuf
-                    
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
 metadata:
   name: unifi-syslog
 spec:
