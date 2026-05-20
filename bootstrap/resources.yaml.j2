@@ -24,3 +24,12 @@ metadata:
 type: Opaque
 stringData:
   api_key: op://kubernetes/cloudflare/api_key
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: plex
+  namespace: media
+type: Opaque
+stringData:
+  PLEX_UUID: op://kubernetes/plex/uuid
