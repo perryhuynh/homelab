@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -45,7 +45,7 @@ spec:
                     protocol: http/protobuf
                     endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -157,7 +157,7 @@ spec:
                     protocol: http/protobuf
                     endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
@@ -248,7 +248,7 @@ spec:
                     protocol: http/protobuf
                     endpoint: *metrics_endpoint
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.perry.cafe/opentelemetry.io/opentelemetrycollector_v1beta1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
