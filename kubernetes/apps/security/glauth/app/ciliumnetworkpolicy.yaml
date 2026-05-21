@@ -5,6 +5,8 @@ kind: CiliumNetworkPolicy
 metadata:
   name: glauth
 spec:
+  enableDefaultDeny:
+  
   endpointSelector:
     matchLabels:
       app.kubernetes.io/instance: glauth
