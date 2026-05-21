@@ -28,5 +28,5 @@ spec:
               protocol: TCP
     - fromEndpoints:
         - matchLabels:
-      app.kubernetes.io/instance: "${APP}"
-      app.kubernetes.io/name: "${APP}"
+            app.kubernetes.io/instance: "${APP}"
+            app.kubernetes.io/name: "${APP}"
