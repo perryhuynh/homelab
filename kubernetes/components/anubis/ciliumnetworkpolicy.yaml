@@ -26,3 +26,7 @@ spec:
         - ports:
             - port: "9090"
               protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: "${APP}"
+            app.kubernetes.io/name: "${APP}"
