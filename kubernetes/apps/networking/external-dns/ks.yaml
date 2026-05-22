@@ -41,7 +41,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/apps/networking/external-dns/cloudflare
+  path: ./kubernetes/apps/networking/external-dns/unifi
   prune: true
   sourceRef:
     kind: GitRepository
