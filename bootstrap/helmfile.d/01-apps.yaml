@@ -23,14 +23,22 @@ releases:
         events:
           - postsync
         showlogs: true
-      - # Apply Cilium Resources
-        command: kubectl
+      - command: kubectl
         args:
           - apply
           - --namespace=kube-system
           - --server-side
           - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/kube-system/cilium/app/networks.yaml
+          - --filename=../../kubernetes/apps/kube-system/cilium/networks/ciliuml2announcementpolicy.yaml
+        events:
+          - postsync
+      - command: kubectl
+        args:
+          - apply
+          - --namespace=kube-system
+          - --server-side
+          - --field-manager=kustomize-controller
+          - --filename=../../kubernetes/apps/kube-system/cilium/networks/ciliumloadbalancerippool.yaml
         events:
           - postsync
         showlogs: true
@@ -81,7 +89,7 @@ releases:
           - --namespace=external-secrets
           - --server-side
           - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/external-secrets/onepassword-connect/app/networkpolicy.yaml
+          - --filename=../../kubernetes/apps/external-secrets/onepassword-connect/app/ciliumnetworkpolicy.yaml
           - --wait=true
         showlogs: true
     needs:
