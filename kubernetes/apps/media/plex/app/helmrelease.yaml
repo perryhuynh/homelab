@@ -133,7 +133,7 @@ spec:
         type: LoadBalancer
         controller: plex
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.1.204
+          lbipam.cilium.io/ips: 192.168.20.204
         ports:
           http:
             port: *port

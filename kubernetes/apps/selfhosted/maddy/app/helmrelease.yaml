@@ -63,15 +63,19 @@ spec:
         type: emptyDir
     service:
       app:
-        annotations:
-          io.cilium/lb-ipam-ips: 192.168.1.202
         ports:
           http:
             primary: true
             port: *metricsPort
+      smtp:
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: smtp.internal
+          lbipam.cilium.io/ips: 192.168.20.202
+        externalTrafficPolicy: Local
+        ports:
           smtp:
             port: *port
-        type: LoadBalancer
     serviceMonitor:
       app:
         endpoints:

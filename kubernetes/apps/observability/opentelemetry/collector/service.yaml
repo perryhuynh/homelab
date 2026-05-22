@@ -4,9 +4,10 @@ kind: Service
 metadata:
   name: unifi-syslog-collector
   annotations:
-    io.cilium/lb-ipam-ips: 192.168.1.205
+    lbipam.cilium.io/ips: 192.168.20.205
 spec:
   type: LoadBalancer
+  externalTrafficPolicy: Local
   ports:
     - port: 514
       targetPort: 514
