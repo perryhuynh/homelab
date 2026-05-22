@@ -65,7 +65,6 @@ spec:
       app:
         ports:
           http:
-            primary: true
             port: *metricsPort
       smtp:
         type: LoadBalancer
@@ -78,6 +77,8 @@ spec:
             port: *port
     serviceMonitor:
       app:
+        service:
+          identifier: app
         endpoints:
           - port: http
             scheme: http
