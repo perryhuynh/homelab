@@ -82,8 +82,9 @@ spec:
     service:
       app:
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.1.206
+          lbipam.cilium.io/ips: 192.168.20.101
         sessionAffinity: ClientIP
+        externalTrafficPolicy: Local
         type: LoadBalancer
         controller: *app
         ports:
