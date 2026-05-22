@@ -7,7 +7,6 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - opnsense.home.arpa:9100
         - nas.home.arpa:9100
         - perry-desktop-linux.home.arpa:9100
         - pikvm.home.arpa:9100
