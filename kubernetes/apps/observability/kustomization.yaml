@@ -12,7 +12,6 @@ resources:
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./opentelemetry/ks.yaml
-  - ./opnsense-exporter/ks.yaml
   - ./prometheus-adapter/ks.yaml
   - ./silence-operator/ks.yaml
   - ./siren/ks.yaml
