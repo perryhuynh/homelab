@@ -70,6 +70,7 @@ spec:
       smtp:
         type: LoadBalancer
         annotations:
+          external-dns.alpha.kubernetes.io/hostname: smtp.internal
           lbipam.cilium.io/ips: 192.168.20.202
         externalTrafficPolicy: Local
         ports:
