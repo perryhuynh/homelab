@@ -217,13 +217,6 @@ spec:
         envoy-proxy:
           url: https://raw.githubusercontent.com/envoyproxy/gateway/refs/heads/main/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json
           datasource: VictoriaMetrics
-        opnsense:
-          # renovate: depName="OPNSense"
-          gnetId: 21113
-          revision: 1
-          datasource:
-            - name: DS_PROMETHEUS-K0
-              value: VictoriaMetrics
         unifi-insights:
           # renovate: depName="UniFi-Poller: Client Insights - Prometheus"
           gnetId: 11315
