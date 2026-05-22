@@ -28,8 +28,6 @@ spec:
       tls:
         certificateRefs:
           - kind: Secret
-            name: perry-cafe-production-tls
-          - kind: Secret
             name: perryhuynh-com-production-tls
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/gateway_v1.json
@@ -60,7 +58,5 @@ spec:
           from: All
       tls:
         certificateRefs:
-          - kind: Secret
-            name: perry-cafe-production-tls
           - kind: Secret
             name: perryhuynh-com-production-tls
