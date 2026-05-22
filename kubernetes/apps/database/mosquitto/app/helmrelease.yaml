@@ -82,6 +82,7 @@ spec:
     service:
       app:
         annotations:
+          external-dns.alpha.kubernetes.io/hostname: mqtt.internal
           lbipam.cilium.io/ips: 192.168.20.101
         sessionAffinity: ClientIP
         externalTrafficPolicy: Local

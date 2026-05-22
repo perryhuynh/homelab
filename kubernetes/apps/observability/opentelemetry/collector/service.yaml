@@ -4,6 +4,7 @@ kind: Service
 metadata:
   name: unifi-syslog-collector
   annotations:
+    external-dns.alpha.kubernetes.io/hostname: unifi-syslog.internal
     lbipam.cilium.io/ips: 192.168.20.205
 spec:
   type: LoadBalancer

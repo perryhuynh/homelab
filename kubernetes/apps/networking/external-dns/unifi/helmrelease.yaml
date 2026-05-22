@@ -48,6 +48,7 @@ spec:
     txtPrefix: k8s.main.
     domainFilters:
       - perryhuynh.com
+      - internal
     serviceMonitor:
       enabled: true
     podAnnotations:
