@@ -8,7 +8,7 @@ spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: external-dns
+    name: external-dns-cloudflare
   values:
     fullnameOverride: *app
     provider: cloudflare
