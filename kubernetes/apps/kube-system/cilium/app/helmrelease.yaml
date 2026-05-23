@@ -49,13 +49,13 @@ spec:
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     l2announcements:
-      enabled: true
+      enabled: false
     loadBalancer:
       algorithm: maglev
       mode: "dsr"
     localRedirectPolicy: true
     operator:
-      dashboards:
+      dashboards:g
         enabled: true
         annotations:
           grafana_folder: *grafanaFolder

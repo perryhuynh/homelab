@@ -66,7 +66,7 @@ spec:
             "name": "home",
             "namespace": "networking",
             "interface": "eth1",
-            "ips": ["192.168.1.31/24"],
+            "ips": ["192.168.20.31/24"],
             "mac": "02:7f:5c:50:6c:fe"
           }]
       affinity:
@@ -134,7 +134,7 @@ spec:
       expose:
         type: LoadBalancer
         annotations:
-          "lbipam.cilium.io/ips": "192.168.1.31"
+          "lbipam.cilium.io/ips": "192.168.20.31"
         ports:
           homekit:
             portRange:
