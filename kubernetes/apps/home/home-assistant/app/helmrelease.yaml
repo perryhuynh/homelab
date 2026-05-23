@@ -69,15 +69,6 @@ spec:
             "ips": ["192.168.50.2/24"],
             "mac": "02:7f:5c:50:6c:fe"
           }]
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: NotIn
-                    values:
-                      - wizone
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
