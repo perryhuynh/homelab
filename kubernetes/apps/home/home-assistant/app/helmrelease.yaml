@@ -66,18 +66,9 @@ spec:
             "name": "home",
             "namespace": "networking",
             "interface": "eth1",
-            "ips": ["192.168.1.30/24"],
+            "ips": ["192.168.50.2/24"],
             "mac": "02:7f:5c:50:6c:fe"
           }]
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: NotIn
-                    values:
-                      - wizone
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
@@ -131,13 +122,3 @@ spec:
         ports:
           code-server:
             port: 12321
-      expose:
-        type: LoadBalancer
-        annotations:
-          "lbipam.cilium.io/ips": "192.168.1.30"
-        externalTrafficPolicy: Local
-        ports:
-          homekit:
-            portRange:
-              start: 21061
-              end: 21069
