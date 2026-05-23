@@ -43,7 +43,7 @@ spec:
                   periodSeconds: 10
             env:
               TZ: America/Los_Angeles
-              UP_UNIFI_DEFAULT_URL: https://192.168.1.1
+              UP_UNIFI_DEFAULT_URL: https://unifi.internal
               UP_UNIFI_DEFAULT_ROLE: unpoller
               UP_PROMETHEUS_HTTP_LISTEN: 0.0.0.0:80
               UP_INFLUXDB_DISABLE: true
