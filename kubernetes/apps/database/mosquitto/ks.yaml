@@ -15,6 +15,7 @@ spec:
   path: ./kubernetes/apps/database/mosquitto/app
   postBuild:
     substitute:
+      APP: *app
       GATUS_NAME: "queue"
       GATUS_ADDRESS: "mosquitto.database.svc.cluster.local"
       GATUS_PORT: "1883"
