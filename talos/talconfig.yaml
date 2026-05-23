@@ -1,5 +1,5 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 clusterName: kubernetes
 
 talosVersion: "${talosVersion}"
@@ -30,12 +30,18 @@ nodes:
     talosImageURL: factory.talos.dev/installer/af0f65d00d74c07ae1ddb7c73813831219d051dcca3725eb00b0cc91bc767ec2
     controlPlane: true
     networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "48:21:0b:3b:d9:6b"
-          driver: igc
+      - interface: bond0
+        bond:
+          mode: active-backup
+          deviceSelectors:
+            - hardwareAddr: "48:21:0b:3b:d9:6b"
+              driver: igc
         dhcp: true
-        vip: &kubeVip
+        vip: &vip
           ip: "192.168.1.20"
+        vlans: &vlans
+          - vlanId: 50
+            dhcp: true
     nodeLabels:
       node.kubernetes.io/gpu: "true"
   - hostname: "jo-yuri"
@@ -47,11 +53,15 @@ nodes:
     talosImageURL: factory.talos.dev/installer/af0f65d00d74c07ae1ddb7c73813831219d051dcca3725eb00b0cc91bc767ec2
     controlPlane: true
     networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "48:21:0b:50:52:ae"
-          driver: igc
+      - interface: bond0
+        bond:
+          mode: active-backup
+          deviceSelectors:
+            - hardwareAddr: "48:21:0b:3b:d9:6b"
+              driver: igc
         dhcp: true
-        vip: *kubeVip
+        vip: *vip
+        vlans: *vlans
     nodeLabels:
       node.kubernetes.io/gpu: "true"
   - hostname: "kim-chaewon"
@@ -63,11 +73,15 @@ nodes:
     talosImageURL: factory.talos.dev/installer/af0f65d00d74c07ae1ddb7c73813831219d051dcca3725eb00b0cc91bc767ec2
     controlPlane: true
     networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "48:21:0b:37:2c:0b"
-          driver: igc
+      - interface: bond0
+        bond:
+          mode: active-backup
+          deviceSelectors:
+            - hardwareAddr: "48:21:0b:3b:d9:6b"
+              driver: igc
         dhcp: true
-        vip: *kubeVip
+        vip: *vip
+        vlans: *vlans
     nodeLabels:
       node.kubernetes.io/gpu: "true"
   - hostname: "wizone"
@@ -79,10 +93,15 @@ nodes:
     talosImageURL: factory.talos.dev/installer/af0f65d00d74c07ae1ddb7c73813831219d051dcca3725eb00b0cc91bc767ec2
     controlPlane: false
     networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "58:47:ca:74:f0:45"
-          driver: i40e
+      - interface: bond0
+        bond:
+          mode: active-backup
+          deviceSelectors:
+            - hardwareAddr: "58:47:ca:74:f0:45"
+              driver: i40e
         dhcp: true
+        vip: *vip
+        vlans: *vlans
     nodeLabels:
       node.kubernetes.io/gpu: "true"
     patches:
