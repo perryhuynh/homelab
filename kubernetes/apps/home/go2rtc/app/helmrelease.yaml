@@ -19,6 +19,9 @@ spec:
             image:
               repository: ghcr.io/alexxit/go2rtc
               tag: 1.9.14@sha256:675c318b23c06fd862a61d262240c9a63436b4050d177ffc68a32710d9e05bae
+            envFrom:
+              - secretRef:
+                  name: go2rtc
             probes:
               liveness:
                 enabled: true
@@ -53,13 +56,20 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [{
+            "name": "home",
+            "namespace": "networking",
+            "ips": ["192.168.50.3/24"]
+          }]
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
     persistence:
       config:
-        type: secret
+        type: configMap
         name: go2rtc
         globalMounts:
           - path: /config/go2rtc.yaml
@@ -78,19 +88,10 @@ spec:
                 port: 80
     service:
       app:
-        forceRename: "{{ .Release.Name }}"
-        primary: true
         ports:
           http:
             primary: true
             port: *port
-      streams:
-        type: LoadBalancer
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: go2rtc.internal
-          lbipam.cilium.io/ips: 192.168.20.207
-        externalTrafficPolicy: Local
-        ports:
           streams-rtsp:
             port: 554
           streams-webrtc-tcp:
