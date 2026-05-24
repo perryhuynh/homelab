@@ -1,5 +1,3 @@
-log:
-  streams: debug # Prevent log spam from UniFi Protect
 api:
   listen: :80
   origin: "*"
@@ -8,7 +6,6 @@ rtsp:
 webrtc:
   listen: :8555
   candidates:
-    - 192.168.20.207:8555
     - stun:8555
   ice_servers:
     - urls:
@@ -16,10 +13,10 @@ webrtc:
 streams:
   driveway:
     - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
-    - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
+    - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}&snapshot"
   front_door:
     - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${RING_FRONT_DOOR_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
-    - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${RING_FRONT_DOOR_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
+    - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${RING_FRONT_DOOR_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}&snapshot"
 homekit:
   driveway:
     name: driveway
