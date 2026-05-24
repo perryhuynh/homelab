@@ -9,9 +9,19 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gpu
+  dependsOn:
+    - name: intel-gpu-resource-driver
+      namespace: kube-system
+    - name: multus-networks
+      namespace: networking
   interval: 1h
   path: ./kubernetes/apps/home/go2rtc/app
   prune: true
+  postBuild:
+    substitute:
+      APP: *app
   sourceRef:
     kind: GitRepository
     name: flux-system

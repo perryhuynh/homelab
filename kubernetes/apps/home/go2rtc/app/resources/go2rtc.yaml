@@ -1,5 +1,5 @@
 log:
-  streams: error # Prevent log spam from UniFi Protect
+  streams: debug # Prevent log spam from UniFi Protect
 api:
   listen: :80
   origin: "*"

@@ -45,6 +45,8 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             resources:
+              claims:
+                - name: gpu
               limits:
                 memory: 512Mi
               requests:
@@ -63,6 +65,9 @@ spec:
             "namespace": "networking",
             "ips": ["192.168.50.3/24"]
           }]
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: plex-gpu
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
