@@ -57,32 +57,10 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
-    configMaps:
-      config:
-        data:
-          go2rtc.yaml: |-
-            log:
-              streams: error # Prevent log spam from UniFi Protect
-            api:
-              listen: :80
-              origin: "*"
-            rtsp:
-              listen: :554
-            webrtc:
-              listen: :8555
-              candidates:
-                - 192.168.1.207:8555
-                - stun:8555
-              ice_servers:
-                - urls:
-                    - stun:stun.cloudflare.com:3478
-            streams:
-              test:
-                - rtsps://192.168.1.2:7441/mDvOxfVILAnefqEt
     persistence:
       config:
-        type: configMap
-        identifier: config
+        type: secret
+        name: go2rtc
         globalMounts:
           - path: /config/go2rtc.yaml
             subPath: go2rtc.yaml
