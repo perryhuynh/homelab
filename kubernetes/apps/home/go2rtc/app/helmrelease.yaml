@@ -67,7 +67,7 @@ spec:
           }]
       resourceClaims:
         - name: gpu
-          resourceClaimTemplateName: plex-gpu
+          resourceClaimTemplateName: go2rtc-gpu
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
