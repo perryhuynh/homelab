@@ -59,7 +59,7 @@ spec:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
-            "name": "home",
+            "name": "iot",
             "namespace": "networking",
             "ips": ["192.168.50.3/24"]
           }]
@@ -69,11 +69,14 @@ spec:
         runAsGroup: 1000
     persistence:
       config:
+        type: emptyDir
+      config-file:
         type: configMap
         name: go2rtc
         globalMounts:
           - path: /config/go2rtc.yaml
             subPath: go2rtc.yaml
+            readOnly: true
     route:
       app:
         hostnames:
