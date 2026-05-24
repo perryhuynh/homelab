@@ -1,5 +1,5 @@
 log:
-  streams: error # Prevent log spam from UniFi Protect
+  streams: debug # Prevent log spam from UniFi Protect
 api:
   listen: :80
   origin: "*"
@@ -23,9 +23,11 @@ streams:
 homekit:
   driveway:
     name: driveway
-    pairings: &pairings
-      - client_id=${GO2RTC_HOMEKIT_CLIENT_ID_0}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_0}&permissions=0
-      - client_id=${GO2RTC_HOMEKIT_CLIENT_ID_1}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_1}&permissions=1
+    pairings:
+      - "client_id=${GO2RTC_HOMEKIT_CLIENT_ID_0}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_0}&permissions=0"
+      - "client_id=${GO2RTC_HOMEKIT_CLIENT_ID_1}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_1}&permissions=1"
   front_door:
     name: front door
-    pairings: *pairings
+    pairings:
+      - "client_id=${GO2RTC_HOMEKIT_CLIENT_ID_0}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_0}&permissions=0"
+      - "client_id=${GO2RTC_HOMEKIT_CLIENT_ID_1}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_1}&permissions=1"
