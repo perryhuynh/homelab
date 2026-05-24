@@ -14,8 +14,6 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: external-secrets
-      namespace: external-secrets
     - name: prometheus-adapter
       namespace: observability
     - name: rook-ceph-cluster

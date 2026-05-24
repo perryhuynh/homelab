@@ -12,19 +12,6 @@ spec:
   dependsOn:
     - name: onepassword-connect
       namespace: *namespace
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: external-secrets
-      namespace: *namespace
-    - apiVersion: external-secrets.io/v1
-      kind: ClusterSecretStore
-      name: onepassword-connect
-  healthCheckExprs:
-    - apiVersion: external-secrets.io/v1
-      kind: ClusterSecretStore
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   interval: 1h
   path: ./kubernetes/apps/external-secrets/external-secrets/app
   prune: true
@@ -33,4 +20,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  wait: false
