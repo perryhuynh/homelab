@@ -1,0 +1,21 @@
+---
+log:
+  streams: error # Prevent log spam from UniFi Protect
+api:
+  listen: :80
+  origin: "*"
+rtsp:
+  listen: :554
+webrtc:
+  listen: :8555
+  candidates:
+    - 192.168.20.207:8555
+    - stun:8555
+  ice_servers:
+    - urls:
+        - stun:stun.cloudflare.com:3478
+streams:
+  driveway: "ring:?camera_id={{ .driveway_camera_id }}&device_id={{ .driveway_device_id }}&refresh_token={{ .refresh_token }}"
+  driveway_snapshot: "ring:?camera_id={{ .driveway_camera_id }}&device_id={{ .driveway_device_id }}&refresh_token={{ .refresh_token }}"
+  front_door: "ring:?camera_id={{ .front_door_camera_id }}&device_id={{ .front_door_device_id }}&refresh_token={{ .refresh_token }}"
+  front_door_snapshot: "ring:?camera_id={{ .front_door_camera_id }}&device_id={{ .front_door_device_id }}&refresh_token={{ .refresh_token }}"
