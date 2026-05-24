@@ -53,13 +53,20 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [{
+            "name": "home",
+            "namespace": "networking",
+            "ips": ["192.168.50.3/24"]
+          }]
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
     persistence:
       config:
-        type: secret
+        type: configMap
         name: go2rtc
         globalMounts:
           - path: /config/go2rtc.yaml
@@ -78,19 +85,10 @@ spec:
                 port: 80
     service:
       app:
-        forceRename: "{{ .Release.Name }}"
-        primary: true
         ports:
           http:
             primary: true
             port: *port
-      streams:
-        type: LoadBalancer
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: go2rtc.internal
-          lbipam.cilium.io/ips: 192.168.20.207
-        externalTrafficPolicy: Local
-        ports:
           streams-rtsp:
             port: 554
           streams-webrtc-tcp:

@@ -15,7 +15,18 @@ webrtc:
     - urls:
         - stun:stun.cloudflare.com:3478
 streams:
-  driveway: "ring:?camera_id={{ .driveway_camera_id }}&device_id={{ .driveway_device_id }}&refresh_token={{ .refresh_token }}"
-  driveway_snapshot: "ring:?camera_id={{ .driveway_camera_id }}&device_id={{ .driveway_device_id }}&refresh_token={{ .refresh_token }}"
-  front_door: "ring:?camera_id={{ .front_door_camera_id }}&device_id={{ .front_door_device_id }}&refresh_token={{ .refresh_token }}"
-  front_door_snapshot: "ring:?camera_id={{ .front_door_camera_id }}&device_id={{ .front_door_device_id }}&refresh_token={{ .refresh_token }}"
+  driveway:
+    - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
+    - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
+  front_door:
+    - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${FRONT_DOOR_DEVICE_ID}&refresh_token=${REFRESH_TOKEN}"
+    - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${FRONT_DOOR_DEVICE_ID}&refresh_token=${REFRESH_TOKEN}"
+homekit:
+  driveway:
+    name: driveway
+    pairings: &pairings
+      - client_id=${GO2RTC_HOMEKIT_CLIENT_ID_0}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_0}&permissions=0
+      - client_id=${GO2RTC_HOMEKIT_CLIENT_ID_1}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_1}&permissions=1
+  front_door:
+    name: front door
+    pairings: *pairings
