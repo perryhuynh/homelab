@@ -19,8 +19,8 @@ streams:
     - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
     - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
   front_door:
-    - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${FRONT_DOOR_DEVICE_ID}&refresh_token=${REFRESH_TOKEN}"
-    - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${FRONT_DOOR_DEVICE_ID}&refresh_token=${REFRESH_TOKEN}"
+    - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${RING_FRONT_DOOR_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
+    - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${RING_FRONT_DOOR_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
 homekit:
   driveway:
     name: driveway
