@@ -9,7 +9,7 @@ metadata:
     kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-system-trixie@sha256:b0949a3f70641d5c56a05e18df8d69a16fba66af479d0ac6b74ede71f6d4e84f
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-system-trixie@sha256:47bd8dc5695a7f6f0189e205dfdb964aafbfafc337152c792ea62566edf75c33
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
