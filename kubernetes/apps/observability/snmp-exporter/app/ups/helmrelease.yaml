@@ -21,7 +21,7 @@ spec:
             - "public_v1"
           module:
             - "apcups"
-          target: ups.home.arpa
+          target: ups.internal
       path: /snmp
       scrapeTimeout: 30s
       relabelings:

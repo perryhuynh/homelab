@@ -9,7 +9,7 @@ spec:
     - targets:
         - nas.home.arpa:9100
         - desktop.internal:9100
-        - pikvm.home.arpa:9100
+        - pikvm.internal:9100
   metricsPath: /metrics
   relabelings:
     - action: replace
@@ -55,7 +55,7 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - pikvm.home.arpa
+        - pikvm.internal
   metricsPath: /api/export/prometheus/metrics
   relabelings:
     - action: replace
