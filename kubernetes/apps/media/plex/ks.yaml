@@ -53,8 +53,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
     - name: plex
       namespace: media
   interval: 1h
@@ -78,8 +76,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
     - name: plex
       namespace: media
   interval: 1h

@@ -13,8 +13,6 @@ spec:
     - ../../../../components/anubis
     - ../../../../components/volsync
   dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: multus-networks

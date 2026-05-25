@@ -37,8 +37,6 @@ spec:
   dependsOn:
     - name: actions-runner-controller
       namespace: *namespace
-    - name: external-secrets
-      namespace: external-secrets
     - name: openebs
       namespace: openebs-system
   interval: 1h

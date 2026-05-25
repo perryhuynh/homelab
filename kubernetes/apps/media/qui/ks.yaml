@@ -15,8 +15,6 @@ spec:
   dependsOn:
     - name: authelia
       namespace: security
-    - name: external-secrets
-      namespace: external-secrets
     - name: prometheus-adapter
       namespace: observability
     - name: rook-ceph-cluster
