@@ -17,8 +17,6 @@ spec:
       namespace: database
     - name: dragonfly
       namespace: database
-    - name: external-secrets
-      namespace: external-secrets
     - name: paperless-gotenberg
       namespace: selfhosted
     - name: paperless-tika

@@ -14,8 +14,6 @@ spec:
       namespace: security
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: external-secrets
-      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/media/autobrr/app
   postBuild:
