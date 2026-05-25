@@ -29,19 +29,10 @@ releases:
           - --namespace=kube-system
           - --server-side
           - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/kube-system/cilium/networks/ciliuml2announcementpolicy.yaml
+          - --kustomize
+          - ../../kubernetes/apps/kube-system/cilium/networks/
         events:
           - postsync
-      - command: kubectl
-        args:
-          - apply
-          - --namespace=kube-system
-          - --server-side
-          - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/kube-system/cilium/networks/ciliumloadbalancerippool.yaml
-        events:
-          - postsync
-        showlogs: true
 
   - name: coredns
     namespace: kube-system
@@ -73,28 +64,6 @@ releases:
     needs:
       - "kube-system/spegel"
 
-  - name: onepassword-connect
-    namespace: external-secrets
-    atomic: true
-    chart: oci://ghcr.io/bjw-s-labs/helm/app-template
-    version: 5.0.1
-    values:
-      - ./templates/values.yaml.gotmpl
-    hooks:
-      - events:
-          - "postsync"
-        command: kubectl
-        args:
-          - apply
-          - --namespace=external-secrets
-          - --server-side
-          - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/external-secrets/onepassword-connect/app/ciliumnetworkpolicy.yaml
-          - --wait=true
-        showlogs: true
-    needs:
-      - "cert-manager/cert-manager"
-
   - name: external-secrets
     namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
@@ -110,6 +79,17 @@ releases:
         events:
           - postsync
         showlogs: true
+    needs:
+      - "cert-manager/cert-manager"
+
+  - name: onepassword-connect
+    namespace: external-secrets
+    atomic: true
+    chart: oci://ghcr.io/1password/connect
+    version: 2.4.1
+    values:
+      - ./templates/values.yaml.gotmpl
+    hooks:
       - command: kubectl
         args:
           - apply
@@ -119,19 +99,8 @@ releases:
         events:
           - postsync
         showlogs: true
-      - command: kubectl
-        args:
-          - apply
-          - --namespace=networking
-          - --server-side
-          - --field-manager=kustomize-controller
-          - --filename=../../kubernetes/apps/networking/certificates/import/externalsecret.yaml
-          - --wait=true
-        showlogs: true
-        events:
-          - postsync
     needs:
-      - "external-secrets/onepassword-connect"
+      - "external-secrets/external-secrets"
 
   - name: flux-operator
     namespace: flux-system
@@ -141,7 +110,7 @@ releases:
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - "external-secrets/external-secrets"
+      - "external-secrets/onepassword-connect"
 
   - name: flux-instance
     namespace: flux-system
