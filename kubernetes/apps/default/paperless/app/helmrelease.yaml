@@ -37,7 +37,7 @@ spec:
               PAPERLESS_URL: https://paperless.perryhuynh.com
               PAPERLESS_WEBSERVER_WORKERS: 2
               # Configure redis integration
-              PAPERLESS_REDIS: redis://paperless-dragonfly.selfhosted.svc.cluster.local:6379
+              PAPERLESS_REDIS: redis://paperless-dragonfly.default.svc.cluster.local:6379
               # Configure remote user auth
               PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"
               PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "false"
