@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app paperless
-  namespace: &namespace selfhosted
+  namespace: &namespace default
 spec:
   commonMetadata:
     labels:
@@ -18,9 +18,9 @@ spec:
     - name: dragonfly
       namespace: database
     - name: paperless-gotenberg
-      namespace: selfhosted
+      namespace: default
     - name: paperless-tika
-      namespace: selfhosted
+      namespace: default
     - name: rook-ceph-cluster
       namespace: rook-ceph
     - name: volsync
@@ -31,7 +31,7 @@ spec:
       failed: status.phase != 'Ready'
       current: status.phase == 'Ready'
   interval: 1h
-  path: ./kubernetes/apps/selfhosted/paperless/app
+  path: ./kubernetes/apps/default/paperless/app
   postBuild:
     substitute:
       APP: *app
@@ -52,13 +52,13 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app paperless-gotenberg
-  namespace: &namespace selfhosted
+  namespace: &namespace default
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/apps/selfhosted/paperless/gotenberg
+  path: ./kubernetes/apps/default/paperless/gotenberg
   prune: true
   sourceRef:
     kind: GitRepository
@@ -72,13 +72,13 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app paperless-tika
-  namespace: &namespace selfhosted
+  namespace: &namespace default
 spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/apps/selfhosted/paperless/tika
+  path: ./kubernetes/apps/default/paperless/tika
   prune: true
   sourceRef:
     kind: GitRepository
