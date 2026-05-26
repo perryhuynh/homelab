@@ -51,7 +51,6 @@ spec:
               - "unlock"
               - "--remove-all"
     defaultPodOptions:
-      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

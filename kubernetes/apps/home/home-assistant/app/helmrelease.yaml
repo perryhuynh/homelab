@@ -69,7 +69,6 @@ spec:
             "ips": ["192.168.50.2/24"],
             "mac": "02:7f:5c:50:6c:fe"
           }]
-      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

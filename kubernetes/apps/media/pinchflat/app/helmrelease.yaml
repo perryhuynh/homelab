@@ -60,7 +60,6 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
-      automountServiceAccountToken: false
       resourceClaims:
         - name: gpu
           resourceClaimTemplateName: pinchflat-gpu

@@ -58,7 +58,6 @@ spec:
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
     defaultPodOptions:
-      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsGroup: 1000
