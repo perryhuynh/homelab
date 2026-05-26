@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app thelounge
-  namespace: &namespace selfhosted
+  namespace: &namespace default
 spec:
   commonMetadata:
     labels:
@@ -17,7 +17,7 @@ spec:
     - name: volsync
       namespace: volsync-system
   interval: 1h
-  path: ./kubernetes/apps/selfhosted/thelounge/app
+  path: ./kubernetes/apps/default/thelounge/app
   postBuild:
     substitute:
       APP: *app
