@@ -37,7 +37,7 @@ session:
 notifier:
   disable_startup_check: true
   smtp:
-    address: maddy.selfhosted.svc.cluster.local:25
+    address: maddy.default.svc.cluster.local:25
     sender: Authelia <noreply@perryhuynh.com>
     disable_require_tls: true
 
