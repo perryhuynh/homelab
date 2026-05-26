@@ -75,7 +75,6 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
     defaultPodOptions:
-      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
