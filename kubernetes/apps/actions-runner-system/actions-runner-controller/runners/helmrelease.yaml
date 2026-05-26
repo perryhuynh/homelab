@@ -46,6 +46,9 @@ spec:
                 name: talos
                 readOnly: true
         serviceAccountName: *app
+        securityContext:
+          fsGroup: 1001
+          fsGroupChangePolicy: OnRootMismatch
         volumes:
           - name: talos
             secret:
