@@ -2,30 +2,10 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "1Password Group",
-      groupName: "1Password",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/1password/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
-    {
       description: "Actions Runner Controller Group",
       groupName: "Actions Runner Controller",
       matchDatasources: ["docker"],
       matchPackageNames: ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
-    {
-      description: "Cloudflared Group",
-      groupName: "cloudflared",
-      matchDatasources: ["docker", "github-tags"],
-      matchPackageNames: ["/cloudflared/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
