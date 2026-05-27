@@ -32,13 +32,13 @@ nodes:
     controlPlane: true
     networkInterfaces: &nucNetworkInterfaces
       - interface: bond0
-        bond: &nucBond
+        bond:
           mode: active-backup
           deviceSelectors:
             - hardwareAddr: "48:21:0b:*"
               driver: igc
         dhcp: true
-        vip: &kubeVip
+        vip:
           ip: "192.168.1.20"
         vlans: &vlans
           - vlanId: 50
