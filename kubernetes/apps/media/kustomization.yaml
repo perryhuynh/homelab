@@ -13,7 +13,6 @@ resources:
   - ./brrpolice/ks.yaml
   - ./jellyfin/ks.yaml
   - ./kavita/ks.yaml
-  - ./maintainerr/ks.yaml
   - ./pinchflat/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
