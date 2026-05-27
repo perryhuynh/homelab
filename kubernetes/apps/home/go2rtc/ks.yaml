@@ -9,8 +9,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  components:
-    - ../../../../components/gpu
   dependsOn:
     - name: intel-gpu-resource-driver
       namespace: kube-system

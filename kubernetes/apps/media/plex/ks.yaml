@@ -11,7 +11,6 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/external
-    - ../../../../components/gpu
     - ../../../../components/volsync
     - ../../../../components/zeroscaler
   dependsOn:
