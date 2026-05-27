@@ -47,7 +47,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /health
+                    path: /worker-health
                     port: *port
                   periodSeconds: 10
                   timeoutSeconds: 5
