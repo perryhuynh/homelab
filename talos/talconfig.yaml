@@ -9,6 +9,7 @@ endpoint: https://192.168.1.20:6443
 additionalApiServerCertSans: &sans
   - "127.0.0.1"
   - "192.168.1.20"
+  - "k8s.internal"
 additionalMachineCertSans: *sans
 
 clusterPodNets:
