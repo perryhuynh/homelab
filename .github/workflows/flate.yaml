@@ -50,7 +50,7 @@ jobs:
         uses: home-operations/flate/action@3ae729bb2403eec3e8d8ec265ab67dc46735935c # 0.1.24
         with:
           # renovate: datasource=github-releases depName=home-operations/flate
-          version: 0.1.24
+          version: 0.1.25
 
       - name: Run flate test
         env:
