@@ -4,8 +4,10 @@ name: Image Pull
 
 on:
   pull_request:
-    branches: ["main"]
-    paths: ["kubernetes/**"]
+    branches:
+      - main
+    paths:
+      - "kubernetes/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -41,19 +43,20 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Setup flate
-        uses: home-operations/flate/action@62f56d7f2a9a7ade2d35a0fed89bde3ff79fdacd # 0.1.26
+      - name: Setup Flate
+        uses: home-operations/flate/action@aef47adc856bb97038ff321e5136cf65e0fa23cf # 0.1.27
         with:
           cache: true
 
-      - name: Extract Images
-        id: extract
+      - name: Run Flate
+        id: flate
+        env:
+          FLATE_OUTPUT: json
+          FLATE_PATH: ./kubernetes/flux/cluster
         run: |
-          {
-            echo 'images<<EOF'
-            flate diff images --output json --path ./kubernetes
-            echo 'EOF'
-          } >> $GITHUB_OUTPUT
+          echo 'images<<EOF' >> $GITHUB_OUTPUT
+          flate diff images >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
   pull:
     if: ${{ needs.extract.outputs.images != '[]' }}
@@ -71,7 +74,7 @@ jobs:
         with:
           cache: false
           tool_versions: |
-            talosctl latest
+            aqua:siderolabs/talos latest
 
       - name: Pull Image
         env:
