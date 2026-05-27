@@ -59,7 +59,7 @@ spec:
     defaultPodOptions:
       resourceClaims:
         - name: gpu
-          resourceClaimTemplateName: jellyfin-gpu
+          resourceClaimTemplateName: jellyfin
       securityContext:
         runAsNonRoot: true
         runAsGroup: 1000
