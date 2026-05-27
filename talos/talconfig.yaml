@@ -9,6 +9,7 @@ endpoint: https://192.168.1.20:6443
 additionalApiServerCertSans: &sans
   - "127.0.0.1"
   - "192.168.1.20"
+  - "k8s.internal"
 additionalMachineCertSans: *sans
 
 clusterPodNets:
@@ -31,13 +32,13 @@ nodes:
     controlPlane: true
     networkInterfaces: &nucNetworkInterfaces
       - interface: bond0
-        bond: &nucBond
+        bond:
           mode: active-backup
           deviceSelectors:
             - hardwareAddr: "48:21:0b:*"
               driver: igc
         dhcp: true
-        vip: &kubeVip
+        vip:
           ip: "192.168.1.20"
         vlans: &vlans
           - vlanId: 50
