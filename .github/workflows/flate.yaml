@@ -6,6 +6,8 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - "kubernetes/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -65,6 +67,7 @@ jobs:
         with:
           client-id: ${{ secrets.BOT_APP_CLIENT_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-pull-requests: write
 
       - if: ${{ steps.flate.outputs.diff != '' }}
         name: Add Comment
@@ -76,7 +79,7 @@ jobs:
             ```diff
             ${{ steps.flate.outputs.diff }}
             ```
-            
+
   success:
     if: ${{ !cancelled() }}
     needs: flate
