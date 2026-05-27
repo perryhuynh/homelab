@@ -2,7 +2,7 @@
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.36.1
 # renovate: datasource=docker depName=registry.k8s.io/kube-apiserver
-kubeapiserver: v1.36.1
+kubeapiserverVersion: v1.36.1
 # renovate: datasource=docker depName=registry.k8s.io/kube-controller-manager
 kubecontrollermanagerVersion: v1.36.1
 # renovate: datasource=docker depName=registry.k8s.io/kube-proxy
