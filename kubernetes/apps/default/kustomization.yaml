@@ -11,6 +11,7 @@ resources:
   - ./namespace.yaml
   - ./actual/ks.yaml
   - ./atuin/ks.yaml
+  - ./changedetection/ks.yaml
   - ./it-tools/ks.yaml
   - ./maddy/ks.yaml
   - ./paperless/ks.yaml
