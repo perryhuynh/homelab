@@ -68,7 +68,7 @@ spec:
           }]
       resourceClaims:
         - name: gpu
-          resourceClaimTemplateName: go2rtc-gpu
+          resourceClaimTemplateName: go2rtc
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

@@ -62,7 +62,7 @@ spec:
     defaultPodOptions:
       resourceClaims:
         - name: gpu
-          resourceClaimTemplateName: pinchflat-gpu
+          resourceClaimTemplateName: pinchflat
       securityContext:
         runAsNonRoot: true
         runAsGroup: 1000
