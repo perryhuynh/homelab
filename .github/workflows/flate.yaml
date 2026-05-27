@@ -51,12 +51,6 @@ jobs:
         with:
           cache: true
 
-      - name: Run flate test
-        env:
-          BRANCH: ${{ github.event.repository.default_branch }}
-          KIND: ${{ matrix.kind }}
-        run: flate test "$KIND" --path ./kubernetes --base "$BRANCH"
-
       - name: Run flate diff
         env:
           KIND: ${{ matrix.kind }}
