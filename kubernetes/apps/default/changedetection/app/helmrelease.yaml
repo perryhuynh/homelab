@@ -1,0 +1,105 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app changedetection
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: changedetection
+  values:
+    controllers:
+      changedetection:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          envFrom:
+            - secretRef:
+                name: changedetection
+          securityContext:
+            allowPrivilegeEscalation: false
+        containers:
+          app:
+            image:
+              repository: ghcr.io/dgtlmoon/changedetection.io
+              tag: 0.55.7@sha256:736331d2787f94d3201b64aa641e090f67e28577ba505bd7ba5d7c1841e1e0ca
+            env:
+              BASE_URL: "https://changedetection.perryhuynh.com"
+              DISABLE_VERSION_CHECK: "true"
+              PORT: &port 5000
+              USE_X_SETTINGS: 1
+              TZ: America/Los_Angeles
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+              readOnlyRootFilesystem: true
+          browser:
+            image:
+              repository: ghcr.io/browserless/chromium
+              tag: v2.48.3@sha256:cbcecabfaa883ae76e43d955fdd793e41c3b13a7f3398d80e4b1cd329e8f4747
+            env:
+              CONCURRENT: "10"
+              DATA_DIR: /profile
+              DOWNLOAD_DIR: /downloads
+              TIMEOUT: "60000"
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsGroup: 1000
+        runAsUser: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      config:
+        existingClaim: *app
+        advancedMounts:
+          changedetection:
+            app:
+              - path: /datastore
+                subPath: changedetection
+            browser:
+              - path: /downloads
+                subPath: downloads
+              - path: /profile
+                subPath: profile
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+    service:
+      app:
+        ports:
+          http:
+            port: *port
