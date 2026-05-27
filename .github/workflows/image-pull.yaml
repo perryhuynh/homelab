@@ -29,19 +29,20 @@ jobs:
         with:
           patterns: kubernetes/**/*
 
-  extract:
+  flate:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
     needs: filter
-    name: Image Pull - Extract Images
+    name: Image Pull - Flate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
-      images: ${{ steps.extract.outputs.images }}
+      images: ${{ steps.flate.outputs.images }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-          persist-credentials: false
 
       - name: Setup Flate
         uses: home-operations/flate/action@aef47adc856bb97038ff321e5136cf65e0fa23cf # 0.1.27
@@ -59,17 +60,17 @@ jobs:
           echo 'EOF' >> $GITHUB_OUTPUT
 
   pull:
-    if: ${{ needs.extract.outputs.images != '[]' }}
-    needs: extract
+    if: ${{ needs.flate.outputs.images != '[]' }}
+    needs: flate
     name: Image Pull - Pull Images
-    runs-on: homelab-actions-runner
+    runs-on: k8s-gitops-runner
     strategy:
       matrix:
-        image: ${{ fromJSON(needs.extract.outputs.images) }}
+        image: ${{ fromJSON(needs.flate.outputs.images) }}
       max-parallel: 4
       fail-fast: false
     steps:
-      - name: Setup Mise
+      - name: Install talosctl
         uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
         with:
           cache: false
@@ -77,9 +78,7 @@ jobs:
             aqua:siderolabs/talos latest
 
       - name: Pull Image
-        env:
-          IMAGE: ${{ matrix.image }}
-        run: talosctl --nodes "$NODE" image pull "$IMAGE"
+        run: talosctl --nodes $NODE image pull ${{ matrix.image }}
 
   success:
     if: ${{ !cancelled() }}
