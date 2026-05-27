@@ -90,6 +90,10 @@ spec:
                 subPath: downloads
               - path: /profile
                 subPath: profile
+      tmp:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 1Gi
     route:
       app:
         hostnames:
