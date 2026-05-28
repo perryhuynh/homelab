@@ -26,6 +26,7 @@ spec:
             env:
               BASE_URL: "https://changedetection.perryhuynh.com"
               DISABLE_VERSION_CHECK: "true"
+              PLAYWRIGHT_DRIVER_URL: "ws://localhost:3000/"
               PORT: &port 5000
               USE_X_SETTINGS: 1
               TZ: America/Los_Angeles
