@@ -70,7 +70,7 @@ spec:
               TIMEOUT: "60000"
             resources:
               limits:
-                memory: 256Mi
+                memory: 2Gi
               requests:
                 cpu: 10m
     defaultPodOptions:
