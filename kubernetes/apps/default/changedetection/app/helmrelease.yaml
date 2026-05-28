@@ -16,9 +16,6 @@ spec:
           reloader.stakater.com/auto: "true"
         defaultContainerOptionsStrategy: merge
         defaultContainerOptions:
-          envFrom:
-            - secretRef:
-                name: changedetection
           securityContext:
             allowPrivilegeEscalation: false
         containers:
@@ -32,9 +29,6 @@ spec:
               PORT: &port 5000
               USE_X_SETTINGS: 1
               TZ: America/Los_Angeles
-            envFrom:
-              - secretRef:
-                  name: *app
             probes:
               liveness:
                 enabled: true
@@ -57,8 +51,12 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 10
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
             securityContext:
-              allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
               readOnlyRootFilesystem: true
           browser:
@@ -70,6 +68,11 @@ spec:
               DATA_DIR: /profile
               DOWNLOAD_DIR: /downloads
               TIMEOUT: "60000"
+            resources:
+              limits:
+                memory: 2Gi
+              requests:
+                cpu: 10m
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -85,6 +88,10 @@ spec:
             app:
               - path: /datastore
                 subPath: changedetection
+      cache:
+        existingClaim: changedetection-cache
+        advancedMounts:
+          changedetection:
             browser:
               - path: /downloads
                 subPath: downloads
