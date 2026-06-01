@@ -247,6 +247,13 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: VictoriaMetrics
+        unifi-usg:
+          # renovate: depName="UniFi-Poller: USG Insights - Prometheus"
+          gnetId: 11313
+          revision: 9
+          datasource:
+            - name: DS_PROMETHEUS
+              value: VictoriaMetrics
         unifi-usw:
           # renovate: depName="UniFi-Poller: USW Insights - Prometheus"
           gnetId: 11312
