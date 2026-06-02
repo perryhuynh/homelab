@@ -58,7 +58,9 @@ spec:
               requests:
                 cpu: 10m
             securityContext:
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
           browser:
             image:

@@ -22,7 +22,7 @@ spec:
             env:
               BACKUP_INTERVAL: 0
               BIND_PORT: &port 80
-              EXTENSION_REPOS: "[\"https://github.com/keiyoushi/extensions/tree/repo\"]"
+              EXTENSION_REPOS: '["https://github.com/keiyoushi/extensions/tree/repo"]'
               TZ: America/Los_Angeles
               UPDATE_EXCLUDE_STARTED: false
               UPDATE_EXCLUDE_UNREAD: false
@@ -56,7 +56,9 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
       securityContext:

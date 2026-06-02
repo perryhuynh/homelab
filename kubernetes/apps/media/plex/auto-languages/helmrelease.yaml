@@ -60,7 +60,9 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
         pod:
           automountServiceAccountToken: false

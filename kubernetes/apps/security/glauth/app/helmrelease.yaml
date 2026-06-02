@@ -53,7 +53,9 @@ spec:
                 cpu: 10m
             securityContext:
               allowPrivilegeEscalation: false
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop:
+                  - "ALL"
               readOnlyRootFilesystem: true
               runAsUser: 65534
               runAsGroup: 65534
