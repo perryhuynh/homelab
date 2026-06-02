@@ -43,6 +43,7 @@ jobs:
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Flate
         uses: home-operations/flate/action@7b883c7dd2fa3bdcf7ab0895f6f3b36d79f81b30 # 0.2.1
@@ -78,7 +79,9 @@ jobs:
             aqua:siderolabs/talos latest
 
       - name: Pull Image
-        run: talosctl --nodes $NODE image pull ${{ matrix.image }}
+        env:
+          IMAGE: ${{ matrix.image }}
+        run: talosctl --nodes $NODE image pull $IMAGE
 
   success:
     if: ${{ !cancelled() }}
