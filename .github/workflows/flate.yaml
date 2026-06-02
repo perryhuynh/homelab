@@ -56,7 +56,7 @@ jobs:
         id: flate
         env:
           FLATE_PATH: ./kubernetes/flux/cluster
-          FLATE_OUTOUT: github
+          FLATE_OUTPUT: github
           KIND: ${{ matrix.resource }}
         run: |-
           echo 'diff<<EOF' >> $GITHUB_OUTPUT
