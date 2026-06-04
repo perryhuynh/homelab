@@ -324,7 +324,7 @@ spec:
         victoria-metrics-single:
           # renovate: depName="VictoriaMetrics - single-node"
           gnetId: 10229
-          revision: 52
+          revision: 53
           datasource: VictoriaMetrics
         zfs:
           # renovate: dashboardName="ZFS"
