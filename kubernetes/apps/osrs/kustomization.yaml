@@ -6,6 +6,3 @@ namespace: osrs
 
 components:
   - ../../components/alerts
-
-resources:
-  - ./impling-tracker/ks.yaml
