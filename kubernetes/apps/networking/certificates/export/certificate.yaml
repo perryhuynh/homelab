@@ -18,7 +18,7 @@ spec:
     rotationPolicy: Always
   secretName: "perryhuynh-com-production-tls"
   usages:
-      - digital signature
+    - digital signature
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
