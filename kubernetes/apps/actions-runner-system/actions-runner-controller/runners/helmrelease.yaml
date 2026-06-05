@@ -53,3 +53,32 @@ spec:
           - name: talos
             secret:
               secretName: *app
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app impling-tracker-actions-runner
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: gha-runner-scale-set
+  values:
+    runnerScaleSetName: *app
+    githubConfigUrl: https://github.com/perryhuynh/impling-tracker
+    githubConfigSecret: actions-runner-secret
+    minRunners: 1
+    maxRunners: 3
+    containerMode:
+      type: dind
+    controllerServiceAccount:
+      name: actions-runner-controller-gha-rs-controller
+      namespace: actions-runner-system
+    template:
+      spec:
+        containers:
+          - name: runner
+            image: ghcr.io/home-operations/actions-runner:2.334.0@sha256:95d91d7f8d241e319ef2f4fec08f417aa1606b96fbb327643f75c303acd30002
+            command:
+              - "/home/runner/run.sh"
