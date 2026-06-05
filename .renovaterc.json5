@@ -1,20 +1,17 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    'github>home-operations/renovate-presets#1.3.1',
-    'github>perryhuynh/homelab//.renovate/allowedVersions.json5',
-    'github>perryhuynh/homelab//.renovate/autoMerge.json5',
-    'github>perryhuynh/homelab//.renovate/grafanaDashboards.json5',
-    'github>perryhuynh/homelab//.renovate/groups.json5',
-    'github>perryhuynh/homelab//.renovate/labels.json5',
-    'github>perryhuynh/homelab//.renovate/minecraft.json5',
-    ':timezone(America/Los_Angeles)',
+    "github>home-operations/renovate-presets#1.3.1",
+    "github>perryhuynh/homelab//.renovate/allowedVersions.json5",
+    "github>perryhuynh/homelab//.renovate/autoMerge.json5",
+    "github>perryhuynh/homelab//.renovate/grafanaDashboards.json5",
+    "github>perryhuynh/homelab//.renovate/groups.json5",
+    "github>perryhuynh/homelab//.renovate/labels.json5",
+    "github>perryhuynh/homelab//.renovate/minecraft.json5",
+    ":timezone(America/Los_Angeles)",
   ],
   registryAliases: {
     "mirror.gcr.io": "docker.io",
   },
-  ignorePaths: [
-    "**/*.sops.*",
-    "**/resources/**",
-  ],
+  ignorePaths: ["**/*.sops.*", "**/resources/**"],
 }
