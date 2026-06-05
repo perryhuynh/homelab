@@ -6,3 +6,6 @@ namespace: osrs
 
 components:
   - ../../components/alerts
+
+resources:
+  - ./namespace.yaml
