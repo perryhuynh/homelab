@@ -18,7 +18,7 @@
       matchPackageNames: ["/dragonfly-operator/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
-      }
+      },
     },
     {
       description: "Flux Operator Group",
