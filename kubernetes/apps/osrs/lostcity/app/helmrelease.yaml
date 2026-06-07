@@ -1,0 +1,93 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lostcity
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: lostcity
+  values:
+    controllers:
+      lostcity:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/perryhuynh/lostcity
+              tag: 254@sha256:a7124fb78ee70cfd183dabdb3e96a9d91d0fba77f8d191a55e68e85f5dec8bb3
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /crc
+                    port: &port 8888
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            resources:
+              limits:
+                memory: 4Gi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsGroup: 1000
+        runAsUser: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      config:
+        existingClaim: lostcity
+      cache:
+        existingClaim: lostcity-cache
+        globalMounts:
+          - path: /app/content/pack
+            subPath: content
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /app/engine/data/pack
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+          management:
+            port: 8898
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: management
+            path: prometheus
+            
