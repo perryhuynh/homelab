@@ -71,6 +71,9 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /app/engine/data/pack
+            subPath: pack
+          - path: /tmp
+            subPath: tmp
     route:
       app:
         hostnames:
@@ -90,4 +93,3 @@ spec:
         endpoints:
           - port: management
             path: prometheus
-            
