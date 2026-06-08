@@ -67,6 +67,8 @@ spec:
         globalMounts:
           - path: /app/content/pack
             subPath: content
+          - path: /app/content/wordenc
+            subPath: wordenc
       tmpfs:
         type: emptyDir
         globalMounts:
