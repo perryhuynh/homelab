@@ -10,9 +10,6 @@ spec:
     name: victoria-metrics-mcp
   interval: 1h
   values:
-    global:
-      image:
-        registry: mirror.gcr.io
     vm:
       type: single
       entrypoint: http://victoria-metrics.observability.svc.cluster.local:8428
