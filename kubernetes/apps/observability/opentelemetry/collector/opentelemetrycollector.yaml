@@ -220,7 +220,7 @@ spec:
         sending_queue:
           storage: file_storage
       otlp_http/metrics:
-        metrics_endpoint: &metrics_endpoint http://prometheus-operated.observability.svc.cluster.local:9090/api/v1/otlp/v1/metrics
+        metrics_endpoint: &metrics_endpoint http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
         sending_queue:
           storage: file_storage
     service:
