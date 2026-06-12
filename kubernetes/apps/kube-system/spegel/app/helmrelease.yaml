@@ -20,3 +20,8 @@ spec:
       enabled: true
     grafanaDashboard:
       enabled: true
+      mode: GrafanaOperator
+      grafanaOperator:
+        folder: kube-system
+        matchLabels:
+          dashboards: grafana
