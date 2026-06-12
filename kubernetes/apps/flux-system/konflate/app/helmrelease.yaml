@@ -12,8 +12,10 @@ spec:
   values:
     config:
       repo: github://perryhuynh/homelab
+      statusChecks: true
+      prComments: true
     secret:
-      existingSecret: konflate-webhook-token-secret
+      existingSecret: konflate-secret
     httpRoute:
       enabled: true
       parentRefs:
