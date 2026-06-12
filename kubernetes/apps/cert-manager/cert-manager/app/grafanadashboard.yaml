@@ -13,7 +13,4 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: VictoriaMetrics
-  grafanaCom:
-    # renovate: depName="Cert-manager-Kubernetes"
-    id: 20842
-    revision: 3
+  url: https://grafana.com/api/dashboards/20842/revisions/3/download

@@ -13,10 +13,7 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: VictoriaMetrics
-  grafanaCom:
-    # renovate: depName="Spegel"
-    id: 18089
-    revision: 1
+  url: https://grafana.com/api/dashboards/18089/revisions/1/download
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
 apiVersion: grafana.integreatly.org/v1beta1

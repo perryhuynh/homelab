@@ -13,7 +13,4 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: VictoriaMetrics
-  grafanaCom:
-    # renovate: depName="Cloudflare Tunnels (cloudflared)"
-    id: 17457
-    revision: 6
+  url: https://grafana.com/api/dashboards/17457/revisions/6/download

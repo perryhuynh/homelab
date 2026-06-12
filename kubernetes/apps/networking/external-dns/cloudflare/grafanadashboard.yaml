@@ -13,7 +13,4 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: VictoriaMetrics
-  grafanaCom:
-    # renovate: depName="External-dns"
-    id: 15038
-    revision: 3
+  url: https://grafana.com/api/dashboards/15038/revisions/3/download

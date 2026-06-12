@@ -13,7 +13,4 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: VictoriaMetrics
-  grafanaCom:
-    # renovate: depName="brrpolice overview"
-    id: 25155
-    revision: 1
+  url: https://grafana.com/api/dashboards/25155/revisions/1/download

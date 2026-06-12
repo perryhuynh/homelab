@@ -13,7 +13,4 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: VictoriaMetrics
-  grafanaCom:
-    # renovate: depName="OpenTelemetry Collector"
-    id: 15983
-    revision: 29
+  url: https://grafana.com/api/dashboards/15983/revisions/29/download

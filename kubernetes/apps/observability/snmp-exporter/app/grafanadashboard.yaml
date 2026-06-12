@@ -13,7 +13,4 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: VictoriaMetrics
-  grafanaCom:
-    # renovate: depName="APC UPS (SNMP)"
-    id: 13524
-    revision: 1
+  url: https://grafana.com/api/dashboards/13524/revisions/1/download
