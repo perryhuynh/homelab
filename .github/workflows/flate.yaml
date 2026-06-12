@@ -18,157 +18,77 @@ permissions:
   contents: read
 
 env:
-  DUFS_DOMAIN: dufs.perryhuynh.com
-  DUFS_USERNAME: flate
+  KONFLATE_DOMAIN: konflate.perryhuynh.com
 
 jobs:
-  filter:
-    name: Flate - Filter
+  comment:
+    name: Konflate - Comment
     runs-on: ubuntu-latest
-    outputs:
-      changed-files: ${{ steps.changed-files.outputs.changed_files }}
     steps:
-      - name: Get Changed Files
-        id: changed-files
-        uses: bjw-s-labs/action-changed-files@a9a36fb08ce06db9b02fbd8026cc2c0945eb9841 # v0.6.0
-        with:
-          patterns: kubernetes/**/*
-
-  flate:
-    if: ${{ needs.filter.outputs.changed-files != '[]' && github.event.action != 'closed' }}
-    needs: filter
-    name: Flate
-    runs-on: ubuntu-latest
-    outputs:
-      diff: ${{ steps.flate.outputs.diff }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Setup Flate
-        uses: home-operations/flate/action@dead45661b4ba1bec3fd47c3ca5ce43c7cccdc6b # v0.4.2
-        with:
-          cache: true
-
-      - name: Run flate
-        id: flate
+      - name: Fetch rendered summary
+        id: fetch
+        env:
+          PR: ${{ github.event.pull_request.number }}
         run: |
-          flate diff all -p ./kubernetes/flux/cluster -o html > diff.html
-          if [ -s diff.html ]; then
-            echo "diff=true" >> "$GITHUB_OUTPUT"
+          if status="$(curl -fsS --retry 10 --retry-delay 3 --retry-all-errors \
+               -H 'Accept: text/markdown' \
+               -o summary.md -w '%header{x-konflate-render-status}' \
+               "https://${KONFLATE_DOMAIN}/api/prs/${PR}/summary")" \
+             && [ -s summary.md ]; then
+            {
+              echo "ready=true"
+              echo "status=${status}"
+            } >> "$GITHUB_OUTPUT"
           else
-            echo "diff=false" >> "$GITHUB_OUTPUT"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "konflate summary unavailable or empty — skipping; next push retries."
           fi
 
-      - if: ${{ steps.flate.outputs.diff == 'true' }}
-        name: Upload diff to dufs
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        env:
-          DUFS_PASSWORD: ${{ secrets.FLATE_PASSWORD }}
-        with:
-          script: |
-            const fs = require("fs");
-            const crypto = require("crypto");
-            const pr = context.issue.number;
-            const dir = `https://${process.env.DUFS_DOMAIN}/flate/`;
-            const url = `${dir}${pr}.html`;
-            const auth = "Basic " + Buffer.from(`${process.env.DUFS_USERNAME}:${process.env.DUFS_PASSWORD}`).toString("base64");
-
-            const body = fs.readFileSync("diff.html");
-            const localHash = crypto.createHash("sha256").update(body).digest("hex");
-
-            const head = await fetch(`${url}?hash`, { headers: { Authorization: auth } });
-            const remoteHash = head.ok ? (await head.text()).trim() : "";
-            if (remoteHash === localHash) {
-              return core.info(`Diff unchanged (sha256 ${localHash}) — skipping upload.`);
-            }
-
-            await fetch(dir, { method: "MKCOL", headers: { Authorization: auth } });
-
-            const res = await fetch(url, { method: "PUT", headers: { Authorization: auth }, body });
-            if (!res.ok) return core.setFailed(`PUT ${url} returned HTTP ${res.status}`);
-            await core.summary.addRaw(`📄 Rendered diff: ${url}`).write();
-
-  comment:
-    if: ${{ needs.flate.result == 'success' && needs.flate.outputs.diff == 'true' }}
-    needs: flate
-    name: Flate - Comment
-    runs-on: ubuntu-latest
-    steps:
       - name: Generate Token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        if: ${{ steps.fetch.outputs.ready == 'true' }}
         id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          client-id: "${{ secrets.BOT_CLIENT_ID }}"
-          private-key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+          client-id: ${{ secrets.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
           permission-pull-requests: write
 
-      - name: Add or Update Comment
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      - name: Find Comment
+        if: ${{ steps.fetch.outputs.ready == 'true' }}
+        id: find-comment
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
         with:
-          github-token: ${{ steps.app-token.outputs.token }}
-          script: |
-            const { owner, repo } = context.repo;
-            const issue_number = context.issue.number;
-            const marker = `<!-- flate -->`;
-            const sha = context.payload.pull_request.head.sha;
-            const shortSha = sha.slice(0, 7);
-            const commitUrl = `${context.serverUrl}/${owner}/${repo}/commit/${sha}`;
-            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
-            const diffUrl = `https://${process.env.DUFS_DOMAIN}/flate/${issue_number}.html`;
+          token: ${{ steps.app-token.outputs.token }}
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: ${{ steps.app-token.outputs.app-slug }}[bot]
+          body-includes: "<!-- konflate"
 
-            const body = [
-              marker,
-              `### 📄 Flux Diff Preview`,
-              ``,
-              `**[View the rendered diff ➔](${diffUrl})** for commit [\`${shortSha}\`](${commitUrl})`,
-              ``,
-              `> [!WARNING]`,
-              `> 🔥 This diff will self destruct after merge.`,
-              ``,
-              `<sub>Rendered by [flate](https://github.com/home-operations/flate) · [Workflow run](${runUrl})</sub>`,
-            ].join("\n");
+      - name: Create or Update Comment
+        if: ${{ steps.fetch.outputs.ready == 'true' }}
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          body-path: summary.md
+          edit-mode: replace
 
-            const comments = await github.paginate(github.rest.issues.listComments, {
-              owner, repo, issue_number, per_page: 100,
-            });
-            const existing = comments.find(c => c.body?.includes(marker));
-
-            if (existing) {
-              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
-            } else {
-              await github.rest.issues.createComment({ owner, repo, issue_number, body });
-            }
-
-  prune:
-    if: ${{ github.event.action == 'closed' }}
-    name: Flate - Prune
-    runs-on: ubuntu-latest
-    steps:
-      - name: Delete diff for closed PR
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      - name: Fail on render issue
+        if: ${{ steps.fetch.outputs.ready == 'true' }}
         env:
-          DUFS_PASSWORD: ${{ secrets.FLATE_PASSWORD }}
-        with:
-          script: |
-            const pr = context.issue.number;
-            const url = `https://${process.env.DUFS_DOMAIN}/flate/${pr}.html`;
-            const auth = "Basic " + Buffer.from(`${process.env.DUFS_USERNAME}:${process.env.DUFS_PASSWORD}`).toString("base64");
-            const res = await fetch(url, { method: "DELETE", headers: { Authorization: auth } });
-            if (res.ok) core.info(`Deleted ${url}`);
-            else if (res.status === 404) core.info(`No diff for PR #${pr} — nothing to delete.`);
-            else core.setFailed(`DELETE ${url} returned HTTP ${res.status}`);
+          STATUS: ${{ steps.fetch.outputs.status }}
+        run: |
+          case "$STATUS" in
+            ok)        echo "konflate render: ok" ;;
+            failures)  echo "::error::konflate render: one or more resources failed to render"; exit 1 ;;
+            error)     echo "::error::konflate render: render errored (no diff)"; exit 1 ;;
+            *)         echo "::warning::konflate render: unexpected status '${STATUS}'" ;;
+          esac
 
   success:
     if: ${{ !cancelled() }}
-    needs:
-      - flate
-      - comment
-      - prune
-    name: Flate - Success
+    needs: [comment]
+    name: Konflate - Success
     runs-on: ubuntu-latest
     steps:
       - name: Any jobs failed?
