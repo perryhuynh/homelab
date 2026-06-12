@@ -24,6 +24,8 @@ spec:
     monitoring:
       serviceMonitor:
         enabled: true
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
     resources:
       requests:
         cpu: 5m
