@@ -32,8 +32,6 @@ spec:
     # devices: eno+ eth+
     dashboards:
       enabled: true
-      annotations:
-        grafana_folder: &grafanaFolder kube-system
     devices: bond+
     enableIPv4BIGTCP: true
     endpointRoutes:
@@ -58,8 +56,6 @@ spec:
     operator:
       dashboards:
         enabled: true
-        annotations:
-          grafana_folder: *grafanaFolder
       prometheus:
         enabled: true
         serviceMonitor:

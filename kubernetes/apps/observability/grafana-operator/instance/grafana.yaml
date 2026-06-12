@@ -1,0 +1,98 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafana_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  labels:
+    dashboards: grafana
+spec:
+  config:
+    analytics:
+      check_for_updates: "false"
+      check_for_plugin_updates: "false"
+      feedback_links_enabled: "false"
+      reporting_enabled: "false"
+    auth:
+      oauth_auto_login: "false"
+      oauth_allow_insecure_email_lookup: "true"
+    auth.generic_oauth:
+      name: Authelia
+      enabled: "true"
+      icon: signin
+      scopes: openid profile email groups
+      empty_scopes: "false"
+      login_attribute_path: preferred_username
+      groups_attribute_path: groups
+      name_attribute_path: name
+      use_pkce: "true"
+      api_url: https://auth.perryhuynh.com/api/oidc/userinfo
+      auth_url: https://auth.perryhuynh.com/api/oidc/authorization
+      token_url: https://auth.perryhuynh.com/api/oidc/token
+      role_attribute_path: contains(groups[*], 'Grafana Admins') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
+    date_formats:
+      use_browser_locale: "true"
+    explore:
+      enabled: "true"
+    feature_toggles:
+      enable: publicDashboards
+    log:
+      mode: console
+    news:
+      news_feed_enabled: "false"
+    plugins:
+      allow_loading_unsigned_plugins: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
+    security:
+      cookie_samesite: grafana
+    server:
+      enable_gzip: "true"
+      root_url: https://grafana.perryhuynh.com
+  deployment:
+    spec:
+      strategy:
+        type: Recreate
+      template:
+        spec:
+          containers:
+            - name: grafana
+              env:
+                - name: GF_INSTALL_PLUGINS
+                  value: grafana-clock-panel,grafana-piechart-panel,grafana-worldmap-panel,natel-discrete-panel,pr0ps-trackmap-panel,victoriametrics-logs-datasource,vonage-status-panel
+              envFrom:
+                - secretRef:
+                    name: grafana-secret
+              resources:
+                limits:
+                  memory: 512Mi
+                requests:
+                  cpu: 10m
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: ["ALL"] }
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+          volumes:
+            - name: grafana-data
+              persistentVolumeClaim:
+                claimName: grafana-pvc
+  httpRoute:
+    spec:
+      hostnames:
+        - grafana.perryhuynh.com
+      parentRefs:
+        - name: envoy-internal
+          namespace: networking
+          sectionName: https
+  persistentVolumeClaim:
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: ceph-block
+  disableDefaultSecurityContext: All
