@@ -12,8 +12,10 @@ spec:
   values:
     config:
       repo: github://perryhuynh/homelab
+      statusChecks: true
+      prComments: true
     secret:
-      existingSecret: konflate-webhook-token-secret
+      existingSecret: konflate-secret
     httpRoute:
       enabled: true
       parentRefs:
@@ -24,6 +26,8 @@ spec:
     monitoring:
       serviceMonitor:
         enabled: true
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
     resources:
       requests:
         cpu: 5m
