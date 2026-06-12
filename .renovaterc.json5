@@ -4,7 +4,6 @@
     "github>home-operations/renovate-presets#2.0.0",
     "github>perryhuynh/homelab//.renovate/allowedVersions.json5",
     "github>perryhuynh/homelab//.renovate/autoMerge.json5",
-    "github>perryhuynh/homelab//.renovate/grafanaDashboards.json5",
     "github>perryhuynh/homelab//.renovate/groups.json5",
     "github>perryhuynh/homelab//.renovate/labels.json5",
     "github>perryhuynh/homelab//.renovate/minecraft.json5",

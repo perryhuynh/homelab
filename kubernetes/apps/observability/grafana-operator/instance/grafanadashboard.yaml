@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: node-exporter-full
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  folder: observability
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: VictoriaMetrics
+  url: https://grafana.com/api/dashboards/1860/revisions/45/download
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: nvidia-gpu-metrics
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  folder: observability
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: VictoriaMetrics
+  url: https://grafana.com/api/dashboards/14574/revisions/11/download
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: zfs
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  folder: observability
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: VictoriaMetrics
+  url: https://grafana.com/api/dashboards/7845/revisions/4/download
