@@ -12,15 +12,6 @@
       minimumGroupSize: 2,
     },
     {
-      description: "Dragonfly Group",
-      groupName: "Dragonfly",
-      matchDatasources: ["docker", "github-tags"],
-      matchPackageNames: ["/dragonfly-operator/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-    },
-    {
       description: "Flux Operator Group",
       groupName: "Flux Operator",
       matchDatasources: ["docker"],
@@ -29,16 +20,6 @@
         commitMessageTopic: "{{{groupName}}} group",
       },
       minimumGroupSize: 3,
-    },
-    {
-      description: "Intel Device Plugins Group",
-      groupName: "Intel-Device-Plugins",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/intel-device-plugins-operator/", "/intel-device-plugins-gpu/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
     },
     {
       description: "Kubernetes Group",
