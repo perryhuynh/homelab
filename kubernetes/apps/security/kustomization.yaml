@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: security
 
 components:
-  - ../../components/alerts
+  - ../../components/common
 
 resources:
   - ./namespace.yaml

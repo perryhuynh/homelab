@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: database
 
 components:
-  - ../../components/alerts
+  - ../../components/common
 
 resources:
   - ./namespace.yaml

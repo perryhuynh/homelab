@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: volsync-system
 
 components:
-  - ../../components/alerts
+  - ../../components/common
 
 resources:
   - ./namespace.yaml
