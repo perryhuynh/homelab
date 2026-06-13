@@ -12,9 +12,10 @@ spec:
   values:
     config:
       repo: github://perryhuynh/homelab
-      statusChecks: true
+      mcp: true
       prComments: true
       publicUrl: https://{{ .Release.Name }}.perryhuynh.com
+      statusChecks: true
     secret:
       existingSecret: konflate-secret
     httpRoute:
