@@ -12,6 +12,9 @@ spec:
   values:
     extraArgs:
       - --disable-write
+      - --transport=streamable-http
+      - --endpoint-path=/mcp
+      - --address=0.0.0.0:8000
     grafana:
       apiKeySecret:
         name: grafana-mcp-token
