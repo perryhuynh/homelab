@@ -10,11 +10,6 @@ spec:
     matchLabels:
       dashboards: grafana
   valuesFrom:
-    - targetPath: user
-      valueFrom:
-        secretKeyRef:
-          name: teslamate-secret
-          key: DATABASE_USER
     - targetPath: secureJsonData.password
       valueFrom:
         secretKeyRef:
@@ -26,7 +21,7 @@ spec:
     type: postgres
     access: proxy
     url: postgres-pgbouncer-rw.database.svc.cluster.local
-    user: "${DATABASE_USER}"
+    user: teslamate
     jsonData:
       database: teslamate
       sslmode: disable
