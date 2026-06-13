@@ -64,6 +64,9 @@ identity_providers:
     cors:
       endpoints: ["authorization", "token", "revocation", "introspection"]
       allowed_origins_from_client_redirect_uris: true
+    claims_policies:
+      grafana:
+        id_token: [groups, email, email_verified, name, preferred_username]
     clients:
       - client_name: actual
         client_id: "${ACTUAL_OAUTH_CLIENT_ID}"
@@ -91,6 +94,7 @@ identity_providers:
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://grafana.perryhuynh.com/login/generic_oauth"]
+        claims_policy: grafana
         userinfo_signed_response_alg: none
       - client_name: paperless
         client_id: "${PAPERLESS_OAUTH_CLIENT_ID}"
