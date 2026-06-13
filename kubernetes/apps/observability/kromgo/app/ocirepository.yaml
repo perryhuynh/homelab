@@ -10,10 +10,10 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 5.0.1
-  url: oci://ghcr.io/bjw-s-labs/helm/app-template
+    tag: 0.14.7
+  url: oci://ghcr.io/home-operations/charts/kromgo
   verify:
     provider: cosign
     matchOIDCIdentity:
       - issuer: "^https://token.actions.githubusercontent.com$"
-        subject: "^https://github.com/bjw-s-labs/helm-charts.*$"
+        subject: "^https://github.com/home-operations/kromgo.*$"
