@@ -19,7 +19,6 @@ spec:
       url: http://grafana-service.observability.svc.cluster.local:3000
     image:
       registry: mirror.gcr.io
-      tag: v0.15.2
     podAnnotations:
       reloader.stakater.com/auto: "true"
     resources:
