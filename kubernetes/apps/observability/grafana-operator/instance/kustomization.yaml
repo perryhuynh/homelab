@@ -7,4 +7,5 @@ resources:
   - ./grafana.yaml
   - ./grafanadashboard.yaml
   - ./grafanadatasource.yaml
+  - ./grafanaserviceaccount.yaml
   - ./mutatingadmissionpolicy.yaml
