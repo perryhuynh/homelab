@@ -29,7 +29,8 @@ spec:
       api_url: https://auth.perryhuynh.com/api/oidc/userinfo
       auth_url: https://auth.perryhuynh.com/api/oidc/authorization
       token_url: https://auth.perryhuynh.com/api/oidc/token
-      role_attribute_path: contains(groups[*], 'Grafana Admins') && 'Admin' || contains(groups[*], 'Grafana Editors') && 'Editor' || 'Viewer'
+      allow_assign_grafana_admin: "true"
+      role_attribute_path: contains(groups[*], 'admins') && 'GrafanaAdmin' || 'Viewer'
     date_formats:
       use_browser_locale: "true"
     explore:
