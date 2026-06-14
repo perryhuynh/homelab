@@ -13,3 +13,5 @@ kubeconfig
 onepassword.env
 talosconfig
 Thumbs.db
+AGENTS.md
+CLAUDE.md
