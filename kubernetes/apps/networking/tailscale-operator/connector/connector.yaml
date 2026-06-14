@@ -8,6 +8,9 @@ spec:
   appConnector:
     routes:
       - 192.168.1.0/24
+      - 192.168.10.0/24
+      - 192.168.30.0/24
+      - 192.168.50.0/24
   hostname: homelab-ingress
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/tailscale.com/connector_v1alpha1.json
