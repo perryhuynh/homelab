@@ -16,6 +16,8 @@ spec:
       prComments: true
       publicUrl: https://{{ .Release.Name }}.perryhuynh.com
       statusChecks: true
+    deploymentAnnotations:
+      reloader.stakater.com/auto: "true"
     secret:
       existingSecret: konflate-secret
     httpRoute:
@@ -28,8 +30,6 @@ spec:
     monitoring:
       serviceMonitor:
         enabled: true
-    podAnnotations:
-      reloader.stakater.com/auto: "true"
     resources:
       requests:
         cpu: 5m
