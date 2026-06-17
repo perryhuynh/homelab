@@ -223,10 +223,6 @@ spec:
         metrics_endpoint: &metrics_endpoint http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
         sending_queue:
           storage: file_storage
-      otlp_http/traces:
-        traces_endpoint: http://victoria-traces.observability.svc.cluster.local:10428/insert/opentelemetry/v1/traces
-        sending_queue:
-          storage: file_storage
     service:
       extensions:
         - file_storage
@@ -248,14 +244,6 @@ spec:
             - batch
           exporters:
             - otlp_http/metrics
-        traces:
-          receivers:
-            - otlp
-          processors:
-            - memory_limiter
-            - batch
-          exporters:
-            - otlp_http/traces
       telemetry:
         metrics:
           readers:
