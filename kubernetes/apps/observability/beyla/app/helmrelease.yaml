@@ -24,10 +24,10 @@ spec:
         attributes:
           kubernetes:
             enable: true
-        # Scope instrumentation to the media namespace to bound overhead
         discovery:
           instrument:
-            - k8s_namespace: media
+            - k8s_pod_annotations:
+                beyla.instrument: "true"
         # Export traces to the central OTel gateway collector (OTLP/HTTP)
         otel_traces_export:
           endpoint: http://gateway-collector.observability.svc.cluster.local:4318

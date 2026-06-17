@@ -61,6 +61,8 @@ spec:
               runAsGroup: 65534
               runAsNonRoot: true
     defaultPodOptions:
+      annotations:
+        beyla.instrument: "true"
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname

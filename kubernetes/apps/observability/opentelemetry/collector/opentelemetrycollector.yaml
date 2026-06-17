@@ -164,7 +164,6 @@ metadata:
   name: gateway
 spec:
   mode: statefulset
-  replicas: 2
   volumeMounts:
     - mountPath: /var/lib/otelcol/storage
       name: storage
