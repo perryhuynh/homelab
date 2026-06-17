@@ -41,6 +41,8 @@ spec:
     hubble:
       enabled: true
       metrics:
+        dashboards:
+          enabled: true
         enabled:
           - dns
           - drop

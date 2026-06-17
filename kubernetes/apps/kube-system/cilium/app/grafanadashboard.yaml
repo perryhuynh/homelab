@@ -28,3 +28,18 @@ spec:
   configMapRef:
     name: cilium-operator-dashboard
     key: cilium-operator-dashboard.json
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: hubble
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  folder: kube-system
+  configMapRef:
+    name: hubble-dashboard
+    key: hubble-dashboard.json
