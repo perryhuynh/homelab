@@ -10,5 +10,10 @@ spec:
     kind: OCIRepository
     name: grafana-operator
   values:
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        cpu: 10m
     serviceMonitor:
       enabled: true

@@ -13,6 +13,11 @@ spec:
     fullnameOverride: *app
     image:
       repository: quay.io/prometheus/snmp-exporter
+    resources:
+      limits:
+        memory: 128Mi
+      requests:
+        cpu: 10m
     serviceMonitor:
       enabled: true
       params:

@@ -15,6 +15,11 @@ spec:
       entrypoint: http://victoria-metrics.observability.svc.cluster.local:8428
     mcp:
       mode: http
+    resources:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: 10m
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 65534
