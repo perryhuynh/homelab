@@ -33,13 +33,12 @@ spec:
               capabilities:
                 drop:
                   - "ALL"
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
         strategy: RollingUpdate
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
     persistence:
       tmp:
         enabled: true

@@ -67,12 +67,12 @@ spec:
                 drop:
                   - "ALL"
               readOnlyRootFilesystem: true
-        pod:
-          securityContext:
-            runAsNonRoot: true
-            runAsGroup: 2000
-            runAsUser: 2000
-            fsGroup: 2000
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsGroup: 2000
+        runAsUser: 2000
+        fsGroup: 2000
     persistence:
       config:
         type: configMap

@@ -64,12 +64,11 @@ spec:
                 drop:
                   - "ALL"
               readOnlyRootFilesystem: true
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
     persistence:
       cache:
         type: emptyDir
