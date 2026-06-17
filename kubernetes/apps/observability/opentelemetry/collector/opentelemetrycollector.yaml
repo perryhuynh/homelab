@@ -5,6 +5,11 @@ kind: OpenTelemetryCollector
 metadata:
   name: events
 spec:
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 10m
   config:
     receivers:
       k8s_events:
@@ -52,6 +57,11 @@ metadata:
   name: filelog
 spec:
   mode: daemonset
+  resources:
+    limits:
+      memory: 1Gi
+    requests:
+      cpu: 10m
   serviceAccount: filelog-collector
   env:
     - name: KUBE_NODE_NAME
@@ -165,6 +175,11 @@ metadata:
 spec:
   mode: statefulset
   replicas: 2
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 10m
   volumeMounts:
     - mountPath: /var/lib/otelcol/storage
       name: storage
@@ -259,6 +274,11 @@ kind: OpenTelemetryCollector
 metadata:
   name: unifi-syslog
 spec:
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 10m
   config:
     receivers:
       syslog:
