@@ -69,8 +69,6 @@ spec:
               requests:
                 cpu: 10m
     defaultPodOptions:
-      annotations:
-        beyla.instrument: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
