@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: beyla
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: beyla
+  interval: 1h
+  values:
+    # Application observability: RED metrics + HTTP/gRPC trace spans
+    preset: application
+    serviceMonitor:
+      enabled: true
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        cpu: 50m
+    config:
+      data:
+        attributes:
+          kubernetes:
+            enable: true
+        discovery:
+          instrument:
+            - k8s_pod_annotations:
+                beyla.instrument: "true"
+        # Export traces to the central OTel gateway collector (OTLP/HTTP)
+        otel_traces_export:
+          endpoint: http://gateway-collector.observability.svc.cluster.local:4318

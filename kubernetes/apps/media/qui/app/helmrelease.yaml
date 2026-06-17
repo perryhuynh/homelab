@@ -70,6 +70,8 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      annotations:
+        beyla.instrument: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
