@@ -9,6 +9,12 @@ metadata:
     role: alert-rules
 spec:
   groups:
+    - name: cloudnative-pg.recording-rules
+      rules:
+        - record: cnpg_collector_last_available_backup_timestamp
+          expr: barman_cloud_cloudnative_pg_io_last_available_backup_timestamp
+        - record: cnpg_collector_first_recoverability_point
+          expr: barman_cloud_cloudnative_pg_io_first_recoverability_point
     - name: cloudnative-pg.rules
       rules:
         - alert: LongRunningTransaction
