@@ -44,12 +44,12 @@ spec:
         dashboards:
           enabled: true
         enabled:
-          - dns
-          - drop
-          - tcp
-          - flow
-          - port-distribution
-          - icmp
+          - "flow:labelsContext=source_namespace,source_workload,destination_namespace,destination_workload"
+          - "drop:sourceContext=workload-name|reserved-identity;destinationContext=workload-name|reserved-identity;labelsContext=source_namespace,source_workload,destination_namespace,destination_workload"
+          - "tcp:labelsContext=source_namespace,source_workload,destination_namespace,destination_workload"
+          - "icmp"
+          - "port-distribution"
+          - "flows-to-world:any-drop;port"
         serviceMonitor:
           enabled: true
     ipam:
