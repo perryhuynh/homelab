@@ -12,4 +12,4 @@ spec:
     name: VictoriaTraces
     type: jaeger
     access: proxy
-    url: http://victoria-traces.observability.svc.cluster.local:10428
+    url: http://victoria-traces.observability.svc.cluster.local:10428/select/jaeger
