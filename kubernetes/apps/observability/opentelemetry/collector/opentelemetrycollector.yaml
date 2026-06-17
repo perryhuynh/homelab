@@ -164,6 +164,7 @@ metadata:
   name: gateway
 spec:
   mode: statefulset
+  replicas: 2
   volumeMounts:
     - mountPath: /var/lib/otelcol/storage
       name: storage
@@ -210,24 +211,6 @@ spec:
         check_interval: 1s
         limit_percentage: 75
         spike_limit_percentage: 15
-      tail_sampling:
-        decision_wait: 10s
-        expected_new_traces_per_sec: 50
-        num_traces: 5000
-        policies:
-          - name: errors
-            type: status_code
-            status_code:
-              status_codes:
-                - ERROR
-          - name: slow
-            type: latency
-            latency:
-              threshold_ms: 1000
-          - name: baseline
-            type: probabilistic
-            probabilistic:
-              sampling_percentage: 25
     exporters:
       debug: {}
       otlp_http/logs:
@@ -238,10 +221,6 @@ spec:
           storage: file_storage
       otlp_http/metrics:
         metrics_endpoint: &metrics_endpoint http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
-        sending_queue:
-          storage: file_storage
-      otlp_http/traces:
-        traces_endpoint: http://victoria-traces.observability.svc.cluster.local:10428/insert/opentelemetry/v1/traces
         sending_queue:
           storage: file_storage
     service:
@@ -265,15 +244,6 @@ spec:
             - batch
           exporters:
             - otlp_http/metrics
-        traces:
-          receivers:
-            - otlp
-          processors:
-            - memory_limiter
-            - tail_sampling
-            - batch
-          exporters:
-            - otlp_http/traces
       telemetry:
         metrics:
           readers:
