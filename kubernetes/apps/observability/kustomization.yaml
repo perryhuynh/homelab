@@ -9,6 +9,7 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./beyla/ks.yaml
   - ./blackbox-exporter/ks.yaml
   - ./gatus/ks.yaml
   - ./grafana-mcp/ks.yaml

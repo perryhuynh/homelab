@@ -60,6 +60,8 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      annotations:
+        instrumentation.opentelemetry.io/inject-nodejs: observability/multilang
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

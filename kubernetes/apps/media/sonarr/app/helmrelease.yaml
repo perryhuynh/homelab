@@ -75,6 +75,8 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
     defaultPodOptions:
+      annotations:
+        instrumentation.opentelemetry.io/inject-dotnet: observability/multilang
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
