@@ -6,13 +6,20 @@ metadata:
   name: snmp-exporter-ups-rules
 spec:
   groups:
+    - name: snmp-exporter-ups.recording-rules
+      rules:
+        - record: upsAdvBatteryRunTimeRemaining
+          expr: upsAdvBatteryRunTimeRemaining_seconds * 100
+        - record: upsBasicBatteryTimeOnBattery
+          expr: upsBasicBatteryTimeOnBattery_seconds * 100
     - name: snmp-exporter-ups.rules
       rules:
         - alert: UPSOnBattery
-          annotations:
-            summary: ZPM {{$labels.instance}} is running on batteries and has less than 60 minutes of battery left
           expr: upsBasicBatteryTimeOnBattery_seconds > 60
-          for: 1m
+          annotations:
+            summary: >-
+              ZPM {{$labels.instance}} is running on batteries
+          for: 5m
           labels:
             severity: critical
         - alert: UPSReplaceBattery
