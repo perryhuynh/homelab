@@ -210,6 +210,24 @@ spec:
         check_interval: 1s
         limit_percentage: 75
         spike_limit_percentage: 15
+      tail_sampling:
+        decision_wait: 10s
+        expected_new_traces_per_sec: 50
+        num_traces: 5000
+        policies:
+          - name: errors
+            type: status_code
+            status_code:
+              status_codes:
+                - ERROR
+          - name: slow
+            type: latency
+            latency:
+              threshold_ms: 1000
+          - name: baseline
+            type: probabilistic
+            probabilistic:
+              sampling_percentage: 25
     exporters:
       debug: {}
       otlp_http/logs:
@@ -252,6 +270,7 @@ spec:
             - otlp
           processors:
             - memory_limiter
+            - tail_sampling
             - batch
           exporters:
             - otlp_http/traces

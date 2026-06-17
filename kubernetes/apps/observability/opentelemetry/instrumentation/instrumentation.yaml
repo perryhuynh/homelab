@@ -11,9 +11,11 @@ spec:
     # Force OTLP/HTTP so every language SDK targets the gateway's 4318 listener
     - name: OTEL_EXPORTER_OTLP_PROTOCOL
       value: http/protobuf
+    # Logs are already collected from stdout by the filelog collector.
+    - name: OTEL_LOGS_EXPORTER
+      value: none
   propagators:
     - tracecontext
     - baggage
   sampler:
-    type: parentbased_traceidratio
-    argument: "0.25"
+    type: parentbased_always_on
