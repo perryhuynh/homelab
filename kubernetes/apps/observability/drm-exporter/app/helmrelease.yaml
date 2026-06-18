@@ -48,9 +48,6 @@ spec:
       serviceMonitor:
         enabled: true
         interval: 10s
-        relabelings:
-          - sourceLabels: [__meta_kubernetes_endpoint_node_name]
-            targetLabel: nodename
       dashboards:
         enabled: true
         grafanaOperator:
