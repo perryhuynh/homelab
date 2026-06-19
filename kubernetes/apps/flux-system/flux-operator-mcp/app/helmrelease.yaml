@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: flux-operator-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: flux-operator-mcp
+  values:
+    transport: http
+    httpRoute:
+      enabled: true
+      hostnames:
+        - flux-operator-mcp.perryhuynh.com
+      parentRefs:
+        - name: envoy-internal
+          namespace: networking
+          sectionName: https
