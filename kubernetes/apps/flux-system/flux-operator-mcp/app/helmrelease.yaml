@@ -12,6 +12,10 @@ spec:
   values:
     transport: http
     readonly: true
+    networkPolicy:
+      ingress:
+        namespaces:
+          - networking
     httpRoute:
       enabled: true
       hostnames:
