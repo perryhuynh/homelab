@@ -19,6 +19,7 @@ resources:
   - ./kube-prometheus-stack/ks.yaml
   - ./opentelemetry/ks.yaml
   - ./prometheus-adapter/ks.yaml
+  - ./reaprime-exporter/ks.yaml
   - ./silence-operator/ks.yaml
   - ./siren/ks.yaml
   - ./smartctl-exporter/ks.yaml
