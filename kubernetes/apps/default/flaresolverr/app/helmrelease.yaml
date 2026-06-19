@@ -61,7 +61,7 @@ spec:
                 memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               capabilities:
                 drop:
                   - "ALL"
@@ -73,18 +73,11 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     persistence:
-      config:
-        type: emptyDir
-        globalMounts:
-          - path: /config
-      chromium:
-        type: emptyDir
-        globalMounts:
-          - path: /app/.config
-      tmp:
+      tmpfs:
         type: emptyDir
         globalMounts:
           - path: /tmp
+            subPath: tmp
       dev-shm:
         type: emptyDir
         advancedMounts:
