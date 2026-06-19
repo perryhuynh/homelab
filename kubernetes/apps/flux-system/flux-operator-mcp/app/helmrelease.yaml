@@ -11,6 +11,7 @@ spec:
     name: flux-operator-mcp
   values:
     transport: http
+    readonly: true
     httpRoute:
       enabled: true
       hostnames:
