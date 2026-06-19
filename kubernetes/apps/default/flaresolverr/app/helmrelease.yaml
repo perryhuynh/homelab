@@ -61,7 +61,7 @@ spec:
                 memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               capabilities:
                 drop:
                   - "ALL"
@@ -81,6 +81,10 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /app/.config
+      app-local:
+        type: emptyDir
+        globalMounts:
+          - path: /app/.local
       tmp:
         type: emptyDir
         globalMounts:
