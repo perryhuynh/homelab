@@ -12,6 +12,8 @@ webrtc:
     - urls:
         - stun:stun.cloudflare.com:3478
 streams:
+  g6_instant:
+    - "rtspx://192.168.1.1:7441/3zyX0mU98PANTSgU"
   driveway:
     - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
     - "ring:?camera_id=${RING_DRIVEWAY_CAMERA_ID}&device_id=${RING_DRIVEWAY_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}&snapshot"
@@ -19,6 +21,11 @@ streams:
     - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${RING_FRONT_DOOR_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}"
     - "ring:?camera_id=${RING_FRONT_DOOR_CAMERA_ID}&device_id=${RING_FRONT_DOOR_DEVICE_ID}&refresh_token=${RING_REFRESH_TOKEN}&snapshot"
 homekit:
+  g6_instant:
+    name: g6_instant
+    pairings:
+      - "client_id=${GO2RTC_HOMEKIT_CLIENT_ID_0}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_0}&permissions=0"
+      - "client_id=${GO2RTC_HOMEKIT_CLIENT_ID_1}&client_public=${GO2RTC_HOMEKIT_CLIENT_PUBLIC_1}&permissions=1"
   driveway:
     name: driveway
     pairings:
