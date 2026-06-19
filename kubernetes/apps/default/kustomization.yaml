@@ -12,6 +12,7 @@ resources:
   - ./actual/ks.yaml
   - ./atuin/ks.yaml
   - ./changedetection/ks.yaml
+  - ./flaresolverr/ks.yaml
   - ./it-tools/ks.yaml
   - ./maddy/ks.yaml
   - ./paperless/ks.yaml
