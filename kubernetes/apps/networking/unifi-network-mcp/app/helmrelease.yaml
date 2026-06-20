@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app unifi-network-mcp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      unifi-network-mcp:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/sirkirby/unifi-network-mcp
+              tag: 0.20.7@sha256:cbbae3060bf482c3fe6cb9c2f4f3dbc2e5e270f20c8ca4917f4c8ce4cc583835
+            env:
+              UNIFI_MCP_ALLOWED_HOSTS: unifi-network-mcp.perryhuynh.com
+              UNIFI_MCP_HTTP_ENABLED: true
+              UNIFI_MCP_HTTP_TRANSPORT: streamable-http
+              UNIFI_NETWORK_HOST: unifi.internal
+              UNIFI_NETWORK_VERIFY_SSL: false
+              UNIFI_POLICY_NETWORK_CREATE: false
+              UNIFI_POLICY_NETWORK_DELETE: false
+              UNIFI_POLICY_NETWORK_UPDATE: false
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: &port 3000
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  failureThreshold: 30
+                  periodSeconds: 10
+            resources:
+              limits:
+                memory: 256Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    route:
+      app:
+        hostnames:
+          - unifi-network-mcp.perryhuynh.com
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+    service:
+      app:
+        ports:
+          http:
+            port: *port
