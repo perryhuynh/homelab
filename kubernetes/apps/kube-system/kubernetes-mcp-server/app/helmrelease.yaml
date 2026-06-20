@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app kubernetes-mcp-server
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    image:
+      registry: quay.io
+      repository: containers/kubernetes_mcp_server
+      # renovate: datasource=docker depName=quay.io/containers/kubernetes_mcp_server
+      version: v0.0.62@sha256:bd7e9ff49b0941ff230508dfceb87162c4a2be67b180c28f5d1b204fc58fa2e9
+    extraArgs:
+      - --read-only
+    ingress:
+      enabled: false
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: envoy-internal
+          namespace: networking
+          sectionName: https
+      hostnames:
+        - kubernetes-mcp-server.perryhuynh.com
+    rbac:
+      extraClusterRoleBindings:
+        - name: view
+          roleRef:
+            name: view
+            external: true
+    resources:
+      limits:
+        memory: 256Mi
+      requests:
+        cpu: 10m

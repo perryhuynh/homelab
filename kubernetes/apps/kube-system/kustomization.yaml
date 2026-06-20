@@ -14,6 +14,7 @@ resources:
   - ./descheduler/ks.yaml
   - ./fstrim/ks.yaml
   - ./intel-gpu-resource-driver/ks.yaml
+  - ./kubernetes-mcp-server/ks.yaml
   - ./ksgate/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml
