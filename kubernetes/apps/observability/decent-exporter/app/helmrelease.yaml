@@ -3,16 +3,16 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app reaprime-exporter
+  name: &app decent-exporter
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: reaprime-exporter
+    name: decent-exporter
   values:
     fullnameOverride: *app
     config:
-      reaprimeUrl: http://de1pro.internal:8080
+      decentUrl: http://de1pro.internal:8080
       logLevel: info
     resources:
       requests:

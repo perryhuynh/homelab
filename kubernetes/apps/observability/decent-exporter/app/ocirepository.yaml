@@ -3,17 +3,17 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: reaprime-exporter
+  name: decent-exporter
 spec:
   interval: 15m
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.2.1
+    tag: 1.0.0
   url: oci://ghcr.io/perryhuynh/charts/decent-exporter
   verify:
     provider: cosign
     matchOIDCIdentity:
       - issuer: "^https://token.actions.githubusercontent.com$"
-        subject: "^https://github.com/perryhuynh/reaprime-exporter/.github/workflows/release.yaml@.*$"
+        subject: "^https://github.com/perryhuynh/decent-exporter/.github/workflows/release.yaml@.*$"
