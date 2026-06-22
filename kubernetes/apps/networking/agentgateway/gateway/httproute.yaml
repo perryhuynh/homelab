@@ -6,7 +6,7 @@ metadata:
   name: mcp
 spec:
   parentRefs:
-    - name: agentgateway
+    - name: mcp
       namespace: networking
       sectionName: https
   hostnames:
