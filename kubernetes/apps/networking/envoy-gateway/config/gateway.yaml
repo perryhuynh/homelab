@@ -35,6 +35,8 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: envoy-internal
+  labels:
+    external-dns.home.arpa/provider: unifi
   annotations:
     external-dns.alpha.kubernetes.io/target: &hostname internal.perryhuynh.com
 spec:
