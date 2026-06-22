@@ -29,12 +29,3 @@ spec:
         memory: 128Mi
       requests:
         cpu: 10m
-    route:
-      main:
-        enabled: true
-        hostnames:
-          - grafana-mcp.perryhuynh.com
-        parentRefs:
-          - name: envoy-internal
-            namespace: networking
-            sectionName: https

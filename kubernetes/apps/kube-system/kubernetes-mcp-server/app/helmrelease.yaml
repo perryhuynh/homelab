@@ -19,14 +19,6 @@ spec:
       - --read-only
     ingress:
       enabled: false
-    httpRoute:
-      enabled: true
-      parentRefs:
-        - name: envoy-internal
-          namespace: networking
-          sectionName: https
-      hostnames:
-        - kubernetes-mcp-server.perryhuynh.com
     rbac:
       extraClusterRoleBindings:
         - name: view
