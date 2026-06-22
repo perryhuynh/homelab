@@ -20,7 +20,7 @@ spec:
               repository: ghcr.io/sirkirby/unifi-network-mcp
               tag: 0.20.7@sha256:cbbae3060bf482c3fe6cb9c2f4f3dbc2e5e270f20c8ca4917f4c8ce4cc583835
             env:
-              UNIFI_MCP_ALLOWED_HOSTS: unifi-network-mcp.networking.svc.cluster.local
+              UNIFI_MCP_ALLOWED_HOSTS: unifi-network-mcp.networking.svc.cluster.local:3000
               UNIFI_MCP_HTTP_ENABLED: true
               UNIFI_MCP_HTTP_TRANSPORT: streamable-http
               UNIFI_NETWORK_HOST: unifi.internal
