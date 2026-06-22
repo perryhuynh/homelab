@@ -9,6 +9,7 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./agentgateway/ks.yaml
   - ./certificates/ks.yaml
   - ./cloudflared/ks.yaml
   - ./echo-server/ks.yaml

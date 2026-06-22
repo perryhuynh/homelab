@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/gateway_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: agentgateway
+  annotations:
+    external-dns.alpha.kubernetes.io/target: &hostname internal.perryhuynh.com
+spec:
+  gatewayClassName: agentgateway
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: *hostname
+      lbipam.cilium.io/ips: 192.168.20.202
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: mcp.perryhuynh.com
+      allowedRoutes:
+        namespaces:
+          from: Same
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: perryhuynh-com-production-tls

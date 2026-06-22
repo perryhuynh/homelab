@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/agentgateway.dev/agentgatewaybackend_v1alpha1.json
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayBackend
+metadata:
+  name: mcp
+spec:
+  mcp:
+    targets:
+      - name: kubernetes
+        static:
+          host: kubernetes-mcp-server.kube-system.svc.cluster.local
+          port: 8080
+          protocol: StreamableHTTP
+      - name: unifi
+        static:
+          host: unifi-network-mcp.networking.svc.cluster.local
+          port: 3000
+          protocol: StreamableHTTP
+      - name: flux
+        static:
+          host: flux-operator-mcp.flux-system.svc.cluster.local
+          port: 9090
+          protocol: StreamableHTTP
+      - name: grafana
+        static:
+          host: grafana-mcp.observability.svc.cluster.local
+          port: 8000
+          protocol: StreamableHTTP
+      - name: victoria-logs
+        static:
+          host: victoria-logs-mcp.observability.svc.cluster.local
+          port: 8080
+          protocol: StreamableHTTP
+      - name: victoria-metrics
+        static:
+          host: victoria-metrics-mcp.observability.svc.cluster.local
+          port: 8080
+          protocol: StreamableHTTP
+      - name: konflate
+        static:
+          host: konflate.flux-system.svc.cluster.local
+          port: 8080
+          protocol: StreamableHTTP
