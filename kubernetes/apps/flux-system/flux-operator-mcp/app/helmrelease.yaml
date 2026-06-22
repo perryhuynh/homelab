@@ -16,11 +16,3 @@ spec:
       ingress:
         namespaces:
           - networking
-    httpRoute:
-      enabled: true
-      hostnames:
-        - flux-operator-mcp.perryhuynh.com
-      parentRefs:
-        - name: envoy-internal
-          namespace: networking
-          sectionName: https

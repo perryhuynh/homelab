@@ -29,10 +29,3 @@ spec:
       capabilities:
         drop: ["ALL"]
       readOnlyRootFilesystem: true
-    route:
-      enabled: true
-      parentRefs:
-        - name: envoy-internal
-          namespace: networking
-      hostnames:
-        - victoria-metrics-mcp.perryhuynh.com
