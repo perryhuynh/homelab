@@ -19,7 +19,7 @@ spec:
       hostname: mcp.perryhuynh.com
       allowedRoutes:
         namespaces:
-          from: All
+          from: Same
       tls:
         certificateRefs:
           - kind: Secret

@@ -12,4 +12,7 @@ spec:
   ref:
     # renovate: datasource=docker depName=ghcr.io/kgateway-dev/charts/agentgateway-crds
     tag: v2.3.0-main
+    # chart is not cosign-signed and v2.3.0-main is a moving tag; pin by digest so a tag
+    # move cannot silently deploy unreviewed CRDs (renovate tracks via the tag above)
+    digest: sha256:ed7525734fa5f9ab9541c1358af355b8f8c836121c1aa8af01a578ab58297169
   url: oci://ghcr.io/kgateway-dev/charts/agentgateway-crds
