@@ -11,5 +11,4 @@ resources:
   - ./namespace.yaml
   - ./go2rtc/ks.yaml
   - ./home-assistant/ks.yaml
-  - ./scrypted/ks.yaml
   - ./teslamate/ks.yaml
