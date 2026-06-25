@@ -27,6 +27,17 @@ spec:
           namespace: networking
       hostnames:
         - "{{ .Release.Name }}.perryhuynh.com"
+      additionalRules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /mcp
+          filters:
+            - type: ExtensionRef
+              extensionRef:
+                group: gateway.envoyproxy.io
+                kind: HTTPRouteFilter
+                name: konflate-mcp-block
     monitoring:
       serviceMonitor:
         enabled: true
