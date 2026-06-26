@@ -15,5 +15,6 @@ resources:
   - ./flaresolverr/ks.yaml
   - ./it-tools/ks.yaml
   - ./maddy/ks.yaml
+  - ./omni-tools/ks.yaml
   - ./paperless/ks.yaml
   - ./thelounge/ks.yaml
