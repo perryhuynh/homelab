@@ -52,7 +52,7 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_de1_connected{topic=\"de1_state\"}", "legendFormat": "Connected", "refId": "A" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_de1_connected{topic=\"de1_state\"})", "legendFormat": "Connected", "refId": "A" }
       ],
       "title": "Connection",
       "type": "stat"
@@ -81,7 +81,7 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_wake_state{topic=\"de1_state\"}", "legendFormat": "Wake", "refId": "A" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_wake_state{topic=\"de1_state\"})", "legendFormat": "Wake", "refId": "A" }
       ],
       "title": "Power State",
       "type": "stat"
@@ -110,7 +110,7 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_steam_state{topic=\"de1_state\"}", "legendFormat": "Steam", "refId": "A" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_steam_state{topic=\"de1_state\"})", "legendFormat": "Steam", "refId": "A" }
       ],
       "title": "Steam State",
       "type": "stat"
@@ -138,7 +138,7 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_water_level_ml{topic=\"de1_state\"}", "legendFormat": "Water", "refId": "A" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_water_level_ml{topic=\"de1_state\"})", "legendFormat": "Water", "refId": "A" }
       ],
       "title": "Water Level",
       "type": "gauge"
@@ -166,7 +166,7 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_espresso_count{topic=\"de1_state\"}", "legendFormat": "Shots", "refId": "A" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_espresso_count{topic=\"de1_state\"})", "legendFormat": "Shots", "refId": "A" }
       ],
       "title": "Espresso Count",
       "type": "stat"
@@ -194,7 +194,7 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_steaming_count{topic=\"de1_state\"}", "legendFormat": "Steams", "refId": "A" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_steaming_count{topic=\"de1_state\"})", "legendFormat": "Steams", "refId": "A" }
       ],
       "title": "Steaming Count",
       "type": "stat"
@@ -239,9 +239,9 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_head_temperature{topic=\"de1_state\"}", "legendFormat": "Group head", "refId": "A" },
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_mix_temperature{topic=\"de1_state\"}", "legendFormat": "Mix", "refId": "B" },
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_steam_heater_temperature{topic=\"de1_state\"}", "legendFormat": "Steam heater", "refId": "C" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_head_temperature{topic=\"de1_state\"})", "legendFormat": "Group head", "refId": "A" },
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_mix_temperature{topic=\"de1_state\"})", "legendFormat": "Mix", "refId": "B" },
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_steam_heater_temperature{topic=\"de1_state\"})", "legendFormat": "Steam heater", "refId": "C" }
       ],
       "title": "Temperatures",
       "type": "timeseries"
@@ -286,7 +286,7 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_water_level_ml{topic=\"de1_state\"}", "legendFormat": "Water level", "refId": "A" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_water_level_ml{topic=\"de1_state\"})", "legendFormat": "Water level", "refId": "A" }
       ],
       "title": "Water Level Over Time",
       "type": "timeseries"
@@ -333,10 +333,10 @@
       },
       "pluginVersion": "11.0.0",
       "targets": [
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_online{topic=\"de1_state\"}", "legendFormat": "Online", "refId": "A" },
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_wake_state{topic=\"de1_state\"}", "legendFormat": "Awake", "refId": "B" },
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_steam_state{topic=\"de1_state\"}", "legendFormat": "Steaming", "refId": "C" },
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "mqtt_scale_connected{topic=\"de1_state\"}", "legendFormat": "Scale connected", "refId": "D" }
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_online{topic=\"de1_state\"})", "legendFormat": "Online", "refId": "A" },
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_wake_state{topic=\"de1_state\"})", "legendFormat": "Awake", "refId": "B" },
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_steam_state{topic=\"de1_state\"})", "legendFormat": "Steaming", "refId": "C" },
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_scale_connected{topic=\"de1_state\"})", "legendFormat": "Scale connected", "refId": "D" }
       ],
       "title": "Machine States",
       "type": "timeseries"
