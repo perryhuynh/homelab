@@ -92,7 +92,7 @@
         "defaults": {
           "color": { "mode": "thresholds" },
           "mappings": [
-            { "options": { "0": { "color": "text", "index": 1, "text": "Off" }, "1": { "color": "orange", "index": 0, "text": "Steaming" } }, "type": "value" }
+            { "options": { "0": { "color": "text", "index": 1, "text": "Off" }, "1": { "color": "orange", "index": 0, "text": "On" } }, "type": "value" }
           ],
           "thresholds": { "mode": "absolute", "steps": [ { "color": "text", "value": null }, { "color": "orange", "value": 1 } ] }
         },
@@ -112,7 +112,7 @@
       "targets": [
         { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_steam_state{topic=\"de1_state\"})", "legendFormat": "Steam", "refId": "A" }
       ],
-      "title": "Steam State",
+      "title": "Steam Heater",
       "type": "stat"
     },
     {
@@ -335,7 +335,7 @@
       "targets": [
         { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_online{topic=\"de1_state\"})", "legendFormat": "Online", "refId": "A" },
         { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_wake_state{topic=\"de1_state\"})", "legendFormat": "Awake", "refId": "B" },
-        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_steam_state{topic=\"de1_state\"})", "legendFormat": "Steaming", "refId": "C" },
+        { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_steam_state{topic=\"de1_state\"})", "legendFormat": "Steam heater", "refId": "C" },
         { "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" }, "expr": "max(mqtt_scale_connected{topic=\"de1_state\"})", "legendFormat": "Scale connected", "refId": "D" }
       ],
       "title": "Machine States",
