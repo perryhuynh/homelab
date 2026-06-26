@@ -6,3 +6,12 @@ resources:
   - ./ocirepository.yaml
   - ./helmrelease.yaml
   - ./servicemonitor.yaml
+  - ./grafanadashboard.yaml
+configMapGenerator:
+  - name: mqtt-exporter-dashboard
+    files:
+      - dashboard.json=./resources/dashboard.json
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
