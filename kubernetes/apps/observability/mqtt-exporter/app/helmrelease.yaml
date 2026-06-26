@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app mqtt-exporter
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: mqtt-exporter
+  values:
+    controllers:
+      mqtt-exporter:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/kpetremann/mqtt-exporter
+              tag: 1.12.1@sha256:dca3255f35310f6ceb80ed1de94eebd1fe9def7aacaec4107fe37cdaa9eb3be0
+            env:
+              MQTT_ADDRESS: mosquitto.database.svc.cluster.local
+              MQTT_PORT: "1883"
+              # Scope the exporter to the Decent espresso machine; de1/state is
+              # a JSON payload that mqtt-exporter flattens into numeric metrics.
+              TOPIC: de1/#
+              PROMETHEUS_PORT: &port "9000"
+              LOG_LEVEL: INFO
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  periodSeconds: 30
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *port
+                  periodSeconds: 30
+                  failureThreshold: 5
+            resources:
+              limits:
+                memory: 64Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - "ALL"
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+    service:
+      app:
+        ports:
+          metrics:
+            port: 9000

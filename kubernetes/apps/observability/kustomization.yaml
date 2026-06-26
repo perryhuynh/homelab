@@ -17,6 +17,7 @@ resources:
   - ./karma/ks.yaml
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
+  - ./mqtt-exporter/ks.yaml
   - ./opentelemetry/ks.yaml
   - ./prometheus-adapter/ks.yaml
   - ./silence-operator/ks.yaml
