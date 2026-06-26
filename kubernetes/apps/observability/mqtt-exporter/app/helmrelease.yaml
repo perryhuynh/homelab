@@ -24,7 +24,7 @@ spec:
               MQTT_PORT: "1883"
               # Scope the exporter to the Decent espresso machine; de1/state is
               # a JSON payload that mqtt-exporter flattens into numeric metrics.
-              TOPIC: de1/#
+              MQTT_TOPIC: de1/#
               PROMETHEUS_PORT: &port 9000
               LOG_LEVEL: INFO
             probes:
