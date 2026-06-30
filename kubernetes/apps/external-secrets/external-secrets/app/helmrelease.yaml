@@ -10,7 +10,6 @@ spec:
     kind: OCIRepository
     name: external-secrets
   values:
-    installCRDS: true
     image:
       repository: ghcr.io/external-secrets/external-secrets
     webhook:
