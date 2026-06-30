@@ -73,7 +73,8 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/cluster
   postBuild:
     substitute:
-      GATUS_NAME: "postgres"
+      APP: postgres
+      GATUS_NAME: postgres
       GATUS_ADDRESS: "postgres-pgbouncer-rw.database.svc.cluster.local"
       GATUS_PORT: "5432"
     substituteFrom:
