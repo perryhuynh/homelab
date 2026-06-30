@@ -31,5 +31,3 @@ spec:
       connMaxLifetime: 14400
       postgresVersion: 1600
       timescaledb: false
-    secureJsonData:
-      password: "${DATABASE_PASS}"
