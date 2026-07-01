@@ -16,6 +16,7 @@ spec:
       prComments: true
       publicUrl: https://{{ .Release.Name }}.perryhuynh.com
       statusChecks: true
+      verifyImages: true
     deploymentAnnotations:
       reloader.stakater.com/auto: "true"
     secret:
