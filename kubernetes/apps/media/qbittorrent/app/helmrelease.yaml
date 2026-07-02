@@ -100,6 +100,18 @@ spec:
         globalMounts:
           - path: /tmp
             subPath: tmp
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
     service:
       app:
         forceRename: *app
