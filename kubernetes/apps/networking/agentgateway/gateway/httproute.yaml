@@ -16,6 +16,9 @@ spec:
         - path:
             type: PathPrefix
             value: /mcp
+        - path:
+            type: Exact
+            value: /sse
       backendRefs:
         - name: mcp
           group: agentgateway.dev
