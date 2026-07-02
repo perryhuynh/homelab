@@ -7,3 +7,4 @@ resources:
   - ./backend.yaml
   - ./httproute.yaml
   - ./podmonitor.yaml
+  - ./grafanadashboard.yaml
