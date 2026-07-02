@@ -6,3 +6,5 @@ resources:
   - ./gateway.yaml
   - ./backend.yaml
   - ./httproute.yaml
+  - ./podmonitor.yaml
+  - ./grafanadashboard.yaml
