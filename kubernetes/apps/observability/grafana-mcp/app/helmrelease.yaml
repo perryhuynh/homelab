@@ -15,6 +15,9 @@ spec:
       - --transport=streamable-http
       - --endpoint-path=/mcp
       - --address=0.0.0.0:8000
+      # mcp-grafana >=0.17.1 blocks DNS rebinding by allowlisting Host; agentgateway
+      # forwards the external gateway hostname, so allow it plus the in-cluster service
+      - --allowed-hosts=mcp.perryhuynh.com,grafana-mcp.observability.svc.cluster.local:8000
     grafana:
       apiKeySecret:
         name: grafana-mcp-token
