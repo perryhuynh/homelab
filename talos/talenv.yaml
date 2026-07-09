@@ -10,4 +10,4 @@ kubeproxyVersion: v1.36.2
 # renovate: datasource=docker depName=registry.k8s.io/kube-scheduler
 kubeschedulerVersion: v1.36.2
 # renovate: datasource=custom.talos-factory depName=siderolabs/talos
-talosVersion: v1.13.5
+talosVersion: v1.13.6
