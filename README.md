@@ -13,6 +13,7 @@ _... managed with Flux, Renovate, and GitHub Actions_ 🤖
 [![Flux](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.perryhuynh.com%2Fbadges%2Fflux_version%3Fformat%3Dshields&style=for-the-badge&logo=flux&logoColor=326ce5&color=1a1a1a&label=%20)](https://fluxcd.io)&nbsp;&nbsp;
 [![Kubernetes](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.perryhuynh.com%2Fbadges%2Fkubernetes_version%3Fformat%3Dshields&style=for-the-badge&logo=kubernetes&logoColor=white&color=296dea&label=%20)](https://kubernetes.io)&nbsp;&nbsp;
 [![Talos](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.perryhuynh.com%2Fbadges%2Ftalos_version%3Fformat%3Dshields&style=for-the-badge&logo=talos&logoColor=f81f25&color=433448&label=%20)](https://talos.dev)&nbsp;&nbsp;
+[![Ceph](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.perryhuynh.com%2Fbadges%2Fceph_version%3Fformat%3Dshields&style=for-the-badge&logo=ceph&logoColor=white&color=ef5c55&label=%20)](https://ceph.io)&nbsp;&nbsp;
 
 </div>
 
