@@ -34,6 +34,11 @@ spec:
           valueExpr: labels["version_id"]
           title: Talos
 
+        - id: ceph_version
+          query: label_replace(ceph_mon_metadata, "version", "$1", "ceph_version", "ceph version ([0-9.]+) .+")
+          valueExpr: labels["version"]
+          title: Ceph
+
         - id: cluster_power_usage
           query: avg(upsAdvOutputActivePower)
           valueExpr: humanizeCommas(math.round(result)) + "w"
