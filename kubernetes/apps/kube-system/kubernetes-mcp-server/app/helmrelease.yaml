@@ -14,7 +14,7 @@ spec:
       registry: quay.io
       repository: containers/kubernetes_mcp_server
       # renovate: datasource=docker depName=quay.io/containers/kubernetes_mcp_server
-      version: v0.0.63@sha256:9317449ed47916a297f71b955eab57402064de852bf1fb007c4e0705754de2b3
+      version: v0.0.64@sha256:2a6eef833ea5c458c0a7f52afc3b9f1fbfedce5aed3a56b451287a66a55bc336
     extraArgs:
       - --read-only
     ingress:
