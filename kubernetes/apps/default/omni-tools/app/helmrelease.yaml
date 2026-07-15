@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: ghcr.io/perryhuynh/omni-tools
-              tag: 0.6.0@sha256:c4cf9583d6682e318cd31931daafc9282afc228862921c5dd8053ecdde36a663
+              tag: 0.6.0@sha256:e58043338e13fe3ddf8c2a70d8594f3e03d6de4c254a0cd9d77831a89cee2e30
             probes:
               liveness:
                 enabled: true
