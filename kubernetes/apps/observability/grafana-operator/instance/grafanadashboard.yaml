@@ -29,7 +29,7 @@ spec:
   datasources:
     - inputName: DS_PROMETHEUS
       datasourceName: VictoriaMetrics
-  url: https://grafana.com/api/dashboards/14574/revisions/12/download
+  url: https://grafana.com/api/dashboards/14574/revisions/13/download
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
 apiVersion: grafana.integreatly.org/v1beta1
