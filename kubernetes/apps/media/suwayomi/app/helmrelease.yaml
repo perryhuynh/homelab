@@ -22,7 +22,7 @@ spec:
             env:
               BACKUP_INTERVAL: 0
               BIND_PORT: &port 80
-              EXTENSION_SOURCES: '["https://github.com/keiyoushi/extensions/tree/repo"]'
+              EXTENSION_STORES: '["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"]'
               FLARESOLVERR_ENABLED: true
               FLARESOLVERR_URL: http://flaresolverr.default.svc.cluster.local:8191
               TZ: America/Los_Angeles
