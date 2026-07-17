@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/sirkirby/unifi-network-mcp
-              tag: 0.23.1@sha256:24df1201d7584773c4208f0309182806f4b3341401a3cbf4125257babd7ca15d
+              tag: 0.24.0@sha256:b212059aaf707c0d3764a32bf348bdfa948ed6418883e8bb7e9bddadfc9eafa5
             env:
               UNIFI_MCP_ALLOWED_HOSTS: unifi-network-mcp.networking.svc.cluster.local:3000
               UNIFI_MCP_HTTP_ENABLED: true
