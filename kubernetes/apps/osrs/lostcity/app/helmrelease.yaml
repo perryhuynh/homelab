@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/perryhuynh/lostcity
-              tag: 289@sha256:376bef5be3a39b34d125bc8125fb0c013741f776cfb064aa44feff8396599c88
+              tag: 289@sha256:ac2cac2c1c6e935c06026096dcf44e18e6b41516fd34130504e7cbe038a01c43
             probes:
               liveness:
                 enabled: true
