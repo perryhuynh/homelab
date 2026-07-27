@@ -40,9 +40,6 @@ spec:
             image:
               repository: ghcr.io/ahrtr/etcd-defrag
               tag: v0.42.0@sha256:22521435b870c41f0faca42197e0b4caf37822370ebd7ec84df492d21488ede9
-            command:
-              - "/bin/sh"
-              - "-c"
             args:
               - --endpoints=https://127.0.0.1:2379
               - --cluster
@@ -55,8 +52,6 @@ spec:
               - --move-leader
               # Wait 30s between defrags (only matters if you had multiple members)
               - --wait-between-defrags=30s
-              # Match the quota-backend-bytes we set in Talos config
-              - --etcd-storage-quota-bytes=8589934592
               # Auto-disalarm space quota alarms
               - --auto-disalarm
               - --disalarm-threshold=0.8
