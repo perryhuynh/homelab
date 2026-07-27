@@ -1,0 +1,76 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: etcd-defrag
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: etcd-defrag
+  values:
+    defaultPodOptions:
+      # Must use host network to access etcd on localhost:2379
+      hostNetwork: true
+      hostPID: true
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+      # Ensure this only runs on the control plane node
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+    controllers:
+      etcd-defrag:
+        type: cronjob
+        cronjob:
+          # Run weekly on Sunday at 3 AM
+          schedule: "0 3 * * 0"
+          concurrencyPolicy: Forbid
+          failedJobsHistory: 1
+          successfulJobsHistory: 0
+          timeZone: "America/Los_Angeles"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/ahrtr/etcd-defrag
+              tag: v0.42.0@sha256:22521435b870c41f0faca42197e0b4caf37822370ebd7ec84df492d21488ede9
+            args:
+              - --endpoints=https://127.0.0.1:2379
+              - --cluster
+              - --cacert=/certs/ca.crt
+              - --cert=/certs/server.crt
+              - --key=/certs/server.key
+              # Defrag when DB quota usage > 50% OR free space > 100MB
+              - --defrag-rule=dbQuotaUsage > 0.5 || dbSizeFree > 100*1024*1024
+              # Move leader during defrag (safe for single-node)
+              - --move-leader
+              # Wait 30s between defrags (only matters if you had multiple members)
+              - --wait-between-defrags=30s
+              # Auto-disalarm space quota alarms
+              - --auto-disalarm
+              - --disalarm-threshold=0.8
+            resources:
+              limits:
+                memory: 128Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              privileged: true
+    persistence:
+      certs:
+        type: hostPath
+        hostPath: /system/secrets/etcd
+        globalMounts:
+          - path: /certs
+            readOnly: true
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
