@@ -10,6 +10,7 @@ metadata:
 spec:
   instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:18.4-system-trixie@sha256:660141d8ac12d783f12a3f6bb5ca6c3b1412ea18881f73b9853cfb1eeb9cf128
+  primaryUpdateMethod: switchover
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
