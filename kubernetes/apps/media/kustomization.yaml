@@ -11,6 +11,7 @@ resources:
   - ./namespace.yaml
   - ./autobrr/ks.yaml
   - ./brrpolice/ks.yaml
+  - ./dashbrr/ks.yaml
   - ./kavita/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
