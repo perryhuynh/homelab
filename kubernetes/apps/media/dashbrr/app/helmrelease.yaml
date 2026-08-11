@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/autobrr/dashbrr
-              tag: v0.5.0@sha256:c2d171f351df7a43d0159353abe11689b6def0b0799246a0a0c79c69c7195773
+              tag: v0.5.1@sha256:7d138a4977c29b0b28692a4826a5ce3b41fb0b4c17454d146a900f8b05d48522
             env:
               DASHBRR__LISTEN_ADDR: 0.0.0.0:80
               DASHBRR__LOG_LEVEL: info
