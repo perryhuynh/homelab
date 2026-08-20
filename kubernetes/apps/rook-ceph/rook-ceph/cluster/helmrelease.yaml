@@ -72,8 +72,13 @@ spec:
             enabled: true
           - name: pg_autoscaler
             enabled: true
+          # Ceph v20.2.4: the prometheus module calls node_proxy_fullreport()
+          # on every scrape, which the rook orchestrator backend does not
+          # implement, logging a mgr module crash every 15s. Fixed upstream in
+          # ceph@543c9498f but not yet in a release. Re-enable once it ships.
+          # https://medium.com/rook-io/rook-advisory-for-ceph-cve-2025-30156-cc1f8dee6da3
           - name: rook
-            enabled: true
+            enabled: false
       resources:
         mgr:
           limits:
