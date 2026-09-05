@@ -46,7 +46,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Flate
-        uses: home-operations/flate/action@6664ea2690ed8465d59a4bdc82109ffb6b4d4f63 # v0.6.2
+        uses: home-operations/flate/action@065bf57242c12af85253609923242786b5ea413d # v0.6.3
         with:
           cache: true
 
