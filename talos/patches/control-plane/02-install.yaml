@@ -1,0 +1,5 @@
+---
+machine:
+  install:
+    diskSelector:
+      model: TS512GMTS430S

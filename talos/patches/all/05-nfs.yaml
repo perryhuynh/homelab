@@ -1,0 +1,13 @@
+---
+# Configure NFS mount options
+machine:
+  files:
+    - op: overwrite
+      path: /etc/nfsmount.conf
+      permissions: 0o644
+      content: |-
+        [ NFSMount_Global_Options ]
+        nfsvers=4.2
+        hard=True
+        noatime=True
+        nconnect=16

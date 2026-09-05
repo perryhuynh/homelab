@@ -4,29 +4,58 @@ version: '3'
 
 tasks:
 
-  apply-node:
-    desc: Apply Talos config to a node [IP=required]
+  apply:
+    desc: Apply Talos config to all nodes [MODE=auto]
     dir: '{{.TALOS_DIR}}'
-    cmd: talhelper gencommand apply --node {{.IP}} --extra-flags '--mode={{.MODE}}' | bash
+    cmd: topf apply --mode={{.MODE}}
     vars:
       MODE: '{{.MODE | default "auto"}}'
+    preconditions:
+      - test -f {{.TALOS_DIR}}/topf.yaml
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - which topf
+
+  apply-node:
+    desc: Apply Talos config to a node [IP=required] [MODE=auto]
+    dir: '{{.TALOS_DIR}}'
+    cmd: topf apply --nodes-filter '^{{.HOST}}$' --mode={{.MODE}}
+    vars:
+      MODE: '{{.MODE | default "auto"}}'
+      HOST:
+        sh: yq --exit-status '.nodes[] | select(.ip == "{{.IP}}") | .host' {{.TALOS_DIR}}/topf.yaml
     requires:
       vars: [IP]
     preconditions:
-      - talosctl --nodes {{.IP}} get machineconfig
-      - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which talhelper talosctl yq
+      - test -f {{.TALOS_DIR}}/topf.yaml
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - which topf yq
+
+  diff:
+    desc: Show the Talos config changes that would be applied
+    dir: '{{.TALOS_DIR}}'
+    cmd: topf apply --dry-run
+    preconditions:
+      - test -f {{.TALOS_DIR}}/topf.yaml
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - which topf
 
   generate-config:
-    desc: Generate Talos configuration
+    desc: Render Talos machine configs without applying them
     dir: '{{.TALOS_DIR}}'
-    cmd: talhelper genconfig
+    cmd: topf render --output clusterconfig
     preconditions:
-      - test -f {{.TALOS_DIR}}/talconfig.yaml
-      - test -f {{.ROOT_DIR}}/.sops.yaml
+      - test -f {{.TALOS_DIR}}/topf.yaml
       - test -f {{.SOPS_AGE_KEY_FILE}}
-      - which talhelper
+      - which topf
+
+  talosconfig:
+    desc: Generate the Talos client config
+    dir: '{{.TALOS_DIR}}'
+    cmd: topf talosconfig > talosconfig
+    preconditions:
+      - test -f {{.TALOS_DIR}}/topf.yaml
+      - test -f {{.SOPS_AGE_KEY_FILE}}
+      - which topf
 
   reboot-node:
     desc: Reboot Talos on a single node [IP=required] [MODE=powercycle]
@@ -43,19 +72,23 @@ tasks:
     desc: Resets nodes back to maintenance mode
     dir: '{{.TALOS_DIR}}'
     prompt: This will destroy your cluster and reset the nodes back to maintenance mode... continue?
-    cmd: talhelper gencommand reset --extra-flags="--reboot {{- if eq .CLI_FORCE false }} --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL{{ end }} --graceful=false --wait=false" | bash
+    cmd: topf reset {{if eq .CLI_FORCE true}}--full{{end}} --wait-for-maintenance
     preconditions:
-      - which talhelper
+      - which topf
 
   reset-node:
     desc: Reset Talos on a single node [IP=required]
+    dir: '{{.TALOS_DIR}}'
     prompt: Reset Talos node '{{.IP}}' ... continue?
-    cmd: talosctl reset --nodes {{.IP}} --graceful=false
+    cmd: topf reset --nodes-filter '^{{.HOST}}$' --wait-for-maintenance
+    vars:
+      HOST:
+        sh: yq --exit-status '.nodes[] | select(.ip == "{{.IP}}") | .host' {{.TALOS_DIR}}/topf.yaml
     requires:
       vars: [IP]
     preconditions:
       - talosctl --nodes {{.IP}} get machineconfig
-      - which talosctl
+      - which topf yq
 
   shutdown-cluster:
     desc: Shutdown Talos across the whole cluster
@@ -69,30 +102,27 @@ tasks:
       - which jq talosctl
 
   upgrade-k8s:
-    desc: Upgrade Kubernetes
+    desc: Upgrade Kubernetes to the version pinned in topf.yaml
     dir: '{{.TALOS_DIR}}'
-    cmd: talhelper gencommand upgrade-k8s --extra-flags "--to '{{.KUBERNETES_VERSION}}'" | bash
+    cmd: talosctl upgrade-k8s --to '{{.KUBERNETES_VERSION}}'
     vars:
       KUBERNETES_VERSION:
-        sh: yq '.kubernetesVersion' {{.TALOS_DIR}}/talenv.yaml
+        sh: yq --exit-status '.kubernetesVersion' {{.TALOS_DIR}}/topf.yaml
     preconditions:
       - talosctl config info
       - test -f {{.TALOSCONFIG}}
-      - which talhelper talosctl yq
+      - which talosctl yq
 
   upgrade-node:
     desc: Upgrade Talos on a single node [IP=required]
     dir: '{{.TALOS_DIR}}'
-    cmd: talhelper gencommand upgrade --node {{.IP}} --extra-flags "--image='{{.TALOS_IMAGE}}:{{.TALOS_VERSION}}' --timeout=10m" | bash
+    cmd: topf upgrade --nodes-filter '^{{.HOST}}$' --drain
     vars:
-      TALOS_IMAGE:
-        sh: yq '.nodes[] | select(.ipAddress == "{{.IP}}") | .talosImageURL' {{.TALOS_DIR}}/talconfig.yaml
-      TALOS_VERSION:
-        sh: yq '.talosVersion' {{.TALOS_DIR}}/talenv.yaml
+      HOST:
+        sh: yq --exit-status '.nodes[] | select(.ip == "{{.IP}}") | .host' {{.TALOS_DIR}}/topf.yaml
     requires:
       vars: [IP]
     preconditions:
       - talosctl --nodes {{.IP}} get machineconfig
-      - talosctl config info
       - test -f {{.TALOSCONFIG}}
-      - which kubectl talhelper talosctl yq
+      - which topf talosctl yq

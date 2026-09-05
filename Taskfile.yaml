@@ -14,7 +14,7 @@ vars:
   PRIVATE_DIR: "{{.ROOT_DIR}}/.private"
   SCRIPTS_DIR: "{{.ROOT_DIR}}/scripts"
   TALOS_DIR: "{{.ROOT_DIR}}/talos"
-  TALOSCONFIG: "{{.ROOT_DIR}}/talos/clusterconfig/talosconfig"
+  TALOSCONFIG: "{{.ROOT_DIR}}/talos/talosconfig"
 
 env:
   KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
