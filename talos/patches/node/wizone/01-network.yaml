@@ -1,0 +1,23 @@
+---
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: bond0-m0
+selector:
+  match: glob("58:47:ca:74:f0:45", mac(link.hardware_addr)) && glob("i40e", link.driver)
+---
+apiVersion: v1alpha1
+kind: BondConfig
+name: bond0
+links:
+  - bond0-m0
+bondMode: active-backup
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: bond0
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.50
+vlanID: 50
+parent: bond0

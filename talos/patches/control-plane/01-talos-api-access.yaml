@@ -1,0 +1,11 @@
+---
+# Enable K8s Talos API Access
+machine:
+  features:
+    kubernetesTalosAPIAccess:
+      enabled: true
+      allowedRoles:
+        - os:admin
+      allowedKubernetesNamespaces:
+        - actions-runner-system
+        - system-upgrade
