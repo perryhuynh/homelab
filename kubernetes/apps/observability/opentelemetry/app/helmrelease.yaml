@@ -11,6 +11,10 @@ spec:
     name: opentelemetry-operator
   values:
     manager:
+      # Cilium ipBlock rules never match node IPs, so the operator-generated
+      # NetworkPolicy blocks its own kube-apiserver egress and crashloops.
+      featureGatesMap:
+        operator.networkpolicy: false
       resources:
         limits:
           memory: 256Mi
