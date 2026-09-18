@@ -1,0 +1,113 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app trek
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: trek
+  values:
+    controllers:
+      trek:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: mirror.gcr.io/mauriceboe/trek
+              tag: 4.2.1@sha256:777f4d647e973fe7d87fecd957e854b86d57e8d977fd041763e0ca19b3c2e2c0
+            # Image entrypoint starts as root and drops to `node` via gosu; run node directly as non-root instead
+            workingDir: /app/server
+            command:
+              - node
+              - --require
+              - tsconfig-paths/register
+              - dist/index.js
+            env:
+              NODE_ENV: production
+              PORT: &port 3000
+              TZ: America/Los_Angeles
+              LOG_LEVEL: info
+              APP_URL: &url "https://{{ .Release.Name }}.perryhuynh.com"
+              ALLOWED_ORIGINS: *url
+              FORCE_HTTPS: "true"
+              TRUST_PROXY: "1"
+              # oidc
+              OIDC_ISSUER: https://auth.perryhuynh.com
+              OIDC_DISPLAY_NAME: Authelia
+              OIDC_ONLY: "true"
+              OIDC_SCOPE: openid email profile groups
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            resources:
+              limits:
+                memory: 512Mi
+              requests:
+                cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsGroup: 1000
+        runAsUser: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /app/data
+            subPath: data
+          - path: /app/uploads
+            subPath: uploads
+      tmp:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 128Mi
+        globalMounts:
+          - path: /tmp
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+    service:
+      app:
+        ports:
+          http:
+            port: *port
