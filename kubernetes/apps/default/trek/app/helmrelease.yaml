@@ -39,7 +39,6 @@ spec:
               # oidc
               OIDC_ISSUER: https://auth.perryhuynh.com
               OIDC_DISPLAY_NAME: Authelia
-              OIDC_ONLY: "true"
               OIDC_SCOPE: openid email profile groups
             envFrom:
               - secretRef:
