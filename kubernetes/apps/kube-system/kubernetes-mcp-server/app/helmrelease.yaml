@@ -15,8 +15,8 @@ spec:
       repository: containers/kubernetes_mcp_server
       # renovate: datasource=docker depName=quay.io/containers/kubernetes_mcp_server
       version: v0.0.69@sha256:1da9d62ad0c008a6cadcf2718c86c2e2d18753ca1d9f1f3313068980794b24f2
-    extraArgs:
-      - --read-only
+    config:
+      read_only: true
     ingress:
       enabled: false
     rbac:
