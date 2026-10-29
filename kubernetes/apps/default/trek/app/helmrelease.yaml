@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: mirror.gcr.io/mauriceboe/trek
-              tag: 5.0.0@sha256:0c0a8f5b488fc2967248695e04bb000bb177d0b63d3385089d33dca6fde4daf9
+              tag: 5.0.1@sha256:6f590b97c09158e92e9bc7d914ea1af207077735f07f7b622b1f6fb690442bc3
             # Image entrypoint starts as root and drops to `node` via gosu; run node directly as non-root instead
             workingDir: /app/server
             command:
