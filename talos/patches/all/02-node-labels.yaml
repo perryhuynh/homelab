@@ -1,4 +1,5 @@
 ---
-machine:
-  nodeLabels:
-    node.kubernetes.io/gpu: "true"
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  node.kubernetes.io/gpu: "true"

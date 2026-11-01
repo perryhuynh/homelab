@@ -1,6 +1,7 @@
 ---
 # Talos adds this label to control-plane nodes by default; the cluster does not use it
-machine:
-  nodeLabels:
-    node.kubernetes.io/exclude-from-external-load-balancers:
-      $patch: delete
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  node.kubernetes.io/exclude-from-external-load-balancers:
+    $patch: delete
