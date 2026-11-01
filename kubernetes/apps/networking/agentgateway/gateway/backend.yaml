@@ -27,6 +27,10 @@ spec:
           host: grafana-mcp.observability.svc.cluster.local
           port: 8000
           protocol: StreamableHTTP
+          policies:
+            auth:
+              secretRef:
+                name: grafana-mcp-auth
       - name: victoria-logs
         static:
           host: victoria-logs-mcp.observability.svc.cluster.local

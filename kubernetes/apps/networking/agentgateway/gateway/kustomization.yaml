@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./gateway.yaml
   - ./backend.yaml
+  - ./externalsecret.yaml
   - ./httproute.yaml
   - ./podmonitor.yaml
   - ./grafanadashboard.yaml

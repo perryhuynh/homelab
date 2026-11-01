@@ -23,6 +23,11 @@ spec:
         name: grafana-mcp-token
         key: token
       url: http://grafana-service.observability.svc.cluster.local:3000
+    # agentgateway sends this as `Authorization: Bearer <token>` on the grafana MCP target
+    serverAuth:
+      tokenSecret:
+        name: grafana-mcp-server-token
+        key: token
     image:
       registry: mirror.gcr.io
     podAnnotations:
