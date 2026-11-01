@@ -95,6 +95,14 @@ spec:
             namespace: networking
             sectionName: https
         rules:
+          # OIDC clients fetch signing keys server-side and cannot solve the Anubis challenge
+          - matches:
+              - path:
+                  type: Exact
+                  value: /jwks.json
+            backendRefs:
+              - name: *app
+                port: *port
           - backendRefs:
               - name: authelia-anubis
                 port: 8080
