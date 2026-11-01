@@ -7,12 +7,12 @@ metadata:
   labels:
     external-dns.home.arpa/provider: unifi
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname agentgateway.internal
+    external-dns.kubernetes.io/target: &hostname agentgateway.internal
 spec:
   gatewayClassName: agentgateway
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
+      external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 192.168.20.67
   listeners:
     - name: https
