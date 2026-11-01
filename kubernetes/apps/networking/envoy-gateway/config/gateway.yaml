@@ -5,12 +5,12 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname external.perryhuynh.com
+    external-dns.kubernetes.io/target: &hostname external.perryhuynh.com
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
+      external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 192.168.20.201
   listeners:
     - name: http
@@ -38,12 +38,12 @@ metadata:
   labels:
     external-dns.home.arpa/provider: unifi
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname internal.perryhuynh.com
+    external-dns.kubernetes.io/target: &hostname internal.perryhuynh.com
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: *hostname
+      external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 192.168.20.200
   listeners:
     - name: http
