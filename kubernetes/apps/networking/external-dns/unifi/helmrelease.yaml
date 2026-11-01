@@ -38,6 +38,7 @@ spec:
           initialDelaySeconds: 10
           timeoutSeconds: 5
     extraArgs:
+      - --enable-legacy-annotation-prefix
       - --gateway-label-filter=external-dns.home.arpa/provider=unifi
     triggerLoopOnEvent: true
     policy: sync
