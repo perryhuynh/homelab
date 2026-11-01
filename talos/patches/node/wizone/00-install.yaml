@@ -1,5 +1,6 @@
 ---
-machine:
-  install:
-    diskSelector:
-      model: SAMSUNG MZ1LB960HAJQ-00007
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  diskSelector:
+    match: disk.model == "SAMSUNG MZ1LB960HAJQ-00007"

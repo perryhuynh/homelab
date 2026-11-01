@@ -1,0 +1,6 @@
+---
+# Talos 1.14 generates workloadIsolation: true for new configs; nodes upgraded
+# from 1.13 run without it. Keep the existing non-isolated behavior.
+apiVersion: v1alpha1
+kind: SecurityProfileConfig
+workloadIsolation: false

@@ -1,5 +1,6 @@
 ---
-machine:
-  install:
-    diskSelector:
-      model: TS512GMTS430S
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  diskSelector:
+    match: disk.model == "TS512GMTS430S"

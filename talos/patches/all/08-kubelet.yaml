@@ -1,13 +1,23 @@
 ---
+# Kubelet stays in v1alpha1: machine.kubelet.extraMounts (09-kubelet-extra-mounts.yaml)
+# has no KubeletConfig equivalent, and the two forms are mutually exclusive.
+apiVersion: v1alpha1
+kind: KubeletConfig
+$patch: delete
+---
 # Configure kubelet
 machine:
   kubelet:
     defaultRuntimeSeccompProfileEnabled: true
+    disableManifestsDirectory: true
     extraConfig:
       featureGates:
         ImageVolume: true
       maxPods: 150
       serializeImagePulls: false
-    nodeIP:
-      validSubnets:
-        - 192.168.1.0/24
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+nodeIP:
+  validSubnets:
+    - 192.168.1.0/24

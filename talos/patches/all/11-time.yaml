@@ -1,8 +1,9 @@
 ---
 # Configure NTP servers
-machine:
-  time:
-    disabled: false
-    servers:
-      - 162.159.200.1
-      - 162.159.200.123
+apiVersion: v1alpha1
+kind: TimeSyncConfig
+enabled: true
+ntp:
+  servers:
+    - 162.159.200.1
+    - 162.159.200.123
