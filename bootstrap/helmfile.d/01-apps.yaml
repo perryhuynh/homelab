@@ -6,12 +6,15 @@ helmDefaults:
   wait: true
   waitForJobs: true
 
+bases:
+  - ./templates/ocirepository.yaml
+
 releases:
   - name: cilium
     namespace: kube-system
     atomic: true
-    chart: oci://quay.io/cilium/charts/cilium
-    version: 1.20.4
+    inherit:
+      - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
     hooks:
@@ -37,8 +40,8 @@ releases:
   - name: coredns
     namespace: kube-system
     atomic: true
-    chart: oci://ghcr.io/coredns/charts/coredns
-    version: 1.50.0
+    inherit:
+      - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
     needs:
@@ -47,8 +50,8 @@ releases:
   - name: spegel
     namespace: kube-system
     atomic: true
-    chart: oci://ghcr.io/spegel-org/helm-charts/spegel
-    version: 0.8.1
+    inherit:
+      - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
     needs:
@@ -57,8 +60,8 @@ releases:
   - name: cert-manager
     namespace: cert-manager
     atomic: true
-    chart: oci://quay.io/jetstack/charts/cert-manager
-    version: v1.21.3
+    inherit:
+      - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
     needs:
@@ -66,8 +69,8 @@ releases:
 
   - name: external-secrets
     namespace: external-secrets
-    chart: oci://ghcr.io/external-secrets/charts/external-secrets
-    version: 2.14.0
+    inherit:
+      - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
     hooks:
@@ -85,8 +88,8 @@ releases:
   - name: onepassword-connect
     namespace: external-secrets
     atomic: true
-    chart: oci://ghcr.io/1password/connect
-    version: 2.4.3
+    inherit:
+      - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
     hooks:
@@ -105,8 +108,8 @@ releases:
   - name: flux-operator
     namespace: flux-system
     atomic: true
-    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-    version: 0.62.1
+    inherit:
+      - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
     needs:
@@ -115,8 +118,8 @@ releases:
   - name: flux-instance
     namespace: flux-system
     atomic: true
-    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
-    version: 0.62.1
+    inherit:
+      - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
     needs:

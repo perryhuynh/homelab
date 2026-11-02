@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+# Resolves each release's chart and version from its Flux OCIRepository so the
+# bootstrap pins track whatever Renovate bumps in kubernetes/apps.
+templates:
+  ocirepository:
+    chart: '{{ (fromYaml (readFile (printf "../../kubernetes/apps/%s/%s/app/ocirepository.yaml" .Release.Namespace .Release.Name))).spec.url }}'
+    version: '{{ (fromYaml (readFile (printf "../../kubernetes/apps/%s/%s/app/ocirepository.yaml" .Release.Namespace .Release.Name))).spec.ref.tag }}'
