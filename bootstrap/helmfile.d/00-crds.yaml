@@ -9,23 +9,30 @@ helmDefaults:
     - --include-crds
     - --no-hooks
 
+bases:
+  - ./templates/ocirepository.yaml
+
 releases:
   - name: cloudflare-dns
     namespace: networking
-    chart: oci://ghcr.io/home-operations/charts-mirror/external-dns
-    version: 1.23.0
+    # Not under the <namespace>/<name>/app layout the ocirepository template expects
+    chart: '{{ (fromYaml (readFile "../../kubernetes/apps/networking/external-dns/cloudflare/ocirepository.yaml")).spec.url }}'
+    version: '{{ (fromYaml (readFile "../../kubernetes/apps/networking/external-dns/cloudflare/ocirepository.yaml")).spec.ref.tag }}'
+    values:
+      # external-dns >= 1.23 schema requires an explicit policy
+      - policy: sync
 
   - name: envoy-gateway
     namespace: networking
-    chart: oci://mirror.gcr.io/envoyproxy/gateway-helm
-    version: v1.9.1
+    inherit:
+      - template: ocirepository
 
   - name: grafana-operator
     namespace: observability
-    chart: oci://ghcr.io/grafana/helm-charts/grafana-operator
-    version: 5.25.0
+    inherit:
+      - template: ocirepository
 
   - name: kube-prometheus-stack
     namespace: observability
-    chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
-    version: 92.17.0
+    inherit:
+      - template: ocirepository
