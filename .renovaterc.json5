@@ -16,4 +16,15 @@
     "mirror.gcr.io": "docker.io",
   },
   ignorePaths: ["**/*.sops.*", "**/resources/**"],
+  customManagers: [
+    {
+      customType: "regex",
+      description: "Process annotated container image dependencies (repo:tag@digest)",
+      managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
+      matchStrings: [
+        "# renovate-image: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+[\\w.-]+:\\s*[^:\\s]+:(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]+)",
+      ],
+      datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}docker{{/if}}",
+    },
+  ],
 }
