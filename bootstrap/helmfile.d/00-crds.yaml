@@ -18,6 +18,9 @@ releases:
     # Not under the <namespace>/<name>/app layout the ocirepository template expects
     chart: '{{ (fromYaml (readFile "../../kubernetes/apps/networking/external-dns/cloudflare/ocirepository.yaml")).spec.url }}'
     version: '{{ (fromYaml (readFile "../../kubernetes/apps/networking/external-dns/cloudflare/ocirepository.yaml")).spec.ref.tag }}'
+    values:
+      # external-dns >= 1.23 schema requires an explicit policy
+      - policy: sync
 
   - name: envoy-gateway
     namespace: networking
