@@ -2,3 +2,6 @@
 KUBECONFIG = "{{config_root}}/kubeconfig"
 SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
 TALOSCONFIG = "{{config_root}}/talos/talosconfig"
+
+[tools]
+"aqua:helmfile/vals" = "0.50.0"
