@@ -11,19 +11,12 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/anubis
-    - ../../../../components/dragonfly
+    - ../../../../components/valkey
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: database
-    - name: dragonfly
-      namespace: database
     - name: glauth
       namespace: security
-  healthCheckExprs:
-    - apiVersion: dragonflydb.io/v1alpha1
-      kind: Dragonfly
-      failed: status.phase != 'Ready'
-      current: status.phase == 'Ready'
   interval: 1h
   path: ./kubernetes/apps/security/authelia/app
   postBuild:

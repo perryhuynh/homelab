@@ -32,7 +32,7 @@ session:
       authelia_url: https://auth.perryhuynh.com
       default_redirection_url: https://status.perryhuynh.com
   redis:
-    host: authelia-dragonfly.security.svc.cluster.local
+    host: authelia-valkey.security.svc.cluster.local
 
 notifier:
   disable_startup_check: true
