@@ -10,12 +10,10 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/dragonfly
+    - ../../../../components/valkey
     - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg-cluster
-      namespace: database
-    - name: dragonfly
       namespace: database
     - name: paperless-gotenberg
       namespace: default
@@ -25,11 +23,6 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: volsync-system
-  healthCheckExprs:
-    - apiVersion: dragonflydb.io/v1alpha1
-      kind: Dragonfly
-      failed: status.phase != 'Ready'
-      current: status.phase == 'Ready'
   interval: 1h
   path: ./kubernetes/apps/default/paperless/app
   postBuild:
