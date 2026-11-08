@@ -24,7 +24,7 @@ spec:
         containers:
           server:
             image:
-              repository: docker.io/valkey/valkey
+              repository: mirror.gcr.io/valkey/valkey
               tag: 9.1.3-alpine@sha256:bf09d58e96d6b4524a15396b65b242bbe18beebbcc15a04d8ee75ddac62fae0b
             args:
               - --bind
@@ -85,7 +85,7 @@ spec:
                   - "ALL"
           exporter:
             image:
-              repository: docker.io/oliver006/redis_exporter
+              repository: mirror.gcr.io/oliver006/redis_exporter
               tag: v1.97.0@sha256:f5f903fbe77571d455ede0453b084d6840bc62fc105efac001034421cab83b99
             env:
               REDIS_ADDR: redis://127.0.0.1:6379
