@@ -13,6 +13,10 @@ machine:
     extraConfig:
       featureGates:
         ImageVolume: true
+      # Start image GC before /var reaches 70% used, where Ceph raises MON_DISK_LOW
+      # (mon_data_avail_warn: 30). Mon data shares /var via hostPath.
+      imageGCHighThresholdPercent: 65
+      imageGCLowThresholdPercent: 55
       maxPods: 150
       serializeImagePulls: false
 ---

@@ -1,0 +1,22 @@
+---
+# Live etcd data was encrypted with the secretbox key named "key2"; the name is stored
+# with every encrypted Secret, so it must not change. Talos 1.14 generates this document
+# without the identity provider, which the pre-migration config had: identity keeps any
+# Secret written before encryption was enabled readable. The secret is resolved by vals
+# from secrets.sops.yaml (path relative to talos/, where topf runs).
+apiVersion: v1alpha1
+kind: KubeEtcdEncryptionConfig
+$patch: delete
+---
+apiVersion: v1alpha1
+kind: KubeEtcdEncryptionConfig
+config:
+  resources:
+    - resources:
+        - secrets
+      providers:
+        - secretbox:
+            keys:
+              - name: key2
+                secret: ref+sops://secrets.sops.yaml#/secrets/secretboxencryptionsecret
+        - identity: {}
