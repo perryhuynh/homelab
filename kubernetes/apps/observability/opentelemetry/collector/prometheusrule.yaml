@@ -18,22 +18,28 @@ spec:
           labels:
             severity: critical
 
-        # Name regex matches with or without the _total suffix. Loss is
-        # irreversible, so fire on any increase with no hold. The
-        # `unless ... offset` arm catches counters the collector creates
-        # already non-zero on first failure, which increase() cannot see.
+        # Name regex matches with or without the _total suffix. The failure
+        # counters differ only by name, so they are summed per exporter before
+        # increase(); applying it to the raw regex selector would drop __name__
+        # and fail on duplicate label sets. A counter appearing non-zero raises
+        # the sum, which the subquery sees. The `unless ... offset` arm covers
+        # an exporter's first failure, when the summed series itself is new.
+        # Loss is irreversible, so there is no hold.
         - alert: OtelCollectorDroppingData
           expr: |
-            sum by (job, pod, exporter, data_type) (
-              increase({__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"}[10m]) > 0
-              or
-              {__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"} > 0
-                unless {__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"} offset 10m
+            increase(
+              (sum by (job, pod, exporter) ({__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"}))[10m:30s]
+            ) > 0
+            or
+            (
+              sum by (job, pod, exporter) ({__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"}) > 0
+                unless
+              sum by (job, pod, exporter) ({__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"} offset 10m)
             )
           annotations:
             summary: >-
               OpenTelemetry collector {{ $labels.pod }} exporter {{ $labels.exporter }}
-              dropped {{ $labels.data_type }} in the last 10m
+              dropped data in the last 10m
           labels:
             severity: critical
 
