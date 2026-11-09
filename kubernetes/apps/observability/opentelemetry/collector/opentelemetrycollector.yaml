@@ -163,10 +163,6 @@ spec:
           - sources:
               # This rule will use the IP from the incoming connection from which the resource is received, and find the matching pod, based on the 'pod.status.podIP' of the observed pods
               - from: connection
-      logdedup:
-        interval: 60s
-        log_count_attribute: dedup_count
-        timezone: "America/Los_Angeles"
       memory_limiter:
         check_interval: 1s
         limit_percentage: 75
@@ -194,7 +190,6 @@ spec:
           processors:
             - memory_limiter
             - k8s_attributes
-            - logdedup
           exporters:
             - otlp_http
       telemetry:
@@ -264,10 +259,6 @@ spec:
           http:
             endpoint: 0.0.0.0:4318
     processors:
-      logdedup:
-        interval: 60s
-        log_count_attribute: dedup_count
-        timezone: "America/Los_Angeles"
       memory_limiter:
         check_interval: 1s
         limit_percentage: 75
@@ -301,7 +292,6 @@ spec:
             - otlp
           processors:
             - memory_limiter
-            - logdedup
           exporters:
             - otlp_http/logs
         metrics:
