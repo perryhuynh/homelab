@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-syslog-collector
+  name: victoria-logs-syslog
   annotations:
     external-dns.kubernetes.io/hostname: unifi-syslog.internal
     lbipam.cilium.io/ips: 192.168.20.205
@@ -10,11 +10,11 @@ spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
   ports:
-    - port: 514
-      targetPort: 514
+    - name: syslog
+      port: 514
+      targetPort: 5514
       protocol: UDP
-      name: syslog
   selector:
-    app.kubernetes.io/component: opentelemetry-collector
-    app.kubernetes.io/instance: observability.unifi-syslog
-    app.kubernetes.io/name: opentelemetry-collector
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: victoria-logs
+    app.kubernetes.io/name: victoria-logs-single
