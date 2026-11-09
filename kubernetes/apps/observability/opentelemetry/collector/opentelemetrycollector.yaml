@@ -65,6 +65,8 @@ spec:
   serviceAccount: filelog-collector
   # Root is needed to write the checkpoint hostPath, which the kubelet creates
   # as root:root 0755. No capabilities or privilege escalation are granted.
+  # The path sits under /var/mnt/extra because Talos only bind-mounts that
+  # tree into the kubelet (talos/patches/all/09-kubelet-extra-mounts.yaml).
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
@@ -85,7 +87,7 @@ spec:
         path: /var/log/pods
     - name: storage
       hostPath:
-        path: /var/lib/otelcol/filelog
+        path: /var/mnt/extra/otelcol/filelog
         type: DirectoryOrCreate
   volumeMounts:
     - name: varlogpods
