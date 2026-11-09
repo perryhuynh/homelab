@@ -15,7 +15,6 @@ spec:
       k8s_events:
         auth_type: serviceAccount
     processors:
-      batch: {}
       groupbyattrs:
         keys:
           - k8s.event.reason
@@ -30,6 +29,8 @@ spec:
         verbosity: detailed
       otlp_http:
         endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+        sending_queue:
+          batch: {}
     service:
       pipelines:
         logs:
@@ -38,7 +39,6 @@ spec:
           processors:
             - memory_limiter
             - groupbyattrs
-            - batch
           exporters:
             - otlp_http
       telemetry:
@@ -63,6 +63,17 @@ spec:
     requests:
       cpu: 10m
   serviceAccount: filelog-collector
+  # Root is needed to write the checkpoint hostPath, which the kubelet creates
+  # as root:root 0755. No capabilities or privilege escalation are granted.
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+    readOnlyRootFilesystem: true
+  podSecurityContext:
+    runAsUser: 0
+    runAsGroup: 0
   env:
     - name: KUBE_NODE_NAME
       valueFrom:
@@ -72,13 +83,25 @@ spec:
     - name: varlogpods
       hostPath:
         path: /var/log/pods
+    - name: storage
+      hostPath:
+        path: /var/lib/otelcol/filelog
+        type: DirectoryOrCreate
   volumeMounts:
     - name: varlogpods
       mountPath: /var/log/pods
       readOnly: true
+    - name: storage
+      mountPath: /var/lib/otelcol/storage
   config:
+    extensions:
+      # Persists file read offsets and the export queue across restarts so a
+      # rollout resumes where it stopped instead of skipping to the file end.
+      file_storage:
+        directory: /var/lib/otelcol/storage
     receivers:
       filelog:
+        storage: file_storage
         include:
           - /var/log/pods/*/*/*.log
         exclude:
@@ -94,7 +117,6 @@ spec:
           - type: json_parser
             on_error: send_quiet
     processors:
-      batch: {}
       k8s_attributes:
         auth_type: "serviceAccount"
         passthrough: false
@@ -146,7 +168,14 @@ spec:
       debug: {}
       otlp_http:
         endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+        retry_on_failure:
+          max_elapsed_time: 0
+        sending_queue:
+          storage: file_storage
+          batch: {}
     service:
+      extensions:
+        - file_storage
       pipelines:
         logs:
           receivers:
@@ -155,7 +184,6 @@ spec:
             - memory_limiter
             - k8s_attributes
             - logdedup
-            - batch
           exporters:
             - otlp_http
       telemetry:
@@ -175,6 +203,14 @@ metadata:
 spec:
   mode: statefulset
   replicas: 2
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/component: opentelemetry-collector
+          app.kubernetes.io/instance: observability.gateway
   resources:
     limits:
       memory: 512Mi
@@ -217,7 +253,6 @@ spec:
           http:
             endpoint: 0.0.0.0:4318
     processors:
-      batch: {}
       logdedup:
         interval: 60s
         log_count_attribute: dedup_count
@@ -228,16 +263,24 @@ spec:
         spike_limit_percentage: 15
     exporters:
       debug: {}
+      # Batching happens inside the persistent queue so records are on disk
+      # before they are batched; retries stop only when the queue is full.
       otlp_http/logs:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
         headers:
           VL-Stream-Fields: k8s.cluster.name,k8s.namespace.name,k8s.pod.name,k8s.container.name,service.name,service.namespace
+        retry_on_failure:
+          max_elapsed_time: 0
         sending_queue:
           storage: file_storage
+          batch: {}
       otlp_http/metrics:
         metrics_endpoint: &metrics_endpoint http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+        retry_on_failure:
+          max_elapsed_time: 0
         sending_queue:
           storage: file_storage
+          batch: {}
     service:
       extensions:
         - file_storage
@@ -248,7 +291,6 @@ spec:
           processors:
             - memory_limiter
             - logdedup
-            - batch
           exporters:
             - otlp_http/logs
         metrics:
@@ -256,7 +298,6 @@ spec:
             - otlp
           processors:
             - memory_limiter
-            - batch
           exporters:
             - otlp_http/metrics
       telemetry:
@@ -290,7 +331,6 @@ spec:
         attributes:
           service.name: unifi
     processors:
-      batch: {}
       memory_limiter:
         check_interval: 1s
         limit_percentage: 75
@@ -300,6 +340,8 @@ spec:
         verbosity: detailed
       otlp_http:
         endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+        sending_queue:
+          batch: {}
     service:
       pipelines:
         logs:
@@ -307,7 +349,6 @@ spec:
             - syslog
           processors:
             - memory_limiter
-            - batch
           exporters:
             - otlp_http
       telemetry:
