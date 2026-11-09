@@ -12,3 +12,10 @@ spec:
   ref:
     tag: 0.22.0
   url: oci://gsoci.azurecr.io/charts/giantswarm/silence-operator
+  verify:
+    provider: cosign
+    # Giant Swarm signs from CircleCI; the subject is the project's pipeline
+    # definition URL, not a GitHub workflow.
+    matchOIDCIdentity:
+      - issuer: "^https://oidc.circleci.com$"
+        subject: "^https://circleci.com/api/v2/projects/c8f4d22e-ef11-47ef-ae72-71c531dbae88/.*$"
