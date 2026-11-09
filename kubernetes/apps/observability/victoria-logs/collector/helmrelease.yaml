@@ -34,11 +34,11 @@ spec:
     extraArgs:
       kubernetesCollector.decolorizeFields: _msg
     # Requests move the pods out of BestEffort, which is evicted first under
-    # node pressure. See priorityclass.yaml for why not system-node-critical.
+    # node pressure. With the memory request equal to the limit, the kubelet
+    # evicts the agent only after pods using more than they requested.
     resources:
       requests:
         cpu: 10m
         memory: 1Gi
       limits:
         memory: 1Gi
-    priorityClassName: victoria-logs-collector
