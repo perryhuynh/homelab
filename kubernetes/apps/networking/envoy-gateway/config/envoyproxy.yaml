@@ -29,16 +29,3 @@ spec:
       prometheus:
         compression:
           type: Zstd
-    tracing:
-      # sample 100% of requests
-      samplingRate: 100
-      provider:
-        backendRefs:
-          - name: gateway-collector-headless
-            namespace: observability
-            port: 4317
-        type: OpenTelemetry
-      tags:
-        "client.address": "%REQUEST_HEADER(CF-Connecting-IP)%"
-        "cloudflare.country_code": "%REQUEST_HEADER(CF-IPCountry)%"
-        "cloudflare.ray_id": "%REQUEST_HEADER(CF-Ray)%"

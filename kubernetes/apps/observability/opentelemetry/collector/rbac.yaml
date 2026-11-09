@@ -2,37 +2,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: filelog-collector
-rules:
-  - apiGroups: [""]
-    resources: ["pods", "namespaces", "nodes"]
-    verbs: ["get", "watch", "list"]
-  - apiGroups: ["apps"]
-    resources: ["replicasets", "deployments", "statefulsets", "daemonsets"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["batch"]
-    resources: ["jobs"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["extensions"]
-    resources: ["replicasets"]
-    verbs: ["get", "list", "watch"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: filelog-collector
-subjects:
-  - kind: ServiceAccount
-    name: filelog-collector
-    namespace: observability
-roleRef:
-  kind: ClusterRole
-  name: filelog-collector
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
   name: events-collector
 rules:
   - apiGroups: [""]
