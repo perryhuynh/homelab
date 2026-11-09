@@ -18,17 +18,22 @@ spec:
           labels:
             severity: critical
 
-        # Name regex matches with or without the _total suffix.
+        # Name regex matches with or without the _total suffix. Loss is
+        # irreversible, so fire on any increase with no hold. The
+        # `unless ... offset` arm catches counters the collector creates
+        # already non-zero on first failure, which increase() cannot see.
         - alert: OtelCollectorDroppingData
           expr: |
             sum by (job, pod, exporter, data_type) (
-              rate({__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"}[5m])
-            ) > 0
-          for: 5m
+              increase({__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"}[10m]) > 0
+              or
+              {__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"} > 0
+                unless {__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"} offset 10m
+            )
           annotations:
             summary: >-
               OpenTelemetry collector {{ $labels.pod }} exporter {{ $labels.exporter }}
-              is dropping {{ $labels.data_type }}
+              dropped {{ $labels.data_type }} in the last 10m
           labels:
             severity: critical
 
