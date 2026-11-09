@@ -29,7 +29,12 @@ spec:
         verbosity: detailed
       otlp_http:
         endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+        # Count the queue in records, not requests: this receiver submits
+        # records one at a time, so 1000 requests (the default) would hold
+        # only ~1000 records. In-memory, so sized under the memory limit.
         sending_queue:
+          sizer: items
+          queue_size: 50000
           batch: {}
     service:
       pipelines:
@@ -172,8 +177,12 @@ spec:
         endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
         retry_on_failure:
           max_elapsed_time: 0
+        # Count the queue in records, not requests (the receiver submits
+        # small groups). On disk, so it is sized for an outage, not memory.
         sending_queue:
           storage: file_storage
+          sizer: items
+          queue_size: 200000
           batch: {}
     service:
       extensions:
@@ -342,7 +351,12 @@ spec:
         verbosity: detailed
       otlp_http:
         endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+        # Count the queue in records, not requests: request sizes vary with
+        # the receiver's grouping, so a request cap bounds neither memory nor
+        # retained records. In-memory, so sized under the memory limit.
         sending_queue:
+          sizer: items
+          queue_size: 50000
           batch: {}
     service:
       pipelines:
