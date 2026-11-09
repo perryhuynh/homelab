@@ -18,6 +18,13 @@ spec:
       enabled: true
     remoteWrite:
       - url: http://victoria-logs.observability.svc.cluster.local:9428
+        # Cap the on-disk queue so a long VictoriaLogs outage cannot fill the
+        # node's /var; past the cap the oldest buffered logs are dropped.
+        maxDiskUsagePerURL: 10GB
+        # 512KiB/s compressed per node, ~170x normal traffic. Spreads out the
+        # backlog after an outage or checkpoint loss instead of sending it at
+        # once, which OOM-killed VictoriaLogs on first rollout.
+        rateLimit: 524288
     collector:
       streamFields:
         - kubernetes.pod_namespace
@@ -26,3 +33,12 @@ spec:
         - kubernetes.pod_labels.app.kubernetes.io/name
     extraArgs:
       kubernetesCollector.decolorizeFields: _msg
+    # Requests move the pods out of BestEffort, which is evicted first under
+    # node pressure. With the memory request equal to the limit, the kubelet
+    # evicts the agent only after pods using more than they requested.
+    resources:
+      requests:
+        cpu: 10m
+        memory: 1Gi
+      limits:
+        memory: 1Gi
