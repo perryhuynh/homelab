@@ -34,11 +34,11 @@ spec:
     extraArgs:
       kubernetesCollector.decolorizeFields: _msg
     # Requests move the pods out of BestEffort, which is evicted first under
-    # node pressure; the priority class keeps a log agent on a busy node.
+    # node pressure. See priorityclass.yaml for why not system-node-critical.
     resources:
       requests:
         cpu: 10m
         memory: 1Gi
       limits:
         memory: 1Gi
-    priorityClassName: system-node-critical
+    priorityClassName: victoria-logs-collector
