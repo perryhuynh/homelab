@@ -1,0 +1,59 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: opentelemetry-collector-rules
+spec:
+  groups:
+    - name: opentelemetry-collector.rules
+      rules:
+        - alert: OtelCollectorDown
+          expr: |
+            up{job=~".+-collector-monitoring"} == 0
+          for: 5m
+          annotations:
+            summary: >-
+              OpenTelemetry collector {{ $labels.pod }} is down
+          labels:
+            severity: critical
+
+        # Name regex matches with or without the _total suffix.
+        - alert: OtelCollectorDroppingData
+          expr: |
+            sum by (job, pod, exporter, data_type) (
+              rate({__name__=~"otelcol_exporter_(send|enqueue)_failed_.+"}[5m])
+            ) > 0
+          for: 5m
+          annotations:
+            summary: >-
+              OpenTelemetry collector {{ $labels.pod }} exporter {{ $labels.exporter }}
+              is dropping {{ $labels.data_type }}
+          labels:
+            severity: critical
+
+        - alert: OtelCollectorQueueFilling
+          expr: |
+            max by (job, pod, exporter, data_type) (
+              otelcol_exporter_queue_size / otelcol_exporter_queue_capacity
+            ) > 0.8
+          for: 15m
+          annotations:
+            summary: >-
+              OpenTelemetry collector {{ $labels.pod }} exporter {{ $labels.exporter }}
+              queue is {{ $value | humanizePercentage }} full
+          labels:
+            severity: warning
+
+        - alert: OtelCollectorRefusingData
+          expr: |
+            sum by (job, pod, receiver) (
+              rate({__name__=~"otelcol_receiver_refused_.+"}[5m])
+            ) > 0
+          for: 5m
+          annotations:
+            summary: >-
+              OpenTelemetry collector {{ $labels.pod }} receiver {{ $labels.receiver }}
+              is refusing data
+          labels:
+            severity: warning

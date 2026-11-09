@@ -5,6 +5,8 @@ kind: Kustomization
 resources:
   - ./httproute.yaml
   - ./opentelemetrycollector.yaml
+  - ./prometheusrule.yaml
   - ./rbac.yaml
   - ./service.yaml
   - ./serviceaccount.yaml
+  - ./servicemonitor.yaml

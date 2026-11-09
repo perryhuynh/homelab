@@ -44,11 +44,11 @@ spec:
       telemetry:
         metrics:
           readers:
-            - periodic:
+            - pull:
                 exporter:
-                  otlp:
-                    protocol: http/protobuf
-                    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+                  prometheus:
+                    host: 0.0.0.0
+                    port: 8888
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
@@ -189,11 +189,11 @@ spec:
       telemetry:
         metrics:
           readers:
-            - periodic:
+            - pull:
                 exporter:
-                  otlp:
-                    protocol: http/protobuf
-                    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+                  prometheus:
+                    host: 0.0.0.0
+                    port: 8888
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
@@ -275,7 +275,7 @@ spec:
           storage: file_storage
           batch: {}
       otlp_http/metrics:
-        metrics_endpoint: &metrics_endpoint http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+        metrics_endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
         retry_on_failure:
           max_elapsed_time: 0
         sending_queue:
@@ -303,11 +303,11 @@ spec:
       telemetry:
         metrics:
           readers:
-            - periodic:
+            - pull:
                 exporter:
-                  otlp:
-                    protocol: http/protobuf
-                    endpoint: *metrics_endpoint
+                  prometheus:
+                    host: 0.0.0.0
+                    port: 8888
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
 apiVersion: opentelemetry.io/v1beta1
@@ -354,8 +354,8 @@ spec:
       telemetry:
         metrics:
           readers:
-            - periodic:
+            - pull:
                 exporter:
-                  otlp:
-                    protocol: http/protobuf
-                    endpoint: http://gateway-collector-headless.observability.svc.cluster.local:4318
+                  prometheus:
+                    host: 0.0.0.0
+                    port: 8888
