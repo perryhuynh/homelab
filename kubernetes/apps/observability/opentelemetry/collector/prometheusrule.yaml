@@ -56,10 +56,12 @@ spec:
           labels:
             severity: warning
 
+        # One receiver can serve several signals, whose refused counters
+        # differ only by name, so sum them before rate() (see above).
         - alert: OtelCollectorRefusingData
           expr: |
-            sum by (job, pod, receiver) (
-              rate({__name__=~"otelcol_receiver_refused_.+"}[5m])
+            rate(
+              (sum by (job, pod, receiver) ({__name__=~"otelcol_receiver_refused_.+"}))[5m:30s]
             ) > 0
           for: 5m
           annotations:
