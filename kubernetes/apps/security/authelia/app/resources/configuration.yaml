@@ -64,11 +64,18 @@ identity_providers:
     cors:
       endpoints: ["authorization", "token", "revocation", "introspection"]
       allowed_origins_from_client_redirect_uris: true
+    authorization_policies:
+      mcp:
+        # MCP tokens are only issued to admins; agentgateway trusts any valid token
+        default_policy: deny
+        rules:
+          - policy: two_factor
+            subject: group:admins
     claims_policies:
       grafana:
         id_token: [groups, email, email_verified, name, preferred_username]
       mcp:
-        # agentgateway authorizes MCP calls from access token claims, not the ID token
+        # identity in MCP access tokens for gateway logs and future claim-based rules
         access_token: [groups, preferred_username]
     clients:
       - client_name: actual
@@ -115,7 +122,7 @@ identity_providers:
         token_endpoint_auth_method: none
         require_pkce: true
         pkce_challenge_method: S256
-        authorization_policy: two_factor
+        authorization_policy: mcp
         pre_configured_consent_duration: 1y
         scopes: ["openid", "profile", "groups", "offline_access"]
         grant_types: ["authorization_code", "refresh_token"]
