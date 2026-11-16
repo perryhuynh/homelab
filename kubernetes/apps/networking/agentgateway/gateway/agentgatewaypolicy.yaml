@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/agentgateway.dev/agentgatewaypolicy_v1alpha1.json
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayPolicy
+metadata:
+  name: mcp-access-log
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: mcp
+  frontend:
+    accessLog:
+      attributes:
+        add:
+          # src.addr is always the Tailscale app connector pod, so the client
+          # user-agent is the only signal for telling MCP callers apart
+          - name: http.user_agent
+            expression: request.headers["user-agent"]
