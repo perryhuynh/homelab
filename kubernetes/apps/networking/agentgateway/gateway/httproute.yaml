@@ -20,20 +20,13 @@ spec:
         - name: mcp
           group: agentgateway.dev
           kind: AgentgatewayBackend
-    # TEMPORARY: Strict Authelia auth test; longer prefixes win over /mcp above.
-    # The well-known paths are the OAuth discovery documents agentgateway serves
-    # for this backend.
+    # OAuth protected resource metadata for /mcp, served by agentgateway; the 401
+    # from /mcp points clients here to start the Authelia login
     - matches:
         - path:
-            type: PathPrefix
-            value: /mcp/authtest
-        - path:
-            type: PathPrefix
-            value: /.well-known/oauth-protected-resource/mcp/authtest
-        - path:
-            type: PathPrefix
-            value: /.well-known/oauth-authorization-server/mcp/authtest
+            type: Exact
+            value: /.well-known/oauth-protected-resource/mcp
       backendRefs:
-        - name: mcp-authtest
+        - name: mcp
           group: agentgateway.dev
           kind: AgentgatewayBackend
