@@ -64,9 +64,21 @@ identity_providers:
     cors:
       endpoints: ["authorization", "token", "revocation", "introspection"]
       allowed_origins_from_client_redirect_uris: true
+    authorization_policies:
+      mcp:
+        # MCP tokens are only issued to admins at login (not re-checked on refresh;
+        # agentgateway re-checks the groups claim on every call)
+        default_policy: deny
+        rules:
+          - policy: two_factor
+            subject: group:admins
     claims_policies:
       grafana:
         id_token: [groups, email, email_verified, name, preferred_username]
+      mcp:
+        # groups are re-read on every token request (including refresh); agentgateway
+        # requires admins in this claim
+        access_token: [groups, preferred_username]
     clients:
       - client_name: actual
         client_id: "${ACTUAL_OAUTH_CLIENT_ID}"
@@ -104,6 +116,27 @@ identity_providers:
         scopes: ["openid", "profile", "groups", "email"]
         redirect_uris: ["https://grafana.perryhuynh.com/login/generic_oauth"]
         claims_policy: grafana
+        userinfo_signed_response_alg: none
+      # MCP clients (Claude Code) authenticating to agentgateway at mcp.perryhuynh.com
+      - client_name: mcp
+        client_id: mcp
+        public: true
+        token_endpoint_auth_method: none
+        require_pkce: true
+        pkce_challenge_method: S256
+        authorization_policy: mcp
+        pre_configured_consent_duration: 1y
+        scopes: ["openid", "profile", "groups", "offline_access"]
+        grant_types: ["authorization_code", "refresh_token"]
+        response_types: ["code"]
+        # fixed loopback callback; clients must pin it (claude mcp add --callback-port 8976)
+        redirect_uris: ["http://localhost:8976/callback"]
+        audience: ["https://mcp.perryhuynh.com/mcp"]
+        # grant the MCP audience even when the client sends no audience/resource parameter
+        requested_audience_mode: implicit
+        # agentgateway validates JWTs; Authelia access tokens are opaque by default
+        access_token_signed_response_alg: RS256
+        claims_policy: mcp
         userinfo_signed_response_alg: none
       - client_name: paperless
         client_id: "${PAPERLESS_OAUTH_CLIENT_ID}"
