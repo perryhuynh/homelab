@@ -6,6 +6,7 @@ resources:
   - ./gateway.yaml
   - ./agentgatewaypolicy.yaml
   - ./backend.yaml
+  - ./backend-authtest.yaml
   - ./externalsecret.yaml
   - ./httproute.yaml
   - ./podmonitor.yaml

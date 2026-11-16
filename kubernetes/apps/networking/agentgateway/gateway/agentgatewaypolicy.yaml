@@ -32,12 +32,38 @@ spec:
       name: mcp
   backend:
     mcp:
+      # No authentication yet: /mcp stays unauthenticated until the Strict settings
+      # from mcp-authtest are moved here. Only the tool-name backstop applies.
+      authorization:
+        # backstop for the backends' own read-only settings; denied tools are also
+        # filtered out of tools/list. Dispatcher tools (unifi_execute,
+        # grafana_api_request) are not covered and still rely on backend permissions.
+        action: Deny
+        policy:
+          matchExpressions:
+            - 'mcp.tool.name.matches("(^|_)(create|update|delete|remove|apply|patch|scale|restart|suspend|resume|reconcile|exec|install|uninstall)(_|$)")'
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/agentgateway.dev/agentgatewaypolicy_v1alpha1.json
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayPolicy
+metadata:
+  # TEMPORARY: end-to-end test of Strict Authelia auth at /mcp/authtest without
+  # touching /mcp. Retarget to AgentgatewayBackend/mcp once verified.
+  name: mcp-authtest
+spec:
+  targetRefs:
+    - group: agentgateway.dev
+      kind: AgentgatewayBackend
+      name: mcp-authtest
+  backend:
+    mcp:
       authentication:
-        # Optional: requests without a token still pass, but any bearer token must be a
-        # valid Authelia JWT. Switch to Strict once a token has been verified end to end;
-        # MCP clients only start the OAuth flow after a 401, which Strict returns.
-        mode: Optional
+        # tokenless requests get a 401 pointing at the resource metadata, which is
+        # what starts the OAuth flow in MCP clients
+        mode: Strict
         issuer: https://auth.perryhuynh.com
+        # Authelia only issues tokens for this audience to group:admins
+        # (identity_providers.oidc.authorization_policies.mcp)
         audiences:
           - &resource https://mcp.perryhuynh.com/mcp
         jwks:
@@ -47,16 +73,16 @@ spec:
             namespace: security
             port: 80
           jwksPath: jwks.json
-        # served at /.well-known/oauth-protected-resource/mcp; authorization_servers
-        # defaults to the issuer since no provider adapter is set
+        # served at /.well-known/oauth-protected-resource/mcp/authtest. resource stays
+        # the production URL: MCP clients accept a resource that is a path prefix of
+        # the server URL, so test tokens carry the same audience as production.
+        # authorization_servers defaults to the issuer since no provider is set.
         resourceMetadata:
           resource: *resource
           scopesSupported: ["openid", "profile", "groups", "offline_access"]
           bearerMethodsSupported: ["header"]
       authorization:
-        # backstop for the backends' own read-only settings; denied tools are also
-        # filtered out of tools/list. Dispatcher tools (unifi_execute,
-        # grafana_api_request) are not covered and still rely on backend permissions.
+        # same backstop as mcp-backend
         action: Deny
         policy:
           matchExpressions:

@@ -16,14 +16,24 @@ spec:
         - path:
             type: PathPrefix
             value: /mcp
-        # OAuth discovery for MCP clients; agentgateway answers these itself
-        - path:
-            type: PathPrefix
-            value: /.well-known/oauth-protected-resource
-        - path:
-            type: PathPrefix
-            value: /.well-known/oauth-authorization-server
       backendRefs:
         - name: mcp
+          group: agentgateway.dev
+          kind: AgentgatewayBackend
+    # TEMPORARY: Strict Authelia auth test; longer prefixes win over /mcp above.
+    # The well-known paths are the OAuth discovery documents agentgateway serves
+    # for this backend.
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /mcp/authtest
+        - path:
+            type: PathPrefix
+            value: /.well-known/oauth-protected-resource/mcp/authtest
+        - path:
+            type: PathPrefix
+            value: /.well-known/oauth-authorization-server/mcp/authtest
+      backendRefs:
+        - name: mcp-authtest
           group: agentgateway.dev
           kind: AgentgatewayBackend
