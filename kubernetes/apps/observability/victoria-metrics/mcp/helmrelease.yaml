@@ -15,6 +15,11 @@ spec:
       entrypoint: http://victoria-metrics.observability.svc.cluster.local:8428
     mcp:
       mode: http
+      disable:
+        # resources/list is ~12MB of docs, over agentgateway's 2MB buffer, which
+        # fails resources/list for the whole /mcp backend; the documentation tool
+        # still serves the same docs
+        resources: true
     resources:
       limits:
         memory: 1Gi
