@@ -34,31 +34,6 @@ spec:
       name: mcp
   backend:
     mcp:
-      # No authentication yet: /mcp stays unauthenticated until the Strict settings
-      # from mcp-authtest are moved here. Only the tool-name backstop applies.
-      authorization:
-        # backstop for the backends' own read-only settings; denied tools are also
-        # filtered out of tools/list. Dispatcher tools (unifi_execute,
-        # grafana_api_request) are not covered and still rely on backend permissions.
-        action: Deny
-        policy:
-          matchExpressions:
-            - 'mcp.tool.name.matches("(^|_)(create|update|delete|remove|apply|patch|scale|restart|suspend|resume|reconcile|exec|install|uninstall)(_|$)")'
----
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/agentgateway.dev/agentgatewaypolicy_v1alpha1.json
-apiVersion: agentgateway.dev/v1alpha1
-kind: AgentgatewayPolicy
-metadata:
-  # TEMPORARY: end-to-end test of Strict Authelia auth at /mcp/authtest without
-  # touching /mcp. Retarget to AgentgatewayBackend/mcp once verified.
-  name: mcp-authtest
-spec:
-  targetRefs:
-    - group: agentgateway.dev
-      kind: AgentgatewayBackend
-      name: mcp-authtest
-  backend:
-    mcp:
       authentication:
         # tokenless requests get a 401 pointing at the resource metadata, which is
         # what starts the OAuth flow in MCP clients
@@ -75,16 +50,18 @@ spec:
             kind: AgentgatewayBackend
             name: authelia-jwks
           jwksPath: jwks.json
-        # served at /.well-known/oauth-protected-resource/mcp/authtest. resource stays
-        # the production URL: MCP clients accept a resource that is a path prefix of
-        # the server URL, so test tokens carry the same audience as production.
-        # authorization_servers defaults to the issuer since no provider is set.
+        # served at /.well-known/oauth-protected-resource/mcp. authorization_servers
+        # defaults to the issuer since no provider is set; clients fetch the
+        # authorization server metadata from Authelia directly.
         resourceMetadata:
           resource: *resource
           scopesSupported: ["openid", "profile", "groups", "offline_access"]
           bearerMethodsSupported: ["header"]
       authorization:
-        # Allow only admins, and never write-named tools (same backstop as mcp-backend).
+        # Allow only admins, and never write-named tools (a backstop for the backends'
+        # own read-only settings; denied tools are also filtered out of tools/list.
+        # Dispatcher tools like unifi_execute and grafana_api_request are not covered
+        # and still rely on backend permissions).
         # Authelia's authorization policy only runs at login, not on refresh; refreshed
         # access tokens re-read current groups, so checking jwt.groups here revokes a
         # removed admin within one access-token lifetime. Tokens without groups are denied.
