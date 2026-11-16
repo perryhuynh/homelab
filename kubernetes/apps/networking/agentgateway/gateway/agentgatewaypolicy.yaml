@@ -3,13 +3,15 @@
 apiVersion: agentgateway.dev/v1alpha1
 kind: AgentgatewayPolicy
 metadata:
-  name: mcp-access-log
+  name: mcp-frontend
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: mcp
   frontend:
+    tls:
+      minProtocolVersion: "1.3"
     accessLog:
       attributes:
         add:
@@ -17,3 +19,45 @@ spec:
           # user-agent is the only signal for telling MCP callers apart
           - name: http.user_agent
             expression: request.headers["user-agent"]
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/agentgateway.dev/agentgatewaypolicy_v1alpha1.json
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayPolicy
+metadata:
+  name: mcp-backend
+spec:
+  targetRefs:
+    - group: agentgateway.dev
+      kind: AgentgatewayBackend
+      name: mcp
+  backend:
+    mcp:
+      authentication:
+        # Optional: requests without a token still pass, but any bearer token must be a
+        # valid Authelia JWT. Switch to Strict once a token has been verified end to end;
+        # MCP clients only start the OAuth flow after a 401, which Strict returns.
+        mode: Optional
+        issuer: https://auth.perryhuynh.com
+        audiences:
+          - &resource https://mcp.perryhuynh.com/mcp
+        jwks:
+          backendRef:
+            kind: Service
+            name: authelia
+            namespace: security
+            port: 80
+          jwksPath: jwks.json
+        # served at /.well-known/oauth-protected-resource/mcp; authorization_servers
+        # defaults to the issuer since no provider adapter is set
+        resourceMetadata:
+          resource: *resource
+          scopesSupported: ["openid", "profile", "groups", "offline_access"]
+          bearerMethodsSupported: ["header"]
+      authorization:
+        # backstop for the backends' own read-only settings; denied tools are also
+        # filtered out of tools/list. Dispatcher tools (unifi_execute,
+        # grafana_api_request) are not covered and still rely on backend permissions.
+        action: Deny
+        policy:
+          matchExpressions:
+            - 'mcp.tool.name.matches("(^|_)(create|update|delete|remove|apply|patch|scale|restart|suspend|resume|reconcile|exec|install|uninstall)(_|$)")'

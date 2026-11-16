@@ -16,9 +16,13 @@ spec:
         - path:
             type: PathPrefix
             value: /mcp
+        # OAuth discovery for MCP clients; agentgateway answers these itself
         - path:
-            type: Exact
-            value: /sse
+            type: PathPrefix
+            value: /.well-known/oauth-protected-resource
+        - path:
+            type: PathPrefix
+            value: /.well-known/oauth-authorization-server
       backendRefs:
         - name: mcp
           group: agentgateway.dev
