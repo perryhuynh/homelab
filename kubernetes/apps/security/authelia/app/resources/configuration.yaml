@@ -66,7 +66,8 @@ identity_providers:
       allowed_origins_from_client_redirect_uris: true
     authorization_policies:
       mcp:
-        # MCP tokens are only issued to admins; agentgateway trusts any valid token
+        # MCP tokens are only issued to admins at login (not re-checked on refresh;
+        # agentgateway re-checks the groups claim on every call)
         default_policy: deny
         rules:
           - policy: two_factor
@@ -75,7 +76,8 @@ identity_providers:
       grafana:
         id_token: [groups, email, email_verified, name, preferred_username]
       mcp:
-        # identity in MCP access tokens for gateway logs and future claim-based rules
+        # groups are re-read on every token request (including refresh); agentgateway
+        # requires admins in this claim
         access_token: [groups, preferred_username]
     clients:
       - client_name: actual
