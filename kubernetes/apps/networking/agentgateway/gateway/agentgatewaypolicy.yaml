@@ -64,8 +64,9 @@ spec:
         # what starts the OAuth flow in MCP clients
         mode: Strict
         issuer: https://auth.perryhuynh.com
-        # Authelia only issues tokens for this audience to group:admins
-        # (identity_providers.oidc.authorization_policies.mcp)
+        # Authelia only issues tokens for this audience to group:admins at login
+        # (identity_providers.oidc.authorization_policies.mcp); admin membership is
+        # re-checked on every call by the authorization rule below
         audiences:
           - &resource https://mcp.perryhuynh.com/mcp
         jwks:
@@ -84,8 +85,12 @@ spec:
           scopesSupported: ["openid", "profile", "groups", "offline_access"]
           bearerMethodsSupported: ["header"]
       authorization:
-        # same backstop as mcp-backend
-        action: Deny
+        # Allow only admins, and never write-named tools (same backstop as mcp-backend).
+        # Authelia's authorization policy only runs at login, not on refresh; refreshed
+        # access tokens re-read current groups, so checking jwt.groups here revokes a
+        # removed admin within one access-token lifetime. Tokens without groups are denied.
+        # mcp.tool is only set for tool operations, so prompts and resources stay visible.
+        action: Allow
         policy:
           matchExpressions:
-            - 'mcp.tool.name.matches("(^|_)(create|update|delete|remove|apply|patch|scale|restart|suspend|resume|reconcile|exec|install|uninstall)(_|$)")'
+            - 'has(jwt.groups) && "admins" in jwt.groups && !(has(mcp.tool) && mcp.tool.name.matches("(^|_)(create|update|delete|remove|apply|patch|scale|restart|suspend|resume|reconcile|exec|install|uninstall)(_|$)"))'
