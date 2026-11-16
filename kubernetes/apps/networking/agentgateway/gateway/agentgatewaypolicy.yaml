@@ -12,6 +12,8 @@ spec:
   frontend:
     tls:
       minProtocolVersion: "1.3"
+      # the CRD's CEL rule requires handshakeTimeout whenever tls is set; 15s is the default
+      handshakeTimeout: 15s
     accessLog:
       attributes:
         add:
