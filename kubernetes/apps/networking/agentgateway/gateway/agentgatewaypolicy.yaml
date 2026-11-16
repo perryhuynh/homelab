@@ -71,10 +71,9 @@ spec:
           - &resource https://mcp.perryhuynh.com/mcp
         jwks:
           backendRef:
-            kind: Service
-            name: authelia
-            namespace: security
-            port: 80
+            group: agentgateway.dev
+            kind: AgentgatewayBackend
+            name: authelia-jwks
           jwksPath: jwks.json
         # served at /.well-known/oauth-protected-resource/mcp/authtest. resource stays
         # the production URL: MCP clients accept a resource that is a path prefix of

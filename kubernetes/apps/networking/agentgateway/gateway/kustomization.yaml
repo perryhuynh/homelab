@@ -6,6 +6,7 @@ resources:
   - ./gateway.yaml
   - ./agentgatewaypolicy.yaml
   - ./backend.yaml
+  - ./backend-authelia-jwks.yaml
   - ./backend-authtest.yaml
   - ./externalsecret.yaml
   - ./httproute.yaml

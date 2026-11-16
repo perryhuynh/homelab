@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/agentgateway.dev/agentgatewaybackend_v1alpha1.json
+# JWKS source for MCP JWT validation. The agentgateway controller fetches
+# https://<host>:<port>/<jwksPath> and inlines the keys into proxy config.
+# Authelia rejects requests to its in-cluster Service (no matching Host or
+# X-Forwarded-Proto: 400), so fetch the public URL instead.
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayBackend
+metadata:
+  name: authelia-jwks
+spec:
+  static:
+    host: auth.perryhuynh.com
+    port: 443
+  policies:
+    tls:
+      sni: auth.perryhuynh.com
