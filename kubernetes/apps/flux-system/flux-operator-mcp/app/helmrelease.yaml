@@ -12,7 +12,7 @@ spec:
   values:
     transport: http
     readonly: true
-    # replaced by ./ciliumnetworkpolicy.yaml, which admits only the agentgateway proxy pod
-    # instead of every pod in the networking and flux-system namespaces
     networkPolicy:
-      create: false
+      ingress:
+        namespaces:
+          - networking
