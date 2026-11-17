@@ -20,7 +20,7 @@ spec:
               - "--chromium-allow-list=file:///tmp/.*"
             image:
               repository: mirror.gcr.io/gotenberg/gotenberg
-              tag: 8.40.0@sha256:53073e798c8ef39ea2187e44cb67bab77894ea2509100b94c4fe3b461f7b2996
+              tag: 9.6.0@sha256:bf8a2296b58bad169f052ef59a7f4c22f55b7fdbafd708c2c5da06ef5b95c926
             env:
               API_PORT: &port 80
             probes:
