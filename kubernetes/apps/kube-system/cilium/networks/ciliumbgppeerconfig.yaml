@@ -5,6 +5,12 @@ kind: CiliumBGPPeerConfig
 metadata:
   name: l3-bgp-peer-config
 spec:
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 120
+  timers:
+    keepAliveTimeSeconds: 3
+    holdTimeSeconds: 9
   families:
     - afi: ipv4
       safi: unicast
