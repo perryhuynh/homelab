@@ -239,6 +239,9 @@ spec:
         enable_octet_counting: true
         tcp:
           listen_address: 0.0.0.0:5514
+          # TrueNAS's template ends each message with "\n" and counts it in the
+          # octet length; trimming it makes every frame one byte short.
+          preserve_trailing_whitespaces: true
     processors:
       memory_limiter:
         check_interval: 1s
@@ -249,6 +252,7 @@ spec:
         log_statements:
           - statements:
               - 'set(log.body, log.attributes["message"]) where log.attributes["message"] != nil'
+              - 'replace_pattern(log.body, "\\s+$", "")'
               - 'set(log.attributes["process.executable.name"], log.attributes["appname"]) where log.attributes["appname"] != nil'
               # Audit events (middleware, SMB, sudo) arrive as "@cee:{json}".
               - 'set(log.attributes["truenas.audit"], ParseJSON(Substring(log.body, 5, Len(log.body) - 5))) where IsMatch(log.body, "^@cee:\\{")'
