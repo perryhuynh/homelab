@@ -166,7 +166,9 @@ spec:
               - 'attributes["log.type"] == "system"'
             statements:
               - 'set(body, attributes["message"]) where attributes["message"] != nil'
-              - 'merge_maps(cache, ExtractPatterns(body, "^(?P<program>[A-Za-z0-9_./-]+)(?:\\[\\d+\\])?: "), "upsert")'
+              # The UDM repeats its hostname before the program: "UDM-Pro-Max /usr/bin/prog[pid]: ..."
+              - 'replace_pattern(body, "^[A-Za-z0-9._-]+ ((?:\\S*/)?[A-Za-z0-9_.-]+(?:\\[\\d+\\])?: )", "$$1")'
+              - 'merge_maps(cache, ExtractPatterns(body, "^(?:\\S*/)?(?P<program>[A-Za-z0-9_.-]+)(?:\\[\\d+\\])?: "), "upsert")'
               - 'set(attributes["process.executable.name"], cache["program"]) where cache["program"] != nil'
       transform/cleanup:
         error_mode: silent
@@ -188,6 +190,7 @@ spec:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
         headers:
           VL-Stream-Fields: service.name,hostname,log.type
+          VL-Ignore-Fields: scope.name,scope.version
     service:
       pipelines:
         logs:
