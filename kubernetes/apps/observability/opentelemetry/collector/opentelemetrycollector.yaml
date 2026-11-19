@@ -328,3 +328,183 @@ spec:
                   otlp:
                     protocol: http/protobuf
                     endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: unifi-netflow
+spec:
+  # NetFlow v9/IPFIX templates are cached per collector instance; a second
+  # replica would drop flows until it saw its own templates.
+  replicas: 1
+  ports:
+    - name: netflow
+      port: 2055
+      protocol: UDP
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 10m
+  config:
+    receivers:
+      netflow:
+        scheme: netflow
+        port: 2055
+        sockets: 2
+        workers: 4
+        queue_size: 5000
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+      # Cluster nodes, the Talos VIP and qBittorrent: torrent peers and node
+      # traffic would drown out every other device.
+      filter/cluster:
+        error_mode: ignore
+        logs:
+          log_record:
+            - 'IsMatch(log.attributes["source.address"], "^192\\.168\\.(1\\.2[0-4]|20\\.250)$")'
+            - 'IsMatch(log.attributes["destination.address"], "^192\\.168\\.(1\\.2[0-4]|20\\.250)$")'
+      # Known devices by IP (fixed IPs, LoadBalancer IPs, current DHCP leases).
+      transform/names:
+        error_mode: ignore
+        log_statements:
+          - statements:
+              - 'set(log.attributes["source.name"], "UDM Pro Max") where log.attributes["source.address"] == "192.168.1.1"'
+              - 'set(log.attributes["source.name"], "PiKVM") where log.attributes["source.address"] == "192.168.1.4"'
+              - 'set(log.attributes["source.name"], "TESmart KVM") where log.attributes["source.address"] == "192.168.1.5"'
+              - 'set(log.attributes["source.name"], "APC Smart UPS") where log.attributes["source.address"] == "192.168.1.6"'
+              - 'set(log.attributes["source.name"], "UDM Pro Max") where log.attributes["source.address"] == "192.168.10.1"'
+              - 'set(log.attributes["source.name"], "TrueNAS") where log.attributes["source.address"] == "192.168.10.10"'
+              - 'set(log.attributes["source.name"], "TrueNAS IPMI") where log.attributes["source.address"] == "192.168.10.11"'
+              - 'set(log.attributes["source.name"], "UDM Pro Max") where log.attributes["source.address"] == "192.168.20.1"'
+              - 'set(log.attributes["source.name"], "agentgateway-mcp") where log.attributes["source.address"] == "192.168.20.67"'
+              - 'set(log.attributes["source.name"], "mosquitto") where log.attributes["source.address"] == "192.168.20.101"'
+              - 'set(log.attributes["source.name"], "envoy-internal") where log.attributes["source.address"] == "192.168.20.200"'
+              - 'set(log.attributes["source.name"], "envoy-external") where log.attributes["source.address"] == "192.168.20.201"'
+              - 'set(log.attributes["source.name"], "maddy-smtp") where log.attributes["source.address"] == "192.168.20.202"'
+              - 'set(log.attributes["source.name"], "unifi-netflow") where log.attributes["source.address"] == "192.168.20.203"'
+              - 'set(log.attributes["source.name"], "plex") where log.attributes["source.address"] == "192.168.20.204"'
+              - 'set(log.attributes["source.name"], "unifi-syslog") where log.attributes["source.address"] == "192.168.20.205"'
+              - 'set(log.attributes["source.name"], "truenas-syslog") where log.attributes["source.address"] == "192.168.20.206"'
+              - 'set(log.attributes["source.name"], "UDM Pro Max") where log.attributes["source.address"] == "192.168.30.1"'
+              - 'set(log.attributes["source.name"], "iPhone - Jason") where log.attributes["source.address"] == "192.168.30.139"'
+              - 'set(log.attributes["source.name"], "iPhone - Lauren") where log.attributes["source.address"] == "192.168.30.200"'
+              - 'set(log.attributes["source.name"], "Apple TV - Mom") where log.attributes["source.address"] == "192.168.30.225"'
+              - 'set(log.attributes["source.name"], "g6-instant") where log.attributes["source.address"] == "192.168.30.251"'
+              - 'set(log.attributes["source.name"], "UDM Pro Max") where log.attributes["source.address"] == "192.168.50.1"'
+              - 'set(log.attributes["source.name"], "Home Assistant") where log.attributes["source.address"] == "192.168.50.2"'
+              - 'set(log.attributes["source.name"], "cups") where log.attributes["source.address"] == "192.168.50.4"'
+              - 'set(log.attributes["source.name"], "ratgdo") where log.attributes["source.address"] == "192.168.50.10"'
+              - 'set(log.attributes["source.name"], "roborock") where log.attributes["source.address"] == "192.168.50.19"'
+              - 'set(log.attributes["source.name"], "Chromecast - Dad") where log.attributes["source.address"] == "192.168.50.26"'
+              - 'set(log.attributes["source.name"], "Chromecast") where log.attributes["source.address"] == "192.168.50.38"'
+              - 'set(log.attributes["source.name"], "Kasa HS220 (.50)") where log.attributes["source.address"] == "192.168.50.50"'
+              - 'set(log.attributes["source.name"], "Chromecast (Living Room)") where log.attributes["source.address"] == "192.168.50.51"'
+              - 'set(log.attributes["source.name"], "TV - Living Room") where log.attributes["source.address"] == "192.168.50.61"'
+              - 'set(log.attributes["source.name"], "Perry Ceiling Fan") where log.attributes["source.address"] == "192.168.50.106"'
+              - 'set(log.attributes["source.name"], "ecobee") where log.attributes["source.address"] == "192.168.50.109"'
+              - 'set(log.attributes["source.name"], "Ring Floodlight Cam") where log.attributes["source.address"] == "192.168.50.120"'
+              - 'set(log.attributes["source.name"], "Perry Lights") where log.attributes["source.address"] == "192.168.50.140"'
+              - 'set(log.attributes["source.name"], "Chromecast - Mom") where log.attributes["source.address"] == "192.168.50.152"'
+              - 'set(log.attributes["source.name"], "Dryer") where log.attributes["source.address"] == "192.168.50.156"'
+              - 'set(log.attributes["source.name"], "Kasa HS220 (.157)") where log.attributes["source.address"] == "192.168.50.157"'
+              - 'set(log.attributes["source.name"], "Brother printer") where log.attributes["source.address"] == "192.168.50.198"'
+              - 'set(log.attributes["source.name"], "Ring Chime Pro") where log.attributes["source.address"] == "192.168.50.201"'
+              - 'set(log.attributes["source.name"], "DE1Pro") where log.attributes["source.address"] == "192.168.50.222"'
+              - 'set(log.attributes["source.name"], "myq") where log.attributes["source.address"] == "192.168.50.226"'
+              - 'set(log.attributes["source.name"], "TV - Mom") where log.attributes["source.address"] == "192.168.50.231"'
+              - 'set(log.attributes["source.name"], "Ring Doorbell") where log.attributes["source.address"] == "192.168.50.233"'
+              - 'set(log.attributes["source.name"], "Tesla Wall Connector") where log.attributes["source.address"] == "192.168.50.241"'
+              - 'set(log.attributes["destination.name"], "UDM Pro Max") where log.attributes["destination.address"] == "192.168.1.1"'
+              - 'set(log.attributes["destination.name"], "PiKVM") where log.attributes["destination.address"] == "192.168.1.4"'
+              - 'set(log.attributes["destination.name"], "TESmart KVM") where log.attributes["destination.address"] == "192.168.1.5"'
+              - 'set(log.attributes["destination.name"], "APC Smart UPS") where log.attributes["destination.address"] == "192.168.1.6"'
+              - 'set(log.attributes["destination.name"], "UDM Pro Max") where log.attributes["destination.address"] == "192.168.10.1"'
+              - 'set(log.attributes["destination.name"], "TrueNAS") where log.attributes["destination.address"] == "192.168.10.10"'
+              - 'set(log.attributes["destination.name"], "TrueNAS IPMI") where log.attributes["destination.address"] == "192.168.10.11"'
+              - 'set(log.attributes["destination.name"], "UDM Pro Max") where log.attributes["destination.address"] == "192.168.20.1"'
+              - 'set(log.attributes["destination.name"], "agentgateway-mcp") where log.attributes["destination.address"] == "192.168.20.67"'
+              - 'set(log.attributes["destination.name"], "mosquitto") where log.attributes["destination.address"] == "192.168.20.101"'
+              - 'set(log.attributes["destination.name"], "envoy-internal") where log.attributes["destination.address"] == "192.168.20.200"'
+              - 'set(log.attributes["destination.name"], "envoy-external") where log.attributes["destination.address"] == "192.168.20.201"'
+              - 'set(log.attributes["destination.name"], "maddy-smtp") where log.attributes["destination.address"] == "192.168.20.202"'
+              - 'set(log.attributes["destination.name"], "unifi-netflow") where log.attributes["destination.address"] == "192.168.20.203"'
+              - 'set(log.attributes["destination.name"], "plex") where log.attributes["destination.address"] == "192.168.20.204"'
+              - 'set(log.attributes["destination.name"], "unifi-syslog") where log.attributes["destination.address"] == "192.168.20.205"'
+              - 'set(log.attributes["destination.name"], "truenas-syslog") where log.attributes["destination.address"] == "192.168.20.206"'
+              - 'set(log.attributes["destination.name"], "UDM Pro Max") where log.attributes["destination.address"] == "192.168.30.1"'
+              - 'set(log.attributes["destination.name"], "iPhone - Jason") where log.attributes["destination.address"] == "192.168.30.139"'
+              - 'set(log.attributes["destination.name"], "iPhone - Lauren") where log.attributes["destination.address"] == "192.168.30.200"'
+              - 'set(log.attributes["destination.name"], "Apple TV - Mom") where log.attributes["destination.address"] == "192.168.30.225"'
+              - 'set(log.attributes["destination.name"], "g6-instant") where log.attributes["destination.address"] == "192.168.30.251"'
+              - 'set(log.attributes["destination.name"], "UDM Pro Max") where log.attributes["destination.address"] == "192.168.50.1"'
+              - 'set(log.attributes["destination.name"], "Home Assistant") where log.attributes["destination.address"] == "192.168.50.2"'
+              - 'set(log.attributes["destination.name"], "cups") where log.attributes["destination.address"] == "192.168.50.4"'
+              - 'set(log.attributes["destination.name"], "ratgdo") where log.attributes["destination.address"] == "192.168.50.10"'
+              - 'set(log.attributes["destination.name"], "roborock") where log.attributes["destination.address"] == "192.168.50.19"'
+              - 'set(log.attributes["destination.name"], "Chromecast - Dad") where log.attributes["destination.address"] == "192.168.50.26"'
+              - 'set(log.attributes["destination.name"], "Chromecast") where log.attributes["destination.address"] == "192.168.50.38"'
+              - 'set(log.attributes["destination.name"], "Kasa HS220 (.50)") where log.attributes["destination.address"] == "192.168.50.50"'
+              - 'set(log.attributes["destination.name"], "Chromecast (Living Room)") where log.attributes["destination.address"] == "192.168.50.51"'
+              - 'set(log.attributes["destination.name"], "TV - Living Room") where log.attributes["destination.address"] == "192.168.50.61"'
+              - 'set(log.attributes["destination.name"], "Perry Ceiling Fan") where log.attributes["destination.address"] == "192.168.50.106"'
+              - 'set(log.attributes["destination.name"], "ecobee") where log.attributes["destination.address"] == "192.168.50.109"'
+              - 'set(log.attributes["destination.name"], "Ring Floodlight Cam") where log.attributes["destination.address"] == "192.168.50.120"'
+              - 'set(log.attributes["destination.name"], "Perry Lights") where log.attributes["destination.address"] == "192.168.50.140"'
+              - 'set(log.attributes["destination.name"], "Chromecast - Mom") where log.attributes["destination.address"] == "192.168.50.152"'
+              - 'set(log.attributes["destination.name"], "Dryer") where log.attributes["destination.address"] == "192.168.50.156"'
+              - 'set(log.attributes["destination.name"], "Kasa HS220 (.157)") where log.attributes["destination.address"] == "192.168.50.157"'
+              - 'set(log.attributes["destination.name"], "Brother printer") where log.attributes["destination.address"] == "192.168.50.198"'
+              - 'set(log.attributes["destination.name"], "Ring Chime Pro") where log.attributes["destination.address"] == "192.168.50.201"'
+              - 'set(log.attributes["destination.name"], "DE1Pro") where log.attributes["destination.address"] == "192.168.50.222"'
+              - 'set(log.attributes["destination.name"], "myq") where log.attributes["destination.address"] == "192.168.50.226"'
+              - 'set(log.attributes["destination.name"], "TV - Mom") where log.attributes["destination.address"] == "192.168.50.231"'
+              - 'set(log.attributes["destination.name"], "Ring Doorbell") where log.attributes["destination.address"] == "192.168.50.233"'
+              - 'set(log.attributes["destination.name"], "Tesla Wall Connector") where log.attributes["destination.address"] == "192.168.50.241"'
+      transform/message:
+        error_mode: ignore
+        log_statements:
+          - statements:
+              - 'set(log.cache["src"], log.attributes["source.address"])'
+              - 'set(log.cache["src"], log.attributes["source.name"]) where log.attributes["source.name"] != nil'
+              - 'set(log.cache["dst"], log.attributes["destination.address"])'
+              - 'set(log.cache["dst"], log.attributes["destination.name"]) where log.attributes["destination.name"] != nil'
+              - 'set(log.body, Format("%v %v:%v -> %v:%v", [log.attributes["network.transport"], log.cache["src"], log.attributes["source.port"], log.cache["dst"], log.attributes["destination.port"]]))'
+      resource:
+        attributes:
+          - key: service.name
+            value: unifi-netflow
+            action: upsert
+      batch: {}
+    exporters:
+      otlp_http:
+        logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        headers:
+          VL-Stream-Fields: service.name,flow.sampler_address
+          VL-Ignore-Fields: scope.name,scope.version
+    service:
+      pipelines:
+        logs:
+          receivers:
+            - netflow
+          processors:
+            - memory_limiter
+            - filter/cluster
+            - transform/names
+            - transform/message
+            - resource
+            - batch
+          exporters:
+            - otlp_http
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics

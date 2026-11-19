@@ -36,3 +36,23 @@ spec:
   selector:
     app.kubernetes.io/component: opentelemetry-collector
     app.kubernetes.io/instance: observability.truenas-syslog
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-netflow
+  annotations:
+    external-dns.kubernetes.io/hostname: unifi-netflow.internal
+    lbipam.cilium.io/ips: 192.168.20.203
+spec:
+  type: LoadBalancer
+  # Keep the UDM as the source address; templates are keyed by exporter.
+  externalTrafficPolicy: Local
+  ports:
+    - name: netflow
+      port: 2055
+      targetPort: 2055
+      protocol: UDP
+  selector:
+    app.kubernetes.io/component: opentelemetry-collector
+    app.kubernetes.io/instance: observability.unifi-netflow
