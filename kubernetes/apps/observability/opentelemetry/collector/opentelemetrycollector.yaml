@@ -51,3 +51,99 @@ spec:
                   otlp:
                     protocol: http/protobuf
                     endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: netflow
+spec:
+  # NetFlow v9/IPFIX templates are cached per collector instance, so keep one
+  # replica; a second one would drop flows until it saw its own templates.
+  replicas: 1
+  ports:
+    - name: netflow
+      port: 2055
+      protocol: UDP
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 10m
+  config:
+    receivers:
+      netflow:
+        scheme: netflow
+        port: 2055
+        sockets: 2
+        workers: 4
+        queue_size: 5000
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+      # qBittorrent peer traffic would drown out everything else.
+      filter/qbittorrent:
+        error_mode: ignore
+        logs:
+          log_record:
+            - attributes["source.address"] == "192.168.20.250" or attributes["destination.address"] == "192.168.20.250"
+      resource:
+        attributes:
+          - key: service.name
+            value: unifi-netflow
+            action: upsert
+      transform/message:
+        error_mode: ignore
+        log_statements:
+          - context: log
+            statements:
+              - set(body, Concat([attributes["network.transport"], " ", attributes["source.address"], ":", String(attributes["source.port"]), " -> ", attributes["destination.address"], ":", String(attributes["destination.port"])], ""))
+      batch: {}
+    exporters:
+      otlp_http:
+        logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        headers:
+          VL-Stream-Fields: service.name,flow.sampler_address
+    service:
+      pipelines:
+        logs:
+          receivers:
+            - netflow
+          processors:
+            - memory_limiter
+            - filter/qbittorrent
+            - resource
+            - transform/message
+            - batch
+          exporters:
+            - otlp_http
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netflow-collector-lb
+  annotations:
+    external-dns.kubernetes.io/hostname: unifi-netflow.internal
+    lbipam.cilium.io/ips: 192.168.20.206
+spec:
+  type: LoadBalancer
+  # Keep the UDM as the source address; templates are keyed by exporter.
+  externalTrafficPolicy: Local
+  ports:
+    - name: netflow
+      port: 2055
+      targetPort: 2055
+      protocol: UDP
+  selector:
+    app.kubernetes.io/component: opentelemetry-collector
+    app.kubernetes.io/instance: observability.netflow
