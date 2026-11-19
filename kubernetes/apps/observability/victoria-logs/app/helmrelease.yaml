@@ -16,12 +16,8 @@ spec:
     server:
       fullnameOverride: victoria-logs
       retentionPeriod: 90d
-      # UniFi syslog, exposed on UDP 514 by service-syslog.yaml. Unprivileged
-      # port because the server runs as a non-root user.
-      extraArgs:
-        syslog.listenAddr.udp: ":5514"
-        syslog.timezone: America/Los_Angeles
-        syslog.extraFields.udp: '{"service.name":"unifi"}'
+      # UniFi syslog is received and parsed by the opentelemetry "syslog"
+      # collector, which ships it here over OTLP.
       persistentVolume:
         enabled: true
         storageClassName: ceph-block

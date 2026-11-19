@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./opentelemetrycollector.yaml
   - ./rbac.yaml
+  - ./service.yaml
