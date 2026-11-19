@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: syslog-collector-lb
+  name: unifi-syslog
   annotations:
     external-dns.kubernetes.io/hostname: unifi-syslog.internal
     lbipam.cilium.io/ips: 192.168.20.205
@@ -16,4 +16,4 @@ spec:
       protocol: UDP
   selector:
     app.kubernetes.io/component: opentelemetry-collector
-    app.kubernetes.io/instance: observability.syslog
+    app.kubernetes.io/instance: observability.unifi-syslog
