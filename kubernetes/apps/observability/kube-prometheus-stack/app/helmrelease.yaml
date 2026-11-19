@@ -74,7 +74,7 @@ spec:
               namespace: networking
               sectionName: https
       prometheusSpec:
-        replicas: 2
+        replicas: 1
         enableOTLPReceiver: true
         externalUrl: https://prometheus.perryhuynh.com
         podMonitorSelectorNilUsesHelmValues: false
