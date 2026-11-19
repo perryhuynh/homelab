@@ -51,3 +51,166 @@ spec:
                   otlp:
                     protocol: http/protobuf
                     endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: syslog
+spec:
+  replicas: 1
+  ports:
+    - name: syslog
+      port: 5514
+      protocol: UDP
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 10m
+  config:
+    receivers:
+      syslog:
+        protocol: rfc3164
+        location: America/Los_Angeles
+        udp:
+          listen_address: 0.0.0.0:5514
+          one_log_per_packet: true
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+      # UDM housekeeping that repeats thousands of times a day and is never useful.
+      filter/noise:
+        error_mode: ignore
+        logs:
+          log_record:
+            - 'IsMatch(body, "earlyoom\\[|udapi_lu_set_inform_interval|config-migrate-helper|systemd-timedated|org\\.freedesktop\\.timedate1|\\[Statistic\\] Version=|Background sync: Fetching|stime is unknown")'
+      transform/classify:
+        error_mode: silent
+        log_statements:
+          - context: log
+            statements:
+              - 'set(attributes["log.type"], "system")'
+              - 'set(attributes["log.type"], "event") where IsMatch(body, "CEF:\\d+\\|")'
+              - 'set(attributes["log.type"], "firewall") where IsMatch(body, "\\] DESCR=\"")'
+              - 'set(attributes["log.type"], "dns") where IsMatch(body, "\"type\":\"dns")'
+      # UniFi events (CEF): header into cef.*, extensions into unifi.* / cef.*, msg into the body.
+      transform/event:
+        error_mode: ignore
+        log_statements:
+          - context: log
+            conditions:
+              - 'attributes["log.type"] == "event"'
+            statements:
+              - 'merge_maps(cache, ExtractPatterns(body, "CEF:\\d+\\|[^|]*\\|[^|]*\\|[^|]*\\|(?P<class_id>[^|]*)\\|(?P<name>[^|]*)\\|(?P<severity>[^|]*)\\|(?P<ext>.*)$"), "upsert")'
+              - 'set(attributes["cef.name"], cache["name"])'
+              - 'set(attributes["cef.class_id"], cache["class_id"])'
+              - 'set(attributes["cef.severity"], cache["severity"])'
+              # Mark each " key=" boundary; escaped "\=" inside values never matches.
+              - 'replace_pattern(cache["ext"], " ([A-Za-z0-9_]+)=", "|~|$$1=")'
+              - 'set(cache["kv"], ParseKeyValue(cache["ext"], "=", "|~|"))'
+              - 'replace_all_patterns(cache["kv"], "value", "\\\\([=\\\\])", "$$1")'
+              - 'replace_all_patterns(cache["kv"], "key", "^([a-z][A-Za-z0-9]*)$", "cef.$$1")'
+              - 'replace_all_patterns(cache["kv"], "key", "^UNIFI", "unifi.")'
+              - 'set(body, cache["kv"]["cef.msg"]) where cache["kv"]["cef.msg"] != nil'
+              - 'delete_key(cache["kv"], "cef.msg")'
+              - 'merge_maps(attributes, cache["kv"], "upsert")'
+              - 'set(attributes["log.parse_failed"], true) where cache["name"] == nil'
+      # Per-policy firewall logging: [LAN_WAN-D-10000] DESCR="rule" IN= OUT= ... SRC= DST= ... PROTO= SPT= DPT=
+      transform/firewall:
+        error_mode: ignore
+        log_statements:
+          - context: log
+            conditions:
+              - 'attributes["log.type"] == "firewall"'
+            statements:
+              - 'merge_maps(cache, ExtractPatterns(body, "\\[(?P<chain>[^\\]]+)\\] DESCR=\"(?P<rule>[^\"]*)\" IN=(?P<in>\\S*) OUT=(?P<out>\\S*) .*?SRC=(?P<src>\\S+) DST=(?P<dst>\\S+) .*?PROTO=(?P<proto>\\S+)(?: SPT=(?P<spt>\\d+) DPT=(?P<dpt>\\d+))?"), "upsert")'
+              - 'set(attributes["firewall.rule"], cache["rule"])'
+              - 'set(attributes["firewall.chain"], cache["chain"])'
+              - 'set(attributes["firewall.action"], "block") where IsMatch(cache["chain"], "-D-")'
+              - 'set(attributes["firewall.action"], "allow") where IsMatch(cache["chain"], "-A-")'
+              - 'set(attributes["firewall.action"], "reject") where IsMatch(cache["chain"], "-R-")'
+              - 'set(attributes["firewall.in"], cache["in"])'
+              - 'set(attributes["firewall.out"], cache["out"])'
+              - 'set(attributes["source.address"], cache["src"])'
+              - 'set(attributes["destination.address"], cache["dst"])'
+              - 'set(attributes["network.transport"], ConvertCase(cache["proto"], "lower"))'
+              - 'set(attributes["source.port"], cache["spt"]) where cache["spt"] != ""'
+              - 'set(attributes["destination.port"], cache["dpt"]) where cache["dpt"] != ""'
+              - 'set(body, Format("%s: %s %s %s:%s -> %s:%s", [cache["rule"], attributes["firewall.action"], attributes["network.transport"], cache["src"], cache["spt"], cache["dst"], cache["dpt"]]))'
+              - 'set(attributes["log.parse_failed"], true) where cache["rule"] == nil'
+      # UDM DNS ad-block hits: coredns[pid]: {"type":"dnsAdBlock","category":...,"domain":...,"mac":...}
+      transform/dns:
+        error_mode: ignore
+        log_statements:
+          - context: log
+            conditions:
+              - 'attributes["log.type"] == "dns"'
+            statements:
+              - 'merge_maps(cache, ExtractPatterns(body, "coredns\\[\\d+\\]: (?P<json>\\{.*\\})"), "upsert")'
+              - 'set(cache["dns"], ParseJSON(cache["json"]))'
+              - 'set(attributes["dns.type"], cache["dns"]["type"])'
+              - 'set(attributes["dns.category"], cache["dns"]["category"])'
+              - 'set(attributes["dns.question.name"], cache["dns"]["domain"])'
+              - 'set(attributes["client.address"], cache["dns"]["src_ip"])'
+              - 'set(attributes["client.mac"], cache["dns"]["mac"])'
+              - 'set(body, Format("%s %s: %s from %s", [cache["dns"]["type"], cache["dns"]["category"], cache["dns"]["domain"], cache["dns"]["src_ip"]]))'
+              - 'set(attributes["log.parse_failed"], true) where cache["dns"] == nil'
+      transform/system:
+        error_mode: silent
+        log_statements:
+          - context: log
+            conditions:
+              - 'attributes["log.type"] == "system"'
+            statements:
+              - 'set(body, attributes["message"]) where attributes["message"] != nil'
+              - 'merge_maps(cache, ExtractPatterns(body, "^(?P<program>[A-Za-z0-9_./-]+)(?:\\[\\d+\\])?: "), "upsert")'
+              - 'set(attributes["process.executable.name"], cache["program"]) where cache["program"] != nil'
+      transform/cleanup:
+        error_mode: silent
+        log_statements:
+          - context: log
+            statements:
+              - 'delete_key(attributes, "message")'
+              - 'delete_key(attributes, "appname") where attributes["appname"] == attributes["hostname"]'
+              - 'delete_key(attributes, "priority")'
+              - 'delete_key(attributes, "facility")'
+      resource:
+        attributes:
+          - key: service.name
+            value: unifi
+            action: upsert
+      batch: {}
+    exporters:
+      otlp_http:
+        logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        headers:
+          VL-Stream-Fields: service.name,hostname,log.type
+    service:
+      pipelines:
+        logs:
+          receivers:
+            - syslog
+          processors:
+            - memory_limiter
+            - filter/noise
+            - transform/classify
+            - transform/event
+            - transform/firewall
+            - transform/dns
+            - transform/system
+            - transform/cleanup
+            - resource
+            - batch
+          exporters:
+            - otlp_http
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
