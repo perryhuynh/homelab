@@ -17,3 +17,22 @@ spec:
   selector:
     app.kubernetes.io/component: opentelemetry-collector
     app.kubernetes.io/instance: observability.unifi-syslog
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: truenas-syslog
+  annotations:
+    external-dns.kubernetes.io/hostname: truenas-syslog.internal
+    lbipam.cilium.io/ips: 192.168.20.206
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+    - name: syslog
+      port: 514
+      targetPort: 5514
+      protocol: TCP
+  selector:
+    app.kubernetes.io/component: opentelemetry-collector
+    app.kubernetes.io/instance: observability.truenas-syslog

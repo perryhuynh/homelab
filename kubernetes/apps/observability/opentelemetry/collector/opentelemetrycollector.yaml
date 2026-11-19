@@ -213,3 +213,80 @@ spec:
                   otlp:
                     protocol: http/protobuf
                     endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: truenas-syslog
+spec:
+  replicas: 1
+  ports:
+    - name: syslog
+      port: 5514
+      protocol: TCP
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 10m
+  config:
+    receivers:
+      # TrueNAS uses syslog-ng's syslog() driver: RFC 5424 with octet-counting
+      # framing over TCP.
+      syslog:
+        protocol: rfc5424
+        enable_octet_counting: true
+        tcp:
+          listen_address: 0.0.0.0:5514
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+      transform/message:
+        error_mode: ignore
+        log_statements:
+          - statements:
+              - 'set(log.body, log.attributes["message"]) where log.attributes["message"] != nil'
+              - 'set(log.attributes["process.executable.name"], log.attributes["appname"]) where log.attributes["appname"] != nil'
+              # Audit events (middleware, SMB, sudo) arrive as "@cee:{json}".
+              - 'set(log.attributes["truenas.audit"], ParseJSON(Substring(log.body, 5, Len(log.body) - 5))) where IsMatch(log.body, "^@cee:\\{")'
+              - 'set(log.attributes["log.parse_failed"], true) where IsMatch(log.body, "^@cee:\\{") and log.attributes["truenas.audit"] == nil'
+              - 'delete_key(log.attributes, "message")'
+              - 'delete_key(log.attributes, "appname")'
+              - 'delete_key(log.attributes, "priority")'
+              - 'delete_key(log.attributes, "facility")'
+              - 'delete_key(log.attributes, "version")'
+      resource:
+        attributes:
+          - key: service.name
+            value: truenas
+            action: upsert
+      batch: {}
+    exporters:
+      otlp_http:
+        logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        headers:
+          VL-Stream-Fields: service.name,hostname,process.executable.name
+          VL-Ignore-Fields: scope.name,scope.version
+    service:
+      pipelines:
+        logs:
+          receivers:
+            - syslog
+          processors:
+            - memory_limiter
+            - transform/message
+            - resource
+            - batch
+          exporters:
+            - otlp_http
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
