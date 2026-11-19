@@ -254,14 +254,40 @@ spec:
               - 'set(log.body, log.attributes["message"]) where log.attributes["message"] != nil'
               - 'replace_pattern(log.body, "\\s+$", "")'
               - 'set(log.attributes["process.executable.name"], log.attributes["appname"]) where log.attributes["appname"] != nil'
-              # Audit events (middleware, SMB, sudo) arrive as "@cee:{json}".
-              - 'set(log.attributes["truenas.audit"], ParseJSON(Substring(log.body, 5, Len(log.body) - 5))) where IsMatch(log.body, "^@cee:\\{")'
-              - 'set(log.attributes["log.parse_failed"], true) where IsMatch(log.body, "^@cee:\\{") and log.attributes["truenas.audit"] == nil'
               - 'delete_key(log.attributes, "message")'
               - 'delete_key(log.attributes, "appname")'
               - 'delete_key(log.attributes, "priority")'
               - 'delete_key(log.attributes, "facility")'
               - 'delete_key(log.attributes, "version")'
+      # Audit events (middleware, SMB, sudo) arrive as "@cee:{"TNAUDIT": {...}}".
+      # svc_data and event_data are JSON documents encoded as strings.
+      transform/audit:
+        error_mode: ignore
+        log_statements:
+          - conditions:
+              - 'IsMatch(log.body, "^@cee:\\{")'
+            statements:
+              - 'set(log.cache["a"], ParseJSON(Substring(log.body, 5, Len(log.body) - 5))["TNAUDIT"])'
+              - 'set(log.attributes["log.parse_failed"], true) where log.cache["a"] == nil'
+              - 'set(log.cache["ed"], ParseJSON(log.cache["a"]["event_data"])) where log.cache["a"] != nil and IsString(log.cache["a"]["event_data"])'
+              - 'set(log.cache["sd"], ParseJSON(log.cache["a"]["svc_data"])) where log.cache["a"] != nil and IsString(log.cache["a"]["svc_data"])'
+              - 'set(log.attributes["truenas.audit.raw"], log.body) where log.cache["a"] != nil'
+              - 'set(log.attributes["truenas.audit.event"], log.cache["a"]["event"]) where log.cache["a"] != nil'
+              - 'set(log.attributes["truenas.audit.service"], log.cache["a"]["svc"]) where log.cache["a"] != nil'
+              - 'set(log.attributes["truenas.audit.success"], log.cache["a"]["success"]) where log.cache["a"] != nil'
+              - 'set(log.attributes["truenas.audit.session"], log.cache["a"]["sess"]) where log.cache["a"] != nil'
+              - 'set(log.attributes["user.name"], log.cache["a"]["user"]) where log.cache["a"] != nil'
+              - 'set(log.attributes["client.address"], log.cache["a"]["addr"]) where log.cache["a"] != nil'
+              - 'set(log.attributes["truenas.audit.method"], log.cache["ed"]["method"]) where log.cache["ed"] != nil and log.cache["ed"]["method"] != nil'
+              - 'set(log.attributes["truenas.audit.description"], log.cache["ed"]["description"]) where log.cache["ed"] != nil and log.cache["ed"]["description"] != nil'
+              - 'set(log.attributes["truenas.audit.error"], log.cache["ed"]["error"]) where log.cache["ed"] != nil and log.cache["ed"]["error"] != nil'
+              - 'set(log.attributes["truenas.audit.credentials"], log.cache["sd"]["credentials"]["credentials"]) where log.cache["sd"] != nil and log.cache["sd"]["credentials"] != nil'
+              - 'set(log.attributes["truenas.audit.protocol"], log.cache["sd"]["protocol"]) where log.cache["sd"] != nil and log.cache["sd"]["protocol"] != nil'
+              # "METHOD_CALL system.advanced.update by root from 192.168.1.23 (ok)"
+              - 'set(log.body, Format("%s by %s from %s", [log.cache["a"]["event"], log.cache["a"]["user"], log.cache["a"]["addr"]])) where log.cache["a"] != nil'
+              - 'set(log.body, Format("%s %s by %s from %s", [log.cache["a"]["event"], log.cache["ed"]["method"], log.cache["a"]["user"], log.cache["a"]["addr"]])) where log.cache["ed"] != nil and log.cache["ed"]["method"] != nil'
+              - 'set(log.body, Concat([log.body, "(ok)"], " ")) where log.cache["a"] != nil and log.cache["a"]["success"] == true'
+              - 'set(log.body, Concat([log.body, "(failed)"], " ")) where log.cache["a"] != nil and log.cache["a"]["success"] == false'
       resource:
         attributes:
           - key: service.name
@@ -282,6 +308,7 @@ spec:
           processors:
             - memory_limiter
             - transform/message
+            - transform/audit
             - resource
             - batch
           exporters:
