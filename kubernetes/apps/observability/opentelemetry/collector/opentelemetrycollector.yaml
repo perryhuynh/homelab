@@ -73,6 +73,8 @@ spec:
       syslog:
         protocol: rfc3164
         location: America/Los_Angeles
+        # UniFi sends some CEF events without the <PRI> header.
+        allow_skip_pri_header: true
         udp:
           listen_address: 0.0.0.0:5514
           one_log_per_packet: true
