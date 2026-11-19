@@ -163,6 +163,13 @@ spec:
               - 'log.attributes["log.type"] == "system"'
             statements:
               - 'set(log.body, log.attributes["message"]) where log.attributes["message"] != nil'
+              # Switches and PDUs send appname "<mac>,<model>-<version>" and the message
+              # starts with ": prog[pid]: ...".
+              - 'merge_maps(log.cache, ExtractPatterns(log.attributes["appname"], "^[0-9a-f]{12},(?P<model>.+?)-(?P<version>\\d+\\.\\d+\\.\\d+\\S*)$"), "upsert") where log.attributes["appname"] != nil'
+              - 'set(log.attributes["unifi.device.model"], log.cache["model"]) where log.cache["model"] != nil'
+              - 'set(log.attributes["unifi.device.version"], log.cache["version"]) where log.cache["version"] != nil'
+              - 'delete_key(log.attributes, "appname") where log.cache["model"] != nil'
+              - 'replace_pattern(log.body, "^:\\s+", "")'
               # The UDM repeats its hostname before the program: "UDM-Pro-Max /usr/bin/prog[pid]: ..."
               - 'replace_pattern(log.body, "^[A-Za-z0-9._-]+ ((?:\\S*/)?[A-Za-z0-9_.-]+(?:\\[\\d+\\])?: )", "$$1")'
               - 'merge_maps(log.cache, ExtractPatterns(log.body, "^(?:\\S*/)?(?P<program>[A-Za-z0-9_.-]+)(?:\\[\\d+\\])?: "), "upsert")'
@@ -269,8 +276,8 @@ spec:
             statements:
               - 'set(log.cache["a"], ParseJSON(Substring(log.body, 5, Len(log.body) - 5))["TNAUDIT"])'
               - 'set(log.attributes["log.parse_failed"], true) where log.cache["a"] == nil'
-              - 'set(log.cache["ed"], ParseJSON(log.cache["a"]["event_data"])) where log.cache["a"] != nil and IsString(log.cache["a"]["event_data"])'
-              - 'set(log.cache["sd"], ParseJSON(log.cache["a"]["svc_data"])) where log.cache["a"] != nil and IsString(log.cache["a"]["svc_data"])'
+              - 'set(log.cache["ed"], ParseJSON(log.cache["a"]["event_data"])) where log.cache["a"] != nil and IsString(log.cache["a"]["event_data"]) and log.cache["a"]["event_data"] != "null"'
+              - 'set(log.cache["sd"], ParseJSON(log.cache["a"]["svc_data"])) where log.cache["a"] != nil and IsString(log.cache["a"]["svc_data"]) and log.cache["a"]["svc_data"] != "null"'
               - 'set(log.attributes["truenas.audit.raw"], log.body) where log.cache["a"] != nil'
               - 'set(log.attributes["truenas.audit.event"], log.cache["a"]["event"]) where log.cache["a"] != nil'
               - 'set(log.attributes["truenas.audit.service"], log.cache["a"]["svc"]) where log.cache["a"] != nil'
