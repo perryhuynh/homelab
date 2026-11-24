@@ -9,6 +9,10 @@ metadata:
     kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   instances: 3
+  # openebs-hostpath pins each instance's volume to its node; never stack two
+  # instances on one node's SSD
+  affinity:
+    podAntiAffinityType: required
   imageName: ghcr.io/cloudnative-pg/postgresql:18.7-system-trixie@sha256:c437b7c6c00aa7e66f5d6de1dd83602391fdebd4ff776ffb1ab7aaba5e7351ad
   primaryUpdateMethod: switchover
   primaryUpdateStrategy: unsupervised
