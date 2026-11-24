@@ -42,6 +42,8 @@ spec:
               tag: 4.146.0@sha256:fc708b18f6c613b5a9d00f1d1801e58376d3df9c5b5de77f5c02d67b711f99c9
             env:
               TZ: *TZ
+            # skip the image entrypoint: its setuid fixuid/sudo steps need privilege escalation
+            command: ["dumb-init", "/usr/bin/code-server"]
             args:
               - --auth
               - none
@@ -59,6 +61,12 @@ spec:
                 memory: 1Gi
               requests:
                 cpu: 10m
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
     defaultPodOptions:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
@@ -89,6 +97,13 @@ spec:
             subPath: logs
           - path: /tmp
             subPath: tmp
+        advancedMounts:
+          home-assistant:
+            code-server:
+              - path: /data
+                subPath: code-server-data
+              - path: /home/coder
+                subPath: code-server-home
     route:
       app:
         hostnames:
