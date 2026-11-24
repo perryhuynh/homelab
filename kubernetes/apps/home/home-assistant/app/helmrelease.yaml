@@ -42,6 +42,10 @@ spec:
               tag: 4.146.0@sha256:fc708b18f6c613b5a9d00f1d1801e58376d3df9c5b5de77f5c02d67b711f99c9
             env:
               TZ: *TZ
+              SERVER_HOST:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.podIP
             # skip the image entrypoint: its setuid fixuid/sudo steps need privilege escalation
             command: ["dumb-init", "/usr/bin/code-server"]
             args:
@@ -53,9 +57,10 @@ spec:
               - /data/user-data
               - --extensions-dir
               - /data/extensions
-              # the image entrypoint (bypassed above) normally passes --bind-addr 0.0.0.0
+              # pod IP only: 0.0.0.0 would also listen on the IoT VLAN interface (eth1),
+              # where requests skip Envoy and Authelia and --auth none gives a shell
               - --bind-addr
-              - 0.0.0.0:12321
+              - $(SERVER_HOST):12321
               - /config
             resources:
               limits:
