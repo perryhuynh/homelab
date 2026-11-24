@@ -12,8 +12,8 @@ spec:
   values:
     telemetry:
       enabled: false
-    # shared CloudNativePG cluster instead of the chart's own Postgres; direct to
-    # postgres-rw (not pgbouncer transaction pooling) for migrations and prepared statements
+    # shared CloudNativePG cluster instead of the chart's own Postgres, through
+    # the pgbouncer pooler like the other apps.
     database:
       enabled: false
       user: kguardian
@@ -21,7 +21,7 @@ spec:
       existingSecret: kguardian-secret
       passwordSecretKey: KGUARDIAN_POSTGRES_PASS
       external:
-        host: postgres-rw.database.svc.cluster.local
+        host: postgres-pgbouncer-rw.database.svc.cluster.local
         port: 5432
         sslMode: require
     broker:
