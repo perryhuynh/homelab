@@ -10,6 +10,14 @@ spec:
     kind: OCIRepository
     name: kguardian
   values:
+    ai:
+      enabled: true
+      mcp:
+        enabled: true
+        auth:
+          # MCP exposes the same read-only telemetry as the broker.
+          existingSecret: kguardian-broker-auth
+          secretKey: read
     telemetry:
       enabled: false
     # shared CloudNativePG cluster instead of the chart's own Postgres; direct to
@@ -33,13 +41,15 @@ spec:
         retention:
           days: 7
     controller:
-      # observe every namespace except kube-system (default also excludes the
-      # release namespace, which holds authelia and glauth here). Exclusion is
-      # per namespace only: media is skipped for now so qBittorrent's peer
-      # connections (a new row per peer) do not flood the database.
+      # observe every namespace except kube-system (the release namespace is
+      # excluded by default). Exclusion is per namespace only: media is skipped
+      # so qBittorrent's peer connections (a new row per peer) do not flood the
+      # database, and database is skipped so postgres traffic does not feed
+      # back into its own store.
       excludedNamespaces:
         - kube-system
         - media
+        - database
     # network policy generation is the goal; skip the per-pod CPU/memory history
     # writes, and capture syscalls at a low tier (profiles are not enforceable)
     compute:
