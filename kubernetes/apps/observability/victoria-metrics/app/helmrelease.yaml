@@ -21,6 +21,21 @@ spec:
       persistentVolume:
         storageClassName: ceph-block
         size: 200Gi
+      podSecurityContext:
+        enabled: true
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        # existing /storage files are root-owned; fsGroup grants group write once
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      securityContext:
+        enabled: true
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
       resources:
         limits:
           memory: 8Gi
