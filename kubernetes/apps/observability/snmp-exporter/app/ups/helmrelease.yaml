@@ -13,6 +13,12 @@ spec:
     fullnameOverride: *app
     image:
       repository: quay.io/prometheus/snmp-exporter
+    # merged with the chart default (runAsNonRoot, runAsUser 1000, readOnlyRootFilesystem)
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
     resources:
       limits:
         memory: 128Mi
