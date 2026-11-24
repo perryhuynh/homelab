@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: home-assistant
+spec:
+  description: Only envoy-internal and ha-mcp may reach Home Assistant and code-server over the pod network
+  # Covers eth0 only; the Multus IoT interface (eth1) bypasses Cilium.
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/controller: home-assistant
+  ingress:
+    # kubelet probes
+    - fromEntities:
+        - host
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: networking
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
+            # code-server: unauthenticated, so only behind the Authelia SecurityPolicy
+            - port: "12321"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: home
+            app.kubernetes.io/name: home-assistant-mcp
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
