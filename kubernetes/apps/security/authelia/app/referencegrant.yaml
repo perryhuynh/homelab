@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/referencegrant_v1beta1.json
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: authelia-ext-authz
+spec:
+  # SecurityPolicies from kubernetes/components/authelia call Authelia's ext-authz
+  # endpoint; add each namespace that uses the component
+  from:
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: home
+  to:
+    - group: ""
+      kind: Service
+      name: authelia

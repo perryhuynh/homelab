@@ -1,0 +1,36 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: "${APP}-authelia"
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: "${AUTHELIA_ROUTE:=${APP}}"
+  # forward auth against Authelia's ext-authz endpoint; per-domain policy lives in
+  # Authelia's access_control rules (kubernetes/apps/security/authelia)
+  extAuth:
+    failOpen: false
+    headersToExtAuth:
+      - accept
+      - sec-fetch-mode
+      - sec-fetch-dest
+      - x-requested-with
+      - cookie
+      - authorization
+      - proxy-authorization
+      - x-forwarded-proto
+    http:
+      backendRefs:
+        # cross-namespace: needs the ReferenceGrant in kubernetes/apps/security/authelia
+        - name: authelia
+          namespace: security
+          port: 80
+      path: /api/authz/ext-authz/
+      headersToBackend:
+        - Remote-User
+        - Remote-Groups
+        - Remote-Name
+        - Remote-Email

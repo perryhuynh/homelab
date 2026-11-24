@@ -10,6 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
+    - ../../../../components/authelia
     - ../../../../components/volsync
   dependsOn:
     - name: rook-ceph-cluster
@@ -23,6 +24,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      AUTHELIA_ROUTE: home-assistant-code
       VOLSYNC_CAPACITY: 5Gi
   prune: true
   sourceRef:
