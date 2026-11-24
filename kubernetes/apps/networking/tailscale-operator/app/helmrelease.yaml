@@ -14,6 +14,21 @@ spec:
       mode: "true"
     operatorConfig:
       logging: "debug"
+      # tsnet state lives in the operator Secret (kubestore); $HOME/.config only holds
+      # logs and caches. HOME=/tmp because /root is root-only and the chart has no
+      # extra volumes, so the root filesystem stays writable.
+      extraEnv:
+        - name: HOME
+          value: /tmp
+      podSecurityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
       image:
         repository: ghcr.io/tailscale/k8s-operator
     proxyConfig:
