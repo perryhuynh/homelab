@@ -74,6 +74,9 @@ spec:
                   - "ALL"
               readOnlyRootFilesystem: true
     defaultPodOptions:
+      # fixed hostname so /etc/hosts always maps "home-assistant" to the pod IP; HA's
+      # UI-managed http server_host is set to it to avoid listening on the IoT VLAN (eth1)
+      hostname: home-assistant
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
