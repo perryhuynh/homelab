@@ -33,3 +33,18 @@ spec:
         - ports:
             - port: "8123"
               protocol: TCP
+    # Replies to Home Assistant's own outbound DNS and MQTT connections. Limited
+    # to the Linux ephemeral port range so these peers cannot open new
+    # connections to 8123 or code-server on 12321.
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            app.kubernetes.io/name: mosquitto
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: ANY
