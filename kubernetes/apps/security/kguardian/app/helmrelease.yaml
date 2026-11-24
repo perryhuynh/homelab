@@ -34,9 +34,12 @@ spec:
           days: 7
     controller:
       # observe every namespace except kube-system (default also excludes the
-      # release namespace, which holds authelia and glauth here)
+      # release namespace, which holds authelia and glauth here). Exclusion is
+      # per namespace only: media is skipped for now so qBittorrent's peer
+      # connections (a new row per peer) do not flood the database.
       excludedNamespaces:
         - kube-system
+        - media
     # network policy generation is the goal; skip the per-pod CPU/memory history
     # writes, and capture syscalls at a low tier (profiles are not enforceable)
     compute:
