@@ -29,6 +29,9 @@ spec:
               MCP_HEALTHZ: true
               MCP_HOST: 0.0.0.0
               MCP_PORT: &port 8086
+              # global read-only: blocks write tools on every endpoint, including /mcp
+              # called directly on the Service, not just the gateway's /mcp/readonly
+              READ_ONLY_MODE: true
               TZ: America/Los_Angeles
             envFrom:
               - secretRef:
