@@ -46,3 +46,11 @@ spec:
           host: konflate.flux-system.svc.cluster.local
           port: 8080
           protocol: StreamableHTTP
+      - name: home-assistant
+        static:
+          host: home-assistant-mcp.home.svc.cluster.local
+          port: 8086
+          # /readonly hides and blocks ha-mcp's write tools (ha_call_service,
+          # ha_write_file, ...), which the gateway's write-name filter does not catch
+          path: /mcp/readonly
+          protocol: StreamableHTTP
