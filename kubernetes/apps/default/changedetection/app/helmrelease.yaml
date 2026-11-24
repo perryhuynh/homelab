@@ -98,6 +98,11 @@ spec:
                 memory: 4Gi
               requests:
                 cpu: 10m
+            # browserless launches Chromium with --no-sandbox, so no capabilities are needed
+            securityContext:
+              capabilities:
+                drop:
+                  - "ALL"
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
