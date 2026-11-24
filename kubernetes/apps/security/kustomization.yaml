@@ -11,3 +11,4 @@ resources:
   - ./namespace.yaml
   - ./authelia/ks.yaml
   - ./glauth/ks.yaml
+  - ./kguardian/ks.yaml

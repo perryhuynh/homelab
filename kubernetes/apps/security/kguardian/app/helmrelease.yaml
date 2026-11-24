@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kguardian
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: kguardian
+  values:
+    telemetry:
+      enabled: false
+    # shared CloudNativePG cluster instead of the chart's own Postgres; direct to
+    # postgres-rw (not pgbouncer transaction pooling) for migrations and prepared statements
+    database:
+      enabled: false
+      user: kguardian
+      databaseName: kguardian
+      existingSecret: kguardian-secret
+      passwordSecretKey: KGUARDIAN_POSTGRES_PASS
+      external:
+        host: postgres-rw.database.svc.cluster.local
+        port: 5432
+        sslMode: require
+    broker:
+      auth:
+        enabled: true
+        existingSecret: kguardian-broker-auth
+        mode: scoped
+      audit:
+        retention:
+          days: 7
+    controller:
+      # observe every namespace except kube-system (default also excludes the
+      # release namespace, which holds authelia and glauth here)
+      excludedNamespaces:
+        - kube-system
+    # network policy generation is the goal; skip the per-pod CPU/memory history
+    # writes, and capture syscalls at a low tier (profiles are not enforceable)
+    compute:
+      enabled: false
+    syscalls:
+      captureLevel: low
+    frontend:
+      allowedHosts:
+        - kguardian.perryhuynh.com
+  postRenderers:
+    - kustomize:
+        patches:
+          # create the kguardian database and role on the shared cluster
+          - target:
+              kind: Deployment
+              name: kguardian-broker
+            patch: |
+              - op: add
+                path: /spec/template/spec/initContainers/-
+                value:
+                  name: init-db
+                  image: ghcr.io/home-operations/postgres-init:18.7.0@sha256:6d4cfa4b8d343eb6fa0de8dd9ec416a2007f346bb631fc8e246e1f39eee6c4aa
+                  envFrom:
+                    - secretRef:
+                        name: kguardian-secret
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    capabilities:
+                      drop:
+                        - ALL
+                    readOnlyRootFilesystem: true
+                    runAsNonRoot: true
+                    runAsUser: 65534
