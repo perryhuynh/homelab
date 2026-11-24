@@ -53,8 +53,9 @@ spec:
               - /data/user-data
               - --extensions-dir
               - /data/extensions
-              - --port
-              - "12321"
+              # the image entrypoint (bypassed above) normally passes --bind-addr 0.0.0.0
+              - --bind-addr
+              - 0.0.0.0:12321
               - /config
             resources:
               limits:
