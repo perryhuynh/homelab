@@ -13,8 +13,7 @@ spec:
     telemetry:
       enabled: false
     # shared CloudNativePG cluster instead of the chart's own Postgres, through
-    # the pgbouncer pooler like the other apps. The init-db container still goes
-    # direct to postgres-rw because it needs the superuser.
+    # the pgbouncer pooler like the other apps.
     database:
       enabled: false
       user: kguardian
