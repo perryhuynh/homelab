@@ -94,13 +94,13 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.perryhuynh.com"
         parentRefs:
-          - name: envoy-external
+          - name: envoy-internal
             namespace: networking
             sectionName: https
         rules:
           - backendRefs:
-              - name: home-assistant-anubis
-                port: 8080
+              - identifier: app
+                port: &port 8123
       code:
         hostnames:
           - "{{ .Release.Name }}-code.perryhuynh.com"
@@ -116,7 +116,7 @@ spec:
       app:
         ports:
           http:
-            port: 8123
+            port: *port
       code-server:
         ports:
           code-server:
