@@ -6,7 +6,19 @@ metadata:
   name: mcp
 spec:
   mcp:
+    # Keep the shared MCP endpoint available when an upstream is unavailable.
+    failureMode: FailOpen
     targets:
+      - name: kguardian
+        static:
+          host: kguardian-llm-bridge.kguardian.svc.cluster.local
+          port: 8080
+          path: /mcp
+          protocol: StreamableHTTP
+          policies:
+            auth:
+              secretRef:
+                name: kguardian-mcp-auth
       - name: kubernetes
         static:
           host: kubernetes-mcp-server.kube-system.svc.cluster.local

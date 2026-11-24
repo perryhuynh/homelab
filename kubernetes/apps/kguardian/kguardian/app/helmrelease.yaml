@@ -32,6 +32,13 @@ spec:
       audit:
         retention:
           days: 7
+    ai:
+      enabled: true
+      mcp:
+        enabled: true
+        auth:
+          existingSecret: kguardian-broker-auth
+          secretKey: read
     controller:
       # Exclude kguardian's own flows and syscalls. Keep security observable;
       # skip media so qBittorrent's peer connections do not flood the database.
