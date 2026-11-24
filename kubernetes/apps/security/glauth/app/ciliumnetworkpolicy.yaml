@@ -1,0 +1,34 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: glauth
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: glauth
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: authelia
+      toPorts:
+        - ports:
+            - port: "389"
+              protocol: TCP
+    # Kubelet probes and Prometheus share GLAuth's HTTP listener.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "5555"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: observability
+            app.kubernetes.io/name: prometheus
+            app.kubernetes.io/instance: kube-prometheus-stack
+      toPorts:
+        - ports:
+            - port: "5555"
+              protocol: TCP
