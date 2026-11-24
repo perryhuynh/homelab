@@ -5,6 +5,16 @@ kind: OpenTelemetryCollector
 metadata:
   name: events
 spec:
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
   resources:
     limits:
       memory: 512Mi
@@ -58,6 +68,16 @@ kind: OpenTelemetryCollector
 metadata:
   name: unifi-syslog
 spec:
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
   replicas: 1
   ports:
     - name: syslog
@@ -227,6 +247,16 @@ kind: OpenTelemetryCollector
 metadata:
   name: truenas-syslog
 spec:
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
   replicas: 1
   ports:
     - name: syslog
