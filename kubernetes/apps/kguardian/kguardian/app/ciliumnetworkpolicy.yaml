@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kguardian-llm-bridge
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kguardian-llm-bridge
+  ingress:
+    # Kubelet health probes.
+    - fromEntities:
+        - host
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: networking
+            gateway.networking.k8s.io/gateway-name: mcp
+        # The frontend proxies only the chat and health routes.
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kguardian
+            app.kubernetes.io/name: kguardian-frontend
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
