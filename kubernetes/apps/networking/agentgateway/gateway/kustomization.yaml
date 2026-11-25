@@ -4,6 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./gateway.yaml
+  - ./ciliumnetworkpolicy.yaml
   - ./agentgatewaypolicy.yaml
   - ./backend.yaml
   - ./backend-authelia-jwks.yaml

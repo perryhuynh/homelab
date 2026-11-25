@@ -1,0 +1,62 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: agentgateway
+spec:
+  description: Only the mcp proxy may fetch xDS config from the agentgateway controller
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: agentgateway
+  ingress:
+    # Kubelet probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "9093"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            gateway.networking.k8s.io/gateway-name: mcp
+      toPorts:
+        - ports:
+            - port: "9978"
+              protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: agentgateway-mcp-proxy
+spec:
+  description: The mcp proxy serves HTTPS to LAN clients and in-cluster pods
+  endpointSelector:
+    matchLabels:
+      gateway.networking.k8s.io/gateway-name: mcp
+  ingress:
+    # Clients arrive from the LAN or are SNAT'd to a node address.
+    - fromEntities:
+        - world
+        - cluster
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # Kubelet probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "15021"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: observability
+            app.kubernetes.io/name: prometheus
+            app.kubernetes.io/instance: kube-prometheus-stack
+      toPorts:
+        - ports:
+            - port: "15020"
+              protocol: TCP
