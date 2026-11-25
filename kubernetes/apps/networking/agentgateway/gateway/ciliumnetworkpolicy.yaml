@@ -24,6 +24,19 @@ spec:
         - ports:
             - port: "9978"
               protocol: TCP
+    # Replies to this pod's own outbound connections. Cilium denies replies from
+    # same-node peers under an ingress policy, so allow the ephemeral port range.
+    # Peers still cannot open new connections to the listening ports.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 apiVersion: cilium.io/v2
@@ -43,6 +56,16 @@ spec:
       toPorts:
         - ports:
             - port: "443"
+              protocol: TCP
+    # Replies from MCP backends on the same node. Cilium denies these under an
+    # ingress policy, so allow them on the ephemeral port range only. Peers
+    # still cannot open new connections to the proxy's listener.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
               protocol: TCP
     # Kubelet probes.
     - fromEntities:
