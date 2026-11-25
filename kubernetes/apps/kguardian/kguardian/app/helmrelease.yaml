@@ -45,6 +45,18 @@ spec:
       excludedNamespaces:
         - kguardian
         - media
+    # report-only image signature discovery (cosign, Sigstore attestations);
+    # nothing is blocked. Contacts each image's registry anonymously and the
+    # Sigstore TUF CDN.
+    supplychain:
+      enabled: true
+      brokerIngest:
+        enabled: true
+      signatureDiscovery:
+        enabled: true
+    evaluator:
+      imageTrust:
+        enabled: true
     # network policy generation is the goal; skip the per-pod CPU/memory history
     # writes, and capture syscalls at a low tier (profiles are not enforceable)
     compute:
