@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: changedetection
+spec:
+  description: Only envoy-internal may reach the changedetection UI
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: changedetection
+      app.kubernetes.io/controller: changedetection
+  ingress:
+    # Kubelet probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "5000"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: networking
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      toPorts:
+        - ports:
+            - port: "5000"
+              protocol: TCP
+    # Replies to this pod's own outbound connections (DNS, the browser). Cilium
+    # denies replies from same-node peers under an ingress policy, so allow the
+    # ephemeral port range. Peers still cannot open new connections to 5000.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: changedetection-browser
+spec:
+  description: Only changedetection may drive the browserless Chromium instance
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: changedetection
+      app.kubernetes.io/controller: browser
+  ingress:
+    # Kubelet probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+    # browserless has no auth token set, so only the changedetection app may connect.
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: changedetection
+            app.kubernetes.io/controller: changedetection
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+    # Replies to this pod's own outbound connections (DNS). Cilium denies replies
+    # from same-node peers under an ingress policy, so allow the ephemeral port
+    # range. Peers still cannot open new connections to 3000.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP

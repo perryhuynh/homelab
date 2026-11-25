@@ -26,7 +26,7 @@ spec:
             env:
               BASE_URL: "https://changedetection.perryhuynh.com"
               DISABLE_VERSION_CHECK: "true"
-              PLAYWRIGHT_DRIVER_URL: "ws://localhost:3000/"
+              PLAYWRIGHT_DRIVER_URL: "ws://changedetection-browser.default.svc.cluster.local:3000/"
               PORT: &port 5000
               USE_X_SETTINGS: 1
               TZ: America/Los_Angeles
@@ -62,6 +62,12 @@ spec:
                 drop:
                   - "ALL"
               readOnlyRootFilesystem: true
+      browser:
+        defaultContainerOptionsStrategy: merge
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+        containers:
           browser:
             image:
               repository: ghcr.io/browserless/chromium
@@ -121,7 +127,7 @@ spec:
       cache:
         existingClaim: changedetection-cache
         advancedMounts:
-          changedetection:
+          browser:
             browser:
               - path: /downloads
                 subPath: downloads
@@ -139,8 +145,20 @@ spec:
           - name: envoy-internal
             namespace: networking
             sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
     service:
       app:
+        forceRename: *app
+        primary: true
+        controller: changedetection
         ports:
           http:
             port: *port
+      browser:
+        controller: browser
+        ports:
+          http:
+            port: 3000
