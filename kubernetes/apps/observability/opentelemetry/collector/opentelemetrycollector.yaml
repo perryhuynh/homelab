@@ -5,7 +5,18 @@ kind: OpenTelemetryCollector
 metadata:
   name: events
 spec:
+  # The previous pod must release its queue before the next writer starts.
+  deploymentUpdateStrategy:
+    type: Recreate
+  volumes:
+    - name: queue
+      persistentVolumeClaim:
+        claimName: events-log-queue
+  volumeMounts:
+    - name: queue
+      mountPath: /var/lib/otelcol/queue
   podSecurityContext:
+    fsGroup: 10001
     runAsNonRoot: true
     runAsUser: 10001
     runAsGroup: 10001
@@ -23,6 +34,10 @@ spec:
     requests:
       cpu: 10m
   config:
+    extensions:
+      file_storage:
+        directory: /var/lib/otelcol/queue
+        fsync: true
     receivers:
       k8s_events:
         auth_type: serviceAccount
@@ -39,10 +54,18 @@ spec:
         spike_limit_percentage: 15
     exporters:
       otlp_http:
+        sending_queue:
+          storage: file_storage
+          sizer: bytes
+          queue_size: 134217728 # 128 MiB of log payload, leaving room for database overhead
+        retry_on_failure:
+          enabled: true
+          max_elapsed_time: 0
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
         headers:
           VL-Stream-Fields: k8s.namespace.name,k8s.event.reason
     service:
+      extensions: [file_storage]
       pipelines:
         logs:
           receivers:
@@ -68,7 +91,18 @@ kind: OpenTelemetryCollector
 metadata:
   name: unifi-syslog
 spec:
+  # The previous pod must release its queue before the next writer starts.
+  deploymentUpdateStrategy:
+    type: Recreate
+  volumes:
+    - name: queue
+      persistentVolumeClaim:
+        claimName: unifi-syslog-log-queue
+  volumeMounts:
+    - name: queue
+      mountPath: /var/lib/otelcol/queue
   podSecurityContext:
+    fsGroup: 10001
     runAsNonRoot: true
     runAsUser: 10001
     runAsGroup: 10001
@@ -89,6 +123,10 @@ spec:
     requests:
       cpu: 10m
   config:
+    extensions:
+      file_storage:
+        directory: /var/lib/otelcol/queue
+        fsync: true
     receivers:
       syslog:
         protocol: rfc3164
@@ -210,11 +248,19 @@ spec:
       batch: {}
     exporters:
       otlp_http:
+        sending_queue:
+          storage: file_storage
+          sizer: bytes
+          queue_size: 134217728 # 128 MiB of log payload, leaving room for database overhead
+        retry_on_failure:
+          enabled: true
+          max_elapsed_time: 0
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
         headers:
           VL-Stream-Fields: service.name,hostname,log.type
           VL-Ignore-Fields: scope.name,scope.version
     service:
+      extensions: [file_storage]
       pipelines:
         logs:
           receivers:
@@ -247,7 +293,18 @@ kind: OpenTelemetryCollector
 metadata:
   name: truenas-syslog
 spec:
+  # The previous pod must release its queue before the next writer starts.
+  deploymentUpdateStrategy:
+    type: Recreate
+  volumes:
+    - name: queue
+      persistentVolumeClaim:
+        claimName: truenas-syslog-log-queue
+  volumeMounts:
+    - name: queue
+      mountPath: /var/lib/otelcol/queue
   podSecurityContext:
+    fsGroup: 10001
     runAsNonRoot: true
     runAsUser: 10001
     runAsGroup: 10001
@@ -268,6 +325,10 @@ spec:
     requests:
       cpu: 10m
   config:
+    extensions:
+      file_storage:
+        directory: /var/lib/otelcol/queue
+        fsync: true
     receivers:
       # TrueNAS uses syslog-ng's syslog() driver: RFC 5424 with octet-counting
       # framing over TCP.
@@ -333,11 +394,19 @@ spec:
       batch: {}
     exporters:
       otlp_http:
+        sending_queue:
+          storage: file_storage
+          sizer: bytes
+          queue_size: 134217728 # 128 MiB of log payload, leaving room for database overhead
+        retry_on_failure:
+          enabled: true
+          max_elapsed_time: 0
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
         headers:
           VL-Stream-Fields: service.name,hostname,process.executable.name
           VL-Ignore-Fields: scope.name,scope.version
     service:
+      extensions: [file_storage]
       pipelines:
         logs:
           receivers:
@@ -452,8 +521,8 @@ spec:
           VL-Stream-Fields: node,talos-service,facility
           VL-Ignore-Fields: scope.name,scope.version
         # Talos cannot resend lines it already handed over, so keep retrying
-        # through a VictoriaLogs outage. The queue is in memory, like the other
-        # collectors': a restart during an outage loses the backlog.
+        # through a VictoriaLogs outage. The queue stays in memory to avoid node disk
+        # writes. A restart during an outage loses the backlog.
         retry_on_failure:
           enabled: true
           max_elapsed_time: 0
