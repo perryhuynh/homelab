@@ -439,6 +439,7 @@ metadata:
 spec:
   mode: daemonset
   podSecurityContext:
+    fsGroup: 10001
     runAsNonRoot: true
     runAsUser: 10001
     runAsGroup: 10001
@@ -463,7 +464,18 @@ spec:
     requests:
       cpu: 10m
       memory: 64Mi
+  volumes:
+    - name: queue
+      emptyDir:
+        medium: Memory
+        sizeLimit: 32Mi
+  volumeMounts:
+    - name: queue
+      mountPath: /var/lib/otelcol/queue
   config:
+    extensions:
+      file_storage:
+        directory: /var/lib/otelcol/queue
     receivers:
       # Talos sends one JSON object per line. Service lines carry msg (syslogd
       # uses content), talos-level, talos-service and talos-time; kernel lines
@@ -521,12 +533,18 @@ spec:
           VL-Stream-Fields: node,talos-service,facility
           VL-Ignore-Fields: scope.name,scope.version
         # Talos cannot resend lines it already handed over, so keep retrying
-        # through a VictoriaLogs outage. The queue stays in memory to avoid node disk
-        # writes. A restart during an outage loses the backlog.
+        # through a VictoriaLogs outage. The queue lives on a Memory emptyDir to
+        # avoid node disk writes: it survives container restarts, but a new pod
+        # (rollout, node reboot) loses the backlog.
+        sending_queue:
+          storage: file_storage
+          sizer: bytes
+          queue_size: 4194304
         retry_on_failure:
           enabled: true
           max_elapsed_time: 0
     service:
+      extensions: [file_storage]
       pipelines:
         logs:
           receivers:
@@ -559,6 +577,7 @@ spec:
   podAnnotations:
     kubernetes.io/egress-bandwidth: 4M
   podSecurityContext:
+    fsGroup: 10001
     runAsNonRoot: true
     runAsUser: 10001
     # Read kubelet's root-group log files through the read-only mount.
@@ -582,20 +601,32 @@ spec:
         fieldRef:
           fieldPath: spec.nodeName
   volumes:
+    - name: queue
+      emptyDir:
+        medium: Memory
+        sizeLimit: 32Mi
     - name: pod-logs
       hostPath:
         path: /var/log/pods
         type: Directory
   volumeMounts:
+    - name: queue
+      mountPath: /var/lib/otelcol/queue
     - name: pod-logs
       mountPath: /var/log/pods
       readOnly: true
   config:
+    extensions:
+      file_storage:
+        directory: /var/lib/otelcol/queue
     receivers:
       filelog:
         include: [/var/log/pods/*/*/*.log]
         start_at: end
         include_file_path: true
+        # Keep read offsets across container restarts so lines written
+        # during a restart are not skipped. Stored on the Memory emptyDir.
+        storage: file_storage
         operators:
           - type: container
     processors:
@@ -652,12 +683,14 @@ spec:
           VL-Stream-Fields: kubernetes.pod_namespace,kubernetes.pod_name,kubernetes.container_name,kubernetes.pod_labels.app.kubernetes.io/name
         # Prefer a short gap to flooding VictoriaLogs with a node's backlog.
         sending_queue:
+          storage: file_storage
           sizer: bytes
           queue_size: 4194304
           num_consumers: 1
         retry_on_failure:
           max_elapsed_time: 30s
     service:
+      extensions: [file_storage]
       pipelines:
         logs:
           receivers: [filelog]
