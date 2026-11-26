@@ -532,6 +532,10 @@ spec:
         headers:
           VL-Stream-Fields: node,talos-service,facility
           VL-Ignore-Fields: scope.name,scope.version
+        # Talos cannot resend lines it already handed over, so keep retrying
+        # through a VictoriaLogs outage. The queue lives on a Memory emptyDir to
+        # avoid node disk writes: it survives container restarts, but a new pod
+        # (rollout, node reboot) loses the backlog.
         sending_queue:
           storage: file_storage
           sizer: bytes
@@ -620,6 +624,9 @@ spec:
         include: [/var/log/pods/*/*/*.log]
         start_at: end
         include_file_path: true
+        # Keep read offsets across container restarts so lines written
+        # during a restart are not skipped. Stored on the Memory emptyDir.
+        storage: file_storage
         operators:
           - type: container
     processors:
