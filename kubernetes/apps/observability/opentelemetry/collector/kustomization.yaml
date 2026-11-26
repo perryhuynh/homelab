@@ -6,3 +6,5 @@ resources:
   - ./opentelemetrycollector.yaml
   - ./rbac.yaml
   - ./service.yaml
+  - ./podmonitor.yaml
+  - ./prometheusrule.yaml
