@@ -21,6 +21,12 @@ spec:
           envFrom:
             - secretRef:
                 name: authelia-secret
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - "ALL"
+            readOnlyRootFilesystem: true
         initContainers:
           init-db:
             image:
@@ -67,15 +73,13 @@ spec:
                 cpu: 1
               requests:
                 cpu: 10m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - "ALL"
-              readOnlyRootFilesystem: true
-              runAsNonRoot: true
-              runAsUser: 1000
-              runAsGroup: 1000
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
     persistence:
       config:
         type: configMap
