@@ -358,3 +358,122 @@ spec:
                   otlp:
                     protocol: http/protobuf
                     endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/opentelemetry.io/opentelemetrycollector_v1beta1.json
+# Receives Talos service and kernel logs (talos/patches/all/15-logging.yaml) on
+# each node and ships them to VictoriaLogs. Talos sends to the pinned ClusterIP
+# of the talos-logs Service (service.yaml), which routes to the local pod.
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: talos-logs
+spec:
+  mode: daemonset
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+  ports:
+    - name: talos
+      port: 6050
+      protocol: TCP
+  env:
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi
+  config:
+    receivers:
+      # Talos sends one JSON object per line. Service lines carry msg (syslogd
+      # uses content), talos-level, talos-service and talos-time; kernel lines
+      # from KmsgLogConfig carry facility instead of talos-service.
+      tcp_log:
+        listen_address: 0.0.0.0:6050
+        # Talos cannot resend lines it already handed over. Retry when the
+        # memory limiter refuses them under pressure.
+        retry_on_failure:
+          enabled: true
+          max_elapsed_time: 0
+        operators:
+          - type: json_parser
+            parse_from: body
+            parse_to: attributes
+            timestamp:
+              parse_from: attributes["talos-time"]
+              layout_type: gotime
+              layout: "2006-01-02T15:04:05.999999999Z07:00"
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+      # The "kernel" service duplicates the lines that KmsgLogConfig sends.
+      # dns-resolve-cache is two debug lines per host DNS query. The console
+      # dashboard polls machined every second.
+      filter/noise:
+        error_mode: ignore
+        logs:
+          log_record:
+            - 'IsMatch(log.attributes["talos-service"], "^(kernel|dns-resolve-cache)$$")'
+            - 'log.attributes["talos-service"] == "machined" and IsMatch(log.attributes["msg"], "match with service \"dashboard\"")'
+      # Keep the field names the Fluent Bit relay wrote: the message in the
+      # body, level, and node.
+      transform/talos:
+        error_mode: ignore
+        log_statements:
+          - statements:
+              - 'set(log.body, log.attributes["msg"]) where log.attributes["msg"] != nil'
+              - 'set(log.body, log.attributes["content"]) where log.attributes["msg"] == nil and log.attributes["content"] != nil'
+              # Kernel lines end in a newline.
+              - 'replace_pattern(log.body, "\\n$$", "")'
+              - 'set(log.attributes["level"], log.attributes["talos-level"]) where log.attributes["talos-level"] != nil'
+              - 'set(log.attributes["node"], "${env:NODE_NAME}")'
+              # json_parser reads numbers as floats; keep kernel counters whole.
+              - 'set(log.attributes["clock"], Int(log.attributes["clock"])) where log.attributes["clock"] != nil'
+              - 'set(log.attributes["seq"], Int(log.attributes["seq"])) where log.attributes["seq"] != nil'
+              - 'delete_matching_keys(log.attributes, "^(msg|content|talos-level|talos-time)$$")'
+      batch: {}
+    exporters:
+      otlp_http:
+        logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
+        headers:
+          VL-Stream-Fields: node,talos-service,facility
+          VL-Ignore-Fields: scope.name,scope.version
+        # Talos cannot resend lines it already handed over, so keep retrying
+        # through a VictoriaLogs outage. The queue is in memory, like the other
+        # collectors': a restart during an outage loses the backlog.
+        retry_on_failure:
+          enabled: true
+          max_elapsed_time: 0
+    service:
+      pipelines:
+        logs:
+          receivers:
+            - tcp_log
+          processors:
+            - memory_limiter
+            - filter/noise
+            - transform/talos
+            - batch
+          exporters:
+            - otlp_http
+      telemetry:
+        metrics:
+          readers:
+            - periodic:
+                exporter:
+                  otlp:
+                    protocol: http/protobuf
+                    endpoint: http://victoria-metrics.observability.svc.cluster.local:8428/opentelemetry/v1/metrics
