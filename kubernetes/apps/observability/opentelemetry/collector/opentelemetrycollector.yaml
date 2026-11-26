@@ -9,6 +9,8 @@ spec:
     runAsNonRoot: true
     runAsUser: 10001
     runAsGroup: 10001
+    seccompProfile:
+      type: RuntimeDefault
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
@@ -36,8 +38,6 @@ spec:
         limit_percentage: 75
         spike_limit_percentage: 15
     exporters:
-      debug:
-        verbosity: detailed
       otlp_http:
         logs_endpoint: http://victoria-logs.observability.svc.cluster.local:9428/insert/opentelemetry/v1/logs
         headers:
