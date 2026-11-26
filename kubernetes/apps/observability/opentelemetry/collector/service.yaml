@@ -36,3 +36,22 @@ spec:
   selector:
     app.kubernetes.io/component: opentelemetry-collector
     app.kubernetes.io/instance: observability.truenas-syslog
+---
+# talos/patches/all/15-logging.yaml repeats this IP, because the host network
+# namespace cannot resolve cluster DNS. The collector stamps its own node name,
+# so each node must reach its local pod.
+apiVersion: v1
+kind: Service
+metadata:
+  name: talos-logs
+spec:
+  clusterIP: 10.43.0.61
+  internalTrafficPolicy: Local
+  ports:
+    - name: talos
+      port: 6050
+      targetPort: 6050
+      protocol: TCP
+  selector:
+    app.kubernetes.io/component: opentelemetry-collector
+    app.kubernetes.io/instance: observability.talos-logs

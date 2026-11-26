@@ -1,15 +1,15 @@
 ---
-# Ship Talos service and kernel logs to the talos-logs-relay DaemonSet, which
-# forwards them to VictoriaLogs. The host network namespace cannot resolve
-# cluster DNS, so this is the pinned ClusterIP of the talos-logs-relay Service
-# (kubernetes/apps/observability/talos-logs-relay).
+# Ship Talos service and kernel logs to the talos-logs OTel collector
+# DaemonSet, which forwards them to VictoriaLogs. The host network namespace
+# cannot resolve cluster DNS, so this is the pinned ClusterIP of the talos-logs
+# Service (kubernetes/apps/observability/opentelemetry/collector/service.yaml).
 machine:
   logging:
     destinations:
-      - endpoint: tcp://10.43.0.60:6050/
+      - endpoint: tcp://10.43.0.61:6050/
         format: json_lines
 ---
 apiVersion: v1alpha1
 kind: KmsgLogConfig
-name: talos-logs-relay
-url: tcp://10.43.0.60:6050/
+name: talos-logs
+url: tcp://10.43.0.61:6050/
