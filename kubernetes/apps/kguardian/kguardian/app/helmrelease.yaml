@@ -44,6 +44,7 @@ spec:
       # skip media so qBittorrent's peer connections do not flood the database.
       excludedNamespaces:
         - kguardian
+        - kube-system
         - media
     # report-only image signature discovery (cosign, Sigstore attestations);
     # nothing is blocked. Contacts each image's registry anonymously and the
