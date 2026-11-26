@@ -9,3 +9,17 @@ spec:
   chartRef:
     kind: OCIRepository
     name: gha-runner-scale-set-controller
+  values:
+    # The image already runs as 65532; the chart mounts an emptyDir at /tmp.
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 65532
+      runAsGroup: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
