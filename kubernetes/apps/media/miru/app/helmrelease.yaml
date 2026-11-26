@@ -1,0 +1,107 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app miru
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: miru
+  values:
+    controllers:
+      miru:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/hononeko/miru
+              tag: 1.0.0@sha256:17282be8d377df633a046d84a18ae81e92b866c459437965e79ebd66b3564927
+            env:
+              TZ: America/Los_Angeles
+              MIRU_PORT: &port 8080
+              MIRU_TRUST_PROXY_HEADERS: "true"
+              AUTH_MODE: oidc
+              AUTH_COOKIE_SECURE: "true"
+              OIDC_DISPLAY_NAME: Authelia
+              OIDC_ISSUER_URL: https://auth.perryhuynh.com
+              OIDC_REDIRECT_URI: https://miru.perryhuynh.com/api/v1/auth/oidc/callback
+              OIDC_POST_LOGOUT_REDIRECT_URI: https://miru.perryhuynh.com/login
+              OIDC_SCOPES: openid,profile,email,groups
+              OIDC_ADMIN_GROUPS: admins
+              OIDC_USER_GROUPS: people
+            envFrom:
+              - secretRef:
+                  name: miru
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                <<: *probe
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              startup:
+                <<: *probe
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: *port
+                  periodSeconds: 5
+                  failureThreshold: 30
+            resources:
+              limits:
+                memory: 1Gi
+              requests:
+                cpu: 10m
+                memory: 256Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - "ALL"
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    persistence:
+      data:
+        existingClaim: *app
+        globalMounts:
+          - path: /data
+      tmp:
+        type: emptyDir
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.perryhuynh.com"
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+    service:
+      app:
+        ports:
+          http:
+            port: *port
