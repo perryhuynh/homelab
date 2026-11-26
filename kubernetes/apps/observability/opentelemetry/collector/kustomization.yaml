@@ -8,3 +8,4 @@ resources:
   - ./service.yaml
   - ./podmonitor.yaml
   - ./prometheusrule.yaml
+  - ./pvc.yaml
