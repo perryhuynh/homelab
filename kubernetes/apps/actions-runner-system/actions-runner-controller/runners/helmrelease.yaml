@@ -70,7 +70,6 @@ spec:
               - mountPath: /var/run/secrets/talos.dev
                 name: talos
                 readOnly: true
-        serviceAccountName: *app
         securityContext:
           # The image sets USER runner by name; kubelet needs the numeric UID
           # (1001 in actions/runner) to verify runAsNonRoot.
