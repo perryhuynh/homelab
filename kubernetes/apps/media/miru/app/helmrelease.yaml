@@ -24,6 +24,8 @@ spec:
               MIRU_PORT: &port 8080
               MIRU_TRUST_PROXY_HEADERS: "true"
               AUTH_MODE: oidc
+              # 1.0.0 does not default this on with AUTH_MODE=oidc
+              OIDC_ENABLED: "true"
               AUTH_COOKIE_SECURE: "true"
               OIDC_DISPLAY_NAME: Authelia
               OIDC_ISSUER_URL: https://auth.perryhuynh.com
