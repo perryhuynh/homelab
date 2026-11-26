@@ -17,7 +17,8 @@ spec:
         badge:
           size: 12
       cache:
-        enabled: false
+        enabled: true
+        maxAge: 60
       badges:
         - id: flux_version
           query: label_replace(flux_instance_info, "revision", "$1", "revision", "v(.+)@sha256:.+")
@@ -87,6 +88,10 @@ spec:
           sectionName: https
       hostnames:
         - "{{ .Release.Name }}.perryhuynh.com"
+      matches:
+        - path:
+            type: PathPrefix
+            value: /badges
     podAnnotations:
       reloader.stakater.com/auto: "true"
     resources:
