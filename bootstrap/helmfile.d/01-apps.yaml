@@ -17,6 +17,13 @@ releases:
       - template: ocirepository
     values:
       - ./templates/values.yaml.gotmpl
+    # Hubble relay is not Ready until it resolves hubble-peer, and CoreDNS installs
+    # after Cilium, so an atomic install would time out. Flux enables both later.
+    set:
+      - name: hubble.relay.enabled
+        value: false
+      - name: hubble.ui.enabled
+        value: false
     hooks:
       - # Wait for Cilium CRDs to be available
         command: bash

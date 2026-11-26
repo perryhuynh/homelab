@@ -9,8 +9,15 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  # Hubble UI has no auth of its own; put it behind Authelia forward auth.
+  components:
+    - ../../../../components/authelia
   interval: 1h
   path: ./kubernetes/apps/kube-system/cilium/app
+  postBuild:
+    substitute:
+      APP: *app
+      AUTHELIA_ROUTE: hubble-ui
   prune: true
   sourceRef:
     kind: GitRepository
