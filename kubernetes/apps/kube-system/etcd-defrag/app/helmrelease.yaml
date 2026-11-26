@@ -14,9 +14,10 @@ spec:
       # Must use host network to access etcd on localhost:2379
       hostNetwork: true
       securityContext:
-        runAsUser: 0
-        runAsGroup: 0
-        runAsNonRoot: false
+        # Talos owns the etcd credentials as 60:60 with mode 0400.
+        runAsUser: 60
+        runAsGroup: 60
+        runAsNonRoot: true
       # Ensure this only runs on the control plane node
       nodeSelector:
         node-role.kubernetes.io/control-plane: ""
@@ -65,11 +66,23 @@ spec:
                 drop:
                   - ALL
     persistence:
-      certs:
+      ca-crt:
         type: hostPath
-        hostPath: /system/secrets/etcd
+        hostPath: /system/secrets/etcd/ca.crt
         globalMounts:
-          - path: /certs
+          - path: /certs/ca.crt
+            readOnly: true
+      server-crt:
+        type: hostPath
+        hostPath: /system/secrets/etcd/server.crt
+        globalMounts:
+          - path: /certs/server.crt
+            readOnly: true
+      server-key:
+        type: hostPath
+        hostPath: /system/secrets/etcd/server.key
+        globalMounts:
+          - path: /certs/server.key
             readOnly: true
       tmpfs:
         type: emptyDir
