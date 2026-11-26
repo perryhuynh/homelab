@@ -45,7 +45,7 @@ kind: Service
 metadata:
   name: talos-logs
 spec:
-  clusterIP: 10.43.0.61
+  clusterIP: 10.43.0.60
   internalTrafficPolicy: Local
   ports:
     - name: talos

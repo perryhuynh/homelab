@@ -6,10 +6,11 @@
 machine:
   logging:
     destinations:
-      - endpoint: tcp://10.43.0.61:6050/
+      - endpoint: tcp://10.43.0.60:6050/
         format: json_lines
 ---
+# The name predates the OTel collector; renaming it would need a Talos apply.
 apiVersion: v1alpha1
 kind: KmsgLogConfig
-name: talos-logs
-url: tcp://10.43.0.61:6050/
+name: talos-logs-relay
+url: tcp://10.43.0.60:6050/
