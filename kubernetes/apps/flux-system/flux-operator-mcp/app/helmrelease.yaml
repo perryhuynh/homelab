@@ -12,6 +12,8 @@ spec:
   values:
     transport: http
     readonly: true
+    rbac:
+      create: false
     networkPolicy:
       ingress:
         namespaces:
