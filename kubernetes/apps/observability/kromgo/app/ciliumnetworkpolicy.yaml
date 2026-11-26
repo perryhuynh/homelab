@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kromgo
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: kromgo
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: networking
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Kubelet health probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Replies to kromgo's own outbound connections (DNS, VictoriaMetrics).
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+        - matchLabels:
+            app.kubernetes.io/name: victoria-metrics-single
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: victoria-metrics-single
+      toPorts:
+        - ports:
+            - port: "8428"
+              protocol: TCP
