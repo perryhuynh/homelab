@@ -32,7 +32,7 @@ spec:
               LABEL: gatus.io/enabled
               METHOD: WATCH
               NAMESPACE: ALL
-              RESOURCE: both
+              RESOURCE: configmap
               UNIQUE_FILENAMES: true
             resources:
               limits:
@@ -79,7 +79,7 @@ spec:
         serviceAccount:
           identifier: gatus
     defaultPodOptions:
-      automountServiceAccountToken: true
+      automountServiceAccountToken: false
       dnsConfig:
         options:
           - name: ndots
@@ -91,6 +91,30 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     persistence:
+      kube-api-access:
+        type: custom
+        volumeSpec:
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: token
+                  expirationSeconds: 3600
+              - configMap:
+                  name: kube-root-ca.crt
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+              - downwardAPI:
+                  items:
+                    - path: namespace
+                      fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+        advancedMounts:
+          gatus:
+            init-config:
+              - path: /var/run/secrets/kubernetes.io/serviceaccount
+                readOnly: true
       config:
         existingClaim: *app
       config-file:
@@ -125,7 +149,6 @@ spec:
                 - ""
               resources:
                 - "configmaps"
-                - "secrets"
               verbs:
                 - "get"
                 - "watch"
