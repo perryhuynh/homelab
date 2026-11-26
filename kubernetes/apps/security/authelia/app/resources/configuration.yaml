@@ -77,6 +77,13 @@ identity_providers:
         rules:
           - policy: two_factor
             subject: group:admins
+    lifespans:
+      custom:
+        mcp:
+          # Claude Code refreshes silently; a 24h refresh token keeps a session
+          # alive across a working day. Access tokens stay at the 1h default so
+          # agentgateway's groups check revokes a removed admin within an hour.
+          refresh_token: 24h
     claims_policies:
       grafana:
         id_token: [groups, email, email_verified, name, preferred_username]
@@ -144,6 +151,7 @@ identity_providers:
         # agentgateway validates JWTs; Authelia access tokens are opaque by default
         access_token_signed_response_alg: RS256
         claims_policy: mcp
+        lifespan: mcp
         userinfo_signed_response_alg: none
       - client_name: miru
         client_id: "${MIRU_OAUTH_CLIENT_ID}"
