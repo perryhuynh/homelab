@@ -39,8 +39,8 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # Replies to Authelia's own outbound connections (DNS, GLAuth, Valkey). The
-    # destination port is ephemeral, so match on peer only.
+    # Replies to Authelia's own outbound connections (DNS, GLAuth, Valkey,
+    # Postgres, SMTP). The destination port is ephemeral, so match on peer only.
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
@@ -49,6 +49,53 @@ spec:
             app.kubernetes.io/name: glauth
         - matchLabels:
             app.kubernetes.io/name: authelia-valkey
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/poolerName: postgres-pgbouncer-rw
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: maddy
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: glauth
+      toPorts:
+        - ports:
+            - port: "389"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: authelia-valkey
+      toPorts:
+        - ports:
+            - port: "6379"
+              protocol: TCP
+    # Storage, and the init-db container's database bootstrap.
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/poolerName: postgres-pgbouncer-rw
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    # Notification emails.
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: default
+            app.kubernetes.io/name: maddy
+      toPorts:
+        - ports:
+            - port: "25"
+              protocol: TCP
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 apiVersion: cilium.io/v2
@@ -84,6 +131,22 @@ spec:
             k8s:k8s-app: kube-dns
         - matchLabels:
             app.kubernetes.io/name: authelia
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: authelia
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 apiVersion: cilium.io/v2
@@ -111,3 +174,6 @@ spec:
         - ports:
             - port: "9121"
               protocol: TCP
+  # Valkey starts no connections; the exporter sidecar uses loopback.
+  egress:
+    - {}

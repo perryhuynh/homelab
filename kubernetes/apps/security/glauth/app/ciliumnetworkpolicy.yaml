@@ -32,3 +32,6 @@ spec:
         - ports:
             - port: "5555"
               protocol: TCP
+  # GLAuth serves from its config datastore and starts no connections.
+  egress:
+    - {}

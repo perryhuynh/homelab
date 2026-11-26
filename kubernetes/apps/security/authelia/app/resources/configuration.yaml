@@ -41,6 +41,11 @@ notifier:
     sender: Authelia <noreply@perryhuynh.com>
     disable_require_tls: true
 
+# Pods share the node clock, which Talos keeps in sync. Egress to public NTP
+# servers is blocked, so skip the check instead of waiting on it.
+ntp:
+  disable_startup_check: true
+
 totp:
   disable: false
   issuer: authelia.com
