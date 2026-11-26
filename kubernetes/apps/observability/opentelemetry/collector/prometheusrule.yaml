@@ -10,7 +10,7 @@ spec:
       rules:
         - alert: OTelLogCollectorScrapeMissing
           expr: |
-            kube_pod_status_phase{namespace="observability",pod=~"(events|talos-logs|unifi-syslog|truenas-syslog)-collector-.+",phase="Running"} == 1
+            kube_pod_status_phase{namespace="observability",pod=~"(events|filelog|talos-logs|unifi-syslog|truenas-syslog)-collector-.+",phase="Running"} == 1
               unless on (namespace, pod)
             (up{job="observability/otel-log-collectors"} == 1)
           for: 5m
