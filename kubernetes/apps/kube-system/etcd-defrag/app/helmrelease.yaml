@@ -13,7 +13,6 @@ spec:
     defaultPodOptions:
       # Must use host network to access etcd on localhost:2379
       hostNetwork: true
-      hostPID: true
       securityContext:
         runAsUser: 0
         runAsGroup: 0
@@ -61,7 +60,10 @@ spec:
               requests:
                 cpu: 10m
             securityContext:
-              privileged: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
     persistence:
       certs:
         type: hostPath
