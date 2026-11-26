@@ -19,11 +19,6 @@ spec:
             auth:
               secretRef:
                 name: kguardian-mcp-auth
-      - name: kubernetes
-        static:
-          host: kubernetes-mcp-server.kube-system.svc.cluster.local
-          port: 8080
-          protocol: StreamableHTTP
       - name: unifi
         static:
           host: unifi-network-mcp.networking.svc.cluster.local
