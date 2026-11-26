@@ -69,13 +69,6 @@ spec:
                 service: https://envoy-external.{{ .Release.Namespace }}.svc.cluster.local:443
               - service: http_status:404
     defaultPodOptions:
-      # Resolve external names as-is first. With the default ndots:5 the first
-      # lookup is api.cloudflare.com.<search domain>, which Cilium's FQDN cache
-      # records under that name, so the toFQDNs rule never matches.
-      dnsConfig:
-        options:
-          - name: ndots
-            value: "1"
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

@@ -37,8 +37,6 @@ spec:
         - 198.41.192.0/24
         - 198.41.200.0/24
   egress:
-    # DNS goes through Cilium's DNS proxy so the toFQDNs rule below can learn
-    # api.cloudflare.com's addresses.
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
@@ -47,17 +45,6 @@ spec:
         - ports:
             - port: "53"
               protocol: ANY
-          rules:
-            dns:
-              - matchPattern: "*"
-    # Startup connectivity precheck and update queries. Optional, but without
-    # it every start logs an API precheck failure.
-    - toFQDNs:
-        - matchName: api.cloudflare.com
-      toPorts:
-        - ports:
-            - port: "443"
-              protocol: TCP
     # Origin for every tunnel hostname.
     - toEndpoints:
         - matchLabels:
@@ -67,7 +54,9 @@ spec:
             - port: "10443"
               protocol: TCP
     # Cloudflare edge (region1/region2.v2.argotunnel.com): QUIC, with HTTP/2
-    # over TCP as the fallback. Auto-update is off, so no 443 egress is needed.
+    # over TCP as the fallback. No 443 egress: api.cloudflare.com only serves
+    # update checks (NO_AUTOUPDATE is set), so its startup precheck logs a
+    # non-fatal FAIL.
     - toCIDR: *edge
       toPorts:
         - ports:
