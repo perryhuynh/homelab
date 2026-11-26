@@ -1,0 +1,75 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cloudflared
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflared
+  ingress:
+    # Kubelet probes hit /ready on the metrics listener.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: observability
+            app.kubernetes.io/name: prometheus
+            app.kubernetes.io/instance: kube-prometheus-stack
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Replies to cloudflared's own outbound connections (DNS, envoy-external,
+    # Cloudflare edge). The destination port is ephemeral, so match on peer only.
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+        - matchLabels:
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+    - fromCIDR: &edge
+        - 198.41.192.0/24
+        - 198.41.200.0/24
+  egress:
+    # DNS goes through Cilium's DNS proxy so the toFQDNs rule below can learn
+    # api.cloudflare.com's addresses.
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    # Startup connectivity precheck and update queries. Optional, but without
+    # it every start logs an API precheck failure.
+    - toFQDNs:
+        - matchName: api.cloudflare.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # Origin for every tunnel hostname.
+    - toEndpoints:
+        - matchLabels:
+            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
+    # Cloudflare edge (region1/region2.v2.argotunnel.com): QUIC, with HTTP/2
+    # over TCP as the fallback. Auto-update is off, so no 443 egress is needed.
+    - toCIDR: *edge
+      toPorts:
+        - ports:
+            - port: "7844"
+              protocol: ANY
