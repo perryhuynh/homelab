@@ -24,6 +24,24 @@ spec:
         resources:
           requests:
             storage: 5Gi
+    # The controller builds the listener pod; a container named "listener" merges
+    # into its default container.
+    listenerTemplate:
+      spec:
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65532
+          runAsGroup: 65532
+          seccompProfile:
+            type: RuntimeDefault
+        containers:
+          - name: listener
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
     controllerServiceAccount:
       name: actions-runner-controller-gha-rs-controller
       namespace: actions-runner-system
@@ -41,12 +59,24 @@ spec:
                 valueFrom:
                   fieldRef:
                     fieldPath: status.hostIP
+            # Dropping all capabilities disables the image's passwordless sudo;
+            # no workflow on this runner uses it.
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
             volumeMounts:
               - mountPath: /var/run/secrets/talos.dev
                 name: talos
                 readOnly: true
         serviceAccountName: *app
         securityContext:
+          # The image sets USER runner by name; kubelet needs the numeric UID
+          # (1001 in actions/runner) to verify runAsNonRoot.
+          runAsNonRoot: true
+          runAsUser: 1001
+          runAsGroup: 1001
           fsGroup: 1001
           fsGroupChangePolicy: OnRootMismatch
         volumes:
