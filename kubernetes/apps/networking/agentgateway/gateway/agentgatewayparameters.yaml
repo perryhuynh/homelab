@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/agentgateway.dev/agentgatewayparameters_v1alpha1.json
+apiVersion: agentgateway.dev/v1alpha1
+kind: AgentgatewayParameters
+metadata:
+  name: mcp
+spec:
+  service:
+    spec:
+      # BGP advertises the IP only from the node running the proxy, so LAN
+      # traffic arrives there directly instead of being forwarded between nodes.
+      externalTrafficPolicy: Local

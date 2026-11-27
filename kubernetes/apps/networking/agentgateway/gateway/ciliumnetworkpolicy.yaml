@@ -49,10 +49,17 @@ spec:
     matchLabels:
       gateway.networking.k8s.io/gateway-name: mcp
   ingress:
-    # Clients arrive from the LAN or are SNAT'd to a node address.
+    # LAN clients keep their own address, so they arrive as world.
     - fromEntities:
         - world
-        - cluster
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # Remote clients reach the gateway through the Tailscale connector pods.
+    - fromEndpoints:
+        - matchLabels:
+            tailscale.com/parent-resource-type: connector
       toPorts:
         - ports:
             - port: "443"
