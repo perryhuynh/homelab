@@ -5,7 +5,6 @@ cluster:
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
     advertisedSubnets:
-      - 192.168.1.0/24
       - 192.168.10.0/24
 ---
 # Allow scheduling on control planes
