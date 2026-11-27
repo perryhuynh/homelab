@@ -27,11 +27,11 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Incoming peers through the LoadBalancer (externalTrafficPolicy: Local
-    # keeps the client address). About 0.5% of peer SYNs arrive with the node
-    # address instead and are dropped; allowing host does not match them.
+    # The torrent port is public, so any source may connect. Some peers arrive
+    # through the LoadBalancer with the node address instead of their own, and
+    # a world-only (or world + host) rule drops them.
     - fromEntities:
-        - world
+        - all
       toPorts:
         - ports:
             - port: "50143"
