@@ -36,6 +36,17 @@ spec:
         - ports:
             - port: "50143"
               protocol: TCP
+    # ICMP errors about qbittorrent's own peer connections: unreachable peers
+    # (including fragmentation needed, for path MTU discovery) and TTL exceeded.
+    # Echo requests stay blocked.
+    - fromEntities:
+        - world
+      icmps:
+        - fields:
+            - type: 3
+              family: IPv4
+            - type: 11
+              family: IPv4
     # Replies to DNS lookups. The destination port is ephemeral, so match on
     # peer only.
     - fromEndpoints:
