@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: paperless-gotenberg
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: paperless-gotenberg
+  ingress:
+    # Kubelet probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: paperless
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+  # Gotenberg renders untrusted documents with Chromium and LibreOffice, and needs no network of its own. Denying all egress keeps a
+  # malicious document from reaching anything.
+  egress:
+    - {}
