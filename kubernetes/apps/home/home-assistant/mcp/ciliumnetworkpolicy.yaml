@@ -21,3 +21,19 @@ spec:
         - ports:
             - port: "8086"
               protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/controller: home-assistant
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP

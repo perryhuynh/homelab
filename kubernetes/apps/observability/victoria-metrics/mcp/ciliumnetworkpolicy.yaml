@@ -34,3 +34,19 @@ spec:
             - port: "32768"
               endPort: 60999
               protocol: UDP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: victoria-metrics-single
+      toPorts:
+        - ports:
+            - port: "8428"
+              protocol: TCP

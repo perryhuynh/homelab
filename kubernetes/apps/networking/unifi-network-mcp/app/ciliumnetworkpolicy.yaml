@@ -34,3 +34,19 @@ spec:
             - port: "32768"
               endPort: 60999
               protocol: UDP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    # The UniFi controller API (unifi.internal).
+    - toCIDR:
+        - 192.168.1.1/32
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
