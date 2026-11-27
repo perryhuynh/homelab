@@ -1,0 +1,35 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cilium
+spec:
+  groups:
+    - name: cilium.rules
+      rules:
+        # A network policy keeps blocking the same path. One-off bursts (a test,
+        # a pod restart) stay below the rate or end before `for` elapses.
+        # Excluded: ICMP from the internet, and Plex's SSDP multicast, which its
+        # policy blocks on purpose.
+        - alert: CiliumPolicyDrops
+          annotations:
+            summary: >-
+              {{ or $labels.source_namespace "?" }}/{{ or $labels.source "?" }} →
+              {{ or $labels.destination_namespace "?" }}/{{ or $labels.destination "?" }}
+              ({{ $labels.protocol }}) is dropped by network policy at {{ $value | humanize }}/s.
+            description: >-
+              Find the side and port with `hubble observe --verdict DROPPED` on the
+              cilium agent of the node running the pod, then allow the path or
+              stop the client.
+          expr: |
+            (
+              sum by (source_namespace, source, destination_namespace, destination, protocol) (
+                rate(hubble_drop_total{reason="POLICY_DENIED", protocol!~"ICMP.*"}[15m])
+              ) > 0.05
+            )
+            unless on (source, destination, protocol)
+            hubble_drop_total{source="plex", destination="reserved:world", protocol="UDP"}
+          for: 15m
+          labels:
+            severity: warning
