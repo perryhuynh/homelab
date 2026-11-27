@@ -49,3 +49,98 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: gatus
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: gatus
+  ingress:
+    # Kubelet probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # The status page through Anubis, and metrics.
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: gatus-anubis
+        - matchLabels:
+            app.kubernetes.io/name: prometheus
+            app.kubernetes.io/instance: kube-prometheus-stack
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # Replies to gatus's own outbound connections. The destination port is
+    # ephemeral, so match on peer only.
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/poolerName: postgres-pgbouncer-rw
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            app.kubernetes.io/name: mosquitto
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    # The init-config sidecar watches the API server for endpoint ConfigMaps.
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    # In-cluster TCP checks.
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/poolerName: postgres-pgbouncer-rw
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            app.kubernetes.io/name: mosquitto
+      toPorts:
+        - ports:
+            - port: "1883"
+              protocol: TCP
+    # The connectivity checker, and DNS for external checks, both use 1.1.1.1
+    # so they test the public records.
+    - toCIDR:
+        - 1.1.1.1/32
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    # External HTTPS checks through Cloudflare. Private ranges are excluded so
+    # gatus cannot reach the LAN or other cluster pods.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
