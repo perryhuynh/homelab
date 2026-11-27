@@ -24,3 +24,19 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: kguardian-broker
+      toPorts:
+        - ports:
+            - port: "9090"
+              protocol: TCP
