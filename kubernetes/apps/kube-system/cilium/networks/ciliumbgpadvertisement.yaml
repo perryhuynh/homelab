@@ -8,6 +8,8 @@ metadata:
     advertise: bgp
 spec:
   advertisements:
+    # Lets the UDM route pod traffic between nodes on different subnets
+    - advertisementType: PodCIDR
     - advertisementType: Service
       service:
         addresses:
