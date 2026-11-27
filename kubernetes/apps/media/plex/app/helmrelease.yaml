@@ -165,6 +165,9 @@ spec:
         controller: plex
         annotations:
           lbipam.cilium.io/ips: 192.168.20.204
+        # BGP advertises the IP only from the node running Plex, so clients keep
+        # their own address (PLEX_NO_AUTH_NETWORKS and the network policy rely on it).
+        externalTrafficPolicy: Local
         ports:
           http:
             port: *port
