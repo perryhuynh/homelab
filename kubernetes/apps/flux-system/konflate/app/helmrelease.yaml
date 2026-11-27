@@ -23,7 +23,8 @@ spec:
       existingSecret: konflate-secret
     httpRoute:
       enabled: true
-      # The UI is internal. Only the GitHub webhook is public (httproute.yaml).
+      # The UI is internal. Only the GitHub webhook is public, on
+      # konflate-webhook.perryhuynh.com (httproute.yaml).
       parentRefs:
         - name: envoy-internal
           namespace: networking

@@ -5,13 +5,14 @@ kind: HTTPRoute
 metadata:
   name: konflate-webhook
 spec:
-  hostnames: ["konflate.perryhuynh.com"]
+  hostnames: ["konflate-webhook.perryhuynh.com"]
   parentRefs:
     - name: envoy-external
       namespace: networking
       sectionName: https
   rules:
-    # Only GitHub's webhook is public. The UI, API and MCP are internal.
+    # Only GitHub's webhook is public, on its own hostname. The UI hostname has
+    # no public DNS record, so DoH resolvers fall back to the internal record.
     - backendRefs:
         - name: konflate
           port: 8080
