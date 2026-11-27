@@ -1,5 +1,7 @@
 ---
 clusterName: kubernetes
+# Also the service-account issuer: changing it invalidates every existing
+# token unless a KubeServiceAccountConfig accepts the old issuer first.
 clusterEndpoint: https://192.168.1.20:6443
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
@@ -13,14 +15,14 @@ secretsPath: secrets.sops.yaml
 
 nodes:
   - host: choi-yena
-    ip: 192.168.1.21
+    ip: 192.168.10.21
     role: control-plane
   - host: jo-yuri
-    ip: 192.168.1.22
+    ip: 192.168.10.22
     role: control-plane
   - host: kim-chaewon
-    ip: 192.168.1.23
+    ip: 192.168.10.23
     role: control-plane
   - host: wizone
-    ip: 192.168.1.24
+    ip: 192.168.10.24
     role: worker
