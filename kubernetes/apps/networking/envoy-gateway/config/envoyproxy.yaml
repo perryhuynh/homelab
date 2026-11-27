@@ -13,6 +13,17 @@ spec:
     kubernetes:
       envoyDeployment:
         replicas: 2
+        pod:
+          topologySpreadConstraints:
+            - topologyKey: kubernetes.io/hostname
+              maxSkew: 1
+              minDomains: 2
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: envoy
+              matchLabelKeys:
+                - gateway.envoyproxy.io/owning-gateway-name
         container:
           imageRepository: mirror.gcr.io/envoyproxy/envoy
           resources:
@@ -20,6 +31,9 @@ spec:
               memory: 2Gi
             requests:
               cpu: 100m
+              memory: 512Mi
+      envoyPDB:
+        minAvailable: 1
       envoyService:
         externalTrafficPolicy: Local
   shutdown:
