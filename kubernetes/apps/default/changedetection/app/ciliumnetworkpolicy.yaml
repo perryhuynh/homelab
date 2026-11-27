@@ -5,7 +5,7 @@ kind: CiliumNetworkPolicy
 metadata:
   name: changedetection
 spec:
-  description: Only envoy-internal may reach the changedetection UI
+  description: Restrict changedetection UI access and allow DNS, browser automation, and public web traffic
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: changedetection
@@ -39,6 +39,40 @@ spec:
             - port: "32768"
               endPort: 60999
               protocol: UDP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    # Playwright connects to the browserless service over WebSocket.
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: changedetection
+            app.kubernetes.io/controller: browser
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+    # Direct HTTP fetches and HTTPS notifications such as Pushover.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 127.0.0.0/8
+            - 169.254.0.0/16
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+            - port: "443"
+              protocol: TCP
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
 apiVersion: cilium.io/v2
@@ -46,7 +80,7 @@ kind: CiliumNetworkPolicy
 metadata:
   name: changedetection-browser
 spec:
-  description: Only changedetection may drive the browserless Chromium instance
+  description: Restrict browserless access to changedetection and allow DNS and public web traffic
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: changedetection
@@ -80,4 +114,31 @@ spec:
               protocol: TCP
             - port: "32768"
               endPort: 60999
+              protocol: UDP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    # Chromium loads web pages and subresources over HTTP, HTTPS, and HTTP/3.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 127.0.0.0/8
+            - 169.254.0.0/16
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+            - port: "443"
+              protocol: TCP
+            - port: "443"
               protocol: UDP
