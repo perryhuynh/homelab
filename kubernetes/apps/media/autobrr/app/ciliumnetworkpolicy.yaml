@@ -49,6 +49,8 @@ spec:
             app.kubernetes.io/name: sonarr
         - matchLabels:
             app.kubernetes.io/name: radarr
+        - matchLabels:
+            app.kubernetes.io/name: prowlarr
   egress:
     - toEndpoints:
         - matchLabels:
@@ -71,6 +73,7 @@ spec:
             - port: "5432"
               protocol: TCP
     # Filter matches go to qBittorrent through qui, or to Sonarr and Radarr.
+    # Torznab feeds come from Prowlarr.
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: qui
@@ -78,6 +81,8 @@ spec:
             app.kubernetes.io/name: sonarr
         - matchLabels:
             app.kubernetes.io/name: radarr
+        - matchLabels:
+            app.kubernetes.io/name: prowlarr
       toPorts:
         - ports:
             - port: "80"

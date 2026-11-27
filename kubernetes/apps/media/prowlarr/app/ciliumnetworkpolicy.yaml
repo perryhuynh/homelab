@@ -16,7 +16,8 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # The UI through envoy-internal. Searches from Sonarr and Radarr.
+    # The UI through envoy-internal. Searches from Sonarr and Radarr, qui's
+    # cross-seed search and autobrr's torznab feeds.
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: networking
@@ -25,6 +26,10 @@ spec:
             app.kubernetes.io/name: sonarr
         - matchLabels:
             app.kubernetes.io/name: radarr
+        - matchLabels:
+            app.kubernetes.io/name: qui
+        - matchLabels:
+            app.kubernetes.io/name: autobrr
       toPorts:
         - ports:
             - port: "80"
