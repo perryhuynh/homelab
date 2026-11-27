@@ -24,15 +24,12 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Replies to suwayomi's own outbound connections (DNS, FlareSolverr). The
-    # destination port is ephemeral, so match on peer only.
+    # Replies to DNS lookups. The destination port is ephemeral, so match on
+    # peer only.
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
             k8s:k8s-app: kube-dns
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: flaresolverr
   egress:
     - toEndpoints:
         - matchLabels:
@@ -42,15 +39,6 @@ spec:
         - ports:
             - port: "53"
               protocol: ANY
-    # Cloudflare challenges for sources that need them.
-    - toEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: flaresolverr
-      toPorts:
-        - ports:
-            - port: "8191"
-              protocol: TCP
     # Manga sources, image CDNs and the extension repo on GitHub. Private
     # ranges are excluded so suwayomi cannot reach the LAN or other cluster pods.
     - toCIDRSet:
