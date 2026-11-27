@@ -16,9 +16,11 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # The WebUI API: qui, which the arrs and autobrr use as a qBittorrent
-    # proxy, and brrpolice, which connects directly.
+    # The WebUI through envoy-internal, and API access for qui and brrpolice.
     - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: networking
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
         - matchLabels:
             app.kubernetes.io/name: qui
         - matchLabels:
