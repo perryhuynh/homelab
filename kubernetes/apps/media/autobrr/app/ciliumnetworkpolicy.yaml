@@ -41,7 +41,8 @@ spec:
             k8s:k8s-app: kube-dns
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: database
-            cnpg.io/poolerName: postgres-pgbouncer-rw
+            cnpg.io/cluster: postgres
+            cnpg.io/podRole: instance
         - matchLabels:
             app.kubernetes.io/name: qui
         - matchLabels:
@@ -57,11 +58,14 @@ spec:
         - ports:
             - port: "53"
               protocol: ANY
-    # Database, and the init-db container's bootstrap.
+    # Database, and the init-db container's bootstrap. autobrr connects to the
+    # CNPG primary (postgres-rw) directly: its driver breaks under pgbouncer's
+    # transaction pooling. Any instance may become primary after a failover.
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: database
-            cnpg.io/poolerName: postgres-pgbouncer-rw
+            cnpg.io/cluster: postgres
+            cnpg.io/podRole: instance
       toPorts:
         - ports:
             - port: "5432"
