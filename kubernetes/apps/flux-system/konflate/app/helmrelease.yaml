@@ -23,12 +23,15 @@ spec:
       existingSecret: konflate-secret
     httpRoute:
       enabled: true
+      # The UI is internal. Only the GitHub webhook is public (httproute.yaml).
       parentRefs:
-        - name: envoy-external
+        - name: envoy-internal
           namespace: networking
+          sectionName: https
       hostnames:
         - "{{ .Release.Name }}.perryhuynh.com"
       additionalRules:
+        # MCP goes through the agentgateway mcp proxy, not the UI route.
         - matches:
             - path:
                 type: PathPrefix
