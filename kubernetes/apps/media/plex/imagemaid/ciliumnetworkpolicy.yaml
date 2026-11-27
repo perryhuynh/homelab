@@ -27,8 +27,9 @@ spec:
         - ports:
             - port: "53"
               protocol: ANY
-    # PLEX_URL: empties the trash, cleans bundles and optimizes the database
-    # through the API. Image files are removed from the Plex volumes directly.
+    # PLEX_URL: downloads a database backup through the API
+    # (/diagnostics/databases). Image files are removed from the Plex volumes
+    # directly.
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: plex
@@ -36,7 +37,8 @@ spec:
         - ports:
             - port: "32400"
               protocol: TCP
-    # Version check against GitHub. Private ranges are excluded.
+    # Version check against raw.githubusercontent.com. Private ranges are
+    # excluded.
     - toCIDRSet:
         - cidr: 0.0.0.0/0
           except:
