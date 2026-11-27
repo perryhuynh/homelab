@@ -9,13 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: external-secrets
   ingress:
-    # Kubelet probes.
-    - fromEntities:
-        - host
-      toPorts:
-        - ports:
-            - port: "8081"
-              protocol: TCP
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: observability
@@ -89,7 +82,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: external-secrets-webhook
   ingress:
-    # The API server calls the admission webhook. Kubelet probes use 8081.
+    # The API server calls the admission webhook.
     - fromEntities:
         - kube-apiserver
         - host
@@ -98,6 +91,11 @@ spec:
         - ports:
             - port: "10250"
               protocol: TCP
+    # The local kubelet checks webhook readiness.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
             - port: "8081"
               protocol: TCP
     - fromEndpoints:
