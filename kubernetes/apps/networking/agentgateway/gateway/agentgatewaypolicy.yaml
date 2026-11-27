@@ -17,8 +17,8 @@ spec:
     accessLog:
       attributes:
         add:
-          # src.addr is always the Tailscale app connector pod, so the client
-          # user-agent is the only signal for telling MCP callers apart
+          # src.addr is the LAN client, or the Tailscale connector pod for remote
+          # clients, so the user-agent is what tells MCP callers apart
           - name: http.user_agent
             expression: request.headers["user-agent"]
 ---

@@ -14,6 +14,10 @@ spec:
     annotations:
       external-dns.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: 192.168.20.67
+    parametersRef:
+      group: agentgateway.dev
+      kind: AgentgatewayParameters
+      name: mcp
   listeners:
     - name: https
       protocol: HTTPS
