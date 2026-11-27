@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/hononeko/miru
-              tag: 1.2.0@sha256:e0122549385cfd7cb866edf0d00082c5f83eb66f3d631f263a2fa69d88767aff
+              tag: 1.3.0@sha256:a0b3462222220cb07b0f48a7962ee4b5bb56b6ef409db7f4b9ef6387aa637dd1
             env:
               TZ: America/Los_Angeles
               MIRU_PORT: &port 8080
