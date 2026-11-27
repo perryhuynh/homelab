@@ -46,6 +46,9 @@ spec:
         - matchLabels:
             app.kubernetes.io/name: alertmanager
             app.kubernetes.io/instance: kube-prometheus-stack
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/poolerName: postgres-pgbouncer-rw
   egress:
     - toEndpoints:
         - matchLabels:
@@ -55,7 +58,7 @@ spec:
         - ports:
             - port: "53"
               protocol: ANY
-    # Datasources.
+    # Datasources defined in this folder.
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: victoria-metrics-single
@@ -85,6 +88,15 @@ spec:
       toPorts:
         - ports:
             - port: "9093"
+              protocol: TCP
+    # The TeslaMate datasource (defined in home/teslamate).
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/poolerName: postgres-pgbouncer-rw
+      toPorts:
+        - ports:
+            - port: "5432"
               protocol: TCP
     # OIDC against auth.perryhuynh.com (through Cloudflare), plugin installs
     # from grafana.com and avatars. Private ranges are excluded so grafana
