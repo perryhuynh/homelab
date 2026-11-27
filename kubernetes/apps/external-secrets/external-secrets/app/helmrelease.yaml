@@ -10,6 +10,10 @@ spec:
     kind: OCIRepository
     name: external-secrets
   values:
+    processClusterExternalSecret: false
+    processClusterPushSecret: false
+    rbac:
+      serviceAccountTokenCreate: false
     image:
       repository: ghcr.io/external-secrets/external-secrets
     webhook:

@@ -21,3 +21,13 @@ spec:
       credentialsName: onepassword-connect-secret
       sync:
         imageRepository: ghcr.io/1password/connect-sync
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: onepassword-connect
+            patch: |
+              - op: add
+                path: /spec/template/spec/automountServiceAccountToken
+                value: false
