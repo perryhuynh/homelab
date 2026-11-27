@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: envoy-external
+spec:
+  endpointSelector:
+    matchLabels:
+      gateway.envoyproxy.io/owning-gateway-name: envoy-external
+  ingress:
+    # Cloudflared forwards HTTPS over TCP and supplies the Cloudflare visitor IP.
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: cloudflared
+            app.kubernetes.io/instance: cloudflared
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "19002" # shutdown-manager probes
+              protocol: TCP
+            - port: "19003" # Envoy probes
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: observability
+            app.kubernetes.io/name: prometheus
+            app.kubernetes.io/instance: kube-prometheus-stack
+      toPorts:
+        - ports:
+            - port: "19001"
+              protocol: TCP
+    # Same-node replies to backend, DNS and control-plane connections.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP
