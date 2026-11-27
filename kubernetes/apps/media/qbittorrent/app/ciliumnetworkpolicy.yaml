@@ -1,0 +1,62 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: qbittorrent
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: qbittorrent
+  ingress:
+    # Kubelet probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # The WebUI API: qui, which the arrs and autobrr use as a qBittorrent
+    # proxy, and brrpolice, which connects directly.
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: qui
+        - matchLabels:
+            app.kubernetes.io/name: brrpolice
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # The torrent port is public, so any source may connect. Some peers arrive
+    # through the LoadBalancer with the node address instead of their own, and
+    # a world-only (or world + host) rule drops them.
+    - fromEntities:
+        - all
+      toPorts:
+        - ports:
+            - port: "50143"
+              protocol: TCP
+    # Replies to DNS lookups. The destination port is ephemeral, so match on
+    # peer only.
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    # Peers and trackers use arbitrary ports. Private ranges are excluded so a
+    # compromised client cannot reach the LAN or other cluster pods.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 172.16.0.0/12
+            - 192.168.0.0/16

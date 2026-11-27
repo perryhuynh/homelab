@@ -1,0 +1,109 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: sonarr
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: sonarr
+  ingress:
+    # Kubelet probes.
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # The UI through envoy-internal. Seerr requests, Prowlarr indexer sync, qui, Recyclarr and autobrr.
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: networking
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+        - matchLabels:
+            app.kubernetes.io/name: seerr
+        - matchLabels:
+            app.kubernetes.io/name: prowlarr
+        - matchLabels:
+            app.kubernetes.io/name: qui
+        - matchLabels:
+            app.kubernetes.io/name: recyclarr
+        - matchLabels:
+            app.kubernetes.io/name: autobrr
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # Replies to sonarr's own outbound connections. The destination port is
+    # ephemeral, so match on peer only.
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/poolerName: postgres-pgbouncer-rw
+        - matchLabels:
+            app.kubernetes.io/name: qui
+        - matchLabels:
+            app.kubernetes.io/name: prowlarr
+        - matchLabels:
+            app.kubernetes.io/name: plex
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+    # Database, and the init-db container's bootstrap.
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            cnpg.io/poolerName: postgres-pgbouncer-rw
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    # Downloads go through qui, which proxies qBittorrent.
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: qui
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # Indexer searches.
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: prowlarr
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+    # Library refresh notifications.
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: plex
+      toPorts:
+        - ports:
+            - port: "32400"
+              protocol: TCP
+    # Metadata (skyhook), indexers, release downloads and Pushover. Private ranges are excluded so sonarr cannot reach the LAN or
+    # other cluster pods.
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+          except:
+            - 10.0.0.0/8
+            - 100.64.0.0/10
+            - 172.16.0.0/12
+            - 192.168.0.0/16
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+            - port: "443"
+              protocol: TCP
