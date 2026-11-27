@@ -12,7 +12,7 @@ spec:
   values:
     replicaCount: 2
     config:
-      kubernetes: true
+      kubernetes: false
       trustedProxies:
         - 10.42.0.0/16
     httpRoute:
@@ -31,3 +31,14 @@ spec:
         cpu: 10m
       limits:
         memory: 64Mi
+  postRenderers:
+    - kustomize:
+        patches:
+          # Echo also returns the OS hostname independently of Kubernetes metadata.
+          - target:
+              kind: Deployment
+              name: echo
+            patch: |
+              - op: add
+                path: /spec/template/spec/hostname
+                value: echo
