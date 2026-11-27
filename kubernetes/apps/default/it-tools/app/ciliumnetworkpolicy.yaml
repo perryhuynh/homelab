@@ -24,3 +24,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
+  # The app serves browser requests and initiates no connections.
+  egress:
+    - {}
