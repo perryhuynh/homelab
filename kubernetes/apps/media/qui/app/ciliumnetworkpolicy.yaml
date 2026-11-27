@@ -55,6 +55,8 @@ spec:
             app.kubernetes.io/name: sonarr
         - matchLabels:
             app.kubernetes.io/name: radarr
+        - matchLabels:
+            app.kubernetes.io/name: prowlarr
   egress:
     - toEndpoints:
         - matchLabels:
@@ -71,12 +73,14 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Arr integrations.
+    # Arr integrations, and Prowlarr for cross-seed searches.
     - toEndpoints:
         - matchLabels:
             app.kubernetes.io/name: sonarr
         - matchLabels:
             app.kubernetes.io/name: radarr
+        - matchLabels:
+            app.kubernetes.io/name: prowlarr
       toPorts:
         - ports:
             - port: "80"
