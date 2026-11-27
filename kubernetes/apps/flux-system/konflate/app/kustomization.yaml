@@ -6,5 +6,6 @@ resources:
   - ./ciliumnetworkpolicy.yaml
   - ./externalsecret.yaml
   - ./helmrelease.yaml
+  - ./httproute.yaml
   - ./httproutefilter.yaml
   - ./ocirepository.yaml

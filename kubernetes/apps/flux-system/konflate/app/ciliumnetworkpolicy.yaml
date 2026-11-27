@@ -13,7 +13,11 @@ spec:
     - fromEntities:
         - host
     - fromEndpoints:
-        # The public route and the agentgateway mcp proxy both use the HTTP port.
+        # The UI route (envoy-internal), the public webhook route
+        # (envoy-external) and the agentgateway mcp proxy all use the HTTP port.
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: networking
+            gateway.envoyproxy.io/owning-gateway-name: envoy-internal
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: networking
             gateway.envoyproxy.io/owning-gateway-name: envoy-external
