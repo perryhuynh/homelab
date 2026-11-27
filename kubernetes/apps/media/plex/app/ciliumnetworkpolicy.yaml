@@ -36,6 +36,8 @@ spec:
             app.kubernetes.io/name: miru
         - matchLabels:
             app.kubernetes.io/name: plex-auto-languages
+        - matchLabels:
+            app.kubernetes.io/name: imagemaid
       toPorts:
         - ports:
             - port: "32400"
