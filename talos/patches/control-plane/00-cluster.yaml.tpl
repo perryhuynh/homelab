@@ -6,6 +6,7 @@ cluster:
       listen-metrics-urls: http://0.0.0.0:2381
     advertisedSubnets:
       - 192.168.1.0/24
+      - 192.168.10.0/24
 ---
 # Allow scheduling on control planes
 apiVersion: v1alpha1
@@ -20,6 +21,7 @@ image: registry.k8s.io/kube-apiserver:{{ .KubernetesVersion }}
 certExtraSANs:
   - 127.0.0.1
   - 192.168.1.20
+  - 192.168.10.20
   - k8s.internal
 extraArgs:
   # https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/
