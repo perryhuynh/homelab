@@ -12,7 +12,7 @@ spec:
     spec:
       interval: 15m
       ref:
-        tag: 94.1.0
+        tag: 94.2.0
       url: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
   values:
     cleanPrometheusOperatorObjectNames: true
