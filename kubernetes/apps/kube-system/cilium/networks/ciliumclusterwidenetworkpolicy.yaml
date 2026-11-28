@@ -1,0 +1,34 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: service-replies
+spec:
+  description: Allow Service replies that the netkit datapath misreads as new connections
+  # With netkit, endpoint routes and socketLB.hostNamespaceOnly, Cilium enforces
+  # ingress policy twice on same-node traffic. The second pass sees a Service
+  # reply after reverse NAT, misses the conntrack entry and treats it as a new
+  # connection to the client's ephemeral port, so a pod with an ingress policy
+  # drops replies from any Service backend on its own node (DNS, Postgres,
+  # Valkey, app APIs). Delete this policy once a Cilium release stops
+  # enforcing ingress twice on netkit with endpoint routes.
+  endpointSelector: {}
+  # Add this allow to pods that already have an ingress policy without putting
+  # every other pod into default deny.
+  enableDefaultDeny:
+    ingress: false
+    egress: false
+  ingress:
+    # Linux's default ephemeral port range. No Service in the cluster listens
+    # in it except qbittorrent's torrent port, which is already open to all.
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "32768"
+              endPort: 60999
+              protocol: TCP
+            - port: "32768"
+              endPort: 60999
+              protocol: UDP

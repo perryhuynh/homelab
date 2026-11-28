@@ -6,4 +6,5 @@ resources:
   - ./ciliumbgpadvertisement.yaml
   - ./ciliumbgpclusterconfig.yaml
   - ./ciliumbgppeerconfig.yaml
+  - ./ciliumclusterwidenetworkpolicy.yaml
   - ./ciliumloadbalancerippool.yaml
