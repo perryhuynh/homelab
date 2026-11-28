@@ -35,14 +35,3 @@ spec:
         - ports:
             - port: "19001"
               protocol: TCP
-    # Same-node replies to backend, DNS and control-plane connections.
-    - fromEntities:
-        - cluster
-      toPorts:
-        - ports:
-            - port: "32768"
-              endPort: 60999
-              protocol: TCP
-            - port: "32768"
-              endPort: 60999
-              protocol: UDP

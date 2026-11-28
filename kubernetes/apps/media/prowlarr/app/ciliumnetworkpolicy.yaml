@@ -34,21 +34,6 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Replies to prowlarr's own outbound connections. The destination port is
-    # ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: database
-            cnpg.io/poolerName: postgres-pgbouncer-rw
-        - matchLabels:
-            app.kubernetes.io/name: qui
-        - matchLabels:
-            app.kubernetes.io/name: sonarr
-        - matchLabels:
-            app.kubernetes.io/name: radarr
   egress:
     - toEndpoints:
         - matchLabels:

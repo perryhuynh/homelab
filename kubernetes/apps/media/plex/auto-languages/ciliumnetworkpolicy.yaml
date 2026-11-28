@@ -16,14 +16,6 @@ spec:
         - ports:
             - port: "9880"
               protocol: TCP
-    # Replies to its own outbound connections (DNS, Plex). The destination port
-    # is ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: plex
   egress:
     - toEndpoints:
         - matchLabels:

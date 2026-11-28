@@ -9,17 +9,9 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: recyclarr
+  # No listeners. An empty rule keeps ingress in default deny.
   ingress:
-    # No listeners. Replies to recyclarr's own outbound connections (DNS,
-    # Sonarr, Radarr); the destination port is ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: sonarr
-        - matchLabels:
-            app.kubernetes.io/name: radarr
+    - {}
   egress:
     - toEndpoints:
         - matchLabels:

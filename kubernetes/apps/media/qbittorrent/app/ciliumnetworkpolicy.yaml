@@ -49,12 +49,6 @@ spec:
               family: IPv4
             - type: 11
               family: IPv4
-    # Replies to DNS lookups. The destination port is ephemeral, so match on
-    # peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
   egress:
     - toEndpoints:
         - matchLabels:

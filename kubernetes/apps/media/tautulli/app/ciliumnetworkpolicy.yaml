@@ -24,14 +24,6 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Replies to tautulli's own outbound connections (DNS, Plex). The
-    # destination port is ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: plex
   egress:
     - toEndpoints:
         - matchLabels:

@@ -39,22 +39,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # Replies to Authelia's own outbound connections (DNS, GLAuth, Valkey,
-    # Postgres, SMTP). The destination port is ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: glauth
-        - matchLabels:
-            app.kubernetes.io/name: authelia-valkey
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: database
-            cnpg.io/poolerName: postgres-pgbouncer-rw
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: default
-            app.kubernetes.io/name: maddy
   egress:
     - toEndpoints:
         - matchLabels:
@@ -124,13 +108,6 @@ spec:
         - ports:
             - port: "9090"
               protocol: TCP
-    # Replies to Anubis's own outbound connections (DNS, Authelia).
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: authelia
   egress:
     - toEndpoints:
         - matchLabels:

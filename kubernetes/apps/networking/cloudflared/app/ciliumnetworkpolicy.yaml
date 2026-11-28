@@ -25,14 +25,7 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # Replies to cloudflared's own outbound connections (DNS, envoy-external,
-    # Cloudflare edge). The destination port is ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            gateway.envoyproxy.io/owning-gateway-name: envoy-external
+    # Replies from the Cloudflare edge to cloudflared's tunnel connections.
     - fromCIDR: &edge
         - 198.41.192.0/24
         - 198.41.200.0/24

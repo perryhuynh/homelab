@@ -26,13 +26,6 @@ spec:
         - ports:
             - port: "9090"
               protocol: TCP
-    # Replies to Anubis's own outbound connections (DNS, seerr).
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: seerr
   egress:
     - toEndpoints:
         - matchLabels:
@@ -75,18 +68,6 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Replies to seerr's own outbound connections (DNS, Radarr, Sonarr, Plex).
-    # The destination port is ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: radarr
-        - matchLabels:
-            app.kubernetes.io/name: sonarr
-        - matchLabels:
-            app.kubernetes.io/name: plex
   egress:
     - toEndpoints:
         - matchLabels:

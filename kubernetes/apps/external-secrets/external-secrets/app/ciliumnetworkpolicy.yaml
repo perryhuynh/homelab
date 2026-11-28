@@ -18,19 +18,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # Replies to this pod's own outbound connections. Cilium denies replies from
-    # same-node peers under an ingress policy, so allow the ephemeral port range.
-    # Peers still cannot open new connections to the listening ports.
-    - fromEntities:
-        - cluster
-      toPorts:
-        - ports:
-            - port: "32768"
-              endPort: 60999
-              protocol: TCP
-            - port: "32768"
-              endPort: 60999
-              protocol: UDP
   egress:
     - toEndpoints:
         - matchLabels:
@@ -82,19 +69,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # Replies to this pod's own outbound connections. Cilium denies replies from
-    # same-node peers under an ingress policy, so allow the ephemeral port range.
-    # Peers still cannot open new connections to the listening ports.
-    - fromEntities:
-        - cluster
-      toPorts:
-        - ports:
-            - port: "32768"
-              endPort: 60999
-              protocol: TCP
-            - port: "32768"
-              endPort: 60999
-              protocol: UDP
   egress:
     - toEndpoints:
         - matchLabels:
