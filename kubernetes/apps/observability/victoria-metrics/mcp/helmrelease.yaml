@@ -19,6 +19,8 @@ spec:
             subject: "^https://github.com/VictoriaMetrics/helm-charts.*$"
   interval: 1h
   values:
+    serviceAccount:
+      automount: false
     vm:
       type: single
       entrypoint: http://victoria-metrics.observability.svc.cluster.local:8428

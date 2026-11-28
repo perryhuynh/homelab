@@ -22,6 +22,8 @@ spec:
     global:
       image:
         registry: mirror.gcr.io
+    serviceAccount:
+      automountToken: false
     server:
       extraArgs:
         dedup.minScrapeInterval: 60s

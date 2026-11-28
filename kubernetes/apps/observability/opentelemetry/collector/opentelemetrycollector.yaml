@@ -91,6 +91,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: unifi-syslog
 spec:
+  serviceAccount: unifi-syslog
   # The previous pod must release its queue before the next writer starts.
   deploymentUpdateStrategy:
     type: Recreate
@@ -293,6 +294,7 @@ kind: OpenTelemetryCollector
 metadata:
   name: truenas-syslog
 spec:
+  serviceAccount: truenas-syslog
   # The previous pod must release its queue before the next writer starts.
   deploymentUpdateStrategy:
     type: Recreate
@@ -438,6 +440,7 @@ metadata:
   name: talos-logs
 spec:
   mode: daemonset
+  serviceAccount: talos-logs
   podSecurityContext:
     fsGroup: 10001
     runAsNonRoot: true
