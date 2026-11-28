@@ -23,6 +23,11 @@ certExtraSANs:
   - 192.168.10.20
   - k8s.internal
 extraArgs:
+  # Talos derives these from clusterEndpoint. Pin them to the pre-migration
+  # endpoint so existing service-account tokens stay valid. Only an identifier,
+  # never dialed; drop both lines when bootstrapping a fresh cluster.
+  api-audiences: https://192.168.1.20:6443
+  service-account-issuer: https://192.168.1.20:6443
   # https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/
   enable-aggregator-routing: "true"
   feature-gates: HPAScaleToZero=true,ImageVolume=true
