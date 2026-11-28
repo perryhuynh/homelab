@@ -1,7 +1,7 @@
 ---
 clusterName: kubernetes
-# The service-account issuer and API audiences stay https://192.168.1.20:6443,
-# pinned in patches/control-plane/00-cluster.yaml.tpl; they no longer follow this.
+# Talos also derives the service-account issuer and API audiences from this.
+# Changing it rejects every existing token; rotate the issuer in phases.
 clusterEndpoint: https://192.168.10.20:6443
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
