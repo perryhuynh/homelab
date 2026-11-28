@@ -11,8 +11,6 @@ spec:
     name: cilium
   values:
     autoDirectNodeRoutes: true
-    # Nodes on another L2 segment get no direct route; their PodCIDRs come from the UDM over BGP
-    directRoutingSkipUnreachable: true
     bandwidthManager:
       enabled: true
       bbr: true
