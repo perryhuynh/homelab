@@ -8,7 +8,6 @@ resources:
   - ./backendtrafficpolicy.yaml
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ./ocirepository.yaml
   - ./pvc.yaml
   - ./resourceclaimtemplate.yaml
 configMapGenerator:

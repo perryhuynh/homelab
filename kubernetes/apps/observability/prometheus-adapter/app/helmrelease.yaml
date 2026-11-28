@@ -6,9 +6,13 @@ metadata:
   name: prometheus-adapter
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: prometheus-adapter
+    spec:
+      interval: 15m
+      ref:
+        tag: 5.4.2
+      url: oci://ghcr.io/prometheus-community/charts/prometheus-adapter
   values:
     prometheus:
       url: http://prometheus-operated.observability.svc.cluster.local

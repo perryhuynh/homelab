@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - ./ciliumnetworkpolicy.yaml
   - ./helmrelease.yaml
-  - ./ocirepository.yaml
   - ./prometheusrule.yaml
   - ./pvc.yaml
 configMapGenerator:

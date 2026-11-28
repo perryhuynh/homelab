@@ -6,9 +6,13 @@ metadata:
   name: &app grafana-mcp
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: *app
+    spec:
+      interval: 15m
+      ref:
+        tag: 0.38.0
+      url: oci://ghcr.io/grafana-community/helm-charts/grafana-mcp
   values:
     extraArgs:
       - --disable-write

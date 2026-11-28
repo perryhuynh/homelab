@@ -6,9 +6,18 @@ metadata:
   name: kromgo
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: kromgo
+    spec:
+      interval: 15m
+      ref:
+        tag: 0.16.4
+      url: oci://ghcr.io/home-operations/charts/kromgo
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/home-operations/kromgo.*$"
   values:
     replicaCount: 2
     config:

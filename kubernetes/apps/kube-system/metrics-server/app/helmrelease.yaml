@@ -5,9 +5,18 @@ kind: HelmRelease
 metadata:
   name: metrics-server
 spec:
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: metrics-server
+    spec:
+      interval: 15m
+      ref:
+        tag: 3.14.0
+      url: oci://ghcr.io/home-operations/charts-mirror/metrics-server
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/home-operations/charts-mirror.*$"
   interval: 1h
   values:
     args:

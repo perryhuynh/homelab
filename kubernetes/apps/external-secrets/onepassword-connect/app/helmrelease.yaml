@@ -6,9 +6,13 @@ metadata:
   name: onepassword-connect
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: onepassword-connect
+    spec:
+      interval: 15m
+      ref:
+        tag: 2.4.3
+      url: oci://ghcr.io/1password/connect
   values:
     connect:
       annotations:

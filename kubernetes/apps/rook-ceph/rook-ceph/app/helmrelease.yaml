@@ -7,9 +7,18 @@ metadata:
 spec:
   interval: 1h
   timeout: 15m
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: rook-ceph
+    spec:
+      interval: 15m
+      ref:
+        tag: 1.21.3
+      url: oci://ghcr.io/rook/rook-ceph
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/rook/rook.*$"
   values:
     csi:
       serviceMonitor:

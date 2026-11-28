@@ -6,9 +6,18 @@ metadata:
   name: &app drm-exporter
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: drm-exporter
+    spec:
+      interval: 15m
+      ref:
+        tag: 0.3.6
+      url: oci://ghcr.io/home-operations/charts/drm-exporter
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/home-operations/drm-exporter.*$"
   values:
     fullnameOverride: *app
     config:
