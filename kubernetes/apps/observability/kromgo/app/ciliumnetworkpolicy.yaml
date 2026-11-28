@@ -24,13 +24,6 @@ spec:
         - ports:
             - port: "8080"
               protocol: TCP
-    # Replies to kromgo's own outbound connections (DNS, VictoriaMetrics).
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: victoria-metrics-single
   egress:
     - toEndpoints:
         - matchLabels:

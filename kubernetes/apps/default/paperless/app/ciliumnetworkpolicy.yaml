@@ -24,21 +24,6 @@ spec:
         - ports:
             - port: "80"
               protocol: TCP
-    # Replies to paperless's own outbound connections. The destination port is
-    # ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: database
-            cnpg.io/poolerName: postgres-pgbouncer-rw
-        - matchLabels:
-            app.kubernetes.io/name: paperless-valkey
-        - matchLabels:
-            app.kubernetes.io/name: paperless-tika
-        - matchLabels:
-            app.kubernetes.io/name: paperless-gotenberg
   egress:
     - toEndpoints:
         - matchLabels:

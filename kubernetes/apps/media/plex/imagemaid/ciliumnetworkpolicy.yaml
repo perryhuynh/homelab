@@ -9,15 +9,9 @@ spec:
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: imagemaid
+  # No listeners. An empty rule keeps ingress in default deny.
   ingress:
-    # No listeners. Replies to its own outbound connections (DNS, Plex); the
-    # destination port is ephemeral, so match on peer only.
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kube-system
-            k8s:k8s-app: kube-dns
-        - matchLabels:
-            app.kubernetes.io/name: plex
+    - {}
   egress:
     - toEndpoints:
         - matchLabels:
