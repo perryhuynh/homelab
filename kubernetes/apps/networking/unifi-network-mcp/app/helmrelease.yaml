@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/sirkirby/unifi-network-mcp
-              tag: 0.51.0@sha256:041ad1f19eba534efcba803d9e22846c64ffec611fb69f1a36726e7e5cc00143
+              tag: 0.53.0@sha256:84c4221880d97d05a989b341a6f733d17f001a0451a049f03587855ff59e5787
             env:
               UNIFI_MCP_HOST: 0.0.0.0
               # bare host matches with or without a port; agentgateway v1.7 sends the
