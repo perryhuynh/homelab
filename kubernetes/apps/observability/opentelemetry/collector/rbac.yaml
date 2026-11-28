@@ -42,3 +42,21 @@ subjects:
   - kind: ServiceAccount
     name: filelog-collector
     namespace: observability
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: unifi-syslog
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: truenas-syslog
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: talos-logs
+automountServiceAccountToken: false

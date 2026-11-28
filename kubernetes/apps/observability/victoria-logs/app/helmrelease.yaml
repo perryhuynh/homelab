@@ -22,6 +22,9 @@ spec:
     global:
       image:
         registry: mirror.gcr.io
+    serviceAccount:
+      name: default
+      automountToken: false
     server:
       fullnameOverride: victoria-logs
       retentionPeriod: 90d
