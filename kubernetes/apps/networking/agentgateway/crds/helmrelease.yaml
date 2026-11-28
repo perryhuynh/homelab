@@ -6,9 +6,17 @@ metadata:
   name: agentgateway-crds
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: agentgateway-crds
+    spec:
+      interval: 15m
+      ref:
+        # renovate: datasource=docker depName=cr.agentgateway.dev/charts/agentgateway-crds
+        tag: v1.7.0
+        # chart is not cosign-signed; pin by digest so a re-pushed tag cannot silently
+        # deploy unreviewed CRDs (renovate tracks via the tag above)
+        digest: sha256:946b739c0fcda4d47a72d1589d184b6fd507772e733cbedf02789bafd0468064
+      url: oci://cr.agentgateway.dev/charts/agentgateway-crds
   install:
     crds: CreateReplace
   upgrade:

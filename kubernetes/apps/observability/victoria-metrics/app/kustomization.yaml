@@ -6,4 +6,3 @@ resources:
   - ./ciliumnetworkpolicy.yaml
   - ./grafanadashboard.yaml
   - ./helmrelease.yaml
-  - ./ocirepository.yaml

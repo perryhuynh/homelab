@@ -6,9 +6,13 @@ metadata:
   name: &app snmp-exporter-ups
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: prometheus-snmp-exporter
+    spec:
+      interval: 15m
+      ref:
+        tag: 9.21.1
+      url: oci://ghcr.io/prometheus-community/charts/prometheus-snmp-exporter
   values:
     fullnameOverride: *app
     image:

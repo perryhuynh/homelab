@@ -6,9 +6,13 @@ metadata:
   name: actions-runner-controller
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: gha-runner-scale-set-controller
+    spec:
+      interval: 15m
+      ref:
+        tag: 0.15.1
+      url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
   values:
     # The image already runs as 65532; the chart mounts an emptyDir at /tmp.
     podSecurityContext:

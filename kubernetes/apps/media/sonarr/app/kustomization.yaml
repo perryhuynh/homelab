@@ -6,7 +6,6 @@ resources:
   - ./ciliumnetworkpolicy.yaml
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ./ocirepository.yaml
   - ./pvc.yaml
 configMapGenerator:
   - name: sonarr-configmap

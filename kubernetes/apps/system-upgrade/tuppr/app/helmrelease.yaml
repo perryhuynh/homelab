@@ -6,9 +6,18 @@ metadata:
   name: tuppr
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: tuppr
+    spec:
+      interval: 15m
+      ref:
+        tag: 0.5.14
+      url: oci://ghcr.io/home-operations/charts/tuppr
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/home-operations/tuppr.*$"
   values:
     replicaCount: 2
     monitoring:

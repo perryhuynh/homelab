@@ -6,9 +6,18 @@ metadata:
   name: fstrim
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: fstrim
+    spec:
+      interval: 15m
+      ref:
+        tag: 5.3.0
+      url: oci://ghcr.io/bjw-s-labs/helm/app-template
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/bjw-s-labs/helm-charts.*$"
   values:
     controllers:
       fstrim:

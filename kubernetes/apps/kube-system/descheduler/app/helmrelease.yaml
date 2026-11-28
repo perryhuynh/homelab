@@ -6,9 +6,18 @@ metadata:
   name: descheduler
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: descheduler
+    spec:
+      interval: 15m
+      ref:
+        tag: 0.37.0
+      url: oci://ghcr.io/home-operations/charts-mirror/descheduler
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/home-operations/charts-mirror.*$"
   values:
     kind: Deployment
     deschedulerPolicyAPIVersion: descheduler/v1alpha2

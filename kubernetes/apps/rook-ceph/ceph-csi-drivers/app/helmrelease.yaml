@@ -6,9 +6,18 @@ metadata:
   name: ceph-csi-drivers
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: ceph-csi-drivers
+    spec:
+      interval: 15m
+      ref:
+        tag: 1.1.0
+      url: oci://ghcr.io/home-operations/charts-mirror/ceph-csi-drivers
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/home-operations/charts-mirror.*$"
   values:
     operatorConfig:
       namespace: rook-ceph

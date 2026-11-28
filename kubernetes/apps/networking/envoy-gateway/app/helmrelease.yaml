@@ -6,9 +6,13 @@ metadata:
   name: envoy-gateway
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: envoy-gateway
+    spec:
+      interval: 15m
+      ref:
+        tag: 1.10.0
+      url: oci://mirror.gcr.io/envoyproxy/gateway-helm
   values:
     global:
       imageRegistry: mirror.gcr.io

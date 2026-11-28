@@ -6,9 +6,18 @@ metadata:
   name: external-secrets
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: external-secrets
+    spec:
+      interval: 15m
+      ref:
+        tag: 2.15.0
+      url: oci://ghcr.io/external-secrets/charts/external-secrets
+      verify:
+        provider: cosign
+        matchOIDCIdentity:
+          - issuer: "^https://token.actions.githubusercontent.com$"
+            subject: "^https://github.com/external-secrets/external-secrets.*$"
   values:
     processClusterExternalSecret: false
     processClusterPushSecret: false

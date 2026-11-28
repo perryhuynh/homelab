@@ -6,9 +6,13 @@ metadata:
   name: &app homelab-actions-runner
 spec:
   interval: 1h
-  chartRef:
+  chart:
     kind: OCIRepository
-    name: gha-runner-scale-set
+    spec:
+      interval: 15m
+      ref:
+        tag: 0.15.1
+      url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
   values:
     runnerScaleSetName: *app
     githubConfigUrl: https://github.com/perryhuynh/homelab
