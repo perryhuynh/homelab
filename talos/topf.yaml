@@ -1,8 +1,8 @@
 ---
 clusterName: kubernetes
-# Also the service-account issuer: changing it invalidates every existing
-# token unless a KubeServiceAccountConfig accepts the old issuer first.
-clusterEndpoint: https://192.168.1.20:6443
+# The service-account issuer and API audiences stay https://192.168.1.20:6443,
+# pinned in patches/control-plane/00-cluster.yaml.tpl; they no longer follow this.
+clusterEndpoint: https://192.168.10.20:6443
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.37.2
